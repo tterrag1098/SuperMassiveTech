@@ -4,3 +4,10 @@
 *.jar
 *.war
 *.ear
+/build
+/eclipse
+/gradle
+*.gradle
+gradlew*
+gradlew*
+/bin
