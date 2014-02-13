@@ -8,6 +8,7 @@ package tterrag.ultimateStorage;
 import net.minecraft.block.Block;
 import tterrag.ultimateStorage.block.StorageBlock;
 import tterrag.ultimateStorage.lib.Reference;
+import tterrag.ultimateStorage.tile.TileStorageBlock;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -26,7 +27,7 @@ public class UltimateStorage {
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
 	{
-		registerBlock();
+		register();
 	}
 	
 	@EventHandler
@@ -35,10 +36,11 @@ public class UltimateStorage {
 		
 	}
 	
-	private static void registerBlock()
+	private static void register()
 	{
 		storageBlock = new StorageBlock();
 		GameRegistry.registerBlock(storageBlock, "storageBlock");
+		GameRegistry.registerTileEntity(TileStorageBlock.class, "tileStorageBlock");
 	}
 
 }
