@@ -208,7 +208,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack){
 		if(storedItems != null){
-			if (i == 1 && (itemstack.getItem().equals(storedItems.getItem()))){
+			if (i == 1 && (stacksEqual(storedItems, itemstack))){
 				return true;
 			}
 		}
