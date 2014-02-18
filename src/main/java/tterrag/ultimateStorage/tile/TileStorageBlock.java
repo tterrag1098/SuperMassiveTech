@@ -259,7 +259,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.inventory[1] = ItemStack.loadItemStackFromNBT(nbt);
+		this.inventory[1] = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
 		stored = nbt.getLong("stored");
 		System.out.println("Read");
 		System.out.println(stored);
