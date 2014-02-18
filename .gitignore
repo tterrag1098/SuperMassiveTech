@@ -11,3 +11,8 @@
 gradlew*
 gradlew*
 /bin
+
+*.classpath
+*.project
+/.settings
+/config
