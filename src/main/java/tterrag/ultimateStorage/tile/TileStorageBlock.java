@@ -5,10 +5,19 @@
  */
 package tterrag.ultimateStorage.tile;
 
+import cpw.mods.fml.common.Mod.EventHandler;
+import tterrag.ultimateStorage.client.GuiStorageBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
  * @author Garrett Spicer-Davis
@@ -182,27 +191,42 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	{}
 
 	@Override
-	public boolean isItemValidForSlot(int var1, ItemStack var2)
-	{
-		return true;
-	}
-
-	@Override
 	public int[] getAccessibleSlotsFromSide(int var1)
 	{
-		return null;
+		return new int[]{0, 1};
 	}
 
 	@Override
 	public boolean canInsertItem(int var1, ItemStack var2, int var3)
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canExtractItem(int var1, ItemStack var2, int var3)
 	{
-		return true;
+		if(var1 == 2){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack){
+		if(storedItems != null){
+			if (i == 1 && (stacksEqual(storedItems, itemstack))){
+				return true;
+			}
+		}
+		if(storedItems == null){
+			if(i == 1){
+				return true;
+			}
+		}
+		if(i == 0 & (FluidContainerRegistry.isContainer(itemstack) == true)){
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -215,5 +239,44 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 		if (s1.getTagCompound() == null && s2.getTagCompound() == null) return true;
 		if (s1.getTagCompound() == null || s2.getTagCompound() == null) return false;
 		return s1.getTagCompound().equals(s2.getTagCompound());
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		NBTTagCompound itemstackNBT = new NBTTagCompound();
+		if(storedItems != null){
+		storedItems.writeToNBT(itemstackNBT);
+		}
+		nbt.setLong("stored", stored);
+		nbt.setTag("itemstack", itemstackNBT);
+		System.out.println("Written");
+		System.out.println(stored);
+		System.out.println(storedItems);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		storedItems = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
+		stored = nbt.getLong("stored");
+		System.out.println("Read");
+		System.out.println(stored);
+		System.out.println(inventory[1]);
+	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	{
+		this.readFromNBT(pkt.func_148857_g());
 	}
 }
