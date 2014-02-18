@@ -62,6 +62,10 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 				add(storedItems.stackSize);
 			}
 		}
+		System.out.println(storedItems);
+		if(storedItems != null){
+			System.out.println(storedItems.getItem());
+		}
 	}
 	
 	/**
@@ -182,27 +186,31 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	{}
 
 	@Override
-	public boolean isItemValidForSlot(int var1, ItemStack var2)
-	{
-		return true;
-	}
-
-	@Override
 	public int[] getAccessibleSlotsFromSide(int var1)
 	{
-		return null;
+		return new int[]{1};
 	}
 
 	@Override
 	public boolean canInsertItem(int var1, ItemStack var2, int var3)
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canExtractItem(int var1, ItemStack var2, int var3)
 	{
 		return true;
+	}
+	
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack){
+		if(storedItems != null){
+			if (i == 1 & (itemstack.getItem().equals(storedItems.getItem()))){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
