@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
  * @author Garrett Spicer-Davis
@@ -61,10 +62,6 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 				inventory[1] = null;
 				add(storedItems.stackSize);
 			}
-		}
-		System.out.println(storedItems);
-		if(storedItems != null){
-			System.out.println(storedItems.getItem());
 		}
 	}
 	
@@ -188,7 +185,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1)
 	{
-		return new int[]{1};
+		return new int[]{0, 1};
 	}
 
 	@Override
@@ -200,7 +197,10 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public boolean canExtractItem(int var1, ItemStack var2, int var3)
 	{
-		return true;
+		if(var1 == 2){
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
@@ -210,6 +210,14 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 				return true;
 			}
 		}
+		if(i == 0 & (FluidContainerRegistry.isContainer(itemstack) == true)){
+			return true;
+		}
+		System.out.println(itemstack);
+		System.out.println(FluidContainerRegistry.isContainer(itemstack));
+		System.out.println(FluidContainerRegistry.isFilledContainer(itemstack));
+		System.out.println(FluidContainerRegistry.isBucket(itemstack));
+		System.out.println(FluidContainerRegistry.isEmptyContainer(itemstack));
 		return false;
 	}
 
