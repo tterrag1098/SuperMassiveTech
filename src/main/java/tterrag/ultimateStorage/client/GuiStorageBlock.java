@@ -8,7 +8,7 @@ import tterrag.ultimateStorage.tile.TileStorageBlock;
 
 public class GuiStorageBlock extends GuiContainer
 {
-	private long amountStored;
+	public long amountStored;
 	private String formattedAmount = "Testing";
 	
 	public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileStorageBlock tile)
@@ -40,35 +40,30 @@ public class GuiStorageBlock extends GuiContainer
 		switch (Long.toString(amountStored).length())
 		{
 		case 7:
-			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 4) + "M";
+			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 3) + "M";
 			return;
 		case 8:
-			formattedAmount += Long.toString(amountStored).substring(0, 2) + "." + Long.toString(amountStored).substring(2, 5) + "M";
+			formattedAmount += Long.toString(amountStored).substring(0, 2) + "." + Long.toString(amountStored).substring(2, 4) + "M";
 			return;
 		case 9:
-			formattedAmount += Long.toString(amountStored).substring(0, 3) + "." + Long.toString(amountStored).substring(3, 6) + "M";
+			formattedAmount += Long.toString(amountStored).substring(0, 3) + "." + Long.toString(amountStored).substring(3, 5) + "M";
 			return;
 		case 10:
-			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 4) + "B";
+			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 3) + "B";
 			return;
 		case 11:
-			formattedAmount += Long.toString(amountStored).substring(0, 2) + "." + Long.toString(amountStored).substring(2, 5) + "B";
+			formattedAmount += Long.toString(amountStored).substring(0, 2) + "." + Long.toString(amountStored).substring(2, 4) + "B";
 			return;
 		case 12:
-			formattedAmount += Long.toString(amountStored).substring(0, 3) + "." + Long.toString(amountStored).substring(3, 6) + "B";
+			formattedAmount += Long.toString(amountStored).substring(0, 3) + "." + Long.toString(amountStored).substring(3, 5) + "B";
 			return;
 		case 13:
-			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 4) + "T";
+			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 3) + "T";
 			return;
-		case 14:
-			formattedAmount += Long.toString(amountStored).substring(0, 2) + "." + Long.toString(amountStored).substring(2, 5) + "T";
-			return;
-		case 15:
-			formattedAmount += Long.toString(amountStored).substring(0, 3) + "." + Long.toString(amountStored).substring(3, 6) + "T";
 		default:
+			formattedAmount += "NaN";
 			return;
 		}
-		
 	}
 	
 	@Override
