@@ -5,6 +5,7 @@
  */
 package tterrag.ultimateStorage.tile;
 
+import cpw.mods.fml.common.Mod.EventHandler;
 import tterrag.ultimateStorage.client.GuiStorageBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -14,6 +15,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
@@ -259,8 +261,18 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 		System.out.println("Read");
 		System.out.println(stored);
 		System.out.println(storedItems);
-		this.readFromNBT(nbt);
 	}
 	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+	}
 
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	{
+		this.readFromNBT(pkt.func_148857_g());
+	}
 }
