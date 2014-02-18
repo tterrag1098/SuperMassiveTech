@@ -5,9 +5,11 @@
  */
 package tterrag.ultimateStorage.tile;
 
+import tterrag.ultimateStorage.client.GuiStorageBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
@@ -213,11 +215,6 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 		if(i == 0 & (FluidContainerRegistry.isContainer(itemstack) == true)){
 			return true;
 		}
-		System.out.println(itemstack);
-		System.out.println(FluidContainerRegistry.isContainer(itemstack));
-		System.out.println(FluidContainerRegistry.isFilledContainer(itemstack));
-		System.out.println(FluidContainerRegistry.isBucket(itemstack));
-		System.out.println(FluidContainerRegistry.isEmptyContainer(itemstack));
 		return false;
 	}
 
@@ -231,5 +228,23 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 		if (s1.getTagCompound() == null && s2.getTagCompound() == null) return true;
 		if (s1.getTagCompound() == null || s2.getTagCompound() == null) return false;
 		return s1.getTagCompound().equals(s2.getTagCompound());
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		ItemStack stack = storedItems;
+		stack.writeToNBT(nbt);
+		nbt.setLong("stored", stored);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		storedItems = ItemStack.loadItemStackFromNBT(nbt);
+		stored = nbt.getLong("stored");
+		System.out.println("Read");
 	}
 }
