@@ -1,10 +1,18 @@
 package tterrag.ultimateStorage.container;
 
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import tterrag.ultimateStorage.UltimateStorage;
+import tterrag.ultimateStorage.network.PacketStorageBlock;
 import tterrag.ultimateStorage.tile.TileStorageBlock;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public class ContainerStorageBlock extends Container
 {
@@ -19,8 +27,8 @@ public class ContainerStorageBlock extends Container
 		this.tileEnt = tile;
 		
 		this.addSlotToContainer(new Slot(tile, 0, 48, 94));
-		this.addSlotToContainer(new Slot(tile, 1, 184, 81));
-		this.addSlotToContainer(new Slot(tile, 2, 184, 20));
+		this.addSlotToContainer(new Slot(tile, 1, 184, 20));
+		this.addSlotToContainer(new Slot(tile, 2, 184, 81));
 	}
 	
 	private void bindPlayerInventory(InventoryPlayer inv)
@@ -45,5 +53,66 @@ public class ContainerStorageBlock extends Container
 	public boolean canInteractWith(EntityPlayer var1)
 	{
 		return true;
+	}
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
+	{
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(par2);
+
+		if (slot != null && slot.getHasStack())
+		{
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+
+			if (par2 == 36 || par2 == 37)
+			{
+				if (!this.mergeItemStack(itemstack1, 27, 36, false))
+				{
+					if (!this.mergeItemStack(itemstack1, 0, 27, false))
+						return null;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
+			}
+			if (par2 < 36)
+			{
+				
+			}
+
+			if (itemstack1.stackSize == 0)
+			{
+				slot.putStack((ItemStack) null);
+			}
+			else
+			{
+				slot.onSlotChanged();
+			}
+			if (itemstack1.stackSize == itemstack.stackSize)
+			{
+				return null;
+			}
+			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+			if (itemstack1.stackSize == 0)
+			{
+				slot.putStack(null);
+				return null;
+			}
+		}
+		return itemstack;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void detectAndSendChanges()
+	{
+		for (ICrafting c : (List<ICrafting>) crafters)
+		{
+			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.stored);
+			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+			UltimateStorage.channels.get(Side.SERVER).writeOutbound(packet);
+		}
+		super.detectAndSendChanges();
 	}
 }

@@ -35,7 +35,7 @@ public class UltimateStorage {
 	@Instance
 	public static UltimateStorage instance;
 	
-	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("craftingChisel", new ChannelHandler());
+	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", new ChannelHandler());
 	
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
