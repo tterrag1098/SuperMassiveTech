@@ -18,7 +18,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 {
 	public ItemStack[] inventory = new ItemStack[3];
 	public long stored;
-	public final long max = Long.MAX_VALUE;
+		public final long max = 1000000000000L;
 	private ItemStack storedItems;
 
 	public TileStorageBlock()
@@ -29,6 +29,9 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public void updateEntity()
 	{
+		if (stored == max)
+			return;
+		
 		if (inventory[1] != null)
 		{
 			if (stacksEqual(inventory[1], storedItems))
@@ -48,7 +51,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 				}
 				else
 				{
-					stored += inventory[1].stackSize;
+					add(inventory[1].stackSize);
 					inventory[1] = null;
 				}
 			}
@@ -56,9 +59,29 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 			{
 				storedItems = inventory[1];
 				inventory[1] = null;
-				stored += storedItems.stackSize;
+				add(storedItems.stackSize);
 			}
 		}
+	}
+	
+	/**
+	 * Adds the amount to the current storage
+	 * @param amnt
+	 * @return the amount left over, if any
+	 */
+	private int add(int amnt)
+	{
+		if ((stored + amnt) > max)
+		{
+			stored = max;
+			return (int) (0 - (max - (amnt + stored)));
+		}
+		else
+		{
+			stored += amnt;
+		}
+		
+		return 0;
 	}
 
 	@Override
