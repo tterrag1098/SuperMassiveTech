@@ -27,7 +27,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 {
 	public ItemStack[] inventory = new ItemStack[3];
 	public long stored;
-		public final long max = 1000000000000L;
+	public final long max = 1000000000000L;
 	private ItemStack storedItems;
 
 	public TileStorageBlock()
@@ -38,9 +38,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public void updateEntity()
 	{
-		if (stored == max)
-			return;
-		
+		if (stored == max) return;
 		if (inventory[1] != null)
 		{
 			if (stacksEqual(inventory[1], storedItems))
@@ -71,10 +69,55 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 				add(storedItems.stackSize);
 			}
 		}
+		if (storedItems != null)
+		{
+			if (inventory[2] == null)
+			{
+				if (stored > 64)
+				{
+					inventory[2] = storedItems.copy();
+					stored -= 64;
+					if (stored < 64) storedItems.stackSize = (int) stored;
+					else storedItems.stackSize -= 64;
+				}
+				else if (stored <= 64)
+				{
+					inventory[2] = storedItems.copy();
+					storedItems = null;
+					stored = 0;
+				}
+			}
+			else if (inventory[2].stackSize < 64)
+			{
+				int currentStack = inventory[2].stackSize;
+				if (stored > 64)
+				{
+					stored -= 64 - currentStack;
+					inventory[2].stackSize = 64;
+					if (stored < 64) storedItems.stackSize = (int) stored;
+					else storedItems.stackSize -= 64;
+				}
+				else if (stored <= 64)
+				{
+					if (stored + currentStack <= 64)
+					{
+						inventory[2].stackSize = (int) (stored + currentStack);
+						stored = 0;
+						storedItems = null;
+					}
+					else
+					{
+						stored = (0 - (currentStack - stored));
+						inventory[2].stackSize = 64;
+					}
+				}
+			}
+		}
 	}
-	
+
 	/**
 	 * Adds the amount to the current storage
+	 * 
 	 * @param amnt
 	 * @return the amount left over, if any
 	 */
@@ -89,7 +132,6 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 		{
 			stored += amnt;
 		}
-		
 		return 0;
 	}
 
@@ -193,7 +235,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1)
 	{
-		return new int[]{0, 1};
+		return new int[] { 0, 1 };
 	}
 
 	@Override
@@ -205,25 +247,32 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public boolean canExtractItem(int var1, ItemStack var2, int var3)
 	{
-		if(var1 == 2){
+		if (var1 == 2)
+		{
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack){
-		if(storedItems != null){
-			if (i == 1 && (stacksEqual(storedItems, itemstack))){
+	public boolean isItemValidForSlot(int i, ItemStack itemstack)
+	{
+		if (storedItems != null)
+		{
+			if (i == 1 && (stacksEqual(storedItems, itemstack)))
+			{
 				return true;
 			}
 		}
-		if(storedItems == null){
-			if(i == 1){
+		if (storedItems == null)
+		{
+			if (i == 1)
+			{
 				return true;
 			}
 		}
-		if(i == 0 & (FluidContainerRegistry.isContainer(itemstack) == true)){
+		if (i == 0 & (FluidContainerRegistry.isContainer(itemstack) == true))
+		{
 			return true;
 		}
 		return false;
@@ -234,26 +283,22 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	 */
 	public static boolean stacksEqual(ItemStack s1, ItemStack s2)
 	{
+		if (s1 == null && s2 == null) return true;
 		if (s1 == null || s2 == null) return false;
 		if (!s1.isItemEqual(s2)) return false;
 		if (s1.getTagCompound() == null && s2.getTagCompound() == null) return true;
 		if (s1.getTagCompound() == null || s2.getTagCompound() == null) return false;
 		return s1.getTagCompound().equals(s2.getTagCompound());
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
 		NBTTagCompound itemstackNBT = new NBTTagCompound();
-		if(storedItems != null){
-		storedItems.writeToNBT(itemstackNBT);
-		}
+		if (storedItems != null) storedItems.writeToNBT(itemstackNBT);
 		nbt.setLong("stored", stored);
 		nbt.setTag("itemstack", itemstackNBT);
-		System.out.println("Written");
-		System.out.println(stored);
-		System.out.println(storedItems);
 	}
 
 	@Override
@@ -262,13 +307,11 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 		super.readFromNBT(nbt);
 		storedItems = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
 		stored = nbt.getLong("stored");
-		System.out.println("Read");
-		System.out.println(stored);
-		System.out.println(inventory[1]);
 	}
-	
+
 	@Override
-	public Packet getDescriptionPacket(){
+	public Packet getDescriptionPacket()
+	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);

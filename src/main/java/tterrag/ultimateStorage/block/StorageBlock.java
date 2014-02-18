@@ -25,6 +25,7 @@ public class StorageBlock extends BlockContainer
 	{
 		super(Material.iron);
 		setStepSound(soundTypeMetal);
+		setHardness(30.0f);
 		setCreativeTab(new CreativeTabs(CreativeTabs.getNextID(), "Ultimate Storage")
 		{
 			@Override
