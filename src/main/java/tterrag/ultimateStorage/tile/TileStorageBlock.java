@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -244,8 +245,12 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
+		
+		this.inventory[1].writeToNBT(nbt);
+		
 		ItemStack stack = storedItems;
 		nbt.setLong("stored", stored);
+		nbt.setTag("itemstack", nbt);
 		System.out.println("Written");
 		System.out.println(stored);
 		System.out.println(storedItems);
