@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import tterrag.ultimateStorage.tile.TileStorageBlock;
 
 public class ContainerStorageBlock extends Container
@@ -42,8 +43,59 @@ public class ContainerStorageBlock extends Container
 	}
 	
 	@Override
-	public boolean canInteractWith(EntityPlayer var1)
+	public boolean canInteractWith(EntityPlayer entityplayer)
 	{
 		return true;
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slot)
+	{
+		ItemStack itemstack1 = null;
+		Slot slotObj = (Slot) this.inventorySlots.get(slot);
+		if (slotObj != null && slotObj.getHasStack())
+		{
+			itemstack1 = slotObj.getStack();
+			if (slot < 3)
+			{
+				if (!this.mergeItemStack(itemstack1, 30, 39, false))
+				{
+					if (!this.mergeItemStack(itemstack1, 3, 27, false)) return null;
+				}
+				slotObj.onSlotChange(itemstack1, itemstack1);
+			}
+			else if (slot > 2)
+			{
+				if (slot < 30)
+				{
+					if (!this.mergeItemStack(itemstack1, 0, 2, false)) if (!this.mergeItemStack(itemstack1, 30, 39, false)) return null;
+					slotObj.onSlotChange(itemstack1, itemstack1);
+				}
+				else if (slot > 29)
+				{
+					if (!this.mergeItemStack(itemstack1, 0, 2, false)) if (!this.mergeItemStack(itemstack1, 3, 29, false)) return null;
+					slotObj.onSlotChange(itemstack1, itemstack1);
+				}
+			}
+			if (itemstack1.stackSize == 0)
+			{
+				slotObj.putStack((ItemStack) null);
+			}
+			else
+			{
+				slotObj.onSlotChanged();
+			}
+			if (itemstack1.stackSize == itemstack1.stackSize)
+			{
+				return null;
+			}
+			slotObj.onPickupFromSlot(player, itemstack1);
+			if (itemstack1.stackSize == 0)
+			{
+				slotObj.putStack(null);
+				return null;
+			}
+		}
+		return itemstack1;
 	}
 }
