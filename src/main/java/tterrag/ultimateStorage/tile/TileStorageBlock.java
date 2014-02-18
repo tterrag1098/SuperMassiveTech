@@ -10,6 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
@@ -241,7 +244,10 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 		super.writeToNBT(nbt);
 		ItemStack stack = storedItems;
 		stack.writeToNBT(nbt);
-		nbt.setLong("stored", stored);
+		nbt.setLong("storedd", stored);
+		System.out.println("Written");
+		System.out.println(stored);
+		System.out.println(storedItems);
 	}
 
 	@Override
@@ -249,7 +255,22 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	{
 		super.readFromNBT(nbt);
 		storedItems = ItemStack.loadItemStackFromNBT(nbt);
-		stored = nbt.getLong("stored");
+		stored = nbt.getLong("storedd");
 		System.out.println("Read");
+		System.out.println(stored);
+		System.out.println(storedItems);
+	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	{
+		this.readFromNBT(pkt.func_148857_g());
 	}
 }
