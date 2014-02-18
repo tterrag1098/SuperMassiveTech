@@ -5,14 +5,22 @@
  */
 package tterrag.ultimateStorage;
 
+import java.util.EnumMap;
+
 import net.minecraft.block.Block;
 import tterrag.ultimateStorage.block.StorageBlock;
 import tterrag.ultimateStorage.lib.Reference;
+import tterrag.ultimateStorage.network.ChannelHandler;
+import tterrag.ultimateStorage.network.UltimateStorageGUIHandler;
 import tterrag.ultimateStorage.tile.TileStorageBlock;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * Mod with one block that will store all your things.
@@ -23,6 +31,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class UltimateStorage {
 	
 	public static Block storageBlock;
+	
+	@Instance
+	public static UltimateStorage instance;
+	
+	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("craftingChisel", new ChannelHandler());
 	
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
@@ -41,6 +54,8 @@ public class UltimateStorage {
 		storageBlock = new StorageBlock();
 		GameRegistry.registerBlock(storageBlock, "storageBlock");
 		GameRegistry.registerTileEntity(TileStorageBlock.class, "tileStorageBlock");
+		
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new UltimateStorageGUIHandler());
 	}
 
 }
