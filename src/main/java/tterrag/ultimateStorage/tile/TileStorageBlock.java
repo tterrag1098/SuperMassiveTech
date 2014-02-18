@@ -245,8 +245,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	{
 		super.writeToNBT(nbt);
 		ItemStack stack = storedItems;
-		stack.writeToNBT(nbt);
-		nbt.setLong("storedd", stored);
+		nbt.setLong("stored", stored);
 		System.out.println("Written");
 		System.out.println(stored);
 		System.out.println(storedItems);
@@ -256,8 +255,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		storedItems = ItemStack.loadItemStackFromNBT(nbt);
-		stored = nbt.getLong("storedd");
+		stored = nbt.getLong("stored");
 		System.out.println("Read");
 		System.out.println(stored);
 		System.out.println(storedItems);
