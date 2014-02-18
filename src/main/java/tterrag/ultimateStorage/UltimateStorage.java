@@ -9,6 +9,7 @@ import java.util.EnumMap;
 
 import net.minecraft.block.Block;
 import tterrag.ultimateStorage.block.StorageBlock;
+import tterrag.ultimateStorage.item.ItemBlockStorage;
 import tterrag.ultimateStorage.lib.Reference;
 import tterrag.ultimateStorage.network.ChannelHandler;
 import tterrag.ultimateStorage.network.UltimateStorageGUIHandler;
@@ -52,7 +53,7 @@ public class UltimateStorage {
 	private static void register()
 	{
 		storageBlock = new StorageBlock();
-		GameRegistry.registerBlock(storageBlock, "storageBlock");
+		GameRegistry.registerBlock(storageBlock, ItemBlockStorage.class, "storageBlock");
 		GameRegistry.registerTileEntity(TileStorageBlock.class, "tileStorageBlock");
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new UltimateStorageGUIHandler());

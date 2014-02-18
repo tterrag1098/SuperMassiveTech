@@ -70,5 +70,6 @@ public class GuiStorageBlock extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
 		this.fontRendererObj.drawString(formattedAmount, (int) (this.xSize / 1.7), 50, 0x000000);
+		this.fontRendererObj.drawString("IDQSU", (int) (this.xSize / 2.2), 7, 0x000000);
 	}
 }

@@ -77,7 +77,8 @@ public class ContainerStorageBlock extends Container
 			}
 			if (par2 < 36)
 			{
-				
+				if (!this.mergeItemStack(itemstack1, 37, 38, false))
+					return null;
 			}
 
 			if (itemstack1.stackSize == 0)
