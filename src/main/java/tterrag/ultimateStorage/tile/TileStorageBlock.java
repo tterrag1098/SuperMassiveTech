@@ -5,18 +5,14 @@
  */
 package tterrag.ultimateStorage.tile;
 
-import cpw.mods.fml.common.Mod.EventHandler;
-import tterrag.ultimateStorage.client.GuiStorageBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 
 /**
@@ -38,77 +34,84 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public void updateEntity()
 	{
-		if (stored == max) return;
-		if (inventory[1] != null)
+		if (!worldObj.isRemote)
 		{
-			if (stacksEqual(inventory[1], storedItems))
+			for (int i = 0; i < inventory.length; i++)
+				if (inventory[i] != null && inventory[i].stackSize == 0)
+					inventory[i] = null;
+			
+			if (stored == max) return;
+			if (inventory[1] != null)
 			{
-				if (inventory[1].stackSize + storedItems.stackSize <= 64)
+				if (stacksEqual(inventory[1], storedItems))
 				{
-					storedItems.stackSize = inventory[1].stackSize + storedItems.stackSize;
-					inventory[1] = null;
-					stored = storedItems.stackSize;
-				}
-				else if (storedItems.stackSize < 64)
-				{
-					int add = 64 - storedItems.stackSize;
-					storedItems.stackSize = 64;
-					inventory[1].stackSize -= add;
-					stored = storedItems.stackSize;
-				}
-				else
-				{
-					add(inventory[1].stackSize);
-					inventory[1] = null;
-				}
-			}
-			else if (storedItems == null && inventory[1] != null)
-			{
-				storedItems = inventory[1];
-				inventory[1] = null;
-				add(storedItems.stackSize);
-			}
-		}
-		if (storedItems != null)
-		{
-			if (inventory[2] == null)
-			{
-				if (stored > 64)
-				{
-					inventory[2] = storedItems.copy();
-					stored -= 64;
-					if (stored < 64) storedItems.stackSize = (int) stored;
-					else storedItems.stackSize -= 64;
-				}
-				else if (stored <= 64)
-				{
-					inventory[2] = storedItems.copy();
-					storedItems = null;
-					stored = 0;
-				}
-			}
-			else if (inventory[2].stackSize < 64)
-			{
-				int currentStack = inventory[2].stackSize;
-				if (stored > 64)
-				{
-					stored -= 64 - currentStack;
-					inventory[2].stackSize = 64;
-					if (stored < 64) storedItems.stackSize = (int) stored;
-					else storedItems.stackSize -= 64;
-				}
-				else if (stored <= 64)
-				{
-					if (stored + currentStack <= 64)
+					if (inventory[1].stackSize + storedItems.stackSize <= 64)
 					{
-						inventory[2].stackSize = (int) (stored + currentStack);
-						stored = 0;
-						storedItems = null;
+						storedItems.stackSize = inventory[1].stackSize + storedItems.stackSize;
+						inventory[1] = null;
+						stored = storedItems.stackSize;
+					}
+					else if (storedItems.stackSize < 64)
+					{
+						int add = 64 - storedItems.stackSize;
+						storedItems.stackSize = 64;
+						inventory[1].stackSize -= add;
+						stored = storedItems.stackSize;
 					}
 					else
 					{
-						stored = (0 - (currentStack - stored));
+						add(inventory[1].stackSize);
+						inventory[1] = null;
+					}
+				}
+				else if (storedItems == null && inventory[1] != null)
+				{
+					storedItems = inventory[1];
+					inventory[1] = null;
+					add(storedItems.stackSize);
+				}
+			}
+			if (storedItems != null)
+			{
+				if (inventory[2] == null)
+				{
+					if (stored > 64)
+					{
+						inventory[2] = storedItems.copy();
+						stored -= 64;
+						if (stored < 64) storedItems.stackSize = (int) stored;
+						else storedItems.stackSize -= 64;
+					}
+					else if (stored <= 64)
+					{
+						inventory[2] = storedItems.copy();
+						storedItems = null;
+						stored = 0;
+					}
+				}
+				else if (inventory[2].stackSize < 64)
+				{
+					int currentStack = inventory[2].stackSize;
+					if (stored > 64)
+					{
+						stored -= 64 - currentStack;
 						inventory[2].stackSize = 64;
+						if (stored < 64) storedItems.stackSize = (int) stored;
+						else storedItems.stackSize -= 64;
+					}
+					else if (stored <= 64)
+					{
+						if (stored + currentStack <= 64)
+						{
+							inventory[2].stackSize = (int) (stored + currentStack);
+							stored = 0;
+							storedItems = null;
+						}
+						else
+						{
+							stored = (0 - (currentStack - stored));
+							inventory[2].stackSize = 64;
+						}
 					}
 				}
 			}
