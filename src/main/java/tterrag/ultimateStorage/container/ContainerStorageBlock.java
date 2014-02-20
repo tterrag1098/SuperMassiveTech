@@ -16,14 +16,12 @@ import cpw.mods.fml.relauncher.Side;
 
 public class ContainerStorageBlock extends Container
 {
-	private EntityPlayer player;
 	private TileStorageBlock tileEnt;
 	
 	public ContainerStorageBlock(InventoryPlayer par1InventoryPlayer, TileStorageBlock tile)
 	{
 		bindPlayerInventory(par1InventoryPlayer);
-
-		this.player = par1InventoryPlayer.player;
+		
 		this.tileEnt = tile;
 		
 		this.addSlotToContainer(new Slot(tile, 0, 48, 94));
@@ -111,7 +109,7 @@ public class ContainerStorageBlock extends Container
 		{
 			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.stored);
 			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
 			UltimateStorage.channels.get(Side.SERVER).writeOutbound(packet);
 		}
 		super.detectAndSendChanges();
