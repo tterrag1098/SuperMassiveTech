@@ -56,7 +56,7 @@ public class GuiStorageBlock extends GuiContainer
 		int k = (this.height - this.ySize) / 2;
 		
 		this.drawTexturedModalRect(j + 13, k, 0, 0, this.xSize - 16, this.ySize);
-		this.displayGauge(j, k, 12, 43, (int) ((((float) fluidStored / (float) getScaledLiquidAmount()) * 69) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
+		this.displayGauge(j, k, 12, 43, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 69) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
 	}
 	
 	private String formatString(String s, long amnt, boolean isFluid, boolean useDecimals)
@@ -164,6 +164,6 @@ public class GuiStorageBlock extends GuiContainer
 	{
 		long l = getScaledLiquidAmount();
 		
-		return formatString("", l, true, false);
+		return formatString("", l, true, l == max);
 	}
 }

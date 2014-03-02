@@ -271,7 +271,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1)
 	{
-		return new int[] { 0, 1 };
+		return new int[] { 1 };
 	}
 
 	@Override
