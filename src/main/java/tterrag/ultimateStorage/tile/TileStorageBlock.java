@@ -80,7 +80,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	@Override
 	public void updateEntity()
 	{
-		System.out.println(tank.amountStored);
+//		System.out.println(tank.amountStored);
 		
 		for (int i = 0; i < inventory.length; i++)
 			if (inventory[i] != null && inventory[i].stackSize <= 0)
@@ -393,13 +393,19 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return tank.fill(resource, doFill);
+		if (canFill(from, resource.getFluid()))
+			return tank.fill(resource, doFill);
+	
+		return 0;
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource,
 			boolean doDrain) {
-		return tank.drain(resource.amount, doDrain);
+		if (canDrain(from, resource.getFluid()))
+			return tank.drain(resource.amount, doDrain);
+		
+		return null;
 	}
 
 	@Override
@@ -409,11 +415,12 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return tank.amountStored < max;
+		return tank.amountStored < max && (tank.fluidStored == null || fluid == tank.fluidStored.getFluid());
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		System.out.println(from);
 		return tank.amountStored != 0;
 	}
 

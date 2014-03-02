@@ -32,9 +32,9 @@ public class UltimateFluidTank implements IFluidTank {
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (!doFill || amountStored >= max) return 0;
+		if (amountStored >= max) return 0;
 		
-		if (fluidStored == null)
+		if (fluidStored == null && doFill)
 			fluidStored = resource;
 		
 		int toAdd = resource.amount;
@@ -42,20 +42,42 @@ public class UltimateFluidTank implements IFluidTank {
 		if (toAdd + amountStored > max)
 		{
 			toAdd = (int) (toAdd + amountStored - max);
+			if (!doFill)
+				return toAdd;
 			amountStored = max;
 			return toAdd;
 		}
 		else
 		{
+			if (!doFill)
+				return toAdd;
 			amountStored += toAdd;
 			return toAdd;
 		}
 	}
 
 	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-		// TODO Auto-generated method stub
-		return null;
+	public FluidStack drain(int toRemove, boolean doDrain) {
+		if (amountStored <= 0) return null;
+		
+		if (amountStored - toRemove < 0)
+		{
+			toRemove = (int) (toRemove - amountStored);
+			FluidStack stack = new FluidStack(fluidStored.getFluid(), toRemove);
+			if (!doDrain)
+				return stack;
+			amountStored = 0;
+			fluidStored = null;
+			return stack;
+		}
+		else
+		{
+			FluidStack stack = new FluidStack(fluidStored.getFluid(), toRemove);
+			if (!doDrain)
+				return stack;
+			amountStored -= toRemove;
+			return stack;
+		}
 	}
 
 }

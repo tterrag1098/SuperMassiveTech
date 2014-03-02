@@ -27,13 +27,13 @@ public class GuiStorageBlock extends GuiContainer
 		if (itemsStored < 1000000)
 			formattedItemAmount += itemsStored;
 		else if (itemsStored >= 1000000)
-			formattedItemAmount = formatString(formattedItemAmount, itemsStored);
+			formattedItemAmount = formatString(formattedItemAmount, itemsStored, false);
 		
 		formattedFluidAmount = "Stored: ";
 		if (fluidStored < 1000000)
-			formattedFluidAmount += fluidStored;
+			formattedFluidAmount += fluidStored + "mb";
 		else if (fluidStored >= 1000000)
-			formattedFluidAmount = formatString(formattedFluidAmount, fluidStored);
+			formattedFluidAmount = formatString(formattedFluidAmount, fluidStored, true);
 		
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png"));
 	
@@ -43,30 +43,30 @@ public class GuiStorageBlock extends GuiContainer
 		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 	}
 	
-	private String formatString(String s, long amnt)
+	private String formatString(String s, long amnt, boolean isFluid)
 	{
 		switch (Long.toString(amnt).length())
 		{
 		case 7:
-			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + "M";
+			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + (isFluid ? "kB" : "M");
 			return s;
 		case 8:
-			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + "M";
+			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + (isFluid ? "kB" : "M");
 			return s;
 		case 9:
-			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + "M";
+			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + (isFluid ? "kB" : "M");
 			return s;
 		case 10:
-			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + "B";
+			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + (isFluid ? "MB" : "B");
 			return s;
 		case 11:
-			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + "B";
+			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + (isFluid ? "MB" : "B");
 			return s;
 		case 12:
-			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + "B";
+			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + (isFluid ? "MB" : "B");
 			return s;
 		case 13:
-			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + "T";
+			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + (isFluid ? "GB" : "T");
 			return s;
 		default:
 			s += "NaN";
