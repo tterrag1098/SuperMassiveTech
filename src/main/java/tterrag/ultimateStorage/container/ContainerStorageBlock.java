@@ -25,7 +25,7 @@ public class ContainerStorageBlock extends Container
 		this.tileEnt = tile;
 		
 		this.addSlotToContainer(new Slot(tile, 0, 48, 94));
-		this.addSlotToContainer(new Slot(tile, 1, 184, 20));
+		this.addSlotToContainer(tile.new SlotInput(tile, 1, 184, 20));
 		this.addSlotToContainer(new Slot(tile, 2, 184, 81));
 	}
 	
@@ -64,7 +64,7 @@ public class ContainerStorageBlock extends Container
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (par2 == 36 || par2 == 37)
+			if (par2 >= 36 && par2 <= 38)
 			{
 				if (!this.mergeItemStack(itemstack1, 27, 36, false))
 				{
@@ -73,7 +73,7 @@ public class ContainerStorageBlock extends Container
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			if (par2 < 36)
+			if (par2 < 36 && (TileStorageBlock.stacksEqual(tileEnt.getStoredItem(), itemstack1) || tileEnt.getStoredItem() == null))
 			{
 				if (!this.mergeItemStack(itemstack1, 37, 38, false))
 					return null;
@@ -107,7 +107,7 @@ public class ContainerStorageBlock extends Container
 	{
 		for (ICrafting c : (List<ICrafting>) crafters)
 		{
-			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.stored);
+			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.storedAmount);
 			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
 			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
 			UltimateStorage.channels.get(Side.SERVER).writeOutbound(packet);

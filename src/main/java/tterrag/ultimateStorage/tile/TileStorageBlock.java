@@ -5,15 +5,21 @@
  */
 package tterrag.ultimateStorage.tile;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import tterrag.ultimateStorage.UltimateStorage;
 
 /**
  * @author Garrett Spicer-Davis
@@ -21,127 +27,126 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
  */
 public class TileStorageBlock extends TileEntity implements ISidedInventory
 {
-	public ItemStack[] inventory = new ItemStack[3];
-	public long stored;
-	public final long max = 1000000000000L;
-	private ItemStack storedItems;
+	public ItemStack[] inventory;
+	public long storedAmount;
+	public final long max = 1099511627776L;
+	private ItemStack storedItem;
 
 	public TileStorageBlock()
 	{
-		stored = 0;
+		inventory = new ItemStack[3];
+	}
+
+	public class SlotInput extends Slot
+	{
+		public SlotInput(IInventory par1iInventory, int par2, int par3, int par4)
+		{
+			super(par1iInventory, par2, par3, par4);
+		}
+
+		@Override
+		public boolean isItemValid(ItemStack par1ItemStack)
+		{
+			return storedItem == null || stacksEqual(par1ItemStack, storedItem);
+		}
 	}
 
 	@Override
 	public void updateEntity()
 	{
-		if (!worldObj.isRemote)
+		for (int i = 0; i < inventory.length; i++)
+			if (inventory[i] != null && inventory[i].stackSize <= 0)
+				inventory[i] = null;
+
+		if (inventory[1] != null && storedAmount < max)
 		{
-			for (int i = 0; i < inventory.length; i++)
-				if (inventory[i] != null && inventory[i].stackSize == 0)
-					inventory[i] = null;
-			
-			if (stored == max) return;
-			if (inventory[1] != null)
+			if (stacksEqual(inventory[1], storedItem))
 			{
-				if (stacksEqual(inventory[1], storedItems))
+				int inputToStorage = inventory[1].stackSize;
+				if ((storedAmount + inputToStorage) > max)
 				{
-					if (inventory[1].stackSize + storedItems.stackSize <= 64)
-					{
-						storedItems.stackSize = inventory[1].stackSize + storedItems.stackSize;
-						inventory[1] = null;
-						stored = storedItems.stackSize;
-					}
-					else if (storedItems.stackSize < 64)
-					{
-						int add = 64 - storedItems.stackSize;
-						storedItems.stackSize = 64;
-						inventory[1].stackSize -= add;
-						stored = storedItems.stackSize;
-					}
-					else
-					{
-						add(inventory[1].stackSize);
-						inventory[1] = null;
-					}
+					inventory[1].stackSize = (int) (inputToStorage + storedAmount - max);
+					storedAmount = max;
 				}
-				else if (storedItems == null && inventory[1] != null)
+				else
 				{
-					storedItems = inventory[1];
+					storedAmount += inputToStorage;
 					inventory[1] = null;
-					add(storedItems.stackSize);
 				}
 			}
-			if (storedItems != null)
+			else if (storedItem == null)
 			{
-				if (inventory[2] == null)
+				storedItem = inventory[1].copy();
+				storedAmount = inventory[1].stackSize;
+				inventory[1] = null;
+			}
+			else
+			{
+				UltimateStorage.logger.severe(String.format("Input does not match storage, \"%s\" was not expected in this input! \"%s\" was expected!, X:%d, Y:%d, Z:%d", StatCollector.translateToLocal(inventory[1].getUnlocalizedName() + ".name"),
+						StatCollector.translateToLocal(storedItem.getUnlocalizedName() + ".name"), xCoord, yCoord, zCoord));
+				spitInputItem();
+			}
+		}
+
+		if (storedAmount != 0)
+		{
+			int maxStack = storedItem.getMaxStackSize();
+			if (inventory[2] == null)
+			{
+				inventory[2] = storedItem.copy();
+				if (storedAmount > maxStack)
 				{
-					if (stored > 64)
-					{
-						inventory[2] = storedItems.copy();
-						stored -= 64;
-						if (stored < 64) storedItems.stackSize = (int) stored;
-						else storedItems.stackSize -= 64;
-					}
-					else if (stored <= 64)
-					{
-						inventory[2] = storedItems.copy();
-						storedItems = null;
-						stored = 0;
-					}
+					inventory[2].stackSize = maxStack;
+					storedAmount -= maxStack;
 				}
-				else if (inventory[2].stackSize < 64)
+				else
 				{
-					int currentStack = inventory[2].stackSize;
-					if (stored > 64)
-					{
-						stored -= 64 - currentStack;
-						inventory[2].stackSize = 64;
-						if (stored < 64) storedItems.stackSize = (int) stored;
-						else storedItems.stackSize -= 64;
-					}
-					else if (stored <= 64)
-					{
-						if (stored + currentStack <= 64)
-						{
-							inventory[2].stackSize = (int) (stored + currentStack);
-							stored = 0;
-							storedItems = null;
-						}
-						else
-						{
-							stored = (0 - (currentStack - stored));
-							inventory[2].stackSize = 64;
-						}
-					}
+					inventory[2].stackSize = (int) storedAmount;
+					storedAmount = 0;
+					storedItem = null;
+				}
+			}
+			else if (inventory[2].stackSize < maxStack && stacksEqual(inventory[2], storedItem))
+			{
+				int outputFromStorage = maxStack - inventory[2].stackSize;
+				if (outputFromStorage < storedAmount)
+				{
+					inventory[2].stackSize = maxStack;
+					storedAmount -= outputFromStorage;
+				}
+				else
+				{
+					inventory[2].stackSize += (int) storedAmount;
+					storedAmount = 0;
+					storedItem = null;
 				}
 			}
 		}
 	}
 
-	/**
-	 * Adds the amount to the current storage
-	 * 
-	 * @param amnt
-	 * @return the amount left over, if any
-	 */
-	private int add(int amnt)
+	private void spitInputItem()
 	{
-		if ((stored + amnt) > max)
-		{
-			stored = max;
-			return (int) (0 - (max - (amnt + stored)));
-		}
-		else
-		{
-			stored += amnt;
-		}
-		return 0;
+		if (worldObj.isRemote)
+			return;
+		
+		float f = (float) Math.random();
+		float f1 = (float) Math.random();
+		float f2 = (float) Math.random();
+
+		EntityItem entityitem = new EntityItem(worldObj, (double) ((float) this.xCoord + f), (double) ((float) this.yCoord + f1), (double) ((float) this.zCoord + f2), inventory[1]);
+
+		entityitem.motionX = (int) Math.random() * 2;
+		entityitem.motionY = (int) Math.random() * 2;
+		entityitem.motionZ = (int) Math.random() * 2;
+		worldObj.spawnEntityInWorld(entityitem);
+
+		inventory[1] = null;
 	}
 
 	@Override
 	public int getSizeInventory()
 	{
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -260,24 +265,16 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack)
 	{
-		if (storedItems != null)
+		if (i == 1)
 		{
-			if (i == 1 && (stacksEqual(storedItems, itemstack)))
-			{
-				return true;
-			}
+			return storedItem == null || stacksEqual(storedItem, itemstack);
 		}
-		if (storedItems == null)
+
+		if (i == 0)
 		{
-			if (i == 1)
-			{
-				return true;
-			}
+			return FluidContainerRegistry.isContainer(itemstack);
 		}
-		if (i == 0 & (FluidContainerRegistry.isContainer(itemstack) == true))
-		{
-			return true;
-		}
+
 		return false;
 	}
 
@@ -286,11 +283,16 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	 */
 	public static boolean stacksEqual(ItemStack s1, ItemStack s2)
 	{
-		if (s1 == null && s2 == null) return true;
-		if (s1 == null || s2 == null) return false;
-		if (!s1.isItemEqual(s2)) return false;
-		if (s1.getTagCompound() == null && s2.getTagCompound() == null) return true;
-		if (s1.getTagCompound() == null || s2.getTagCompound() == null) return false;
+		if (s1 == null && s2 == null)
+			return true;
+		if (s1 == null || s2 == null)
+			return false;
+		if (!s1.isItemEqual(s2))
+			return false;
+		if (s1.getTagCompound() == null && s2.getTagCompound() == null)
+			return true;
+		if (s1.getTagCompound() == null || s2.getTagCompound() == null)
+			return false;
 		return s1.getTagCompound().equals(s2.getTagCompound());
 	}
 
@@ -298,9 +300,25 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
+
+		NBTTagList nbttaglist = new NBTTagList();
+
+		for (int i = 0; i < this.inventory.length; ++i)
+		{
+			if (this.inventory[i] != null)
+			{
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+				nbttagcompound1.setByte("Slot", (byte) i);
+				this.inventory[i].writeToNBT(nbttagcompound1);
+				nbttaglist.appendTag(nbttagcompound1);
+			}
+		}
+		nbt.setTag("Items", nbttaglist);
+
+		nbt.setLong("stored", storedAmount);
 		NBTTagCompound itemstackNBT = new NBTTagCompound();
-		if (storedItems != null) storedItems.writeToNBT(itemstackNBT);
-		nbt.setLong("stored", stored);
+		if (storedItem != null)
+			storedItem.writeToNBT(itemstackNBT);
 		nbt.setTag("itemstack", itemstackNBT);
 	}
 
@@ -308,8 +326,19 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		storedItems = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
-		stored = nbt.getLong("stored");
+
+		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
+		
+		for (int i = 0; i < nbttaglist.tagCount(); ++i)
+		{
+			NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+			int j = nbttagcompound1.getByte("Slot") & 255;
+
+			this.inventory[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+		}
+
+		storedAmount = nbt.getLong("stored");
+		storedItem = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
 	}
 
 	@Override
@@ -324,5 +353,13 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
 	{
 		this.readFromNBT(pkt.func_148857_g());
+	}
+	
+	/**
+	 * @return A copy of the stored item in this block, can be null
+	 */
+	public ItemStack getStoredItem()
+	{
+		return storedItem == null ? null : storedItem.copy();
 	}
 }

@@ -6,6 +6,7 @@
 package tterrag.ultimateStorage;
 
 import java.util.EnumMap;
+import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import tterrag.ultimateStorage.block.StorageBlock;
@@ -35,6 +36,8 @@ public class UltimateStorage {
 	
 	@Instance
 	public static UltimateStorage instance;
+	
+	public static Logger logger = Logger.getLogger("UltimateStorage");
 	
 	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", new ChannelHandler());
 	
