@@ -32,7 +32,7 @@ import tterrag.ultimateStorage.UltimateStorage;
  */
 public class TileStorageBlock extends TileEntity implements ISidedInventory, IFluidHandler
 {
-	public final static long max = 1099511627776L;
+	public final static long max = 1099511627776L; 
 
 	/* Item handling */
 	public ItemStack[] inventory;
@@ -81,6 +81,8 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	public void updateEntity()
 	{
 //		System.out.println(tank.amountStored);
+		if (tank.amountStored > max)
+			tank.amountStored = max;
 		
 		for (int i = 0; i < inventory.length; i++)
 			if (inventory[i] != null && inventory[i].stackSize <= 0)

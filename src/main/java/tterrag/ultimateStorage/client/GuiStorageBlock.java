@@ -13,7 +13,6 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.ultimateStorage.container.ContainerStorageBlock;
 import tterrag.ultimateStorage.tile.TileStorageBlock;
-import tterrag.ultimateStorage.tile.UltimateFluidTank;
 
 public class GuiStorageBlock extends GuiContainer
 {
@@ -59,40 +58,47 @@ public class GuiStorageBlock extends GuiContainer
 		this.displayGauge(j, k, 12, 43, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 69) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
 	}
 	
-	private String formatString(String s, long amnt, boolean isFluid, boolean useDecimals)
+	private String formatString(String prefix, long amnt, boolean isFluid, boolean useDecimals)
 	{
+		if (amnt == max)
+		{
+			prefix += "2E40 mB";
+			return prefix;
+		}
+		
 		switch (Long.toString(amnt).length())
 		{
 		case 7:
-			s += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "MmB" : "M");
-			return s;
+			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "MmB" : "M");
+			return prefix;
 		case 8:
-			s += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "MmB" : "M");
-			return s;
+			prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "MmB" : "M");
+			return prefix;
 		case 9:
-			s += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "MmB" : "M");
-			return s;
+			prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "MmB" : "M");
+			return prefix;
 		case 10:
-			s += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "GmB" : "B");
-			return s;
+			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "GmB" : "B");
+			return prefix;
 		case 11:
-			s += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "GmB" : "B");
-			return s;
+			prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "GmB" : "B");
+			return prefix;
 		case 12:
-			s += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "GmB" : "B");
-			return s;
+			prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "GmB" : "B");
+			return prefix;
 		case 13:
-			s += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "TmB" : "T");
-			return s;
+			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 5) : "") + (isFluid ? "TmB" : "T");
+			return prefix;
 		default:
-			s += "" + amnt + "mb";
-			return s;
+			prefix += "" + amnt + "mb";
+			return prefix;
 		}
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
+		System.out.println(fluidStored);
 		this.fontRendererObj.drawString(formattedItemAmount, (int) (this.xSize / 1.44) - ((formattedItemAmount.length() - 8) * 4), 54, 0x000000);
 		this.fontRendererObj.drawString(formattedFluidAmount, (int) (this.xSize / 5) - ((formattedFluidAmount.length() - 8) * 4), 80, 0x000000);
 		this.fontRendererObj.drawString("Current", (int) (this.xSize / 3), 30, 0x000000);
@@ -153,7 +159,7 @@ public class GuiStorageBlock extends GuiContainer
 	
 	private long getScaledLiquidAmount()
 	{
-		for (int i = 1000; i < 10000000000L; i *= 10)
+		for (long i = 1000; i < 10000000000L; i *= 10)
 			if (fluidStored < i)
 				return i;
 		
