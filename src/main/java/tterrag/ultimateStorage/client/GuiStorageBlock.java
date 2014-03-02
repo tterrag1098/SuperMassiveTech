@@ -8,8 +8,10 @@ import tterrag.ultimateStorage.tile.TileStorageBlock;
 
 public class GuiStorageBlock extends GuiContainer
 {
-	public long amountStored;
-	private String formattedAmount = "Testing";
+	public long itemsStored;
+	public long fluidStored;
+	private String formattedItemAmount = "";
+	private String formattedFluidAmount = "";
 	
 	public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileStorageBlock tile)
 	{
@@ -21,11 +23,17 @@ public class GuiStorageBlock extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
 	{
-		formattedAmount = "Stored: ";
-		if (amountStored < 1000000)
-			formattedAmount += amountStored;
-		else if (amountStored >= 1000000)
-			formatString();
+		formattedItemAmount = "Stored: ";
+		if (itemsStored < 1000000)
+			formattedItemAmount += itemsStored;
+		else if (itemsStored >= 1000000)
+			formattedItemAmount = formatString(formattedItemAmount, itemsStored);
+		
+		formattedFluidAmount = "Stored: ";
+		if (fluidStored < 1000000)
+			formattedFluidAmount += fluidStored;
+		else if (fluidStored >= 1000000)
+			formattedFluidAmount = formatString(formattedFluidAmount, fluidStored);
 		
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png"));
 	
@@ -35,41 +43,42 @@ public class GuiStorageBlock extends GuiContainer
 		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 	}
 	
-	private void formatString()
+	private String formatString(String s, long amnt)
 	{
-		switch (Long.toString(amountStored).length())
+		switch (Long.toString(amnt).length())
 		{
 		case 7:
-			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 3) + "M";
-			return;
+			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + "M";
+			return s;
 		case 8:
-			formattedAmount += Long.toString(amountStored).substring(0, 2) + "." + Long.toString(amountStored).substring(2, 4) + "M";
-			return;
+			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + "M";
+			return s;
 		case 9:
-			formattedAmount += Long.toString(amountStored).substring(0, 3) + "." + Long.toString(amountStored).substring(3, 5) + "M";
-			return;
+			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + "M";
+			return s;
 		case 10:
-			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 3) + "B";
-			return;
+			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + "B";
+			return s;
 		case 11:
-			formattedAmount += Long.toString(amountStored).substring(0, 2) + "." + Long.toString(amountStored).substring(2, 4) + "B";
-			return;
+			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + "B";
+			return s;
 		case 12:
-			formattedAmount += Long.toString(amountStored).substring(0, 3) + "." + Long.toString(amountStored).substring(3, 5) + "B";
-			return;
+			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + "B";
+			return s;
 		case 13:
-			formattedAmount += Long.toString(amountStored).substring(0, 1) + "." + Long.toString(amountStored).substring(1, 3) + "T";
-			return;
+			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + "T";
+			return s;
 		default:
-			formattedAmount += "NaN";
-			return;
+			s += "NaN";
+			return s;
 		}
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
-		this.fontRendererObj.drawString(formattedAmount, (int) (this.xSize / 1.7), 50, 0x000000);
+		this.fontRendererObj.drawString(formattedItemAmount, (int) (this.xSize / 1.47) - ((formattedItemAmount.length() - 8) * 4), 54, 0x000000);
+		this.fontRendererObj.drawString(formattedFluidAmount, (int) (this.xSize / 6) - ((formattedFluidAmount.length() - 8) * 4), 80, 0x000000);
 		this.fontRendererObj.drawString("IDQSU", (int) (this.xSize / 2.2), 7, 0x000000);
 	}
 }

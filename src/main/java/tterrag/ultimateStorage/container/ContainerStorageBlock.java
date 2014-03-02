@@ -24,7 +24,7 @@ public class ContainerStorageBlock extends Container
 		
 		this.tileEnt = tile;
 		
-		this.addSlotToContainer(new Slot(tile, 0, 48, 94));
+		this.addSlotToContainer(tile.new SlotFluidContainer(tile, 0, 48, 94));
 		this.addSlotToContainer(tile.new SlotInput(tile, 1, 184, 20));
 		this.addSlotToContainer(new Slot(tile, 2, 184, 81));
 	}
@@ -107,7 +107,7 @@ public class ContainerStorageBlock extends Container
 	{
 		for (ICrafting c : (List<ICrafting>) crafters)
 		{
-			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.storedAmount);
+			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.storedAmount, tileEnt.getTank().amountStored);
 			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
 			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
 			UltimateStorage.channels.get(Side.SERVER).writeOutbound(packet);

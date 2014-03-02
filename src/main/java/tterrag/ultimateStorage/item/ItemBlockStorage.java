@@ -19,7 +19,7 @@ public class ItemBlockStorage extends ItemBlock
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
-		if (par3Entity instanceof EntityPlayer && !par2World.isRemote)
+		if (par3Entity instanceof EntityPlayer && !par2World.isRemote && !((EntityPlayer)par3Entity).capabilities.isCreativeMode)
 		{
 			((EntityPlayer) par3Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, 3, true));
 			((EntityPlayer) par3Entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, 3, true));

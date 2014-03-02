@@ -18,19 +18,29 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 import tterrag.ultimateStorage.UltimateStorage;
 
 /**
  * @author Garrett Spicer-Davis
  * 
  */
-public class TileStorageBlock extends TileEntity implements ISidedInventory
+public class TileStorageBlock extends TileEntity implements ISidedInventory, IFluidHandler
 {
+	public final static long max = 1099511627776L;
+
+	/* Item handling */
 	public ItemStack[] inventory;
 	public long storedAmount;
-	public final long max = 1099511627776L;
 	private ItemStack storedItem;
+	
+	/* Fluid handling */
+	private UltimateFluidTank tank = new UltimateFluidTank();
 
 	public TileStorageBlock()
 	{
@@ -50,10 +60,28 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 			return storedItem == null || stacksEqual(par1ItemStack, storedItem);
 		}
 	}
+	
+	public class SlotFluidContainer extends Slot
+	{
+		public SlotFluidContainer(IInventory inv, int x, int y, int z)
+		{
+			super(inv, x, y, z);
+		}
+		
+		@Override
+		public boolean isItemValid(ItemStack par1ItemStack) {
+			if (FluidContainerRegistry.isContainer(par1ItemStack) && FluidContainerRegistry.isFilledContainer(par1ItemStack))
+				return tank.fluidStored == null || FluidContainerRegistry.containsFluid(par1ItemStack, tank.fluidStored);
+			
+			return false;
+		}
+	}
 
 	@Override
 	public void updateEntity()
 	{
+		System.out.println(tank.amountStored);
+		
 		for (int i = 0; i < inventory.length; i++)
 			if (inventory[i] != null && inventory[i].stackSize <= 0)
 				inventory[i] = null;
@@ -361,5 +389,41 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory
 	public ItemStack getStoredItem()
 	{
 		return storedItem == null ? null : storedItem.copy();
+	}
+
+	@Override
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		return tank.fill(resource, doFill);
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, FluidStack resource,
+			boolean doDrain) {
+		return tank.drain(resource.amount, doDrain);
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		return tank.drain(maxDrain, doDrain);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		return tank.amountStored < max;
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		return tank.amountStored != 0;
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		return new FluidTankInfo[]{tank.getInfo()};
+	}
+	
+	public UltimateFluidTank getTank()
+	{
+		return this.tank;
 	}
 }
