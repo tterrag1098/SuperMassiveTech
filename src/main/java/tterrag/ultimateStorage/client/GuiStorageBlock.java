@@ -21,15 +21,13 @@ public class GuiStorageBlock extends GuiContainer
 	public long fluidStored;
 	private String formattedItemAmount = "";
 	private String formattedFluidAmount = "";
-	private long max = 50000; //TileStorageBlock.max;
+	private long max = TileStorageBlock.max;
 	
 	public int fluidID;
 	
 	private static final ResourceLocation TEXTURE = new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png");
 	private static final ResourceLocation BLOCK_TEXTURE = TextureMap.locationBlocksTexture;
-	
-	private int k, l;
-	
+		
 	public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileStorageBlock tile)
 	{
 		super(new ContainerStorageBlock(par1InventoryPlayer, tile));
@@ -44,49 +42,50 @@ public class GuiStorageBlock extends GuiContainer
 		if (itemsStored < 1000000)
 			formattedItemAmount += itemsStored;
 		else if (itemsStored >= 1000000)
-			formattedItemAmount = formatString(formattedItemAmount, itemsStored, false);
+			formattedItemAmount = formatString(formattedItemAmount, itemsStored, false, true);
 		
 		formattedFluidAmount = "Stored: ";
 		if (fluidStored < 1000000)
 			formattedFluidAmount += fluidStored + "mb";
 		else if (fluidStored >= 1000000)
-			formattedFluidAmount = formatString(formattedFluidAmount, fluidStored, true);
+			formattedFluidAmount = formatString(formattedFluidAmount, fluidStored, true, true);
 		
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png"));
 	
-		k = (this.width - this.xSize) / 2;
-		l = (this.height - this.ySize) / 2;
+		int j = (this.width - this.xSize) / 2;
+		int k = (this.height - this.ySize) / 2;
 		
-		this.drawTexturedModalRect(k + 13, l, 0, 0, this.xSize - 16, this.ySize);
+		this.drawTexturedModalRect(j + 13, k, 0, 0, this.xSize - 16, this.ySize);
+		this.displayGauge(j, k, 12, 43, (int) ((((float) fluidStored / (float) getScaledLiquidAmount()) * 69) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
 	}
 	
-	private String formatString(String s, long amnt, boolean isFluid)
+	private String formatString(String s, long amnt, boolean isFluid, boolean useDecimals)
 	{
 		switch (Long.toString(amnt).length())
 		{
 		case 7:
-			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + (isFluid ? "kB" : "M");
+			s += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "MmB" : "M");
 			return s;
 		case 8:
-			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + (isFluid ? "kB" : "M");
+			s += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "MmB" : "M");
 			return s;
 		case 9:
-			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + (isFluid ? "kB" : "M");
+			s += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "MmB" : "M");
 			return s;
 		case 10:
-			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + (isFluid ? "MB" : "B");
+			s += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "GmB" : "B");
 			return s;
 		case 11:
-			s += Long.toString(amnt).substring(0, 2) + "." + Long.toString(amnt).substring(2, 4) + (isFluid ? "MB" : "B");
+			s += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "GmB" : "B");
 			return s;
 		case 12:
-			s += Long.toString(amnt).substring(0, 3) + "." + Long.toString(amnt).substring(3, 5) + (isFluid ? "MB" : "B");
+			s += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "GmB" : "B");
 			return s;
 		case 13:
-			s += Long.toString(amnt).substring(0, 1) + "." + Long.toString(amnt).substring(1, 3) + (isFluid ? "GB" : "T");
+			s += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "TmB" : "T");
 			return s;
 		default:
-			s += "NaN";
+			s += "" + amnt + "mb";
 			return s;
 		}
 	}
@@ -94,14 +93,12 @@ public class GuiStorageBlock extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
-		int j = (width - xSize) / 2;
-		int k = (height - ySize) / 2;
-		
 		this.fontRendererObj.drawString(formattedItemAmount, (int) (this.xSize / 1.44) - ((formattedItemAmount.length() - 8) * 4), 54, 0x000000);
 		this.fontRendererObj.drawString(formattedFluidAmount, (int) (this.xSize / 5) - ((formattedFluidAmount.length() - 8) * 4), 80, 0x000000);
+		this.fontRendererObj.drawString("Current", (int) (this.xSize / 3), 30, 0x000000);
+		this.fontRendererObj.drawString("Scale Max: ", (int) (this.xSize / 3.2), 40, 0x000000);
+		this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.5)) - Math.round((float) getScaledLiquidMaxAsString().length() * 2.5f), 50, 0x000000);
 		this.fontRendererObj.drawString("IDQSU", (int) (this.xSize / 2.2), 7, 0x000000);
-		this.displayGauge(j, k, -7, -45, (int) ((((float) fluidStored / (float) max) * 69) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
-		System.out.println((((float) fluidStored / (float) max) * 69) + 0.5);
 	}
 	
 	/**
@@ -152,5 +149,21 @@ public class GuiStorageBlock extends GuiContainer
 		float green = (float) (color >> 8 & 255) / 255.0F;
 		float blue = (float) (color & 255) / 255.0F;
 		GL11.glColor4f(red, green, blue, 1.0F);
+	}
+	
+	private long getScaledLiquidAmount()
+	{
+		for (int i = 1000; i < 10000000000L; i *= 10)
+			if (fluidStored < i)
+				return i;
+		
+		return max;
+	}
+	
+	private String getScaledLiquidMaxAsString()
+	{
+		long l = getScaledLiquidAmount();
+		
+		return formatString("", l, true, false);
 	}
 }
