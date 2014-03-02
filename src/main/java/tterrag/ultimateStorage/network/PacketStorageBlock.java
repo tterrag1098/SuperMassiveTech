@@ -8,17 +8,20 @@ public class PacketStorageBlock implements IStoragePacket
 {
 	private long value;
 	private long fluidValue;
+	private int fluidID;
 	
 	public PacketStorageBlock()
 	{
 		this.value = 0;
 		this.fluidValue = 0;
+		this.fluidID = 0;
 	}
 	
-	public PacketStorageBlock(long value, long fluidValue)
+	public PacketStorageBlock(long value, long fluidValue, int fluidID)
 	{
 		this.value = value;
 		this.fluidValue = fluidValue;
+		this.fluidID = fluidID;
 	}
 	
 	@Override
@@ -26,6 +29,7 @@ public class PacketStorageBlock implements IStoragePacket
 	{
 		buffer.writeLong(value);
 		buffer.writeLong(fluidValue);
+		buffer.writeInt(fluidID);
 	}
 
 	@Override
@@ -35,6 +39,7 @@ public class PacketStorageBlock implements IStoragePacket
 		{
 			((GuiStorageBlock) Minecraft.getMinecraft().currentScreen).itemsStored = buffer.readLong();
 			((GuiStorageBlock) Minecraft.getMinecraft().currentScreen).fluidStored = buffer.readLong();
+			((GuiStorageBlock) Minecraft.getMinecraft().currentScreen).fluidID = buffer.readInt();
 		}
 	}
 }

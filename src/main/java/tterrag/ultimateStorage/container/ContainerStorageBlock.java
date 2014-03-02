@@ -8,6 +8,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import tterrag.ultimateStorage.UltimateStorage;
 import tterrag.ultimateStorage.network.PacketStorageBlock;
 import tterrag.ultimateStorage.tile.TileStorageBlock;
@@ -107,7 +109,8 @@ public class ContainerStorageBlock extends Container
 	{
 		for (ICrafting c : (List<ICrafting>) crafters)
 		{
-			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.storedAmount, tileEnt.getTank().amountStored);
+			FluidStack fluid = tileEnt.getTank().getFluid();
+			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.storedAmount, tileEnt.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
 			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
 			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
 			UltimateStorage.channels.get(Side.SERVER).writeOutbound(packet);
