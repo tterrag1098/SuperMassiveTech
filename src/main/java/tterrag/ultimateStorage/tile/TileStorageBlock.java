@@ -5,6 +5,7 @@
  */
 package tterrag.ultimateStorage.tile;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,9 +36,9 @@ import tterrag.ultimateStorage.UltimateStorage;
 public class TileStorageBlock extends TileEntity implements ISidedInventory, IFluidHandler
 {
 	public final static long max = 1099511627776L;
-	private final float RANGE = 4F;
-	private final float STRENGTH = 0.1F;
-	private final float MAX_GRAV_XZ = 0.1F, MAX_GRAV_Y = 0.028F, MIN_GRAV = 0.000F;
+	private final float RANGE = 500F;
+	private final float STRENGTH = 6F;
+	private final float MAX_GRAV_XZ = 0.1F, MAX_GRAV_Y = 0.1F, MIN_GRAV = 0.000F;
 
 	/* Item handling */
 	public ItemStack[] inventory;
@@ -157,18 +158,18 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 			}
 		}
 		
-		for (Object o : worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
+		for (Object o : worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
 		{
-			EntityLivingBase player = (EntityLivingBase) o;
+			Entity entity = (Entity) o;
 
-			double dist = Math.sqrt(Math.pow(xCoord + 0.5 - player.posX, 2) + Math.pow(zCoord + 0.5 - player.posZ, 2) + Math.pow(yCoord + 0.5 - player.posY, 2));
+			double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
-			if (dist >= RANGE)
-				break;
+			if (dist >= RANGE || entity instanceof EntityPlayer)
+				continue;
 
-			double xDisplacment = player.posX - (xCoord + 0.5);
-			double yDisplacment = player.posY - (yCoord + 0.5);
-			double zDisplacment = player.posZ - (zCoord + 0.5);
+			double xDisplacment = entity.posX - (xCoord + 0.5);
+			double yDisplacment = entity.posY - (yCoord + 0.5);
+			double zDisplacment = entity.posZ - (zCoord + 0.5);
 
 			// http://en.wikipedia.org/wiki/Spherical_coordinate_system#Coordinate_system_conversions
 
@@ -195,7 +196,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 			if (Math.abs(vecZ) < MIN_GRAV)
 				vecZ = 0;
 
-			player.setVelocity(player.motionX + vecX, player.motionY + vecY, player.motionZ + vecZ);
+			entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 		}
 	}
 
