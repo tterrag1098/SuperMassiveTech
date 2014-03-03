@@ -21,12 +21,12 @@ public class GuiStorageBlock extends GuiContainer
 	private String formattedItemAmount = "";
 	private String formattedFluidAmount = "";
 	private long max = TileStorageBlock.max;
-	
+
 	public int fluidID;
-	
+
 	private static final ResourceLocation TEXTURE = new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png");
 	private static final ResourceLocation BLOCK_TEXTURE = TextureMap.locationBlocksTexture;
-		
+
 	public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileStorageBlock tile)
 	{
 		super(new ContainerStorageBlock(par1InventoryPlayer, tile));
@@ -42,22 +42,22 @@ public class GuiStorageBlock extends GuiContainer
 			formattedItemAmount += itemsStored;
 		else if (itemsStored >= 1000000)
 			formattedItemAmount = formatString(formattedItemAmount, itemsStored, false, true);
-		
+
 		formattedFluidAmount = "Stored: ";
 		if (fluidStored < 1000000)
 			formattedFluidAmount += fluidStored + "mb";
 		else if (fluidStored >= 1000000)
 			formattedFluidAmount = formatString(formattedFluidAmount, fluidStored, true, true);
-		
+
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png"));
-	
+
 		int j = (this.width - this.xSize) / 2;
 		int k = (this.height - this.ySize) / 2;
-		
+
 		this.drawTexturedModalRect(j + 13, k, 0, 0, this.xSize - 16, this.ySize);
 		this.displayGauge(j, k, 12, 43, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 69) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
 	}
-	
+
 	private String formatString(String prefix, long amnt, boolean isFluid, boolean useDecimals)
 	{
 		if (amnt == max)
@@ -65,7 +65,7 @@ public class GuiStorageBlock extends GuiContainer
 			prefix += "2^40 mB";
 			return prefix;
 		}
-		
+
 		switch (Long.toString(amnt).length())
 		{
 		case 7:
@@ -94,31 +94,31 @@ public class GuiStorageBlock extends GuiContainer
 			return prefix;
 		}
 	}
-	
+
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
 		System.out.println(fluidStored);
 		this.fontRendererObj.drawString(formattedItemAmount, (int) (this.xSize / 1.44) - ((formattedItemAmount.length() - 8) * 4), 54, 0x000000);
-		this.fontRendererObj.drawString(formattedFluidAmount, (int) (this.xSize / 5) - ((formattedFluidAmount.length() - 8) * 4), 80, 0x000000);
-		this.fontRendererObj.drawString("Current", (int) (this.xSize / 3), 30, 0x000000);
+		this.fontRendererObj.drawString(formattedFluidAmount, this.xSize / 5 - ((formattedFluidAmount.length() - 8) * 4), 80, 0x000000);
+		this.fontRendererObj.drawString("Current", this.xSize / 3, 30, 0x000000);
 		this.fontRendererObj.drawString("Scale Max: ", (int) (this.xSize / 3.2), 40, 0x000000);
-		this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.5)) - Math.round((float) getScaledLiquidMaxAsString().length() * 2.5f), 50, 0x000000);
+		this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.5)) - Math.round(getScaledLiquidMaxAsString().length() * 2.5f), 50, 0x000000);
 		this.fontRendererObj.drawString("IDQSU", (int) (this.xSize / 2.2), 7, 0x000000);
 	}
-	
+
 	/**
 	 * @author Buildcraft team
 	 */
-	private void displayGauge(int j, int k, int line, int col, int squaled, FluidStack liquid) {
-		if (liquid == null) {
-			return;
-		}
+	private void displayGauge(int j, int k, int line, int col, int squaled, FluidStack liquid)
+	{
+		if (liquid == null) { return; }
 		int start = 0;
 
 		IIcon liquidIcon = null;
 		Fluid fluid = liquid.getFluid();
-		if (fluid != null && fluid.getStillIcon() != null) {
+		if (fluid != null && fluid.getStillIcon() != null)
+		{
 			liquidIcon = fluid.getStillIcon();
 		}
 		mc.renderEngine.bindTexture(BLOCK_TEXTURE);
@@ -126,12 +126,17 @@ public class GuiStorageBlock extends GuiContainer
 
 		int x;
 
-		if (liquidIcon != null) {
-			do{
-				if (squaled > 16) {
+		if (liquidIcon != null)
+		{
+			do
+			{
+				if (squaled > 16)
+				{
 					x = 16;
 					squaled -= 16;
-				} else {
+				}
+				else
+				{
 					x = squaled;
 					squaled = 0;
 				}
@@ -139,37 +144,39 @@ public class GuiStorageBlock extends GuiContainer
 				drawTexturedModelRectFromIcon(j + col + 1, k + line + 63 - x - start, liquidIcon, 23, 16 - (16 - x));
 				start = start + 16;
 
-			} while (x != 0 && squaled != 0);
+			}
+			while (x != 0 && squaled != 0);
 		}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.renderEngine.bindTexture(TEXTURE);
 		drawTexturedModalRect(j + col, k + line, 234, 0, 16, 60);
 	}
-	
+
 	/**
 	 * @author Buildcraft team
 	 */
-	public static void setGLColorFromInt(int color) {
-		float red = (float) (color >> 16 & 255) / 255.0F;
-		float green = (float) (color >> 8 & 255) / 255.0F;
-		float blue = (float) (color & 255) / 255.0F;
+	public static void setGLColorFromInt(int color)
+	{
+		float red = (color >> 16 & 255) / 255.0F;
+		float green = (color >> 8 & 255) / 255.0F;
+		float blue = (color & 255) / 255.0F;
 		GL11.glColor4f(red, green, blue, 1.0F);
 	}
-	
+
 	private long getScaledLiquidAmount()
 	{
 		for (long i = 1000; i < 10000000000L; i *= 10)
 			if (fluidStored < i)
 				return i;
-		
+
 		return max;
 	}
-	
+
 	private String getScaledLiquidMaxAsString()
 	{
 		long l = getScaledLiquidAmount();
-		
+
 		return formatString("", l, true, l == max);
 	}
 }

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import tterrag.ultimateStorage.block.StorageBlock;
+import tterrag.ultimateStorage.config.ConfigHandler;
 import tterrag.ultimateStorage.item.ItemBlockStorage;
 import tterrag.ultimateStorage.lib.Reference;
 import tterrag.ultimateStorage.network.ChannelHandler;
@@ -30,35 +31,37 @@ import cpw.mods.fml.relauncher.Side;
  * @author Garrett Spicer-Davis
  */
 @Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION)
-public class UltimateStorage {
-	
+public class UltimateStorage
+{
+
 	public static Block storageBlock;
-	
+
 	@Instance
 	public static UltimateStorage instance;
-	
+
 	public static Logger logger = Logger.getLogger("UltimateStorage");
-	
+
 	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", new ChannelHandler());
-	
+
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
 	{
+		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		register();
 	}
-	
+
 	@EventHandler
 	public static void init(FMLPreInitializationEvent event)
 	{
-		
+
 	}
-	
+
 	private static void register()
 	{
 		storageBlock = new StorageBlock();
 		GameRegistry.registerBlock(storageBlock, ItemBlockStorage.class, "storageBlock");
 		GameRegistry.registerTileEntity(TileStorageBlock.class, "tileStorageBlock");
-		
+
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new UltimateStorageGUIHandler());
 	}
 

@@ -10,7 +10,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<IStoragePack
 	{
 		addDiscriminator(0, PacketStorageBlock.class);
 	}
-	
+
 	@Override
 	public void encodeInto(ChannelHandlerContext ctx, IStoragePacket msg, ByteBuf target) throws Exception
 	{

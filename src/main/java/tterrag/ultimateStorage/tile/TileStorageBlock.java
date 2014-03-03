@@ -6,7 +6,6 @@
 package tterrag.ultimateStorage.tile;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -28,6 +27,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import tterrag.ultimateStorage.UltimateStorage;
+import tterrag.ultimateStorage.config.ConfigHandler;
 
 /**
  * @author Garrett Spicer-Davis
@@ -36,9 +36,9 @@ import tterrag.ultimateStorage.UltimateStorage;
 public class TileStorageBlock extends TileEntity implements ISidedInventory, IFluidHandler
 {
 	public final static long max = 1099511627776L;
-	private final float RANGE = 500F;
-	private final float STRENGTH = 6F;
-	private final float MAX_GRAV_XZ = 0.1F, MAX_GRAV_Y = 0.1F, MIN_GRAV = 0.000F;
+	private final float RANGE;
+	private final float STRENGTH;
+	private final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
 
 	/* Item handling */
 	public ItemStack[] inventory;
@@ -51,6 +51,11 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	public TileStorageBlock()
 	{
 		inventory = new ItemStack[3];
+		RANGE = Math.min(1000, ConfigHandler.range);
+		MAX_GRAV_XZ = Math.min(1, ConfigHandler.maxGravityXZ);
+		MAX_GRAV_Y = Math.min(1, ConfigHandler.maxGravityY);
+		MIN_GRAV = Math.min(Math.min(MAX_GRAV_Y, MAX_GRAV_Y), ConfigHandler.minGravity);
+		STRENGTH = Math.min(1000, ConfigHandler.strength);
 	}
 
 	public class SlotInput extends Slot
@@ -75,7 +80,8 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 		}
 
 		@Override
-		public boolean isItemValid(ItemStack par1ItemStack) {
+		public boolean isItemValid(ItemStack par1ItemStack)
+		{
 			if (FluidContainerRegistry.isContainer(par1ItemStack) && FluidContainerRegistry.isFilledContainer(par1ItemStack))
 				return tank.fluidStored == null || FluidContainerRegistry.containsFluid(par1ItemStack, tank.fluidStored);
 
@@ -117,8 +123,10 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 			}
 			else
 			{
-				UltimateStorage.logger.severe(String.format("Input does not match storage, \"%s\" was not expected in this input! \"%s\" was expected!, X:%d, Y:%d, Z:%d", StatCollector.translateToLocal(inventory[1].getUnlocalizedName() + ".name"),
-						StatCollector.translateToLocal(storedItem.getUnlocalizedName() + ".name"), xCoord, yCoord, zCoord));
+				UltimateStorage.logger
+						.severe(String.format("Input does not match storage, \"%s\" was not expected in this input! \"%s\" was expected!, X:%d, Y:%d, Z:%d",
+								StatCollector.translateToLocal(inventory[1].getUnlocalizedName() + ".name"), StatCollector.translateToLocal(storedItem.getUnlocalizedName() + ".name"), xCoord, yCoord,
+								zCoord));
 				spitInputItem();
 			}
 		}
@@ -157,47 +165,54 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 				}
 			}
 		}
-		
-		for (Object o : worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
+
+		for (Object o : worldObj.getEntitiesWithinAABB(Entity.class,
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
 		{
-			Entity entity = (Entity) o;
-
-			double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
-
-			if (dist >= RANGE || entity instanceof EntityPlayer)
-				continue;
-
-			double xDisplacment = entity.posX - (xCoord + 0.5);
-			double yDisplacment = entity.posY - (yCoord + 0.5);
-			double zDisplacment = entity.posZ - (zCoord + 0.5);
-
-			// http://en.wikipedia.org/wiki/Spherical_coordinate_system#Coordinate_system_conversions
-
-			double theta = Math.acos(zDisplacment / dist);
-			double phi = Math.atan2(yDisplacment, xDisplacment);
-
-			//dist *= dist;
-
-			double vecX = -STRENGTH * Math.sin(theta) * Math.cos(phi) / dist;
-			double vecY = -STRENGTH * Math.sin(theta) * Math.sin(phi) / dist;
-			double vecZ = -STRENGTH * Math.cos(theta) / dist;
-
-			if (Math.abs(vecX) > MAX_GRAV_XZ)
-				vecX *= MAX_GRAV_XZ / Math.abs(vecX);
-			if (Math.abs(vecY) > MAX_GRAV_Y)
-				vecY *= MAX_GRAV_Y / Math.abs(vecY);
-			if (Math.abs(vecZ) > MAX_GRAV_XZ)
-				vecZ *= MAX_GRAV_XZ / Math.abs(vecZ);
-
-			if (Math.abs(vecX) < MIN_GRAV)
-				vecX = 0;
-			if (Math.abs(vecY) < MIN_GRAV)
-				vecY = 0;
-			if (Math.abs(vecZ) < MIN_GRAV)
-				vecZ = 0;
-
-			entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
+			applyGravity(STRENGTH, MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o);
 		}
+	}
+
+	private void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity)
+	{
+		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
+
+		if (dist >= range)
+			return;
+
+		double xDisplacment = entity.posX - (xCoord + 0.5);
+		double yDisplacment = entity.posY - (yCoord + 0.5);
+		double zDisplacment = entity.posZ - (zCoord + 0.5);
+
+		// http://en.wikipedia.org/wiki/Spherical_coordinate_system#Coordinate_system_conversions
+
+		double theta = Math.acos(zDisplacment / dist);
+		double phi = Math.atan2(yDisplacment, xDisplacment);
+
+		if (!(entity instanceof EntityPlayer))
+			dist *= 0.5;
+		else
+			dist *= 2;
+
+		double vecX = -gravStrength * Math.sin(theta) * Math.cos(phi) / dist;
+		double vecY = -gravStrength * Math.sin(theta) * Math.sin(phi) / dist;
+		double vecZ = -gravStrength * Math.cos(theta) / dist;
+
+		if (Math.abs(vecX) > maxGravXZ)
+			vecX *= maxGravXZ / Math.abs(vecX);
+		if (Math.abs(vecY) > maxGravY)
+			vecY *= maxGravY / Math.abs(vecY);
+		if (Math.abs(vecZ) > maxGravXZ)
+			vecZ *= maxGravXZ / Math.abs(vecZ);
+
+		if (Math.abs(vecX) < minGrav)
+			vecX = 0;
+		if (Math.abs(vecY) < minGrav)
+			vecY = 0;
+		if (Math.abs(vecZ) < minGrav)
+			vecZ = 0;
+
+		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 	}
 
 	private void spitInputItem()
@@ -209,7 +224,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 		float f1 = (float) Math.random();
 		float f2 = (float) Math.random();
 
-		EntityItem entityitem = new EntityItem(worldObj, (double) ((float) this.xCoord + f), (double) ((float) this.yCoord + f1), (double) ((float) this.zCoord + f2), inventory[1]);
+		EntityItem entityitem = new EntityItem(worldObj, this.xCoord + f, this.yCoord + f1, this.zCoord + f2, inventory[1]);
 
 		entityitem.motionX = (int) Math.random() * 2;
 		entityitem.motionY = (int) Math.random() * 2;
@@ -310,11 +325,13 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 
 	@Override
 	public void openInventory()
-	{}
+	{
+	}
 
 	@Override
 	public void closeInventory()
-	{}
+	{
+	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1)
@@ -331,25 +348,16 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	@Override
 	public boolean canExtractItem(int var1, ItemStack var2, int var3)
 	{
-		if (var1 == 2)
-		{
-			return true;
-		}
+		if (var1 == 2) { return true; }
 		return false;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack)
 	{
-		if (i == 1)
-		{
-			return storedItem == null || stacksEqual(storedItem, itemstack);
-		}
+		if (i == 1) { return storedItem == null || stacksEqual(storedItem, itemstack); }
 
-		if (i == 0)
-		{
-			return FluidContainerRegistry.isContainer(itemstack);
-		}
+		if (i == 0) { return FluidContainerRegistry.isContainer(itemstack); }
 
 		return false;
 	}
@@ -390,13 +398,13 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 			}
 		}
 		nbt.setTag("Items", nbttaglist);
-		
+
 		nbt.setLong("stored", storedAmount);
 		NBTTagCompound itemstackNBT = new NBTTagCompound();
 		if (storedItem != null)
 			storedItem.writeToNBT(itemstackNBT);
 		nbt.setTag("itemstack", itemstackNBT);
-		
+
 		nbt.setLong("fluidStored", tank.amountStored);
 		NBTTagCompound fluidstackNBT = new NBTTagCompound();
 		if (tank.fluidStored != null)
@@ -413,7 +421,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 
 		for (int i = 0; i < nbttaglist.tagCount(); ++i)
 		{
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			int j = nbttagcompound1.getByte("Slot") & 255;
 
 			this.inventory[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
@@ -421,7 +429,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 
 		storedAmount = nbt.getLong("stored");
 		storedItem = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
-		
+
 		tank.amountStored = nbt.getLong("fluidStored");
 		tank.fluidStored = FluidStack.loadFluidStackFromNBT((NBTTagCompound) nbt.getTag("fluidstack"));
 	}
@@ -449,7 +457,8 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	}
 
 	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+	{
 		if (canFill(from, resource.getFluid()))
 			return tank.fill(resource, doFill);
 
@@ -457,8 +466,8 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource,
-			boolean doDrain) {
+	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
+	{
 		if (canDrain(from, resource.getFluid()))
 			return tank.drain(resource.amount, doDrain);
 
@@ -466,24 +475,28 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	}
 
 	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
+	{
 		return tank.drain(maxDrain, doDrain);
 	}
 
 	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
+	public boolean canFill(ForgeDirection from, Fluid fluid)
+	{
 		return tank.amountStored < max && (tank.fluidStored == null || fluid == tank.fluidStored.getFluid());
 	}
 
 	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+	public boolean canDrain(ForgeDirection from, Fluid fluid)
+	{
 		System.out.println(from);
 		return tank.amountStored != 0;
 	}
 
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return new FluidTankInfo[]{tank.getInfo()};
+	public FluidTankInfo[] getTankInfo(ForgeDirection from)
+	{
+		return new FluidTankInfo[] { tank.getInfo() };
 	}
 
 	public UltimateFluidTank getTank()

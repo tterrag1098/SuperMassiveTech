@@ -9,21 +9,21 @@ public class PacketStorageBlock implements IStoragePacket
 	private long value;
 	private long fluidValue;
 	private int fluidID;
-	
+
 	public PacketStorageBlock()
 	{
 		this.value = 0;
 		this.fluidValue = 0;
 		this.fluidID = 0;
 	}
-	
+
 	public PacketStorageBlock(long value, long fluidValue, int fluidID)
 	{
 		this.value = value;
 		this.fluidValue = fluidValue;
 		this.fluidID = fluidID;
 	}
-	
+
 	@Override
 	public void encodeInto(ByteBuf buffer)
 	{

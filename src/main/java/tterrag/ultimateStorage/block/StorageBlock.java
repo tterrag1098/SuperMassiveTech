@@ -56,6 +56,7 @@ public class StorageBlock extends BlockContainer
 		return new TileStorageBlock();
 	}
 
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
 	{
 		TileEntity te = world.getTileEntity(x, y, z);
@@ -66,7 +67,6 @@ public class StorageBlock extends BlockContainer
 		}
 		return false;
 	}
-	
 
 	@SideOnly(Side.CLIENT)
 	private IIcon side, bottom, top, front;
@@ -85,13 +85,20 @@ public class StorageBlock extends BlockContainer
 	@Override
 	public IIcon getIcon(int side, int metadata)
 	{
-		if (side == 1) return this.top;
-		else if (side == 0) return this.top;
-		else if (metadata == 2 && side == 2) return this.front;
-		else if (metadata == 3 && side == 5) return this.front;
-		else if (metadata == 0 && side == 3) return this.front;
-		else if (metadata == 1 && side == 4) return this.front;
-		else return this.side;
+		if (side == 1)
+			return this.top;
+		else if (side == 0)
+			return this.top;
+		else if (metadata == 2 && side == 2)
+			return this.front;
+		else if (metadata == 3 && side == 5)
+			return this.front;
+		else if (metadata == 0 && side == 3)
+			return this.front;
+		else if (metadata == 1 && side == 4)
+			return this.front;
+		else
+			return this.side;
 	}
 
 	@Override
