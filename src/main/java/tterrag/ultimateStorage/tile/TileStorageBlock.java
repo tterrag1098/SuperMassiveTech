@@ -5,6 +5,7 @@
  */
 package tterrag.ultimateStorage.tile;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -34,7 +35,9 @@ import tterrag.ultimateStorage.UltimateStorage;
 public class TileStorageBlock extends TileEntity implements ISidedInventory, IFluidHandler
 {
 	public final static long max = 1099511627776L;
-	private final float RANGE = 3.5F;
+	private final float RANGE = 4F;
+	private final float STRENGTH = 0.1F;
+	private final float MAX_GRAV_XZ = 0.1F, MAX_GRAV_Y = 0.028F, MIN_GRAV = 0.000F;
 
 	/* Item handling */
 	public ItemStack[] inventory;
@@ -153,38 +156,46 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 				}
 			}
 		}
-
-		if (worldObj.isRemote)
+		
+		for (Object o : worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
 		{
-			for (Object o : worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
-			{
-				EntityPlayer player = (EntityPlayer) o;
-				
-				double dist = Math.sqrt(Math.pow(xCoord + 0.5 - player.posX, 2) + Math.pow(zCoord + 0.5 - player.posZ, 2) + Math.pow(yCoord + 0.5 - player.posY, 2));
-				double distXZ = Math.sqrt(Math.pow(xCoord + 0.5 - player.posX, 2) + Math.pow(zCoord + 0.5 - player.posZ, 2));
-				
-				if (dist >= RANGE)
-					dist = RANGE - 0.1;
-				System.out.println(distXZ);
-				
-				boolean xPositive = player.posX - (xCoord + 0.5) > 0;
-				boolean yPositive = player.posY - (yCoord + 0.5) > 0;
-				boolean zPositive = player.posZ - (zCoord + 0.5) > 0;
-				
-				double adjustedDist = dist / RANGE;
-				
-				double vecX = (xPositive ? adjustedDist - 1 : 1 - adjustedDist) / 20;
-				if (Math.abs(xCoord + 0.5 - player.posX) > 0.25 && distXZ > 0.5)
-					player.motionX += vecX;
-				
-				double vecY = (yPositive ? adjustedDist - 1 : 1 - adjustedDist) / 10;
-				if (Math.abs(yCoord + 0.5 - player.posY) > 0.25 && dist > 0.8)
-					player.motionY += vecY;
-				
-				double vecZ = (zPositive ? adjustedDist - 1: 1 - adjustedDist) / 10;
-				if (Math.abs(zCoord + 0.5 - player.posZ) > 0.25 && distXZ > 0.5)
-					player.motionZ += vecZ;	
-			}
+			EntityLivingBase player = (EntityLivingBase) o;
+
+			double dist = Math.sqrt(Math.pow(xCoord + 0.5 - player.posX, 2) + Math.pow(zCoord + 0.5 - player.posZ, 2) + Math.pow(yCoord + 0.5 - player.posY, 2));
+
+			if (dist >= RANGE)
+				break;
+
+			double xDisplacment = player.posX - (xCoord + 0.5);
+			double yDisplacment = player.posY - (yCoord + 0.5);
+			double zDisplacment = player.posZ - (zCoord + 0.5);
+
+			// http://en.wikipedia.org/wiki/Spherical_coordinate_system#Coordinate_system_conversions
+
+			double theta = Math.acos(zDisplacment / dist);
+			double phi = Math.atan2(yDisplacment, xDisplacment);
+
+			//dist *= dist;
+
+			double vecX = -STRENGTH * Math.sin(theta) * Math.cos(phi) / dist;
+			double vecY = -STRENGTH * Math.sin(theta) * Math.sin(phi) / dist;
+			double vecZ = -STRENGTH * Math.cos(theta) / dist;
+
+			if (Math.abs(vecX) > MAX_GRAV_XZ)
+				vecX *= MAX_GRAV_XZ / Math.abs(vecX);
+			if (Math.abs(vecY) > MAX_GRAV_Y)
+				vecY *= MAX_GRAV_Y / Math.abs(vecY);
+			if (Math.abs(vecZ) > MAX_GRAV_XZ)
+				vecZ *= MAX_GRAV_XZ / Math.abs(vecZ);
+
+			if (Math.abs(vecX) < MIN_GRAV)
+				vecX = 0;
+			if (Math.abs(vecY) < MIN_GRAV)
+				vecY = 0;
+			if (Math.abs(vecZ) < MIN_GRAV)
+				vecZ = 0;
+
+			player.setVelocity(player.motionX + vecX, player.motionY + vecY, player.motionZ + vecZ);
 		}
 	}
 
@@ -378,12 +389,18 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 			}
 		}
 		nbt.setTag("Items", nbttaglist);
-
+		
 		nbt.setLong("stored", storedAmount);
 		NBTTagCompound itemstackNBT = new NBTTagCompound();
 		if (storedItem != null)
 			storedItem.writeToNBT(itemstackNBT);
 		nbt.setTag("itemstack", itemstackNBT);
+		
+		nbt.setLong("fluidStored", tank.amountStored);
+		NBTTagCompound fluidstackNBT = new NBTTagCompound();
+		if (tank.fluidStored != null)
+			tank.fluidStored.writeToNBT(fluidstackNBT);
+		nbt.setTag("fluidstack", fluidstackNBT);
 	}
 
 	@Override
@@ -403,6 +420,9 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 
 		storedAmount = nbt.getLong("stored");
 		storedItem = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
+		
+		tank.amountStored = nbt.getLong("fluidStored");
+		tank.fluidStored = FluidStack.loadFluidStackFromNBT((NBTTagCompound) nbt.getTag("fluidstack"));
 	}
 
 	@Override
