@@ -62,7 +62,7 @@ public class GuiStorageBlock extends GuiContainer
 	{
 		if (amnt == max)
 		{
-			prefix += "2E40 mB";
+			prefix += "2^40 mB";
 			return prefix;
 		}
 		

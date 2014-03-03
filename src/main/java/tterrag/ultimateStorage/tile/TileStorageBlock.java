@@ -17,6 +17,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -32,13 +33,14 @@ import tterrag.ultimateStorage.UltimateStorage;
  */
 public class TileStorageBlock extends TileEntity implements ISidedInventory, IFluidHandler
 {
-	public final static long max = 1099511627776L; 
+	public final static long max = 1099511627776L;
+	private final float RANGE = 3.5F;
 
 	/* Item handling */
 	public ItemStack[] inventory;
 	public long storedAmount;
 	private ItemStack storedItem;
-	
+
 	/* Fluid handling */
 	private UltimateFluidTank tank = new UltimateFluidTank();
 
@@ -60,19 +62,19 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 			return storedItem == null || stacksEqual(par1ItemStack, storedItem);
 		}
 	}
-	
+
 	public class SlotFluidContainer extends Slot
 	{
 		public SlotFluidContainer(IInventory inv, int x, int y, int z)
 		{
 			super(inv, x, y, z);
 		}
-		
+
 		@Override
 		public boolean isItemValid(ItemStack par1ItemStack) {
 			if (FluidContainerRegistry.isContainer(par1ItemStack) && FluidContainerRegistry.isFilledContainer(par1ItemStack))
 				return tank.fluidStored == null || FluidContainerRegistry.containsFluid(par1ItemStack, tank.fluidStored);
-			
+
 			return false;
 		}
 	}
@@ -80,10 +82,9 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	@Override
 	public void updateEntity()
 	{
-//		System.out.println(tank.amountStored);
 		if (tank.amountStored > max)
 			tank.amountStored = max;
-		
+
 		for (int i = 0; i < inventory.length; i++)
 			if (inventory[i] != null && inventory[i].stackSize <= 0)
 				inventory[i] = null;
@@ -152,13 +153,46 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 				}
 			}
 		}
+
+		if (worldObj.isRemote)
+		{
+			for (Object o : worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
+			{
+				EntityPlayer player = (EntityPlayer) o;
+				
+				double dist = Math.sqrt(Math.pow(xCoord + 0.5 - player.posX, 2) + Math.pow(zCoord + 0.5 - player.posZ, 2) + Math.pow(yCoord + 0.5 - player.posY, 2));
+				double distXZ = Math.sqrt(Math.pow(xCoord + 0.5 - player.posX, 2) + Math.pow(zCoord + 0.5 - player.posZ, 2));
+				
+				if (dist >= RANGE)
+					dist = RANGE - 0.1;
+				System.out.println(distXZ);
+				
+				boolean xPositive = player.posX - (xCoord + 0.5) > 0;
+				boolean yPositive = player.posY - (yCoord + 0.5) > 0;
+				boolean zPositive = player.posZ - (zCoord + 0.5) > 0;
+				
+				double adjustedDist = dist / RANGE;
+				
+				double vecX = (xPositive ? adjustedDist - 1 : 1 - adjustedDist) / 20;
+				if (Math.abs(xCoord + 0.5 - player.posX) > 0.25 && distXZ > 0.5)
+					player.motionX += vecX;
+				
+				double vecY = (yPositive ? adjustedDist - 1 : 1 - adjustedDist) / 10;
+				if (Math.abs(yCoord + 0.5 - player.posY) > 0.25 && dist > 0.8)
+					player.motionY += vecY;
+				
+				double vecZ = (zPositive ? adjustedDist - 1: 1 - adjustedDist) / 10;
+				if (Math.abs(zCoord + 0.5 - player.posZ) > 0.25 && distXZ > 0.5)
+					player.motionZ += vecZ;	
+			}
+		}
 	}
 
 	private void spitInputItem()
 	{
 		if (worldObj.isRemote)
 			return;
-		
+
 		float f = (float) Math.random();
 		float f1 = (float) Math.random();
 		float f2 = (float) Math.random();
@@ -358,7 +392,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 		super.readFromNBT(nbt);
 
 		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
-		
+
 		for (int i = 0; i < nbttaglist.tagCount(); ++i)
 		{
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
@@ -384,7 +418,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	{
 		this.readFromNBT(pkt.func_148857_g());
 	}
-	
+
 	/**
 	 * @return A copy of the stored item in this block, can be null
 	 */
@@ -397,7 +431,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		if (canFill(from, resource.getFluid()))
 			return tank.fill(resource, doFill);
-	
+
 		return 0;
 	}
 
@@ -406,7 +440,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 			boolean doDrain) {
 		if (canDrain(from, resource.getFluid()))
 			return tank.drain(resource.amount, doDrain);
-		
+
 		return null;
 	}
 
@@ -430,7 +464,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		return new FluidTankInfo[]{tank.getInfo()};
 	}
-	
+
 	public UltimateFluidTank getTank()
 	{
 		return this.tank;
