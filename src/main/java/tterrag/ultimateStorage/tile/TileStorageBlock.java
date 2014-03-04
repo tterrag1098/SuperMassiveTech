@@ -169,7 +169,8 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 		for (Object o : worldObj.getEntitiesWithinAABB(Entity.class,
 				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
 		{
-			applyGravity(STRENGTH, MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o);
+			applyGravity(STRENGTH * (1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 2f))), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o);
+			System.out.println((1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 0.00001f))));
 		}
 	}
 
@@ -189,6 +190,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 		double theta = Math.acos(zDisplacment / dist);
 		double phi = Math.atan2(yDisplacment, xDisplacment);
 
+		// More strength for everything but players, lower dist is bigger effect
 		if (!(entity instanceof EntityPlayer))
 			dist *= 0.5;
 		else
@@ -502,5 +504,11 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	public UltimateFluidTank getTank()
 	{
 		return this.tank;
+	}
+
+	public void setStoredItemOnPlace(ItemStack stackStored)
+	{
+		if (storedItem == null)
+			storedItem = stackStored;
 	}
 }

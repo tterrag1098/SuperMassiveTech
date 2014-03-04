@@ -7,7 +7,7 @@ import net.minecraftforge.fluids.IFluidTank;
 public class UltimateFluidTank implements IFluidTank
 {
 
-	public FluidStack fluidStored;
+	FluidStack fluidStored;
 	public long amountStored;
 	public final long max = TileStorageBlock.max;
 
@@ -89,4 +89,14 @@ public class UltimateFluidTank implements IFluidTank
 		}
 	}
 
+	public void setStoredFluidOnPlace(FluidStack fluidStackStored)
+	{
+		if (fluidStored == null)
+			fluidStored = fluidStackStored;
+	}
+	
+	public FluidStack getFluidStored()
+	{
+		return fluidStored;
+	}
 }
