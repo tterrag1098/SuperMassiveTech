@@ -1,4 +1,4 @@
-package tterrag.ultimateStorage.client;
+package tterrag.supermassivetech.client;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -11,9 +11,9 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.ultimateStorage.container.ContainerStorageBlock;
-import tterrag.ultimateStorage.tile.TileStorageBlock;
-import tterrag.ultimateStorage.util.Utils;
+import tterrag.supermassivetech.container.ContainerStorageBlock;
+import tterrag.supermassivetech.tile.TileBlackHoleStorage;
+import tterrag.supermassivetech.util.Utils;
 
 public class GuiStorageBlock extends GuiContainer
 {
@@ -21,14 +21,14 @@ public class GuiStorageBlock extends GuiContainer
 	public long fluidStored;
 	private String formattedItemAmount = "";
 	private String formattedFluidAmount = "";
-	private long max = TileStorageBlock.max;
+	private long max = TileBlackHoleStorage.max;
 
 	public int fluidID;
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png");
 	private static final ResourceLocation BLOCK_TEXTURE = TextureMap.locationBlocksTexture;
 
-	public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileStorageBlock tile)
+	public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
 	{
 		super(new ContainerStorageBlock(par1InventoryPlayer, tile));
 		this.xSize = 250;

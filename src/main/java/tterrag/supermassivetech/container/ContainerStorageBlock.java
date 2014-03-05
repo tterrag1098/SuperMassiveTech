@@ -1,4 +1,4 @@
-package tterrag.ultimateStorage.container;
+package tterrag.supermassivetech.container;
 
 import java.util.List;
 
@@ -9,17 +9,17 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import tterrag.ultimateStorage.UltimateStorage;
-import tterrag.ultimateStorage.network.PacketStorageBlock;
-import tterrag.ultimateStorage.tile.TileStorageBlock;
+import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.network.PacketStorageBlock;
+import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.relauncher.Side;
 
 public class ContainerStorageBlock extends Container
 {
-	private TileStorageBlock tileEnt;
+	private TileBlackHoleStorage tileEnt;
 
-	public ContainerStorageBlock(InventoryPlayer par1InventoryPlayer, TileStorageBlock tile)
+	public ContainerStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
 	{
 		bindPlayerInventory(par1InventoryPlayer);
 
@@ -74,7 +74,7 @@ public class ContainerStorageBlock extends Container
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			if (par2 < 36 && (TileStorageBlock.stacksEqual(tileEnt.getStoredItem(), itemstack1) || tileEnt.getStoredItem() == null))
+			if (par2 < 36 && (TileBlackHoleStorage.stacksEqual(tileEnt.getStoredItem(), itemstack1) || tileEnt.getStoredItem() == null))
 			{
 				if (!this.mergeItemStack(itemstack1, 37, 38, false))
 					return null;

@@ -1,4 +1,4 @@
-package tterrag.ultimateStorage.network;
+package tterrag.supermassivetech.network;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

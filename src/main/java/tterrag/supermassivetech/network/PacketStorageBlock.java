@@ -1,8 +1,8 @@
-package tterrag.ultimateStorage.network;
+package tterrag.supermassivetech.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import tterrag.ultimateStorage.client.GuiStorageBlock;
+import tterrag.supermassivetech.client.GuiStorageBlock;
 
 public class PacketStorageBlock implements IStoragePacket
 {

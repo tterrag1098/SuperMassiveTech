@@ -1,8 +1,8 @@
-package tterrag.ultimateStorage.item;
+package tterrag.supermassivetech.item;
 
 import java.util.List;
 
-import tterrag.ultimateStorage.util.Utils;
+import tterrag.supermassivetech.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 public class ItemBlockStorage extends ItemBlock
 {
@@ -37,7 +38,13 @@ public class ItemBlockStorage extends ItemBlock
 	{
 		if (stack.stackTagCompound != null)
 		{
-			list.add("Stored: " + Utils.formatString("", stack.stackTagCompound.getLong("itemsStored"), false, false) + " " + StatCollector.translateToLocal(ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("itemStack")).getUnlocalizedName() + ".name"));
+			list.add("Stored: "); 
+			
+			if (stack.stackTagCompound.getTag("itemStack") != null)
+				list.add(Utils.formatString("", stack.stackTagCompound.getLong("itemsStored"), false, true) + " " + StatCollector.translateToLocal(ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("itemStack")).getUnlocalizedName() + ".name"));
+			
+			if (stack.stackTagCompound.getTag("fluidStack") != null)
+				list.add(Utils.formatString("", stack.stackTagCompound.getLong("fluidStored"), true, true) + " " + StatCollector.translateToLocal(FluidStack.loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack")).getFluid().getLocalizedName()));
 		}
 	}
 }

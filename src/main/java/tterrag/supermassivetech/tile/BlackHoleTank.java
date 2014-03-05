@@ -1,15 +1,15 @@
-package tterrag.ultimateStorage.tile;
+package tterrag.supermassivetech.tile;
 
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class UltimateFluidTank implements IFluidTank
+public class BlackHoleTank implements IFluidTank
 {
 
 	FluidStack fluidStored;
 	public long amountStored;
-	public final long max = TileStorageBlock.max;
+	public final long max = TileBlackHoleStorage.max;
 
 	@Override
 	public FluidStack getFluid()

@@ -1,9 +1,4 @@
-/**
- * TileStorageBlock
- *
- * @author Garrett Spicer-Davis
- */
-package tterrag.ultimateStorage.tile;
+package tterrag.supermassivetech.tile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -26,14 +21,15 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import tterrag.ultimateStorage.UltimateStorage;
-import tterrag.ultimateStorage.config.ConfigHandler;
+import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.util.Constants;
+import tterrag.supermassivetech.util.Utils;
 
 /**
  * @author Garrett Spicer-Davis
  * 
  */
-public class TileStorageBlock extends TileEntity implements ISidedInventory, IFluidHandler
+public class TileBlackHoleStorage extends TileEntity implements ISidedInventory, IFluidHandler
 {
 	public final static long max = 1099511627776L;
 	private final float RANGE;
@@ -46,16 +42,16 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 	private ItemStack storedItem;
 
 	/* Fluid handling */
-	private UltimateFluidTank tank = new UltimateFluidTank();
+	private BlackHoleTank tank = new BlackHoleTank();
 
-	public TileStorageBlock()
+	public TileBlackHoleStorage()
 	{
 		inventory = new ItemStack[3];
-		RANGE = Math.min(1000, ConfigHandler.range);
-		MAX_GRAV_XZ = Math.min(1, ConfigHandler.maxGravityXZ);
-		MAX_GRAV_Y = Math.min(1, ConfigHandler.maxGravityY);
-		MIN_GRAV = Math.min(Math.min(MAX_GRAV_Y, MAX_GRAV_Y), ConfigHandler.minGravity);
-		STRENGTH = Math.min(1000, ConfigHandler.strength);
+		RANGE = Constants.instance().RANGE;
+		STRENGTH = Constants.instance().STRENGTH;
+		MAX_GRAV_XZ = Constants.instance().MAX_GRAV_XZ;
+		MAX_GRAV_Y = Constants.instance().MAX_GRAV_Y;
+		MIN_GRAV = Constants.instance().MIN_GRAV;
 	}
 
 	public class SlotInput extends Slot
@@ -169,52 +165,8 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 		for (Object o : worldObj.getEntitiesWithinAABB(Entity.class,
 				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
 		{
-			applyGravity(STRENGTH * (1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 2f))), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o);
-			System.out.println((1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 0.00001f))));
+			Utils.applyGravity(STRENGTH * (1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 2f))), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this);
 		}
-	}
-
-	private void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity)
-	{
-		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
-
-		if (dist >= range)
-			return;
-
-		double xDisplacment = entity.posX - (xCoord + 0.5);
-		double yDisplacment = entity.posY - (yCoord + 0.5);
-		double zDisplacment = entity.posZ - (zCoord + 0.5);
-
-		// http://en.wikipedia.org/wiki/Spherical_coordinate_system#Coordinate_system_conversions
-
-		double theta = Math.acos(zDisplacment / dist);
-		double phi = Math.atan2(yDisplacment, xDisplacment);
-
-		// More strength for everything but players, lower dist is bigger effect
-		if (!(entity instanceof EntityPlayer))
-			dist *= 0.5;
-		else
-			dist *= 2;
-
-		double vecX = -gravStrength * Math.sin(theta) * Math.cos(phi) / dist;
-		double vecY = -gravStrength * Math.sin(theta) * Math.sin(phi) / dist;
-		double vecZ = -gravStrength * Math.cos(theta) / dist;
-
-		if (Math.abs(vecX) > maxGravXZ)
-			vecX *= maxGravXZ / Math.abs(vecX);
-		if (Math.abs(vecY) > maxGravY)
-			vecY *= maxGravY / Math.abs(vecY);
-		if (Math.abs(vecZ) > maxGravXZ)
-			vecZ *= maxGravXZ / Math.abs(vecZ);
-
-		if (Math.abs(vecX) < minGrav)
-			vecX = 0;
-		if (Math.abs(vecY) < minGrav)
-			vecY = 0;
-		if (Math.abs(vecZ) < minGrav)
-			vecZ = 0;
-
-		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 	}
 
 	private void spitInputItem()
@@ -501,7 +453,7 @@ public class TileStorageBlock extends TileEntity implements ISidedInventory, IFl
 		return new FluidTankInfo[] { tank.getInfo() };
 	}
 
-	public UltimateFluidTank getTank()
+	public BlackHoleTank getTank()
 	{
 		return this.tank;
 	}

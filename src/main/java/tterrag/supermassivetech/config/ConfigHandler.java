@@ -1,4 +1,4 @@
-package tterrag.ultimateStorage.config;
+package tterrag.supermassivetech.config;
 
 import java.io.File;
 
