@@ -11,14 +11,25 @@ public abstract class TileGravityWell extends TileEntity
 	protected final float RANGE;
 	protected final float STRENGTH;
 	protected final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
+	private static Constants c = Constants.instance();
 	
 	public TileGravityWell()
 	{
-		RANGE = Constants.instance().RANGE;
-		STRENGTH = Constants.instance().STRENGTH;
-		MAX_GRAV_XZ = Constants.instance().MAX_GRAV_XZ;
-		MAX_GRAV_Y = Constants.instance().MAX_GRAV_Y;
-		MIN_GRAV = Constants.instance().MIN_GRAV;
+		this(1, 1, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
+	}
+	
+	public TileGravityWell(float rangeMult, float strengthMult)
+	{
+		this(rangeMult, strengthMult, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
+	}
+	
+	public TileGravityWell(float rangeMult, float strengthMult, float maxGravXZ, float maxGravY, float minGrav)
+	{
+		RANGE = c.RANGE * rangeMult;
+		STRENGTH = c.STRENGTH * strengthMult;
+		MAX_GRAV_XZ = maxGravXZ;
+		MAX_GRAV_Y = maxGravY;
+		MIN_GRAV = minGrav;
 	}
 	
 	@Override

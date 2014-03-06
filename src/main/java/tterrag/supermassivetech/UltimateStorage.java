@@ -14,6 +14,7 @@ import net.minecraft.item.Item;
 import tterrag.supermassivetech.block.BlockBlackHoleHopper;
 import tterrag.supermassivetech.block.BlockBlackHoleStorage;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.item.block.ItemBlockStorage;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
@@ -41,6 +42,7 @@ public class UltimateStorage
 
 	public static Block blackHoleStorage;
 	public static Block blackHoleHopper;
+	public static Item star;
 
 	@Instance
 	public static UltimateStorage instance;
@@ -81,6 +83,9 @@ public class UltimateStorage
 		blackHoleHopper = new BlockBlackHoleHopper();
 		GameRegistry.registerBlock(blackHoleHopper, "blackHoleHopper");
 		GameRegistry.registerTileEntity(TileBlackHoleHopper.class, "tileBlackHoleHopper");
+		
+		star = new ItemStar("star");
+		GameRegistry.registerItem(star, "star");
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 	}

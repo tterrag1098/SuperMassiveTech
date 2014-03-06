@@ -5,14 +5,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileBlackHoleHopper extends TileGravityWell
 {
-	private ForgeDirection connection = ForgeDirection.UNKNOWN;
+	private ForgeDirection connection;
 	private ItemStack[] inventory = new ItemStack[1];
 
+	public TileBlackHoleHopper()
+	{
+		super(1, 0.8f);
+	}
+	
 	@Override
 	public void updateEntity()
 	{
-		System.out.println(connection);
-		if (connection == ForgeDirection.UNKNOWN)
+		if (connection == null)
 			connection = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
 
 		super.updateEntity();

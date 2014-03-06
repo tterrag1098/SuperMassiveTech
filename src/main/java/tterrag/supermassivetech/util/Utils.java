@@ -2,16 +2,21 @@ package tterrag.supermassivetech.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
+import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.item.ItemStar;
+import tterrag.supermassivetech.item.ItemStar.StarType;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 
 public class Utils
 {
 	private static Constants c = Constants.instance();
-	
+
 	/**
 	 * Turns an int into a glColor4f function
 	 * @author Buildcraft team
@@ -23,7 +28,7 @@ public class Utils
 		float blue = (color & 255) / 255.0F;
 		GL11.glColor4f(red, green, blue, 1.0F);
 	}
-	
+
 	/**
 	 * Formats a string and number for use in GUIs and tooltips
 	 * @param prefix - The string to put before the formatted number
@@ -68,7 +73,7 @@ public class Utils
 			return prefix;
 		}
 	}
-	
+
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord)
 	{
 		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
@@ -111,19 +116,47 @@ public class Utils
 
 		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 	}
-	
+
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te)
 	{
 		applyGravity(gravStrength, maxGravXZ, maxGravY, minGrav, range, entity, te.xCoord, te.yCoord, te.zCoord);
 	}
-	
+
 	public static void applyGravity(Entity entity, TileEntity te)
 	{
 		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, te);
 	}
-	
+
 	public static void applyGravity(Entity entity, int x, int y, int z)
 	{
-			applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, x, y, z);
+		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, x, y, z);
+	}
+
+	public static StarType getType(ItemStack stack)
+	{
+		if (stack != null && stack.getItem() instanceof ItemStar && stack.stackTagCompound != null)
+			return StarType.valueOf(stack.stackTagCompound.getString("type"));
+		else return null;
+	}
+
+	public static ItemStack setType(ItemStack stack, StarType type)
+	{
+		if (stack != null && stack.getItem() instanceof ItemStar)
+		{
+			if (stack.stackTagCompound == null)
+				stack.stackTagCompound = new NBTTagCompound();
+
+			stack.stackTagCompound.setString("type", type.name());
+		}
+		else if (stack != null)
+		{
+			UltimateStorage.logger.warning(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
+		}
+		else
+		{
+			UltimateStorage.logger.severe("A mod tried to set the type of a null itemstack");
+		}
+		
+		return stack;
 	}
 }
