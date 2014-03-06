@@ -14,7 +14,7 @@ import net.minecraft.item.Item;
 import tterrag.supermassivetech.block.BlockBlackHoleHopper;
 import tterrag.supermassivetech.block.BlockBlackHoleStorage;
 import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.item.ItemBlockStorage;
+import tterrag.supermassivetech.item.block.ItemBlockStorage;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
 import tterrag.supermassivetech.network.GuiHandler;

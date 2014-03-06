@@ -5,14 +5,11 @@
  */
 package tterrag.supermassivetech.block;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +25,6 @@ import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.UltimateStorage;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

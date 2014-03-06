@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.item;
+package tterrag.supermassivetech.item.block;
 
 import java.util.List;
 

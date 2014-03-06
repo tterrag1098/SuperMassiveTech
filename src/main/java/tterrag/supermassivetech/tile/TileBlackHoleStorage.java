@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.tile;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -12,8 +11,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -22,19 +19,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import tterrag.supermassivetech.UltimateStorage;
-import tterrag.supermassivetech.util.Constants;
-import tterrag.supermassivetech.util.Utils;
 
 /**
  * @author Garrett Spicer-Davis
  * 
  */
-public class TileBlackHoleStorage extends TileEntity implements ISidedInventory, IFluidHandler
+public class TileBlackHoleStorage extends TileGravityWell implements ISidedInventory, IFluidHandler
 {
 	public final static long max = 1099511627776L;
-	private final float RANGE;
-	private final float STRENGTH;
-	private final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
 
 	/* Item handling */
 	public ItemStack[] inventory;
@@ -46,12 +38,8 @@ public class TileBlackHoleStorage extends TileEntity implements ISidedInventory,
 
 	public TileBlackHoleStorage()
 	{
+		super();
 		inventory = new ItemStack[3];
-		RANGE = Constants.instance().RANGE;
-		STRENGTH = Constants.instance().STRENGTH;
-		MAX_GRAV_XZ = Constants.instance().MAX_GRAV_XZ;
-		MAX_GRAV_Y = Constants.instance().MAX_GRAV_Y;
-		MIN_GRAV = Constants.instance().MIN_GRAV;
 	}
 
 	public class SlotInput extends Slot
@@ -161,12 +149,14 @@ public class TileBlackHoleStorage extends TileEntity implements ISidedInventory,
 				}
 			}
 		}
-
-		for (Object o : worldObj.getEntitiesWithinAABB(Entity.class,
-				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
-		{
-			Utils.applyGravity(STRENGTH * (1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 2f))), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this);
-		}
+		
+		super.updateEntity();
+	}
+	
+	@Override
+	protected float getStrengthMultiplier()
+	{
+		return 1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 2f));
 	}
 
 	private void spitInputItem()
