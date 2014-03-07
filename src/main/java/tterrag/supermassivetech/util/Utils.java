@@ -18,7 +18,7 @@ import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 public class Utils
 {
 	private static Constants c = Constants.instance();
-	
+
 	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "Ultimate Storage")
 	{
 		@Override
@@ -27,9 +27,10 @@ public class Utils
 			return SuperMassiveTech.blockRegistry.blackHoleStorage.getItem(null, 0, 0, 0);
 		}
 	};
-	
+
 	/**
 	 * Turns an int into a glColor4f function
+	 * 
 	 * @author Buildcraft team
 	 */
 	public static void setGLColorFromInt(int color)
@@ -42,10 +43,15 @@ public class Utils
 
 	/**
 	 * Formats a string and number for use in GUIs and tooltips
-	 * @param prefix - The string to put before the formatted number
-	 * @param amnt - The number to be formatted
-	 * @param isFluid - If the number represents a fluid
-	 * @param useDecimals - Whether or not to use decimals in the representation
+	 * 
+	 * @param prefix
+	 *            - The string to put before the formatted number
+	 * @param amnt
+	 *            - The number to be formatted
+	 * @param isFluid
+	 *            - If the number represents a fluid
+	 * @param useDecimals
+	 *            - Whether or not to use decimals in the representation
 	 * @return
 	 */
 	public static String formatString(String prefix, long amnt, boolean isFluid, boolean useDecimals)
@@ -85,8 +91,32 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Applies gravity to an entity with the passed configurations
+	 * 
+	 * @param gravStrength
+	 *            - Strength of the gravity, usually a number < 3
+	 * @param maxGravXZ
+	 *            - Max gravity that can be applied in the X and Z directions
+	 * @param maxGravY
+	 *            - Max gravity that can be applied in the Y direction
+	 * @param minGrav
+	 *            - Minimum gravity that can be applied (prevents "wobbling" if
+	 *            such a thing ever exists)
+	 * @param range
+	 *            - The range of the gravitational effects
+	 * @param entity
+	 *            - Entity to effect
+	 * @param xCoord
+	 *            - X coord of the center of gravity
+	 * @param yCoord
+	 *            - Y coord of the center of gravity
+	 * @param zCoord
+	 *            - Z coord of the center of gravity
+	 */
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord)
 	{
+		// distance forumla
 		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
 		if (dist > range || dist == 0)
@@ -111,6 +141,7 @@ public class Utils
 		double vecY = -gravStrength * Math.sin(theta) * Math.sin(phi) / dist;
 		double vecZ = -gravStrength * Math.cos(theta) / dist;
 
+		// trims gravity below max
 		if (Math.abs(vecX) > maxGravXZ)
 			vecX *= maxGravXZ / Math.abs(vecX);
 		if (Math.abs(vecY) > maxGravY)
@@ -118,6 +149,7 @@ public class Utils
 		if (Math.abs(vecZ) > maxGravXZ)
 			vecZ *= maxGravXZ / Math.abs(vecZ);
 
+		// trims gravity above min
 		if (Math.abs(vecX) < minGrav)
 			vecX = 0;
 		if (Math.abs(vecY) < minGrav)
@@ -128,28 +160,70 @@ public class Utils
 		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 	}
 
+	/**
+	 * Applies gravity to an entity with the passed configurations, this method calls the other with the TE's xyz coords
+	 * 
+	 * @param gravStrength
+	 *            - Strength of the gravity, usually a number < 3
+	 * @param maxGravXZ
+	 *            - Max gravity that can be applied in the X and Z directions
+	 * @param maxGravY
+	 *            - Max gravity that can be applied in the Y direction
+	 * @param minGrav
+	 *            - Minimum gravity that can be applied (prevents "wobbling" if
+	 *            such a thing ever exists)
+	 * @param range
+	 *            - The range of the gravitational effects
+	 * @param entity
+	 *            - Entity to effect
+	 * @param te - {@link TileEntity} to use as the center of gravity
+	 */
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te)
 	{
 		applyGravity(gravStrength, maxGravXZ, maxGravY, minGrav, range, entity, te.xCoord, te.yCoord, te.zCoord);
 	}
 
+	/**
+	 * Applies gravity to the passed entity, with a center at the passed TE, calls the other method with default configuration values
+	 * @param entity - Entity to affect
+	 * @param te - {@link TileEntity} to use as the center of gravity
+	 */
 	public static void applyGravity(Entity entity, TileEntity te)
 	{
 		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, te);
 	}
 
+	/**
+	 * Applies gravity to the passed entity, with a center at the passed coordinates, calls the other method with default configuration values
+	 * @param entity - Entity to affect
+	 * @param x - x coord
+	 * @param y - y coord
+	 * @param z - z coord
+	 */
 	public static void applyGravity(Entity entity, int x, int y, int z)
 	{
 		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, x, y, z);
 	}
 
+	/**
+	 * Gets the star type of a star item, can handle items that are not instances of {@link ItemStar}
+	 * @param stack - Stack to get the type from
+	 * @return {@link StarType} of the item
+	 */
 	public static StarType getType(ItemStack stack)
 	{
 		if (stack != null && stack.getItem() instanceof ItemStar && stack.stackTagCompound != null)
 			return StarType.valueOf(stack.stackTagCompound.getString("type"));
-		else return null;
+		else
+			return null;
 	}
 
+	/**
+	 * Sets the type of a star itemstack, can handle items that are not instances of {@link ItemStar}
+	 * @param stack - Stack to set the type on
+	 * @param type - Type to use
+	 * @return The itemstack effected
+	 */
 	public static ItemStack setType(ItemStack stack, StarType type)
 	{
 		if (stack != null && stack.getItem() instanceof ItemStar)
@@ -167,7 +241,7 @@ public class Utils
 		{
 			SuperMassiveTech.logger.severe("A mod tried to set the type of a null itemstack");
 		}
-		
+
 		return stack;
 	}
 }
