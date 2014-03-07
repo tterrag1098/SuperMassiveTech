@@ -44,14 +44,10 @@ public class Utils
 	/**
 	 * Formats a string and number for use in GUIs and tooltips
 	 * 
-	 * @param prefix
-	 *            - The string to put before the formatted number
-	 * @param amnt
-	 *            - The number to be formatted
-	 * @param isFluid
-	 *            - If the number represents a fluid
-	 * @param useDecimals
-	 *            - Whether or not to use decimals in the representation
+	 * @param prefix - The string to put before the formatted number
+	 * @param amnt - The number to be formatted
+	 * @param isFluid - If the number represents a fluid
+	 * @param useDecimals - Whether or not to use decimals in the representation
 	 * @return
 	 */
 	public static String formatString(String prefix, long amnt, boolean isFluid, boolean useDecimals)
@@ -94,25 +90,17 @@ public class Utils
 	/**
 	 * Applies gravity to an entity with the passed configurations
 	 * 
-	 * @param gravStrength
-	 *            - Strength of the gravity, usually a number < 3
-	 * @param maxGravXZ
-	 *            - Max gravity that can be applied in the X and Z directions
-	 * @param maxGravY
-	 *            - Max gravity that can be applied in the Y direction
-	 * @param minGrav
-	 *            - Minimum gravity that can be applied (prevents "wobbling" if
-	 *            such a thing ever exists)
-	 * @param range
-	 *            - The range of the gravitational effects
-	 * @param entity
-	 *            - Entity to effect
-	 * @param xCoord
-	 *            - X coord of the center of gravity
-	 * @param yCoord
-	 *            - Y coord of the center of gravity
-	 * @param zCoord
-	 *            - Z coord of the center of gravity
+	 * @param gravStrength - Strength of the gravity, usually a number < 3
+	 * @param maxGravXZ - Max gravity that can be applied in the X and Z
+	 *            directions
+	 * @param maxGravY - Max gravity that can be applied in the Y direction
+	 * @param minGrav - Minimum gravity that can be applied (prevents "wobbling"
+	 *            if such a thing ever exists)
+	 * @param range - The range of the gravitational effects
+	 * @param entity - Entity to effect
+	 * @param xCoord - X coord of the center of gravity
+	 * @param yCoord - Y coord of the center of gravity
+	 * @param zCoord - Z coord of the center of gravity
 	 */
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord)
 	{
@@ -161,21 +149,17 @@ public class Utils
 	}
 
 	/**
-	 * Applies gravity to an entity with the passed configurations, this method calls the other with the TE's xyz coords
+	 * Applies gravity to an entity with the passed configurations, this method
+	 * calls the other with the TE's xyz coords
 	 * 
-	 * @param gravStrength
-	 *            - Strength of the gravity, usually a number < 3
-	 * @param maxGravXZ
-	 *            - Max gravity that can be applied in the X and Z directions
-	 * @param maxGravY
-	 *            - Max gravity that can be applied in the Y direction
-	 * @param minGrav
-	 *            - Minimum gravity that can be applied (prevents "wobbling" if
-	 *            such a thing ever exists)
-	 * @param range
-	 *            - The range of the gravitational effects
-	 * @param entity
-	 *            - Entity to effect
+	 * @param gravStrength - Strength of the gravity, usually a number < 3
+	 * @param maxGravXZ - Max gravity that can be applied in the X and Z
+	 *            directions
+	 * @param maxGravY - Max gravity that can be applied in the Y direction
+	 * @param minGrav - Minimum gravity that can be applied (prevents "wobbling"
+	 *            if such a thing ever exists)
+	 * @param range - The range of the gravitational effects
+	 * @param entity - Entity to effect
 	 * @param te - {@link TileEntity} to use as the center of gravity
 	 */
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te)
@@ -184,7 +168,9 @@ public class Utils
 	}
 
 	/**
-	 * Applies gravity to the passed entity, with a center at the passed TE, calls the other method with default configuration values
+	 * Applies gravity to the passed entity, with a center at the passed TE,
+	 * calls the other method with default configuration values
+	 * 
 	 * @param entity - Entity to affect
 	 * @param te - {@link TileEntity} to use as the center of gravity
 	 */
@@ -194,7 +180,9 @@ public class Utils
 	}
 
 	/**
-	 * Applies gravity to the passed entity, with a center at the passed coordinates, calls the other method with default configuration values
+	 * Applies gravity to the passed entity, with a center at the passed
+	 * coordinates, calls the other method with default configuration values
+	 * 
 	 * @param entity - Entity to affect
 	 * @param x - x coord
 	 * @param y - y coord
@@ -206,7 +194,9 @@ public class Utils
 	}
 
 	/**
-	 * Gets the star type of a star item, can handle items that are not instances of {@link ItemStar}
+	 * Gets the star type of a star item, can handle items that are not
+	 * instances of {@link ItemStar}
+	 * 
 	 * @param stack - Stack to get the type from
 	 * @return {@link StarType} of the item
 	 */
@@ -219,7 +209,9 @@ public class Utils
 	}
 
 	/**
-	 * Sets the type of a star itemstack, can handle items that are not instances of {@link ItemStar}
+	 * Sets the type of a star itemstack, can handle items that are not
+	 * instances of {@link ItemStar}
+	 * 
 	 * @param stack - Stack to set the type on
 	 * @param type - Type to use
 	 * @return The itemstack effected

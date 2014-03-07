@@ -7,7 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
-import tterrag.supermassivetech.network.GuiHandler;
+import tterrag.supermassivetech.proxy.CommonProxy;
 import tterrag.supermassivetech.registry.ModBlocks;
 import tterrag.supermassivetech.registry.ModItems;
 import tterrag.supermassivetech.util.Constants;
@@ -15,6 +15,7 @@ import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -28,6 +29,9 @@ public class SuperMassiveTech
 {
 	@Instance
 	public static SuperMassiveTech instance;
+	
+	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
+	public static CommonProxy proxy;
 
 	public static Logger logger = Logger.getLogger("SuperMassiveTech");
 
@@ -50,7 +54,7 @@ public class SuperMassiveTech
 		blockRegistry.register();
 		blockRegistry.addRecipes();
 		
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+		proxy.registerGuis();
 	}
 
 	@EventHandler

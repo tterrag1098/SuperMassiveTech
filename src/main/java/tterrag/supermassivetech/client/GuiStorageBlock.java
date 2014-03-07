@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.container.ContainerStorageBlock;
+import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.util.Utils;
 
@@ -25,7 +26,7 @@ public class GuiStorageBlock extends GuiContainer
 
 	public int fluidID;
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/storageGui.png");
 	private static final ResourceLocation BLOCK_TEXTURE = TextureMap.locationBlocksTexture;
 
 	public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
@@ -50,7 +51,7 @@ public class GuiStorageBlock extends GuiContainer
 		else if (fluidStored >= 1000000)
 			formattedFluidAmount = Utils.formatString(formattedFluidAmount, fluidStored, true, true);
 
-		this.mc.getTextureManager().bindTexture(new ResourceLocation("ultimatestorage", "textures/gui/storageGui.png"));
+		this.mc.getTextureManager().bindTexture(new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/storageGui.png"));
 
 		int j = (this.width - this.xSize) / 2;
 		int k = (this.height - this.ySize) / 2;
