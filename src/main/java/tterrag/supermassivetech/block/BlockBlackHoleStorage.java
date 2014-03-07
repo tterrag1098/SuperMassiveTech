@@ -22,7 +22,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +39,7 @@ public class BlockBlackHoleStorage extends BlockContainer
 		super(Material.iron);
 		setStepSound(soundTypeMetal);
 		setHardness(30.0f);
-		setCreativeTab(UltimateStorage.instance.creativeTab);
+		setCreativeTab(SuperMassiveTech.tabSMT);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class BlockBlackHoleStorage extends BlockContainer
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof TileBlackHoleStorage && !player.isSneaking())
 		{
-			player.openGui(UltimateStorage.instance, 0, world, x, y, z);
+			player.openGui(SuperMassiveTech.instance, 0, world, x, y, z);
 			return true;
 		}
 		return false;

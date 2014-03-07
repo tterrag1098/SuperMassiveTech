@@ -9,7 +9,7 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.network.PacketStorageBlock;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -107,9 +107,9 @@ public class ContainerStorageBlock extends Container
 		{
 			FluidStack fluid = tileEnt.getTank().getFluid();
 			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.storedAmount, tileEnt.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
-			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-			UltimateStorage.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
-			UltimateStorage.channels.get(Side.SERVER).writeOutbound(packet);
+			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
+			SuperMassiveTech.channels.get(Side.SERVER).writeOutbound(packet);
 		}
 		super.detectAndSendChanges();
 	}

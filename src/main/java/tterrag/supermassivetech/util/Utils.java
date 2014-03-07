@@ -1,14 +1,16 @@
 package tterrag.supermassivetech.util;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.item.ItemStar.StarType;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -16,7 +18,16 @@ import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 public class Utils
 {
 	private static Constants c = Constants.instance();
-
+	
+	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "Ultimate Storage")
+	{
+		@Override
+		public Item getTabIconItem()
+		{
+			return SuperMassiveTech.blockRegistry.blackHoleStorage.getItem(null, 0, 0, 0);
+		}
+	};
+	
 	/**
 	 * Turns an int into a glColor4f function
 	 * @author Buildcraft team
@@ -150,11 +161,11 @@ public class Utils
 		}
 		else if (stack != null)
 		{
-			UltimateStorage.logger.warning(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
+			SuperMassiveTech.logger.warning(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
 		}
 		else
 		{
-			UltimateStorage.logger.severe("A mod tried to set the type of a null itemstack");
+			SuperMassiveTech.logger.severe("A mod tried to set the type of a null itemstack");
 		}
 		
 		return stack;

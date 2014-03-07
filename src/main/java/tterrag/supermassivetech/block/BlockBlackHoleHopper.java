@@ -5,7 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Facing;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 
 public class BlockBlackHoleHopper extends BlockContainer
@@ -15,7 +15,7 @@ public class BlockBlackHoleHopper extends BlockContainer
 		super(Material.iron);
 		setStepSound(soundTypeMetal);
 		setHardness(30.0f);
-		setCreativeTab(UltimateStorage.instance.creativeTab);
+		setCreativeTab(SuperMassiveTech.tabSMT);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import tterrag.supermassivetech.UltimateStorage;
+import tterrag.supermassivetech.SuperMassiveTech;
 
 /**
  * @author Garrett Spicer-Davis
@@ -107,7 +107,7 @@ public class TileBlackHoleStorage extends TileGravityWell implements ISidedInven
 			}
 			else
 			{
-				UltimateStorage.logger
+				SuperMassiveTech.logger
 						.severe(String.format("Input does not match storage, \"%s\" was not expected in this input! \"%s\" was expected!, X:%d, Y:%d, Z:%d",
 								StatCollector.translateToLocal(inventory[1].getUnlocalizedName() + ".name"), StatCollector.translateToLocal(storedItem.getUnlocalizedName() + ".name"), xCoord, yCoord,
 								zCoord));
