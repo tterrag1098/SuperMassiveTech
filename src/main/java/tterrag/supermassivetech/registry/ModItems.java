@@ -1,6 +1,8 @@
 package tterrag.supermassivetech.registry;
 
+import tterrag.supermassivetech.entity.EntityStarHeart;
 import tterrag.supermassivetech.item.ItemStar;
+import tterrag.supermassivetech.item.ItemStarHeart;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 
@@ -13,8 +15,8 @@ public class ModItems
 	
 	public void register()
 	{
+		heartOfStar = new ItemStarHeart("starHeart");
 		star = new ItemStar("star");
-		heartOfStar = new ItemStar("starHeart");
 		
 		GameRegistry.registerItem(star, "star");
 		GameRegistry.registerItem(heartOfStar, "starHeart");
