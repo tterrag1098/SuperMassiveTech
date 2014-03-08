@@ -67,7 +67,8 @@ public class EntityStarHeart extends EntityItem
 	public boolean isBurning()
 	{
 		boolean flag = this.worldObj != null && this.worldObj.isRemote;
-		int fire = ObfuscationReflectionHelper.getPrivateValue(Entity.class, this, "fire", "field_70151_c");
+		// TODO PR forge or AT
+		Integer fire = ObfuscationReflectionHelper.getPrivateValue(Entity.class, this, "fire", "field_70151_c");
         return (fire > 0 || flag && this.getFlag(0));
 	}
 
