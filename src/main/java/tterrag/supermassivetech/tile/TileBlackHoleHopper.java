@@ -48,15 +48,21 @@ public class TileBlackHoleHopper extends TileGravityWell
 	@Override
 	public void updateEntity()
 	{
+		super.updateEntity();
+		
 		if (worldObj.isRemote)
 			return;
 
-		if (connectionDir == null)
+		if (connectionDir == null || connection == null)
 		{
 			connectionDir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
 			TileEntity te = worldObj.getTileEntity(connectionDir.offsetX + xCoord, connectionDir.offsetY + yCoord, connectionDir.offsetZ + zCoord);
 			if (te != null && te instanceof IInventory)
 				connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+		}
+		else
+		{
+			checkConnection();
 		}
 
 		if (connection == null)
@@ -66,31 +72,36 @@ public class TileBlackHoleHopper extends TileGravityWell
 		}
 
 		if (onTime())
+		{
 			searchForInventories();
+			System.out.println(inventories.toString());
+		}
 
-		List<Integer> toRemove = new ArrayList<Integer>();
-		for (InventoryConnection i : inventories)
-			toRemove = processInventory(i);
+		for (int i = 0; i < inventories.size(); i++)
+			processInventory(inventories.get(i));
 
-		// prevents CME
-		for (Integer integer : toRemove)
-			inventories.remove(integer);
+		for (int i = 0; i < inventories.size(); i++)
+			processConnection();
+	}
 
-		processConnection();
-
-		super.updateEntity();
+	private void checkConnection()
+	{
+		TileEntity te = worldObj.getTileEntity(connection.x, connection.y, connection.z);
+		if (te instanceof IInventory)
+		{
+			connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+		}
+		else
+		{
+			connection = null;
+			connectionDir = null;
+		}
 	}
 
 	private void processConnection()
 	{
 		if (inventory[hiddenSlot] == null)
 			return;
-		
-		if (!(worldObj.getTileEntity(connection.x, connection.y, connection.z) instanceof IInventory))
-		{
-			connection = null;
-			return;
-		}
 
 		for (int idx = 0; idx < connection.inv.getSizeInventory(); idx++)
 		{
@@ -112,7 +123,7 @@ public class TileBlackHoleHopper extends TileGravityWell
 				}
 				if (inventory[hiddenSlot].stackSize <= 0)
 					inventory[hiddenSlot] = null;
-				
+
 				break;
 			}
 		}
@@ -130,37 +141,33 @@ public class TileBlackHoleHopper extends TileGravityWell
 
 		if (i.isStillValid())
 		{
-			for (int idx = 0; idx < i.inv.getSizeInventory(); idx++)
+			loop: for (int idx = 0; idx < i.inv.getSizeInventory(); idx++)
 			{
 				ItemStack stack = i.inv.getStackInSlot(idx);
 
-				if (onTime())
-				{
-					System.out.print(i.inv.getStackInSlot(idx) == null ? "nothing\n" : i.inv.getStackInSlot(idx).getItem().getUnlocalizedName() + "\n");
-					System.out.println(stack != null && stack.getItem() == inventory[cfgSlot].getItem() && stack.stackSize > 0 && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()));
-					System.out.println(inventory[cfgSlot].getItem().getUnlocalizedName());
-				}
-				if (stack != null && stack.getItem() == inventory[cfgSlot].getItem() && stack.stackSize > 0 && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
+				if (stack != null && stack.getItem() == inventory[cfgSlot].getItem() && stack.stackSize > 0
+						&& (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
 				{
 					i.inv.decrStackSize(idx, 1);
 					if (inventory[hiddenSlot] == null)
-						inventory[hiddenSlot] = new ItemStack(stack.getItem()); 
+						inventory[hiddenSlot] = new ItemStack(stack.getItem());
 					else
 						inventory[hiddenSlot].stackSize++;
+					break loop;
 				}
 			}
 		}
 		else
 		{
-			list.add(inventories.indexOf(i));
-
+			inventories.remove(i);
+/*
 			TileEntity te = worldObj.getTileEntity(i.x, i.y, i.z);
 
 			if (te != null && te instanceof IInventory)
 			{
 				inventories.add(new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord));
 			}
-		}
+*/		}
 
 		return list;
 	}
