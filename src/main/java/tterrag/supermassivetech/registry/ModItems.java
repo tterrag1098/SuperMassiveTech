@@ -1,10 +1,9 @@
 package tterrag.supermassivetech.registry;
 
-import tterrag.supermassivetech.entity.EntityStarHeart;
+import net.minecraft.item.Item;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.item.ItemStarHeart;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.Item;
 
 public class ModItems
 {

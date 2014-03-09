@@ -52,14 +52,14 @@ public class ItemStar extends ItemSMT{
 		
 		switch(type.ordinal())
 		{
-		case 0: return 0xFFFF00;
-		case 1: return 0xFF0000;
-		case 2: return 0xFF0000;
-		case 3: return 0x0000FF;
+		case 0: return 0xCCCCAA;
+		case 1: return 0xCC5555;
+		case 2: return 0xBB2222;
+		case 3: return 0x2222FF;
 		case 4: return 0xFFFFFF;
-		case 5: return 0x993238;
+		case 5: return 0xAA5522;
 		case 6: return 0x999999;
-		case 7: return 0x000077;
+		case 7: return 0x555577;
 		case 8: return 0xFF00FF;
 		default: return 0;
 		}
