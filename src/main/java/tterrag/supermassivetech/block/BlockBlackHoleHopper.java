@@ -17,6 +17,12 @@ public class BlockBlackHoleHopper extends BlockContainer
 		setHardness(30.0f);
 		setCreativeTab(SuperMassiveTech.tabSMT);
 	}
+	
+	@Override
+	public String getUnlocalizedName()
+	{
+		return "tterrag.blackHoleHopper";
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2)
