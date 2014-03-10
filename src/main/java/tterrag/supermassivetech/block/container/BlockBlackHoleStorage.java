@@ -3,11 +3,10 @@
  *
  * @author Garrett Spicer-Davis
  */
-package tterrag.supermassivetech.block;
+package tterrag.supermassivetech.block.container;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,28 +31,13 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Garrett Spicer-Davis
  * 
  */
-public class BlockBlackHoleStorage extends BlockContainer
+public class BlockBlackHoleStorage extends BlockContainerSMT
 {
 	public BlockBlackHoleStorage()
 	{
-		super(Material.iron);
-		setStepSound(soundTypeMetal);
-		setHardness(30.0f);
-		setCreativeTab(SuperMassiveTech.tabSMT);
+		super("tterrag.storageBlock", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleStorage.class);
 	}
-
-	@Override
-	public String getUnlocalizedName()
-	{
-		return "tterrag.storageBlock";
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World var1, int var2)
-	{
-		return new TileBlackHoleStorage();
-	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
 	{

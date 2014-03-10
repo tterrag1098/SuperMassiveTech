@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileBlackHoleHopper extends TileGravityWell
+public class TileBlackHoleHopper extends TileSMT
 {
 	private ForgeDirection connectionDir;
 	private ItemStack[] inventory = new ItemStack[2];
@@ -160,22 +160,15 @@ public class TileBlackHoleHopper extends TileGravityWell
 		else
 		{
 			inventories.remove(i);
-/*
-			TileEntity te = worldObj.getTileEntity(i.x, i.y, i.z);
-
-			if (te != null && te instanceof IInventory)
-			{
-				inventories.add(new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord));
-			}
-*/		}
+		}
 
 		return list;
 	}
-
+	
 	@Override
-	protected float getStrengthMultiplier()
+	protected boolean isGravityWell()
 	{
-		return 1;
+		return true;
 	}
 
 	private boolean onTime()

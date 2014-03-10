@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -15,43 +14,15 @@ import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.relauncher.Side;
 
-public class ContainerStorageBlock extends Container
+public class ContainerStorageBlock extends ContainerSMT
 {
-	private TileBlackHoleStorage tileEnt;
-
 	public ContainerStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
 	{
-		bindPlayerInventory(par1InventoryPlayer);
-
-		this.tileEnt = tile;
-
+		super(par1InventoryPlayer, tile);
+		
 		this.addSlotToContainer(tile.new SlotFluidContainer(tile, 0, 48, 94));
 		this.addSlotToContainer(tile.new SlotInput(tile, 1, 184, 20));
 		this.addSlotToContainer(new Slot(tile, 2, 184, 81));
-	}
-
-	private void bindPlayerInventory(InventoryPlayer inv)
-	{
-		int i;
-
-		for (i = 0; i < 3; ++i)
-		{
-			for (int j = 0; j < 9; ++j)
-			{
-				this.addSlotToContainer(new Slot(inv, j + i * 9 + 9, j * 18 + 44, 120 + i * 18));
-			}
-		}
-
-		for (i = 0; i < 9; ++i)
-		{
-			this.addSlotToContainer(new Slot(inv, i, i * 18 + 44, 178));
-		}
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer var1)
-	{
-		return true;
 	}
 
 	@Override
@@ -74,7 +45,7 @@ public class ContainerStorageBlock extends Container
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			if (par2 < 36 && (TileBlackHoleStorage.stacksEqual(tileEnt.getStoredItem(), itemstack1) || tileEnt.getStoredItem() == null))
+			if (par2 < 36 && (TileBlackHoleStorage.stacksEqual(((TileBlackHoleStorage)tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
 			{
 				if (!this.mergeItemStack(itemstack1, 37, 38, false))
 					return null;
@@ -103,10 +74,11 @@ public class ContainerStorageBlock extends Container
 	@Override
 	public void detectAndSendChanges()
 	{
+		TileBlackHoleStorage te = (TileBlackHoleStorage) tileEnt;
 		for (ICrafting c : (List<ICrafting>) crafters)
 		{
-			FluidStack fluid = tileEnt.getTank().getFluid();
-			PacketStorageBlock packet = new PacketStorageBlock(tileEnt.storedAmount, tileEnt.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
+			FluidStack fluid = te.getTank().getFluid();
+			PacketStorageBlock packet = new PacketStorageBlock(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
 			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
 			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
 			SuperMassiveTech.channels.get(Side.SERVER).writeOutbound(packet);

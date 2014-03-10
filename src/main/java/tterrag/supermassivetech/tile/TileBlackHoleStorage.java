@@ -24,7 +24,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
  * @author Garrett Spicer-Davis
  * 
  */
-public class TileBlackHoleStorage extends TileGravityWell implements ISidedInventory, IFluidHandler
+public class TileBlackHoleStorage extends TileSMT implements ISidedInventory, IFluidHandler
 {
 	public final static long max = 1099511627776L;
 
@@ -157,6 +157,12 @@ public class TileBlackHoleStorage extends TileGravityWell implements ISidedInven
 	protected float getStrengthMultiplier()
 	{
 		return 1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 2f));
+	}
+	
+	@Override
+	protected boolean isGravityWell() 
+	{
+		return true;
 	}
 
 	private void spitInputItem()
