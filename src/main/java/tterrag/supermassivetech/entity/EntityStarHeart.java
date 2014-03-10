@@ -53,7 +53,7 @@ public class EntityStarHeart extends EntityItem
 			worldObj.setBlockToAir((int) posX - 1, (int) posY - 1, (int) posZ);
 		}
 		
-		worldObj.createExplosion(this, posX, posY, posZ, 3.0f, true);
+		worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
 		worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
 		this.setDead();

@@ -3,6 +3,7 @@ package tterrag.supermassivetech.registry;
 import net.minecraft.block.Block;
 import tterrag.supermassivetech.block.BlockBlackHoleHopper;
 import tterrag.supermassivetech.block.BlockBlackHoleStorage;
+import tterrag.supermassivetech.item.block.ItemBlockGravity;
 import tterrag.supermassivetech.item.block.ItemBlockStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -22,7 +23,7 @@ public class ModBlocks
 		GameRegistry.registerTileEntity(TileBlackHoleStorage.class, "tileBlackHoleStorage");
 		
 		blackHoleHopper = new BlockBlackHoleHopper();
-		GameRegistry.registerBlock(blackHoleHopper, "blackHoleHopper");
+		GameRegistry.registerBlock(blackHoleHopper, ItemBlockGravity.class, "blackHoleHopper");
 		GameRegistry.registerTileEntity(TileBlackHoleHopper.class, "tileBlackHoleHopper");
 	}
 	

@@ -123,7 +123,12 @@ public class Utils
 		if (!(entity instanceof EntityPlayer))
 			dist *= 0.5;
 		else
+		{
+			if (((EntityPlayer)entity).capabilities.isCreativeMode)
+				return;
+			
 			dist *= 2;
+		}
 
 		double vecX = -gravStrength * Math.sin(theta) * Math.cos(phi) / dist;
 		double vecY = -gravStrength * Math.sin(theta) * Math.sin(phi) / dist;

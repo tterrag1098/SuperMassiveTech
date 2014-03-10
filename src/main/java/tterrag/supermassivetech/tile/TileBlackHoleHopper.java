@@ -107,7 +107,7 @@ public class TileBlackHoleHopper extends TileGravityWell
 		{
 			ItemStack stack = connection.inv.getStackInSlot(idx);
 
-			if (stack == null || (stack.getItem() == inventory[cfgSlot].getItem() && stack.stackSize < stack.getMaxStackSize()))
+			if (connection.inv.isItemValidForSlot(idx, inventory[hiddenSlot]) && (stack == null || (itemStackEquals(stack, inventory[cfgSlot]) && stack.stackSize < stack.getMaxStackSize())))
 			{
 				if (stack == null)
 				{
