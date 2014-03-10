@@ -1,1 +1,8 @@
 tterrag.storageBlock.name=Black Hole Storage
+tterrag.blackHoleHopper.name=Black Hole Hopper
+tterrag.starHarvester.name=Star Harvester
+
+item.star.name=Star
+item.starHeart.name=Heart of Star
+
+itemgroup.superMassiveTech.name=Super Massive Tech

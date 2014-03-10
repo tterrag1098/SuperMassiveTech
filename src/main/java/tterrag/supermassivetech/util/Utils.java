@@ -19,7 +19,7 @@ public class Utils
 {
 	private static Constants c = Constants.instance();
 
-	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "Ultimate Storage")
+	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "superMassiveTech")
 	{
 		@Override
 		public Item getTabIconItem()

@@ -74,7 +74,6 @@ public class TileBlackHoleHopper extends TileSMT
 		if (onTime())
 		{
 			searchForInventories();
-			System.out.println(inventories.toString());
 		}
 
 		for (int i = 0; i < inventories.size(); i++)
@@ -219,8 +218,6 @@ public class TileBlackHoleHopper extends TileSMT
 
 	private boolean teNotEquals(TileEntity te1, InventoryConnection te2)
 	{
-		// System.out.println("te1: " + te1.xCoord + ", " + te1.yCoord + ", " +
-		// te1.zCoord + "  te2: " + te2.x + ", " + te2.y + ", " + te2.z);
 		return te1.xCoord != te2.x || te1.yCoord != te2.y || te1.zCoord != te2.z;
 	}
 
