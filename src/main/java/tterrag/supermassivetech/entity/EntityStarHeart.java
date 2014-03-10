@@ -13,16 +13,11 @@ import tterrag.supermassivetech.item.ItemStar.StarType;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
-public class EntityStarHeart extends EntityItem
+public class EntityStarHeart extends EntityItemIndestructible
 {
 	public EntityStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
 	{
-		super(world, posX, posY, posZ, itemstack);
-		this.motionX = motionX;
-		this.motionY = motionY;
-		this.motionZ = motionZ;
-		this.isImmuneToFire = true;
-		this.delayBeforeCanPickup = delay;
+		super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
 	}
 
 	@Override
@@ -58,12 +53,6 @@ public class EntityStarHeart extends EntityItem
 		worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
 		this.setDead();
 	}
-
-	@Override
-	public boolean isEntityInvulnerable()
-	{
-		return true;
-	}
 	
 	@Override
 	public boolean isBurning()
@@ -79,7 +68,6 @@ public class EntityStarHeart extends EntityItem
 	{
 		if (par1DamageSource.isFireDamage())
 			return false;
-
 		else
 			return super.attackEntityFrom(par1DamageSource, par2);
 	}
