@@ -11,8 +11,9 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.item.ItemStar;
-import tterrag.supermassivetech.item.ItemStar.StarType;
+import tterrag.supermassivetech.item.star.IStar;
+import tterrag.supermassivetech.item.star.ItemStar;
+import tterrag.supermassivetech.registry.Stars.StarType;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 
 public class Utils
@@ -207,8 +208,8 @@ public class Utils
 	 */
 	public static StarType getType(ItemStack stack)
 	{
-		if (stack != null && stack.getItem() instanceof ItemStar && stack.stackTagCompound != null)
-			return StarType.valueOf(stack.stackTagCompound.getString("type"));
+		if (stack != null && stack.getItem() instanceof IStar && stack.stackTagCompound != null)
+			return SuperMassiveTech.starRegistry.getTypeByName(stack.stackTagCompound.getString("type"));
 		else
 			return null;
 	}
@@ -223,12 +224,12 @@ public class Utils
 	 */
 	public static ItemStack setType(ItemStack stack, StarType type)
 	{
-		if (stack != null && stack.getItem() instanceof ItemStar)
+		if (stack != null && stack.getItem() instanceof IStar)
 		{
 			if (stack.stackTagCompound == null)
 				stack.stackTagCompound = new NBTTagCompound();
 
-			stack.stackTagCompound.setString("type", type.name());
+			stack.stackTagCompound.setString("type", type.toString());
 		}
 		else if (stack != null)
 		{

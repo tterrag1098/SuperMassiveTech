@@ -4,8 +4,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.item.ItemStarHeart;
+import tterrag.supermassivetech.item.star.ItemStar;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems

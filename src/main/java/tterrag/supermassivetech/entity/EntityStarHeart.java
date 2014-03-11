@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.item.ItemStar.StarType;
+import tterrag.supermassivetech.registry.Stars.StarType;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
@@ -36,7 +36,7 @@ public class EntityStarHeart extends EntityItemIndestructible
 		ItemStack star = new ItemStack(SuperMassiveTech.itemRegistry.star, this.getEntityItem().stackSize);
 
 		// Sets the type of the star to a random type
-		Utils.setType(star, StarType.values()[new Random().nextInt(StarType.values().length)]);
+		Utils.setType(star, (StarType) SuperMassiveTech.starRegistry.types.values().toArray()[new Random().nextInt(SuperMassiveTech.starRegistry.types.values().size())]);
 
 		System.out.println(((int) posX) + " " + ((int) posY) + " " + ((int) posZ));
 		if (worldObj.getBlock((int) posX - 1, (int) posY, (int) posZ) == Blocks.fire)

@@ -10,6 +10,7 @@ import tterrag.supermassivetech.network.ChannelHandler;
 import tterrag.supermassivetech.proxy.CommonProxy;
 import tterrag.supermassivetech.registry.ModBlocks;
 import tterrag.supermassivetech.registry.ModItems;
+import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.Mod;
@@ -39,6 +40,7 @@ public class SuperMassiveTech
 
 	public static ModItems itemRegistry = ModItems.instance;
 	public static ModBlocks blockRegistry = ModBlocks.instance;
+	public static Stars starRegistry = Stars.instance;
 	
 	public static CreativeTabs tabSMT = Utils.tab;
 	
