@@ -65,7 +65,6 @@ public class ItemStar extends ItemSMT
 	@Override
 	public Entity createEntity(World world, Entity location, ItemStack itemstack)
 	{
-
 		return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
 				((EntityItem) location).delayBeforeCanPickup);
 	}
