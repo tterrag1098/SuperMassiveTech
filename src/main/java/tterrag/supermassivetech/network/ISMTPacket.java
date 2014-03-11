@@ -8,7 +8,7 @@ import io.netty.buffer.ByteBuf;
  * 
  * @author sirgingalot
  */
-public interface IStoragePacket
+public interface ISMTPacket
 {
 
 	/**

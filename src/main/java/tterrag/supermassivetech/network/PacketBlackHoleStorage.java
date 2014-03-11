@@ -4,20 +4,20 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import tterrag.supermassivetech.client.GuiStorageBlock;
 
-public class PacketStorageBlock implements IStoragePacket
+public class PacketBlackHoleStorage implements ISMTPacket
 {
 	private long value;
 	private long fluidValue;
 	private int fluidID;
 
-	public PacketStorageBlock()
+	public PacketBlackHoleStorage()
 	{
 		this.value = 0;
 		this.fluidValue = 0;
 		this.fluidID = 0;
 	}
 
-	public PacketStorageBlock(long value, long fluidValue, int fluidID)
+	public PacketBlackHoleStorage(long value, long fluidValue, int fluidID)
 	{
 		this.value = value;
 		this.fluidValue = fluidValue;

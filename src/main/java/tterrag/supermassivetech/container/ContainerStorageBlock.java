@@ -9,7 +9,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.network.PacketStorageBlock;
+import tterrag.supermassivetech.network.PacketBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -78,7 +78,7 @@ public class ContainerStorageBlock extends ContainerSMT
 		for (ICrafting c : (List<ICrafting>) crafters)
 		{
 			FluidStack fluid = te.getTank().getFluid();
-			PacketStorageBlock packet = new PacketStorageBlock(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
+			PacketBlackHoleStorage packet = new PacketBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
 			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
 			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
 			SuperMassiveTech.channels.get(Side.SERVER).writeOutbound(packet);
