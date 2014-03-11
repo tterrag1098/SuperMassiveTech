@@ -4,9 +4,11 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
-public class BlockSMT extends Block {
+public class BlockSMT extends Block
+{
 
-	protected BlockSMT(Material mat, SoundType type, float hardness) {
+	protected BlockSMT(Material mat, SoundType type, float hardness)
+	{
 		super(mat);
 		setStepSound(type);
 		setHardness(hardness);

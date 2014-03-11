@@ -11,14 +11,15 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.item.star.IStar;
-import tterrag.supermassivetech.item.star.ItemStar;
+import tterrag.supermassivetech.item.ItemStar;
+import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.registry.Stars.StarType;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 
 public class Utils
 {
 	private static Constants c = Constants.instance();
+	private static Stars stars = Stars.instance;
 
 	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "superMassiveTech")
 	{
@@ -125,9 +126,9 @@ public class Utils
 			dist *= 0.5;
 		else
 		{
-			if (((EntityPlayer)entity).capabilities.isCreativeMode)
+			if (((EntityPlayer) entity).capabilities.isCreativeMode)
 				return;
-			
+
 			dist *= 2;
 		}
 
@@ -208,8 +209,8 @@ public class Utils
 	 */
 	public static StarType getType(ItemStack stack)
 	{
-		if (stack != null && stack.getItem() instanceof IStar && stack.stackTagCompound != null)
-			return SuperMassiveTech.starRegistry.getTypeByName(stack.stackTagCompound.getString("type"));
+		if (stack != null && stack.getItem() instanceof ItemStar && stack.stackTagCompound != null)
+			return stars.getTypeByName(stack.stackTagCompound.getString("type"));
 		else
 			return null;
 	}
@@ -224,7 +225,7 @@ public class Utils
 	 */
 	public static ItemStack setType(ItemStack stack, StarType type)
 	{
-		if (stack != null && stack.getItem() instanceof IStar)
+		if (stack != null && stack.getItem() instanceof ItemStar)
 		{
 			if (stack.stackTagCompound == null)
 				stack.stackTagCompound = new NBTTagCompound();

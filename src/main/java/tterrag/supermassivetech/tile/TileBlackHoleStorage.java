@@ -149,18 +149,18 @@ public class TileBlackHoleStorage extends TileSMT implements ISidedInventory, IF
 				}
 			}
 		}
-		
+
 		super.updateEntity();
 	}
-	
+
 	@Override
 	protected float getStrengthMultiplier()
 	{
-		return 1f + (((float) storedAmount + (float) tank.amountStored) / ((float) max * 2f));
+		return 1f + (((float) storedAmount + (float) tank.amountStored) / (max * 2f));
 	}
-	
+
 	@Override
-	protected boolean isGravityWell() 
+	protected boolean isGravityWell()
 	{
 		return true;
 	}

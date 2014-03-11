@@ -6,8 +6,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import tterrag.supermassivetech.tile.TileSMT;
 
-public abstract class ContainerSMT extends Container{
-	
+public abstract class ContainerSMT extends Container
+{
+
 	protected TileSMT tileEnt;
 
 	protected ContainerSMT(InventoryPlayer invPlayer, TileSMT tile)
@@ -35,8 +36,9 @@ public abstract class ContainerSMT extends Container{
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer var1) {
+	public boolean canInteractWith(EntityPlayer var1)
+	{
 		return true;
 	}
-	
+
 }

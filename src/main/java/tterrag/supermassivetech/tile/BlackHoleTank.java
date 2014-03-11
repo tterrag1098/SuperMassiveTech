@@ -94,7 +94,7 @@ public class BlackHoleTank implements IFluidTank
 		if (fluidStored == null)
 			fluidStored = fluidStackStored;
 	}
-	
+
 	public FluidStack getFluidStored()
 	{
 		return fluidStored;

@@ -22,7 +22,7 @@ import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-/** 
+/**
  * @author Garrett Spicer-Davis
  */
 @Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION)
@@ -30,7 +30,7 @@ public class SuperMassiveTech
 {
 	@Instance
 	public static SuperMassiveTech instance;
-	
+
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
 
@@ -41,24 +41,28 @@ public class SuperMassiveTech
 	public static ModItems itemRegistry = ModItems.instance;
 	public static ModBlocks blockRegistry = ModBlocks.instance;
 	public static Stars starRegistry = Stars.instance;
-	
+
 	public static CreativeTabs tabSMT = Utils.tab;
-	
+
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
 	{
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		Constants.init();
-		
+
 		itemRegistry.register();
 		itemRegistry.addRecipes();
-		
+
 		blockRegistry.register();
 		blockRegistry.addRecipes();
-		
+
+		starRegistry.registerDefaultStars();
+
 		proxy.registerGuis();
 	}
 
 	@EventHandler
-	public static void init(FMLPreInitializationEvent event){}
+	public static void init(FMLPreInitializationEvent event)
+	{
+	}
 }

@@ -1,6 +1,6 @@
 /**
  * StorageBlock
- *
+ * 
  * @author Garrett Spicer-Davis
  */
 package tterrag.supermassivetech.block.container;
@@ -37,7 +37,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 	{
 		super("tterrag.storageBlock", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleStorage.class);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
 	{
@@ -112,17 +112,17 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 	public void onBlockHarvested(World world, int x, int y, int z, int p_149681_5_, EntityPlayer player)
 	{
 		if (!player.capabilities.isCreativeMode && !world.isRemote)
-			dropItem(world, getNBTItem(world, x, y, z), x, y, z);	
+			dropItem(world, getNBTItem(world, x, y, z), x, y, z);
 	}
 
 	public ItemStack getNBTItem(World world, int x, int y, int z)
 	{
 		ItemStack stack = new ItemStack(this);
 		TileBlackHoleStorage te = (TileBlackHoleStorage) world.getTileEntity(x, y, z);
-		
+
 		if (te == null)
 			return stack;
-			
+
 		NBTTagCompound tag = new NBTTagCompound();
 
 		long itemAmount = te.storedAmount + (te.inventory[2] == null ? 0 : te.inventory[2].stackSize);
@@ -135,7 +135,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 			te.getStoredItem().writeToNBT(itemTag);
 			tag.setTag("itemStack", itemTag);
 		}
-		
+
 		if (te.getStoredItem() == null && te.inventory[2] != null)
 		{
 			NBTTagCompound itemTag = new NBTTagCompound();
@@ -153,22 +153,22 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 		stack.stackTagCompound = tag;
 		return stack;
 	}
-	
+
 	private void dropItem(World world, ItemStack item, int x, int y, int z)
 	{
 		float f = (float) Math.random() + x;
 		float f1 = (float) Math.random() + y;
 		float f2 = (float) Math.random() + z;
-		
+
 		world.spawnEntityInWorld(new EntityItem(world, f, f1, f2, item));
 	}
-	
+
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
 	{
 		return new ItemStack(this); // Temp code why doesn't this work D:
 	}
-	
+
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	{

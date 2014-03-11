@@ -47,20 +47,20 @@ public class EntityStarHeart extends EntityItemIndestructible
 		{
 			worldObj.setBlockToAir((int) posX - 1, (int) posY - 1, (int) posZ);
 		}
-		
+
 		worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
 		worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
 		this.setDead();
 	}
-	
+
 	@Override
 	public boolean isBurning()
 	{
 		boolean flag = this.worldObj != null && this.worldObj.isRemote;
 		// TODO PR forge or AT
 		Integer fire = ObfuscationReflectionHelper.getPrivateValue(Entity.class, this, "fire", "field_70151_c");
-        return (fire > 0 || flag && this.getFlag(0));
+		return (fire > 0 || flag && this.getFlag(0));
 	}
 
 	@Override

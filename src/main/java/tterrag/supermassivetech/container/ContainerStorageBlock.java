@@ -19,7 +19,7 @@ public class ContainerStorageBlock extends ContainerSMT
 	public ContainerStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
 	{
 		super(par1InventoryPlayer, tile);
-		
+
 		this.addSlotToContainer(tile.new SlotFluidContainer(tile, 0, 48, 94));
 		this.addSlotToContainer(tile.new SlotInput(tile, 1, 184, 20));
 		this.addSlotToContainer(new Slot(tile, 2, 184, 81));
@@ -45,7 +45,7 @@ public class ContainerStorageBlock extends ContainerSMT
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			if (par2 < 36 && (TileBlackHoleStorage.stacksEqual(((TileBlackHoleStorage)tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
+			if (par2 < 36 && (TileBlackHoleStorage.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
 			{
 				if (!this.mergeItemStack(itemstack1, 37, 38, false))
 					return null;

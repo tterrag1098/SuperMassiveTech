@@ -31,9 +31,11 @@ public abstract class TileSMT extends TileEntity
 
 	/**
 	 * Fully customizeable constructor, takes in all gravity parameters
+	 * 
 	 * @param rangeMult - mulitplier for range, base is set in config
 	 * @param strengthMult - multiplier for strength, base is set in config
-	 * @param maxGravXZ - max gravity that can be applied in the X and Z directions
+	 * @param maxGravXZ - max gravity that can be applied in the X and Z
+	 *            directions
 	 * @param maxGravY - max gravity that can be applied in the Y direction
 	 * @param minGrav - minimum gravity to be applied, prevents "bouncing"
 	 */
@@ -60,7 +62,9 @@ public abstract class TileSMT extends TileEntity
 	}
 
 	/**
-	 * The multiplier to be applied to the strength of the gravity, used for gravity dependant on stored amount of items of configuration
+	 * The multiplier to be applied to the strength of the gravity, used for
+	 * gravity dependant on stored amount of items of configuration
+	 * 
 	 * @return a float to multiply the strength with, defaults to 1.
 	 */
 	protected float getStrengthMultiplier()
@@ -69,11 +73,11 @@ public abstract class TileSMT extends TileEntity
 	}
 
 	/**
-	 * Whether this tile is a gravity well, that is, whether to apply gravity to surrounding entities. Defaults to false.
+	 * Whether this tile is a gravity well, that is, whether to apply gravity to
+	 * surrounding entities. Defaults to false.
 	 */
 	protected boolean isGravityWell()
 	{
 		return false;
 	}
 }
-

@@ -14,7 +14,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ModBlocks
 {
 	public static ModBlocks instance = new ModBlocks();
-	
+
 	public Block blackHoleStorage;
 	public Block blackHoleHopper;
 	public Block starHarvester;
@@ -24,15 +24,17 @@ public class ModBlocks
 		blackHoleStorage = new BlockBlackHoleStorage();
 		GameRegistry.registerBlock(blackHoleStorage, ItemBlockStorage.class, "blackHoleStorage");
 		GameRegistry.registerTileEntity(TileBlackHoleStorage.class, "tileBlackHoleStorage");
-		
+
 		blackHoleHopper = new BlockBlackHoleHopper();
 		GameRegistry.registerBlock(blackHoleHopper, ItemBlockGravity.class, "blackHoleHopper");
 		GameRegistry.registerTileEntity(TileBlackHoleHopper.class, "tileBlackHoleHopper");
-		
+
 		starHarvester = new BlockStarHarvester();
 		GameRegistry.registerBlock(starHarvester, "starHarvester");
 		GameRegistry.registerTileEntity(TileStarHarvester.class, "tileStarHarvester");
 	}
-	
-	public void addRecipes() {}
+
+	public void addRecipes()
+	{
+	}
 }

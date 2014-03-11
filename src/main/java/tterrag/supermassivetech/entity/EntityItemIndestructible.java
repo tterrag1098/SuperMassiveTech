@@ -4,7 +4,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityItemIndestructible extends EntityItem {
+public class EntityItemIndestructible extends EntityItem
+{
 
 	public EntityItemIndestructible(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
 	{
@@ -15,9 +16,9 @@ public class EntityItemIndestructible extends EntityItem {
 		this.isImmuneToFire = true;
 		this.delayBeforeCanPickup = delay;
 	}
-	
+
 	@Override
-	public boolean isEntityInvulnerable() 
+	public boolean isEntityInvulnerable()
 	{
 		return true;
 	}

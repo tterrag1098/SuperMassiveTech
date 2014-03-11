@@ -49,7 +49,7 @@ public class TileBlackHoleHopper extends TileSMT
 	public void updateEntity()
 	{
 		super.updateEntity();
-		
+
 		if (worldObj.isRemote)
 			return;
 
@@ -163,7 +163,7 @@ public class TileBlackHoleHopper extends TileSMT
 
 		return list;
 	}
-	
+
 	@Override
 	protected boolean isGravityWell()
 	{
