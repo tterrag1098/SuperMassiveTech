@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -38,19 +37,10 @@ public class EntityStarHeart extends EntityItemIndestructible
 		// Sets the type of the star to a random type
 		Utils.setType(star, (StarType) SuperMassiveTech.starRegistry.types.values().toArray()[new Random().nextInt(SuperMassiveTech.starRegistry.types.values().size())]);
 
-		System.out.println(((int) posX) + " " + ((int) posY) + " " + ((int) posZ));
-		if (worldObj.getBlock((int) posX - 1, (int) posY, (int) posZ) == Blocks.fire)
-		{
-			worldObj.setBlockToAir((int) posX - 1, (int) posY, (int) posZ);
-		}
-		else if (worldObj.getBlock((int) posX - 1, (int) posY - 1, (int) posZ) == Blocks.fire)
-		{
-			worldObj.setBlockToAir((int) posX - 1, (int) posY - 1, (int) posZ);
-		}
-
 		worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
 		worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
+		
 		this.setDead();
 	}
 
