@@ -111,7 +111,7 @@ public class TileBlackHoleHopper extends TileSMT
 		{
 			ItemStack stack = connection.inv.getStackInSlot(idx);
 
-			if (connection.inv.isItemValidForSlot(idx, inventory[hiddenSlot]) && (stack == null || (itemStackEquals(stack, inventory[cfgSlot]) && stack.stackSize < stack.getMaxStackSize())))
+			if (connection.inv.isItemValidForSlot(idx, inventory[hiddenSlot]) && (stack == null || (itemStackEquals(stack, inventory[hiddenSlot]) && stack.stackSize < stack.getMaxStackSize())))
 			{
 				if (stack == null)
 				{
@@ -177,7 +177,8 @@ public class TileBlackHoleHopper extends TileSMT
 		System.out.println(touchingEntityItems.toString());
 		for (EntityItem item : touchingEntityItems)
 		{
-			if (itemStackEquals(item.getEntityItem(), inventory[cfgSlot]) && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
+			if ((inventory[hiddenSlot] == null || itemStackEquals(item.getEntityItem(), inventory[hiddenSlot]))
+					&& (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
 			{
 				if (inventory[hiddenSlot] == null)
 				{
