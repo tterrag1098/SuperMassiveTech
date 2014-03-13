@@ -6,4 +6,9 @@ public class CommonProxy
 	{
 		// Overridden
 	}
+
+	public void registerRenderers()
+	{
+		// Overriden
+	}
 }

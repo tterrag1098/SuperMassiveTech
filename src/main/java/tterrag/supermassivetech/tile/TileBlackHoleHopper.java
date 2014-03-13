@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileBlackHoleHopper extends TileSMT
@@ -71,6 +73,8 @@ public class TileBlackHoleHopper extends TileSMT
 			return;
 		}
 
+		processNearbyItems();
+
 		if (onTime())
 		{
 			searchForInventories();
@@ -81,6 +85,7 @@ public class TileBlackHoleHopper extends TileSMT
 
 		for (int i = 0; i < inventories.size(); i++)
 			processConnection();
+
 	}
 
 	private void checkConnection()
@@ -162,6 +167,37 @@ public class TileBlackHoleHopper extends TileSMT
 		}
 
 		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void processNearbyItems()
+	{
+		List<EntityItem> touchingEntityItems = worldObj.getEntitiesWithinAABB(EntityItem.class,
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 1, yCoord + 0.5 - 1, zCoord + 0.5 - 1, xCoord + 0.5 + 1, yCoord + 0.5 + 1, zCoord + 0.5 + 1));
+		System.out.println(touchingEntityItems.toString());
+		for (EntityItem item : touchingEntityItems)
+		{
+			if (itemStackEquals(item.getEntityItem(), inventory[cfgSlot]) && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
+			{
+				if (inventory[hiddenSlot] == null)
+				{
+					ItemStack newStack = item.getEntityItem().copy();
+					newStack.stackSize = 1;
+					inventory[hiddenSlot] = newStack;
+					item.getEntityItem().stackSize--;
+				}
+				else
+				{
+					item.getEntityItem().stackSize--;
+					inventory[hiddenSlot].stackSize++;
+				}
+				processConnection();
+			}
+			else
+			{
+				System.out.println(item.getEntityItem());
+			}
+		}
 	}
 
 	@Override

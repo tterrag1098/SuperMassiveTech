@@ -43,6 +43,8 @@ public class SuperMassiveTech
 	public static Stars starRegistry = Stars.instance;
 
 	public static CreativeTabs tabSMT = Utils.tab;
+	
+	public static int renderIDHopper;
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
@@ -59,6 +61,7 @@ public class SuperMassiveTech
 		starRegistry.registerDefaultStars();
 
 		proxy.registerGuis();
+		proxy.registerRenderers();
 	}
 
 	@EventHandler

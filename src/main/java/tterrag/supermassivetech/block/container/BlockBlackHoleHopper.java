@@ -23,4 +23,22 @@ public class BlockBlackHoleHopper extends BlockContainerSMT
 
 		return opp;
 	}
+	
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
+	
+	@Override
+	public int getRenderType()
+	{
+		return SuperMassiveTech.renderIDHopper;
+	}
 }
