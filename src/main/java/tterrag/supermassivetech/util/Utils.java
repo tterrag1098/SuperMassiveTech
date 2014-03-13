@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.item.ItemStar;
+import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.registry.Stars.StarType;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -207,7 +208,7 @@ public class Utils
 	 * @param stack - Stack to get the type from
 	 * @return {@link StarType} of the item
 	 */
-	public static StarType getType(ItemStack stack)
+	public static IStar getType(ItemStack stack)
 	{
 		if (stack != null && stack.getItem() instanceof ItemStar && stack.stackTagCompound != null)
 			return stars.getTypeByName(stack.stackTagCompound.getString("type"));

@@ -2,17 +2,21 @@ package tterrag.supermassivetech.item;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.entity.EntityItemIndestructible;
+import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
-import tterrag.supermassivetech.registry.Stars.StarType;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,12 +34,12 @@ public class ItemStar extends ItemSMT
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
 	{
-		StarType type = Utils.getType(par1ItemStack);
+		IStar type = Utils.getType(par1ItemStack);
 
 		if (type == null)
 			return 0;
 		else
-			return type.color;
+			return type.getColor();
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -44,7 +48,7 @@ public class ItemStar extends ItemSMT
 	public void getSubItems(Item item, CreativeTabs tab, List list)
 	{
 		NBTTagCompound tag = new NBTTagCompound();
-		for (StarType t : stars.types.values())
+		for (IStar t : stars.types.values())
 		{
 			tag = new NBTTagCompound();
 			tag.setString("type", t.toString());
@@ -73,5 +77,24 @@ public class ItemStar extends ItemSMT
 	public boolean hasCustomEntity(ItemStack stack)
 	{
 		return true;
+	}
+	
+	@Override
+	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
+	{
+		if (entity instanceof EntityLivingBase)
+		{
+			((EntityLivingBase)entity).setFire(10);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase player)
+	{
+		if (block.isFlammable(world, x, y - 1, z, ForgeDirection.UP))
+			world.setBlock(x, y, z, Blocks.fire);
+		
+		return world.isRemote;
 	}
 }

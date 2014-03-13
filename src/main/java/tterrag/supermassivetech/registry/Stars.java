@@ -13,7 +13,7 @@ public class Stars
 	 * 
 	 * @author Garrett Spicer-Davis
 	 */
-	public class StarType
+	public class StarType implements IStar
 	{
 		private String name;
 		private int id;
@@ -54,16 +54,39 @@ public class Stars
 		{
 			return id;
 		}
+
+		@Override
+		public int getColor()
+		{
+			return color;
+		}
+
+		@Override
+		public int getMaxPower()
+		{
+			return maxPower;
+		}
+
+		@Override
+		public int getFuse()
+		{
+			return fuse;
+		}
+	}
+	
+	public static int getNextStarID()
+	{
+		return nextStarID++;
 	}
 
-	public HashMap<Integer, StarType> types = new HashMap<Integer, StarType>();
+	public HashMap<Integer, IStar> types = new HashMap<Integer, IStar>();
 
 	/**
 	 * Register a new star type, adds it to the items and creation chance
 	 * 
 	 * @param type - {@link StarType} object to add
 	 */
-	public void registerStarType(StarType type)
+	public void registerStarType(IStar type)
 	{
 		types.put(type.getID(), type);
 	}
@@ -71,7 +94,7 @@ public class Stars
 	/**
 	 * Gets the {@link StarType} object (must be registered) with this ID
 	 */
-	public StarType getTypeByID(int ID)
+	public IStar getTypeByID(int ID)
 	{
 		return types.get(ID);
 	}
@@ -90,9 +113,9 @@ public class Stars
 	 * @param name
 	 * @return
 	 */
-	public StarType getTypeByName(String name)
+	public IStar getTypeByName(String name)
 	{
-		for (StarType s : types.values())
+		for (IStar s : types.values())
 		{
 			if (s.toString().equals(name))
 				return s;
