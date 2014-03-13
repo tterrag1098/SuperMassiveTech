@@ -75,6 +75,7 @@ public class TileBlackHoleHopper extends TileSMT
 
 		processNearbyItems();
 
+
 		if (onTime())
 		{
 			searchForInventories();
@@ -177,8 +178,8 @@ public class TileBlackHoleHopper extends TileSMT
 		System.out.println(touchingEntityItems.toString());
 		for (EntityItem item : touchingEntityItems)
 		{
-			if ((inventory[hiddenSlot] == null || itemStackEquals(item.getEntityItem(), inventory[hiddenSlot]))
-					&& (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
+			if ((inventory[hiddenSlot] == null || itemStackEquals(item.getEntityItem(), inventory[hiddenSlot])
+					 && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize())))
 			{
 				if (inventory[hiddenSlot] == null)
 				{
