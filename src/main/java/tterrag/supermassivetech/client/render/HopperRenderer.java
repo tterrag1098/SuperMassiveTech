@@ -26,7 +26,7 @@ public class HopperRenderer extends TileEntitySpecialRenderer
 	public void renderTileEntityBLHAt(TileBlackHoleHopper tile, double x, double y, double z, boolean metaOverride)
 	{
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.24f : 0.03f), (float) z + 0.5f);
+		GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.1f : 0), (float) z + 0.5f);
 				
 		int meta = metaOverride ? 0 : tile.getBlockMetadata();
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -35,27 +35,27 @@ public class HopperRenderer extends TileEntitySpecialRenderer
 		{
 		case 1: 
 			GL11.glRotatef(180f, 0, 0, 1);
-			GL11.glTranslatef(0, -1.06f, 0);
+			GL11.glTranslatef(0, -1f, 0);
 			break;
 		case 2:
 			GL11.glRotatef(90f, 1f, 0, 0);
-			GL11.glTranslatef(0, -0.53f, -0.53f);
+			GL11.glTranslatef(0, -0.5f, -0.5f);
 			break;
 		case 3:
 			GL11.glRotatef(90f, -1f, 0, 0);
-			GL11.glTranslatef(0, -0.53f, 0.53f);
+			GL11.glTranslatef(0, -0.5f, 0.5f);
 			break;
 		case 4:
 			GL11.glRotatef(90f, 0, 0, -1f);
-			GL11.glTranslatef(-0.53f, -0.53f, 0);
+			GL11.glTranslatef(-0.5f, -0.5f, 0);
 			break;
 		case 5:
 			GL11.glRotatef(90f, 0, 0, 1f);
-			GL11.glTranslatef(0.53f, -0.53f, 0);
+			GL11.glTranslatef(0.5f, -0.5f, 0);
 			break;
 		}
 		
-		GL11.glScalef(0.5f, 0.515f, 0.5f);
+		GL11.glScalef(0.5f, 0.5f, 0.5f);
 				
 		model.renderAll();
 		
