@@ -3,6 +3,9 @@ package tterrag.supermassivetech.tile;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -11,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.network.packet.PacketHopperParticle;
 
 public class TileBlackHoleHopper extends TileSMT
 {
@@ -54,7 +59,7 @@ public class TileBlackHoleHopper extends TileSMT
 
 		if (worldObj.isRemote)
 			return;
-
+		
 		if (connectionDir == null || connection == null)
 		{
 			connectionDir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
@@ -154,10 +159,13 @@ public class TileBlackHoleHopper extends TileSMT
 						&& (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
 				{
 					i.inv.decrStackSize(idx, 1);
+		
 					if (inventory[hiddenSlot] == null)
 						inventory[hiddenSlot] = new ItemStack(stack.getItem());
 					else
 						inventory[hiddenSlot].stackSize++;
+					
+					spawnParticle(i.x, i.y, i.z);
 					break loop;
 				}
 			}
@@ -170,12 +178,17 @@ public class TileBlackHoleHopper extends TileSMT
 		return list;
 	}
 
+	private void spawnParticle(int fromX, int fromY, int fromZ) 
+	{
+		SuperMassiveTech.channelHandler.sendToAllInRange(20D, fromX, fromY, fromZ, FMLClientHandler.instance().getClient().thePlayer.dimension, new PacketHopperParticle(xCoord, yCoord, zCoord, fromX, fromY, fromZ));	
+	}
+
 	@SuppressWarnings("unchecked")
 	private void processNearbyItems()
 	{
 		List<EntityItem> touchingEntityItems = worldObj.getEntitiesWithinAABB(EntityItem.class,
 				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 1, yCoord + 0.5 - 1, zCoord + 0.5 - 1, xCoord + 0.5 + 1, yCoord + 0.5 + 1, zCoord + 0.5 + 1));
-		System.out.println(touchingEntityItems.toString());
+
 		for (EntityItem item : touchingEntityItems)
 		{
 			if ((inventory[hiddenSlot] == null || itemStackEquals(item.getEntityItem(), inventory[hiddenSlot])
@@ -203,7 +216,7 @@ public class TileBlackHoleHopper extends TileSMT
 	}
 
 	@Override
-	protected boolean isGravityWell()
+	public boolean isGravityWell()
 	{
 		return true;
 	}

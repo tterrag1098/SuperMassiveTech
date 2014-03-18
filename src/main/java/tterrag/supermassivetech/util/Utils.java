@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.util;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,11 +13,15 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.registry.Stars.StarType;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public class Utils
 {
@@ -122,9 +128,13 @@ public class Utils
 		double theta = Math.acos(zDisplacment / dist);
 		double phi = Math.atan2(yDisplacment, xDisplacment);
 
+		boolean showParticles = dist > 1;
+		
 		// More strength for everything but players, lower dist is bigger effect
 		if (!(entity instanceof EntityPlayer))
 			dist *= 0.5;
+		else if (entity instanceof EntityFX)
+			return;
 		else
 		{
 			if (((EntityPlayer) entity).capabilities.isCreativeMode)
@@ -154,6 +164,10 @@ public class Utils
 			vecZ = 0;
 
 		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
+	
+		// shows smoke particles
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles)
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ, ((xCoord + 0.5) - entity.posX) / 10, ((yCoord + 0.5) - entity.posY) / 10, ((zCoord + 0.5) - entity.posZ) / 10));
 	}
 
 	/**

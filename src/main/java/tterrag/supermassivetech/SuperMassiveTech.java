@@ -36,8 +36,9 @@ public class SuperMassiveTech
 
 	public static Logger logger = Logger.getLogger("SuperMassiveTech");
 
-	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", new ChannelHandler());
-
+	public static ChannelHandler channelHandler = new ChannelHandler();
+	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", channelHandler);
+	
 	public static ModItems itemRegistry = ModItems.instance;
 	public static ModBlocks blockRegistry = ModBlocks.instance;
 	public static Stars starRegistry = Stars.instance;
@@ -62,6 +63,8 @@ public class SuperMassiveTech
 
 		proxy.registerGuis();
 		proxy.registerRenderers();
+		
+		ChannelHandler.init();
 	}
 
 	@EventHandler

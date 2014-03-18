@@ -160,7 +160,7 @@ public class TileBlackHoleStorage extends TileSMT implements ISidedInventory, IF
 	}
 
 	@Override
-	protected boolean isGravityWell()
+	public boolean isGravityWell()
 	{
 		return true;
 	}

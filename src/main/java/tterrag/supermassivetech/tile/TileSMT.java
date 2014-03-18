@@ -76,7 +76,7 @@ public abstract class TileSMT extends TileEntity
 	 * Whether this tile is a gravity well, that is, whether to apply gravity to
 	 * surrounding entities. Defaults to false.
 	 */
-	protected boolean isGravityWell()
+	public boolean isGravityWell()
 	{
 		return false;
 	}

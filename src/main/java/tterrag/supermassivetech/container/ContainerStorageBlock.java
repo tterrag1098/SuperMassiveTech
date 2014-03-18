@@ -3,16 +3,15 @@ package tterrag.supermassivetech.container;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.network.PacketBlackHoleStorage;
+import tterrag.supermassivetech.network.packet.PacketBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
-import cpw.mods.fml.common.network.FMLOutboundHandler;
-import cpw.mods.fml.relauncher.Side;
 
 public class ContainerStorageBlock extends ContainerSMT
 {
@@ -79,9 +78,7 @@ public class ContainerStorageBlock extends ContainerSMT
 		{
 			FluidStack fluid = te.getTank().getFluid();
 			PacketBlackHoleStorage packet = new PacketBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
-			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-			SuperMassiveTech.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(c);
-			SuperMassiveTech.channels.get(Side.SERVER).writeOutbound(packet);
+			SuperMassiveTech.channelHandler.sendToPlayer((EntityPlayerMP) c, packet);
 		}
 		super.detectAndSendChanges();
 	}

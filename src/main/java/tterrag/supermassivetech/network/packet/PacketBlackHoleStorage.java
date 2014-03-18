@@ -1,8 +1,9 @@
-package tterrag.supermassivetech.network;
+package tterrag.supermassivetech.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import tterrag.supermassivetech.client.GuiStorageBlock;
+import tterrag.supermassivetech.network.ISMTPacket;
 
 public class PacketBlackHoleStorage implements ISMTPacket
 {
@@ -35,6 +36,7 @@ public class PacketBlackHoleStorage implements ISMTPacket
 	@Override
 	public void decodeInto(ByteBuf buffer)
 	{
+		System.out.println("storage");
 		if (Minecraft.getMinecraft().currentScreen != null && Minecraft.getMinecraft().currentScreen instanceof GuiStorageBlock)
 		{
 			((GuiStorageBlock) Minecraft.getMinecraft().currentScreen).itemsStored = buffer.readLong();
