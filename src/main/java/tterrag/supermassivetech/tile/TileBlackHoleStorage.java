@@ -164,6 +164,12 @@ public class TileBlackHoleStorage extends TileSMT implements ISidedInventory, IF
 	{
 		return true;
 	}
+	
+	@Override
+	public boolean showParticles() 
+	{
+		return true;
+	}
 
 	private void spitInputItem()
 	{

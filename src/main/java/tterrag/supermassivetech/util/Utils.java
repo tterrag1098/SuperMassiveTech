@@ -111,7 +111,7 @@ public class Utils
 	 * @param yCoord - Y coord of the center of gravity
 	 * @param zCoord - Z coord of the center of gravity
 	 */
-	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord)
+	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord, boolean showParticles)
 	{
 		// distance forumla
 		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
@@ -128,7 +128,7 @@ public class Utils
 		double theta = Math.acos(zDisplacment / dist);
 		double phi = Math.atan2(yDisplacment, xDisplacment);
 
-		boolean showParticles = dist > 1;
+		showParticles &= dist > 1;
 		
 		// More strength for everything but players, lower dist is bigger effect
 		if (!(entity instanceof EntityPlayer))
@@ -184,9 +184,9 @@ public class Utils
 	 * @param entity - Entity to effect
 	 * @param te - {@link TileEntity} to use as the center of gravity
 	 */
-	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te)
+	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te, boolean showParticles)
 	{
-		applyGravity(gravStrength, maxGravXZ, maxGravY, minGrav, range, entity, te.xCoord, te.yCoord, te.zCoord);
+		applyGravity(gravStrength, maxGravXZ, maxGravY, minGrav, range, entity, te.xCoord, te.yCoord, te.zCoord, showParticles);
 	}
 
 	/**
@@ -196,9 +196,9 @@ public class Utils
 	 * @param entity - Entity to affect
 	 * @param te - {@link TileEntity} to use as the center of gravity
 	 */
-	public static void applyGravity(Entity entity, TileEntity te)
+	public static void applyGravity(Entity entity, TileEntity te, boolean showParticles)
 	{
-		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, te);
+		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, te, showParticles);
 	}
 
 	/**
@@ -210,9 +210,9 @@ public class Utils
 	 * @param y - y coord
 	 * @param z - z coord
 	 */
-	public static void applyGravity(Entity entity, int x, int y, int z)
+	public static void applyGravity(Entity entity, int x, int y, int z, boolean showParticles)
 	{
-		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, x, y, z);
+		applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, x, y, z, showParticles);
 	}
 
 	/**

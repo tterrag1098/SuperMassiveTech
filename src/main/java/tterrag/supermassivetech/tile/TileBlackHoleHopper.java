@@ -224,6 +224,12 @@ public class TileBlackHoleHopper extends TileSMT
 	{
 		return true;
 	}
+	
+	@Override
+	public boolean showParticles() 
+	{
+		return true;
+	}
 
 	private boolean onTime()
 	{

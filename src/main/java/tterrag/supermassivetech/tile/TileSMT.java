@@ -56,7 +56,7 @@ public abstract class TileSMT extends TileEntity
 			for (Object o : worldObj.getEntitiesWithinAABB(Entity.class,
 					AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
 			{
-				Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this);
+				Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this, showParticles());
 			}
 		}
 	}
@@ -74,10 +74,9 @@ public abstract class TileSMT extends TileEntity
 
 	/**
 	 * Whether this tile is a gravity well, that is, whether to apply gravity to
-	 * surrounding entities. Defaults to false.
+	 * surrounding entities.
 	 */
-	public boolean isGravityWell()
-	{
-		return false;
-	}
+	public abstract boolean isGravityWell();
+	
+	public abstract boolean showParticles();
 }
