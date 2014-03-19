@@ -22,7 +22,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.network.packet.PacketHopperParticle;
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class TileBlackHoleHopper extends TileSMT
+public class TileBlackHoleHopper extends TileSMTInventory
 {
 	private ForgeDirection connectionDir;
 	private ItemStack[] inventory = new ItemStack[2];
@@ -369,5 +369,11 @@ public class TileBlackHoleHopper extends TileSMT
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
 	{
 		this.readFromNBT(pkt.func_148857_g());
+	}
+	
+	@Override
+	public String getInventoryName() 
+	{
+		return "tterrag.inventory.blackHoleHopper";
 	}
 }

@@ -1,7 +1,6 @@
 package tterrag.supermassivetech.tile;
 
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.Slot;
@@ -24,7 +23,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
  * @author Garrett Spicer-Davis
  * 
  */
-public class TileBlackHoleStorage extends TileSMT implements ISidedInventory, IFluidHandler
+public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInventory, IFluidHandler
 {
 	public final static long max = 1099511627776L;
 
@@ -191,102 +190,9 @@ public class TileBlackHoleStorage extends TileSMT implements ISidedInventory, IF
 	}
 
 	@Override
-	public int getSizeInventory()
-	{
-		return 3;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int var1)
-	{
-		return inventory[var1];
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j)
-	{
-		if (this.inventory[i] != null)
-		{
-			ItemStack itemstack;
-			if (this.inventory[i].stackSize <= j)
-			{
-				itemstack = this.inventory[i];
-				this.inventory[i] = null;
-				return itemstack;
-			}
-			else
-			{
-				itemstack = this.inventory[i].splitStack(j);
-				if (this.inventory[i].stackSize == 0)
-				{
-					this.inventory[i] = null;
-				}
-				return itemstack;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i)
-	{
-		if (this.inventory[i] != null)
-		{
-			ItemStack itemstack = this.inventory[i];
-			this.inventory[i] = null;
-			return itemstack;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack)
-	{
-		this.inventory[i] = itemstack;
-		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-		{
-			itemstack.stackSize = this.getInventoryStackLimit();
-		}
-	}
-
-	@Override
 	public String getInventoryName()
 	{
 		return "tterrag.inv.storageBlock";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName()
-	{
-		return true;
-	}
-
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1)
-	{
-		return true;
-	}
-
-	@Override
-	public void openInventory()
-	{
-	}
-
-	@Override
-	public void closeInventory()
-	{
 	}
 
 	@Override

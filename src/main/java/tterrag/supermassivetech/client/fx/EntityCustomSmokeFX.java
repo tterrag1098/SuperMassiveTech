@@ -3,7 +3,7 @@ package tterrag.supermassivetech.client.fx;
 import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.tile.TileSMT;
+import tterrag.supermassivetech.tile.TileSMTInventory;
 
 /**
  * Smoke particle that doesn't "float" upwards, noclips, and disappears inside of gravity wells
@@ -67,9 +67,9 @@ public class EntityCustomSmokeFX extends EntitySmokeFX {
 	
 	private boolean isInGravityWell(TileEntity te)
 	{
-		if (te == null || !(te instanceof TileSMT))
+		if (te == null || !(te instanceof TileSMTInventory))
 			return false;
 		
-		return ((TileSMT) te).isGravityWell();
+		return ((TileSMTInventory) te).isGravityWell();
 	}
 }

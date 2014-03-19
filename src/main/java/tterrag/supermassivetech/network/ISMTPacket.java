@@ -10,7 +10,6 @@ import io.netty.buffer.ByteBuf;
  */
 public interface ISMTPacket
 {
-
 	/**
 	 * Encode the packet data into the ByteBuf stream. Complex data sets may
 	 * need specific data handlers (See

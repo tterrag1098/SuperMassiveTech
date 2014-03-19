@@ -4,14 +4,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import tterrag.supermassivetech.tile.TileSMT;
+import tterrag.supermassivetech.tile.TileSMTInventory;
 
 public abstract class ContainerSMT extends Container
 {
 
-	protected TileSMT tileEnt;
+	protected TileSMTInventory tileEnt;
 
-	protected ContainerSMT(InventoryPlayer invPlayer, TileSMT tile)
+	protected ContainerSMT(InventoryPlayer invPlayer, TileSMTInventory tile)
 	{
 		bindPlayerInventory(invPlayer);
 		tileEnt = tile;
