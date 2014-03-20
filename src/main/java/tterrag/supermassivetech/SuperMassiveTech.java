@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.Side;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "after:ThermalExpansion")
 public class SuperMassiveTech
 {
 	@Instance
