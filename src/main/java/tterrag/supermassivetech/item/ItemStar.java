@@ -64,6 +64,7 @@ public class ItemStar extends ItemSMT
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
 		par3List.add(Utils.getType(par1ItemStack).toString());
+		par3List.add("Tier: " + Utils.getType(par1ItemStack).getTier().toString());
 	}
 
 	@Override

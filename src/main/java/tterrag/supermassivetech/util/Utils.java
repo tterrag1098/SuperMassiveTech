@@ -17,7 +17,6 @@ import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
-import tterrag.supermassivetech.registry.Stars.StarType;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -238,7 +237,7 @@ public class Utils
 	 * @param type - Type to use
 	 * @return The itemstack effected
 	 */
-	public static ItemStack setType(ItemStack stack, StarType type)
+	public static ItemStack setType(ItemStack stack, IStar type)
 	{
 		if (stack != null && stack.getItem() instanceof ItemStar)
 		{

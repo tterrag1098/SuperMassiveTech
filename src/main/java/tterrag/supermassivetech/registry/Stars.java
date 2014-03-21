@@ -1,7 +1,13 @@
 package tterrag.supermassivetech.registry;
 
+import static tterrag.supermassivetech.registry.Stars.StarTier.HIGH;
+import static tterrag.supermassivetech.registry.Stars.StarTier.LOW;
+import static tterrag.supermassivetech.registry.Stars.StarTier.NORMAL;
+
+import java.util.ArrayList;
 import java.util.HashMap;
-import static tterrag.supermassivetech.registry.Stars.StarTier.*;
+import java.util.List;
+import java.util.Random;
 
 public class Stars
 {
@@ -10,9 +16,22 @@ public class Stars
 	
 	public enum StarTier
 	{
-		LOW, 
-		NORMAL,
-		HIGH,
+		LOW("Low"), 
+		NORMAL("Normal"),
+		HIGH("High");
+		
+		private String name;
+		
+		StarTier(String name)
+		{
+			this.name = name;
+		}
+		
+		@Override
+		public String toString() 
+		{
+			return name;
+		}
 	}
 
 	/**
@@ -21,7 +40,7 @@ public class Stars
 	 * 
 	 * @author Garrett Spicer-Davis
 	 */
-	public class StarType implements IStar
+	private class StarType implements IStar
 	{
 		private String name;
 		private int id;
@@ -103,11 +122,6 @@ public class Stars
 		{
 			return this.tier;
 		}
-		
-		public int getTierOrdinal()
-		{
-			return this.tier.ordinal();
-		}
 	}
 	
 	public static int getNextStarID()
@@ -158,6 +172,34 @@ public class Stars
 		}
 		return null;
 	}
+	
+	public StarTier getWeightedRandomTier()
+	{
+		int tier = new Random().nextInt(1000);
+		if (tier < 10)
+			return HIGH;
+		else if (tier < 100)
+			return NORMAL;
+		else return LOW;
+	}
+	
+	public ArrayList<IStar> getStarsOfTier(StarTier tier)
+	{
+		ArrayList<IStar> list = new ArrayList<IStar>();
+		for (IStar i : types.values())
+		{
+			if (i.getTier() == tier)
+				list.add(i);
+		}
+		return list;
+	}
+	
+	public IStar getRandomTypeByTier(StarTier tier)
+	{
+		List<IStar> list = getStarsOfTier(tier);
+		System.out.println(list.size());
+		return list.get(new Random().nextInt(list.size()));
+	}
 
 	public void registerDefaultStars()
 	{
@@ -169,7 +211,9 @@ public class Stars
 		registerStarType(new StarType("Supergiant", HIGH, 0xFFFFFF, 100000000, 160, 1200));
 		registerStarType(new StarType("Brown Dwarf", LOW, 0xAA5522, 2500000, 20, 2400));
 		registerStarType(new StarType("White Dwarf", LOW, 0x999999, 5000000, 160, 1200));
-		// TODO something awesome registerStarType(new StarType("Neutron", NORMAL, 0x555577, 0, 0)); registerStarType(new StarType("Pulsar", HIGH, 0xFF00FF, 0, 0));
+		// TODO something awesome 
+		// registerStarType(new StarType("Neutron", NORMAL, 0x555577, 0, 0)); 
+		// registerStarType(new StarType("Pulsar", HIGH, 0xFF00FF, 0, 0));
 		
 		/*
 		 *  - pulsars are neutron stars, neutrons are formed INSTEAD of black holes.

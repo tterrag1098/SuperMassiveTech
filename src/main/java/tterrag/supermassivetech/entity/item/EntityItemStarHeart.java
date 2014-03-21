@@ -10,8 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.registry.Stars.StarType;
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -42,8 +41,8 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 			{
 				explodeTimer = TIMER_MAX;
 			}
-		
-			ready = !this.isBurning() && isInValidState();
+			else
+				ready = !this.isBurning();
 		}
 		else if (explodeTimer == TIMER_MAX)
 		{
@@ -83,10 +82,10 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 	
 	private void changeToStar()
 	{
-		ItemStack star = new ItemStack(SuperMassiveTech.itemRegistry.star, this.getEntityItem().stackSize);
+		ItemStack star = new ItemStack(itemRegistry.star, this.getEntityItem().stackSize);
 
 		// Sets the type of the star to a random type
-		Utils.setType(star, (StarType) SuperMassiveTech.starRegistry.types.values().toArray()[new Random().nextInt(SuperMassiveTech.starRegistry.types.values().size())]);
+		Utils.setType(star, starRegistry.getRandomTypeByTier(starRegistry.getWeightedRandomTier()));
 
 		worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
@@ -113,6 +112,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 			return super.attackEntityFrom(par1DamageSource, par2);
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean isInValidState()
 	{
 		for (int i = -1; i <= 1; i++)
@@ -151,7 +151,6 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 	{
 		if (Minecraft.getMinecraft().thePlayer != null && FMLClientHandler.instance().getClient().thePlayer.worldObj != null)
 		{
-			System.out.println("particle");
 			FMLClientHandler.instance().getClient().thePlayer.worldObj.spawnParticle("flame", x + 0.5, y + 0.5, z + 0.5, (posX - x - 0.5) / 13, (posY - y - 0.5) / 13, (posZ - z - 0.5) / 13);
 		}
 	}
