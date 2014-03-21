@@ -2,7 +2,7 @@ package tterrag.supermassivetech.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import tterrag.supermassivetech.client.GuiStorageBlock;
+import tterrag.supermassivetech.client.gui.GuiStorageBlock;
 import tterrag.supermassivetech.network.ISMTPacket;
 
 public class PacketBlackHoleStorage implements ISMTPacket

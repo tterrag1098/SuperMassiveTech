@@ -2,7 +2,7 @@ package tterrag.supermassivetech.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.client.GuiStorageBlock;
+import tterrag.supermassivetech.client.gui.GuiStorageBlock;
 import tterrag.supermassivetech.container.ContainerStorageBlock;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cpw.mods.fml.common.network.IGuiHandler;

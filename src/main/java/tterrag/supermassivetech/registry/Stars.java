@@ -1,11 +1,19 @@
 package tterrag.supermassivetech.registry;
 
 import java.util.HashMap;
+import static tterrag.supermassivetech.registry.Stars.StarTier.*;
 
 public class Stars
 {
 	private static int nextStarID = 0;
 	public static Stars instance = new Stars();
+	
+	public enum StarTier
+	{
+		LOW, 
+		NORMAL,
+		HIGH,
+	}
 
 	/**
 	 * Defines a new type of star, all registered star types will have their own
@@ -17,23 +25,28 @@ public class Stars
 	{
 		private String name;
 		private int id;
-		public int color, maxPower, fuse;
+		private int color, powerMax, powerStored, powerPerTick, fuse;
+		StarTier tier;
 
 		/**
 		 * Creates a new <code>StarType</code> object
 		 * 
 		 * @param name - name of the star type
+		 * @param tier - {@link StarTier} of this star, low &lt; normal &lt; high, in terms of value
 		 * @param color - hex color value
-		 * @param maxPower - max power per tick (in RF) this provides in a star
+		 * @param powerMax - max amount of power "stored" in this star
+		 * @param powerPerTick - max power per tick (in RF) this provides in a star
 		 *            harvester
 		 * @param fuse - amount of time before exploding once it goes critical
 		 */
-		public StarType(String name, int color, int maxPower, int fuse)
+		public StarType(String name, StarTier tier, int color, int powerMax, int powerPerTick, int fuse)
 		{
 			this.name = name;
 			id = nextStarID++;
+			this.tier = tier;
 			this.color = color;
-			this.maxPower = maxPower;
+			this.powerMax = this.powerStored = powerMax;
+			this.powerPerTick = powerPerTick;
 			this.fuse = fuse;
 		}
 
@@ -60,17 +73,40 @@ public class Stars
 		{
 			return color;
 		}
+		
+		@Override
+		public int getPowerStored() 
+		{
+			return powerStored;
+		}
+		
+		@Override
+		public int getPowerStoredMax() 
+		{
+			return powerMax;
+		}
 
 		@Override
-		public int getMaxPower()
+		public int getPowerPerTick()
 		{
-			return maxPower;
+			return powerPerTick;
 		}
 
 		@Override
 		public int getFuse()
 		{
 			return fuse;
+		}
+		
+		@Override
+		public StarTier getTier()
+		{
+			return this.tier;
+		}
+		
+		public int getTierOrdinal()
+		{
+			return this.tier.ordinal();
 		}
 	}
 	
@@ -125,15 +161,22 @@ public class Stars
 
 	public void registerDefaultStars()
 	{
-		// TODO figure out values
-		registerStarType(new StarType("Yellow Dwarf", 0xCCCCAA, 0, 0));
-		registerStarType(new StarType("Red Dwarf", 0xCC5555, 0, 0));
-		registerStarType(new StarType("Red Giant", 0xBB2222, 0, 0));
-		registerStarType(new StarType("Blue Giant", 0x2222FF, 0, 0));
-		registerStarType(new StarType("Supergiant", 0xFFFFFF, 0, 0));
-		registerStarType(new StarType("Brown Dwarf", 0xAA5522, 0, 0));
-		registerStarType(new StarType("White Dwarf", 0x999999, 0, 0));
-		registerStarType(new StarType("Neutron", 0x555577, 0, 0));
-		registerStarType(new StarType("Pulsar", 0xFF00FF, 0, 0));
+		// TODO balance
+		registerStarType(new StarType("Yellow Dwarf", LOW, 0xCCCCAA, 10000000, 80, 600));
+		registerStarType(new StarType("Red Dwarf", NORMAL, 0xCC5555, 20000000, 40, 600));
+		registerStarType(new StarType("Red Giant", LOW, 0xBB2222, 5000000, 40, 400));
+		registerStarType(new StarType("Blue Giant", NORMAL, 0x2222FF, 40000000, 20, 400));
+		registerStarType(new StarType("Supergiant", HIGH, 0xFFFFFF, 100000000, 160, 1200));
+		registerStarType(new StarType("Brown Dwarf", LOW, 0xAA5522, 2500000, 20, 2400));
+		registerStarType(new StarType("White Dwarf", LOW, 0x999999, 5000000, 160, 1200));
+		// TODO something awesome registerStarType(new StarType("Neutron", NORMAL, 0x555577, 0, 0)); registerStarType(new StarType("Pulsar", HIGH, 0xFF00FF, 0, 0));
+		
+		/*
+		 *  - pulsars are neutron stars, neutrons are formed INSTEAD of black holes.
+		 *  - a critical star could have a chance of forming either of these two, OR a black hole.
+		 *  - the advantage of these would be a low power output for an infinite time (think RTG from IC2).
+		 *  - however, due to their unstable nature, stacking either of these items would cause a 
+		 *  	catastrophic explosion resulting in a black hole...probably obliterating whatever was holding the items. 
+		 */
 	}
 }

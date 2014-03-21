@@ -77,7 +77,7 @@ public class TileStarHarvester extends TileSMTInventory implements IInventory, I
 	@Override
 	public int getMaxEnergyPerTick() 
 	{
-		return ((IStar) inventory[slot].getItem()).getMaxPower();
+		return ((IStar) inventory[slot].getItem()).getPowerPerTick();
 	}
 
 	@Override

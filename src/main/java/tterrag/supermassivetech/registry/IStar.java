@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.registry;
 
+import tterrag.supermassivetech.registry.Stars.StarTier;
+
 public interface IStar
 {
 	/**
@@ -13,9 +15,19 @@ public interface IStar
 	public int getColor();
 	
 	/**
+	 * The amount of power currently stored in this star
+	 */
+	public int getPowerStored();
+	
+	/**
+	 * The amount of power that was initially in this star
+	 */
+	public int getPowerStoredMax();
+	
+	/**
 	 * The max power this star can provide in the harvester
 	 */
-	public int getMaxPower();
+	public int getPowerPerTick();
 	
 	/**
 	 * The amount of time the fuse lasts on this star
@@ -26,4 +38,9 @@ public interface IStar
 	 * <code>toString()</code> here returns the proper name of the star, to be used in tooltips
 	 */
 	public String toString();
+
+	/**
+	 * The tier of this star, a {@link StarTier} type
+	 */
+	public StarTier getTier();
 }

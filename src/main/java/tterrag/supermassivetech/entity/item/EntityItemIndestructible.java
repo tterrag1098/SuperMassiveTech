@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.entity;
+package tterrag.supermassivetech.entity.item;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;

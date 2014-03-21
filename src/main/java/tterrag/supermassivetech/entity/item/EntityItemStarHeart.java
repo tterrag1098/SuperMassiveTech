@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.entity;
+package tterrag.supermassivetech.entity.item;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -12,38 +12,14 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.registry.Stars.StarType;
+import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
-public class EntityStarHeart extends EntityItemIndestructible
+public class EntityItemStarHeart extends EntityItemIndestructible
 {
-	public class BlockCoord
-	{
-		public int x, y, z;
-		
-		public BlockCoord(int x, int y, int z)
-		{
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-		
-		@Override
-		public boolean equals(Object obj) 
-		{
-			if (obj instanceof BlockCoord)
-			{
-				BlockCoord coord = (BlockCoord) obj;
-				
-				return coord.x == this.x && coord.y == this.y && coord.z == this.z;
-			}
-			
-			return false;
-		}
-	}
-	
-	public EntityStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
+	public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
 	{
 		super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
 	}
@@ -84,27 +60,24 @@ public class EntityStarHeart extends EntityItemIndestructible
 		
 		if (explodeTimer > 0 && explodeTimer < TIMER_MAX)
 		{
-			if (fire.size() > 0/* && explodeTimer % 4 == 0*/)
+			if (fire.size() > 0)
 			{
 				if (particlesLeft <= 0)
 				{
 					toRemove = fire.remove(new Random().nextInt(fire.size()));
-					if (worldObj.getBlock(toRemove.x, toRemove.y, toRemove.z) == Blocks.fire)
-					{
-						worldObj.setBlockToAir(toRemove.x, toRemove.y, toRemove.z);
-						particlesLeft = 6 + new Random().nextInt(2) - 1;
-					}
+					extinguish(toRemove);
+					
+					particlesLeft = 6 + new Random().nextInt(2) - 1;
 					explodeTimer--;
 				}
 				else if (particlesLeft > 0)
 				{
-					spawnInwardParticle(toRemove.x, toRemove.y, toRemove.z);
+					spawnInwardParticles(toRemove.x, toRemove.y, toRemove.z);
 					particlesLeft--;
 				}
 				else explodeTimer--;
 			}
-			else explodeTimer--;
-			explodeTimer = Math.max(0, explodeTimer);
+			else explodeTimer = 0;
 		}
 	}
 	
@@ -174,7 +147,7 @@ public class EntityStarHeart extends EntityItemIndestructible
 		}	
 	}
 	
-	private void spawnInwardParticle(int x, int y, int z) 
+	private void spawnInwardParticles(int x, int y, int z) 
 	{
 		if (Minecraft.getMinecraft().thePlayer != null && FMLClientHandler.instance().getClient().thePlayer.worldObj != null)
 		{
@@ -182,5 +155,12 @@ public class EntityStarHeart extends EntityItemIndestructible
 			FMLClientHandler.instance().getClient().thePlayer.worldObj.spawnParticle("flame", x + 0.5, y + 0.5, z + 0.5, (posX - x - 0.5) / 13, (posY - y - 0.5) / 13, (posZ - z - 0.5) / 13);
 		}
 	}
-
+	
+	private void extinguish(BlockCoord coord)
+	{
+		if (worldObj.getBlock(toRemove.x, toRemove.y, toRemove.z) == Blocks.fire)
+		{
+			worldObj.setBlockToAir(toRemove.x, toRemove.y, toRemove.z);
+		}
+	}
 }

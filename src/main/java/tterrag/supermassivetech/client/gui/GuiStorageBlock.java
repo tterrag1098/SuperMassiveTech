@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.client;
+package tterrag.supermassivetech.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureMap;
