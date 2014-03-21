@@ -173,9 +173,9 @@ public class Stars
 		return null;
 	}
 	
-	public StarTier getWeightedRandomTier()
+	public StarTier getWeightedRandomTier(int offset)
 	{
-		int tier = new Random().nextInt(1000);
+		int tier = new Random().nextInt(1000) - (offset * 2);
 		if (tier < 10)
 			return HIGH;
 		else if (tier < 100)

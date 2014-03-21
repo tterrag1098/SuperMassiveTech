@@ -1,5 +1,8 @@
 package tterrag.supermassivetech.entity.item;
 
+import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
+import static tterrag.supermassivetech.SuperMassiveTech.starRegistry;
+
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -10,7 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import static tterrag.supermassivetech.SuperMassiveTech.*;
+import tterrag.supermassivetech.registry.Stars.StarTier;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -24,7 +27,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 	}
 
 	private boolean ready;
-	private int explodeTimer = -1, particlesLeft = 0;
+	private int explodeTimer = -1, particlesLeft = 0, powerLevel;
 	private final int TIMER_MAX = 60;
 	private BlockCoord toRemove = null;
 	
@@ -48,6 +51,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 		{
 			getFire();
 			explodeTimer--;
+			powerLevel = fire.size();
 		}
 		else if (explodeTimer == 0)
 		{
@@ -85,7 +89,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 		ItemStack star = new ItemStack(itemRegistry.star, this.getEntityItem().stackSize);
 
 		// Sets the type of the star to a random type
-		Utils.setType(star, starRegistry.getRandomTypeByTier(starRegistry.getWeightedRandomTier()));
+		Utils.setType(star, starRegistry.getRandomTypeByTier(starRegistry.getWeightedRandomTier(powerLevel)));
 
 		worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
