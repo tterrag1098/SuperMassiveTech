@@ -13,7 +13,6 @@ import cofh.api.tileentity.IEnergyInfo;
 
 public class TileStarHarvester extends TileSMTInventory implements IEnergyHandler, IEnergyInfo
 {
-	private ItemStack[] inventory = new ItemStack[1];
 	private int slot = 0, currentPerTick = 0;
 	private EnergyStorage storage;
 	private final int STORAGE_CAP = 100000;
@@ -21,6 +20,7 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 	public TileStarHarvester()
 	{
 		storage = new EnergyStorage(STORAGE_CAP);
+		inventory = new ItemStack[1];
 	}
 	
 	@Override

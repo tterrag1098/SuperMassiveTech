@@ -4,9 +4,10 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Facing;
 import net.minecraft.world.World;
 
-public class BlockContainerSMT extends BlockContainer
+public abstract class BlockContainerSMT extends BlockContainer
 {
 
 	Class<? extends TileEntity> te;
@@ -41,5 +42,17 @@ public class BlockContainerSMT extends BlockContainer
 		}
 		return null;
 	}
+	
+	public boolean hasPlacementRotation()
+	{
+		return true;
+	}
+	
+	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitx, float hity, float hitz, int meta)
+	{
+		int opp = Facing.oppositeSide[side];
 
+		return hasPlacementRotation() ? opp : 0;
+	}
 }

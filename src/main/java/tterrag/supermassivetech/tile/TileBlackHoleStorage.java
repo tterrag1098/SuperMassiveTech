@@ -6,10 +6,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -18,6 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.util.Utils;
 
 /**
  * @author Garrett Spicer-Davis
@@ -51,7 +48,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 		@Override
 		public boolean isItemValid(ItemStack par1ItemStack)
 		{
-			return storedItem == null || stacksEqual(par1ItemStack, storedItem);
+			return storedItem == null || Utils.stacksEqual(par1ItemStack, storedItem);
 		}
 	}
 
@@ -84,7 +81,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 
 		if (inventory[1] != null && storedAmount < max)
 		{
-			if (stacksEqual(inventory[1], storedItem))
+			if (Utils.stacksEqual(inventory[1], storedItem))
 			{
 				int inputToStorage = inventory[1].stackSize;
 				if ((storedAmount + inputToStorage) > max)
@@ -132,7 +129,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 					storedItem = null;
 				}
 			}
-			else if (inventory[2].stackSize < maxStack && stacksEqual(inventory[2], storedItem))
+			else if (inventory[2].stackSize < maxStack && Utils.stacksEqual(inventory[2], storedItem))
 			{
 				int outputFromStorage = maxStack - inventory[2].stackSize;
 				if (outputFromStorage < storedAmount)
@@ -217,49 +214,17 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack)
 	{
-		if (i == 1) { return storedItem == null || stacksEqual(storedItem, itemstack); }
+		if (i == 1) { return storedItem == null || Utils.stacksEqual(storedItem, itemstack); }
 
 		if (i == 0) { return FluidContainerRegistry.isContainer(itemstack); }
 
 		return false;
 	}
 
-	/**
-	 * @author powercrystals
-	 */
-	public static boolean stacksEqual(ItemStack s1, ItemStack s2)
-	{
-		if (s1 == null && s2 == null)
-			return true;
-		if (s1 == null || s2 == null)
-			return false;
-		if (!s1.isItemEqual(s2))
-			return false;
-		if (s1.getTagCompound() == null && s2.getTagCompound() == null)
-			return true;
-		if (s1.getTagCompound() == null || s2.getTagCompound() == null)
-			return false;
-		return s1.getTagCompound().equals(s2.getTagCompound());
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-
-		NBTTagList nbttaglist = new NBTTagList();
-
-		for (int i = 0; i < this.inventory.length; ++i)
-		{
-			if (this.inventory[i] != null)
-			{
-				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-				nbttagcompound1.setByte("Slot", (byte) i);
-				this.inventory[i].writeToNBT(nbttagcompound1);
-				nbttaglist.appendTag(nbttagcompound1);
-			}
-		}
-		nbt.setTag("Items", nbttaglist);
 
 		nbt.setLong("stored", storedAmount);
 		NBTTagCompound itemstackNBT = new NBTTagCompound();
@@ -279,35 +244,11 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 	{
 		super.readFromNBT(nbt);
 
-		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
-
-		for (int i = 0; i < nbttaglist.tagCount(); ++i)
-		{
-			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-			int j = nbttagcompound1.getByte("Slot") & 255;
-
-			this.inventory[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
-		}
-
 		storedAmount = nbt.getLong("stored");
 		storedItem = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("itemstack"));
 
 		tank.amountStored = nbt.getLong("fluidStored");
 		tank.fluidStored = FluidStack.loadFluidStackFromNBT((NBTTagCompound) nbt.getTag("fluidstack"));
-	}
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound nbt = new NBTTagCompound();
-		this.writeToNBT(nbt);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.func_148857_g());
 	}
 
 	/**

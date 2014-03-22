@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.network.packet.PacketBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
+import tterrag.supermassivetech.util.Utils;
 
 public class ContainerStorageBlock extends ContainerSMT
 {
@@ -44,7 +45,7 @@ public class ContainerStorageBlock extends ContainerSMT
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			if (par2 < 36 && (TileBlackHoleStorage.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
+			if (par2 < 36 && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
 			{
 				if (!this.mergeItemStack(itemstack1, 37, 38, false))
 					return null;

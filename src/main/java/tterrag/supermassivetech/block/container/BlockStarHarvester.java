@@ -19,7 +19,7 @@ public class BlockStarHarvester extends BlockContainerSMT
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (!world.isRemote && te instanceof TileStarHarvester)
 		{
-			return ((TileStarHarvester)te).insertStar(player);
+			return !((TileStarHarvester)te).insertStar(player);
 		}
 		return false;
 	}

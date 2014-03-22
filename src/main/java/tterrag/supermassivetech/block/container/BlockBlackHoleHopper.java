@@ -4,7 +4,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.Facing;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
@@ -17,14 +16,6 @@ public class BlockBlackHoleHopper extends BlockContainerSMT
 		setStepSound(soundTypeMetal);
 		setHardness(30.0f);
 		setCreativeTab(SuperMassiveTech.tabSMT);
-	}
-
-	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitx, float hity, float hitz, int meta)
-	{
-		int opp = Facing.oppositeSide[side];
-
-		return opp;
 	}
 	
 	@Override
