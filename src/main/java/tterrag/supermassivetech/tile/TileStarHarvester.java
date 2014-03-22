@@ -2,6 +2,7 @@ package tterrag.supermassivetech.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
@@ -13,7 +14,7 @@ import cofh.api.tileentity.IEnergyInfo;
 public class TileStarHarvester extends TileSMTInventory implements IEnergyHandler, IEnergyInfo
 {
 	private ItemStack[] inventory = new ItemStack[1];
-	private int slot = 0;
+	private int slot = 0, currentPerTick = 0;
 	private EnergyStorage storage;
 	private final int STORAGE_CAP = 100000;
 	
@@ -30,14 +31,29 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 		{
 			IStar type = Utils.getType(inventory[slot]);
 			int energy = inventory[slot].getTagCompound().getInteger("energy");
+			currentPerTick = type.getPowerPerTick();
 			if (energy > 0)
 			{
-				inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > type.getPowerPerTick() ? type.getPowerPerTick() : energy, false));
+				inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > currentPerTick ? currentPerTick : energy, false));
 			}
+			attemptOutputEnergy();
 			System.out.println(storage.getEnergyStored() + " " + inventory[slot].getTagCompound().getInteger("energy"));
 		}
 	}
 	
+	private void attemptOutputEnergy() 
+	{
+		for (ForgeDirection f : ForgeDirection.values())
+		{
+			TileEntity te = worldObj.getTileEntity(xCoord + f.offsetX, yCoord + f.offsetY, zCoord + f.offsetZ);
+			if (te instanceof IEnergyHandler)
+			{
+				IEnergyHandler ieh = (IEnergyHandler) te;
+				storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), currentPerTick, false), false);
+			}
+		}
+	}
+
 	@Override
 	public boolean isGravityWell() 
 	{
