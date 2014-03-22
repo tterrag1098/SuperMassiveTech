@@ -1,14 +1,16 @@
 package tterrag.supermassivetech.tile;
 
-import net.minecraft.inventory.IInventory;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
+import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.tileentity.IEnergyInfo;
 
-public class TileStarHarvester extends TileSMTInventory implements IInventory, IEnergyHandler, IEnergyInfo
+public class TileStarHarvester extends TileSMTInventory implements IEnergyHandler, IEnergyInfo
 {
 	private ItemStack[] inventory = new ItemStack[1];
 	private int slot = 0;
@@ -21,15 +23,31 @@ public class TileStarHarvester extends TileSMTInventory implements IInventory, I
 	}
 	
 	@Override
+	public void updateEntity() 
+	{
+		super.updateEntity();
+		if (inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar)
+		{
+			IStar type = Utils.getType(inventory[slot]);
+			int energy = inventory[slot].getTagCompound().getInteger("energy");
+			if (energy > 0)
+			{
+				inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > type.getPowerPerTick() ? type.getPowerPerTick() : energy, false));
+			}
+			System.out.println(storage.getEnergyStored() + " " + inventory[slot].getTagCompound().getInteger("energy"));
+		}
+	}
+	
+	@Override
 	public boolean isGravityWell() 
 	{
-		return false;
+		return inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar;
 	}
 
 	@Override
 	public boolean showParticles() 
 	{
-		return false;
+		return true;
 	}
 
 	@Override
@@ -47,7 +65,8 @@ public class TileStarHarvester extends TileSMTInventory implements IInventory, I
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) 
 	{
-		return 0;
+		System.out.println("attempted extract: " + maxExtract);
+		return storage.extractEnergy(maxExtract, simulate);
 	}
 
 	@Override
@@ -87,7 +106,22 @@ public class TileStarHarvester extends TileSMTInventory implements IInventory, I
 	}
 
 	@Override
-	public int getMaxEnergy() {
+	public int getMaxEnergy() 
+	{
 		return STORAGE_CAP;
+	}
+	
+	public boolean insertStar(EntityPlayer player)
+	{
+		ItemStack stack = player.getCurrentEquippedItem();
+		if (stack != null && stack.getItem() instanceof ItemStar && inventory[slot] == null)
+		{
+			ItemStack insert = stack.copy();
+			insert.stackSize = 1;
+			inventory[slot] = insert;
+			player.getCurrentEquippedItem().stackSize--;
+			return true;
+		}
+		return false;
 	}
 }

@@ -245,6 +245,7 @@ public class Utils
 				stack.stackTagCompound = new NBTTagCompound();
 
 			stack.stackTagCompound.setString("type", type.toString());
+			stack.stackTagCompound.setInteger("energy", type.getPowerStoredMax());
 		}
 		else if (stack != null)
 		{

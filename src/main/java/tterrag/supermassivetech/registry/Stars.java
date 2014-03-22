@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.item.ItemStack;
+
 public class Stars
 {
 	private static int nextStarID = 0;
@@ -44,7 +46,7 @@ public class Stars
 	{
 		private String name;
 		private int id;
-		private int color, powerMax, powerStored, powerPerTick, fuse;
+		private int color, powerMax, powerPerTick, fuse;
 		StarTier tier;
 
 		/**
@@ -64,7 +66,7 @@ public class Stars
 			id = nextStarID++;
 			this.tier = tier;
 			this.color = color;
-			this.powerMax = this.powerStored = powerMax;
+			this.powerMax = powerMax;
 			this.powerPerTick = powerPerTick;
 			this.fuse = fuse;
 		}
@@ -94,9 +96,9 @@ public class Stars
 		}
 		
 		@Override
-		public int getPowerStored() 
+		public int getPowerStored(ItemStack stack) 
 		{
-			return powerStored;
+			return stack.getTagCompound() == null ? 0 : stack.getTagCompound().getInteger("energy");
 		}
 		
 		@Override

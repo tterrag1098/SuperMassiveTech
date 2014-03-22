@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.registry;
 
+import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.registry.Stars.StarTier;
 
 public interface IStar
@@ -17,7 +18,7 @@ public interface IStar
 	/**
 	 * The amount of power currently stored in this star
 	 */
-	public int getPowerStored();
+	public int getPowerStored(ItemStack stack);
 	
 	/**
 	 * The amount of power that was initially in this star

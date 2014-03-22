@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
@@ -47,14 +46,9 @@ public class ItemStar extends ItemSMT
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list)
 	{
-		NBTTagCompound tag = new NBTTagCompound();
 		for (IStar t : stars.types.values())
 		{
-			tag = new NBTTagCompound();
-			tag.setString("type", t.toString());
-			ItemStack i = new ItemStack(this);
-			i.setTagCompound(tag);
-			list.add(i);
+			list.add(Utils.setType(new ItemStack(this), t));
 		}
 	}
 

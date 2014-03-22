@@ -12,3 +12,10 @@
 /.settings
 /config
 !/src/main/resources
+/crash-reports
+/logs
+/mods
+/resourcepacks
+/saves
+/screenshots
+/options.txt
