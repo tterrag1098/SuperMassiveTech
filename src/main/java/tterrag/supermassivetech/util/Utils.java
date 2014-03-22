@@ -53,44 +53,44 @@ public class Utils
 	 * Formats a string and number for use in GUIs and tooltips
 	 * 
 	 * @param prefix - The string to put before the formatted number
+	 * @param suffix - The string to put after the formatted number
 	 * @param amnt - The number to be formatted
-	 * @param isFluid - If the number represents a fluid
 	 * @param useDecimals - Whether or not to use decimals in the representation
 	 * @return
 	 */
-	public static String formatString(String prefix, long amnt, boolean isFluid, boolean useDecimals)
+	public static String formatString(String prefix, String suffix, long amnt, boolean useDecimals)
 	{
 		if (amnt == TileBlackHoleStorage.max)
 		{
-			prefix += "2^40 mB";
+			prefix += "2^40" + suffix;
 			return prefix;
 		}
 
 		switch (Long.toString(amnt).length())
 		{
 		case 7:
-			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "MmB" : "M");
+			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + "M" + suffix;
 			return prefix;
 		case 8:
-			prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "MmB" : "M");
+			prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + "M" + suffix;
 			return prefix;
 		case 9:
-			prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "MmB" : "M");
+			prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + "M" + suffix;
 			return prefix;
 		case 10:
-			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + (isFluid ? "GmB" : "B");
+			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + "B" + suffix;
 			return prefix;
 		case 11:
-			prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + (isFluid ? "GmB" : "B");
+			prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + "B" + suffix;
 			return prefix;
 		case 12:
-			prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + (isFluid ? "GmB" : "B");
+			prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + "B" + suffix;
 			return prefix;
 		case 13:
-			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 5) : "") + (isFluid ? "TmB" : "T");
+			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 5) : "") + "T" + suffix;
 			return prefix;
 		default:
-			prefix += "" + amnt + (isFluid ? "mb" : "");
+			prefix += "" + amnt + suffix;
 			return prefix;
 		}
 	}

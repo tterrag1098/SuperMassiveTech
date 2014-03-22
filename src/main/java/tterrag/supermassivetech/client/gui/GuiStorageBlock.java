@@ -43,13 +43,13 @@ public class GuiStorageBlock extends GuiContainer
 		if (itemsStored < 1000000)
 			formattedItemAmount += itemsStored;
 		else if (itemsStored >= 1000000)
-			formattedItemAmount = Utils.formatString(formattedItemAmount, itemsStored, false, true);
+			formattedItemAmount = Utils.formatString(formattedItemAmount, "", itemsStored, true);
 
 		formattedFluidAmount = "Stored: ";
 		if (fluidStored < 1000000)
-			formattedFluidAmount += fluidStored + "mb";
+			formattedFluidAmount += fluidStored + "mB";
 		else if (fluidStored >= 1000000)
-			formattedFluidAmount = Utils.formatString(formattedFluidAmount, fluidStored, true, true);
+			formattedFluidAmount = Utils.formatString(formattedFluidAmount, "mB", fluidStored, true);
 
 		this.mc.getTextureManager().bindTexture(new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/storageGui.png"));
 
@@ -130,6 +130,6 @@ public class GuiStorageBlock extends GuiContainer
 	{
 		long l = getScaledLiquidAmount();
 
-		return Utils.formatString("", l, true, l == max);
+		return Utils.formatString("", "mB", l, l == max);
 	}
 }

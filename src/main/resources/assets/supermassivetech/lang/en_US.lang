@@ -5,4 +5,4 @@ tterrag.starHarvester.name=Star Harvester
 item.star.name=Star
 item.starHeart.name=Heart of Star
 
-itemgroup.superMassiveTech.name=Super Massive Tech
+itemGroup.superMassiveTech=Super Massive Tech

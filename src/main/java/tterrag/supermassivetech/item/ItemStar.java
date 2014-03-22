@@ -63,8 +63,10 @@ public class ItemStar extends ItemSMT
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
-		par3List.add(Utils.getType(par1ItemStack).toString());
-		par3List.add("Tier: " + Utils.getType(par1ItemStack).getTier().toString());
+		IStar type = Utils.getType(par1ItemStack);
+		par3List.add(type.toString());
+		par3List.add("Tier: " + type.getTier().toString());
+		par3List.add("Outputs " + Utils.formatString("", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t");
 	}
 
 	@Override

@@ -13,7 +13,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.registry.Stars.StarTier;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.client.FMLClientHandler;
