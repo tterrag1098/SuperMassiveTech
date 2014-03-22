@@ -17,10 +17,11 @@ public class BlockStarHarvester extends BlockContainerSMT
 	public boolean onBlockActivated(World world, int x,	int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) 
 	{
 		TileEntity te = world.getTileEntity(x, y, z);
+		boolean returnVal = false;
 		if (!world.isRemote && te instanceof TileStarHarvester)
 		{
-			return !((TileStarHarvester)te).insertStar(player);
+			returnVal = ((TileStarHarvester)te).handleRightClick(player);
 		}
-		return false;
+		return returnVal;
 	}
 }

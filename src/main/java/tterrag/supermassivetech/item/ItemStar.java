@@ -60,7 +60,8 @@ public class ItemStar extends ItemSMT
 		IStar type = Utils.getType(par1ItemStack);
 		par3List.add(type.toString());
 		par3List.add("Tier: " + type.getTier().toString());
-		par3List.add("Outputs " + Utils.formatString("", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t");
+		par3List.add(Utils.formatString("Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t");
+		par3List.add(Utils.formatString("Power Remaining: ", " RF", par1ItemStack.getTagCompound().getInteger("energy"), false));
 	}
 
 	@Override

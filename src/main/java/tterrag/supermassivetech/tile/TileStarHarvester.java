@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.Utils;
@@ -27,7 +28,7 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 	public void updateEntity() 
 	{
 		super.updateEntity();
-		if (inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar)
+		if (!worldObj.isRemote && inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar)
 		{
 			IStar type = Utils.getType(inventory[slot]);
 			int energy = inventory[slot].getTagCompound().getInteger("energy");
@@ -37,7 +38,6 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 				inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > currentPerTick ? currentPerTick : energy, false));
 			}
 			attemptOutputEnergy();
-			System.out.println(storage.getEnergyStored() + " " + inventory[slot].getTagCompound().getInteger("energy"));
 		}
 	}
 	
@@ -46,12 +46,18 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 		for (ForgeDirection f : ForgeDirection.values())
 		{
 			TileEntity te = worldObj.getTileEntity(xCoord + f.offsetX, yCoord + f.offsetY, zCoord + f.offsetZ);
-			if (te instanceof IEnergyHandler)
+			if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
 			{
 				IEnergyHandler ieh = (IEnergyHandler) te;
 				storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), currentPerTick, false), false);
 			}
 		}
+	}
+	
+	@Override
+	public int getInventoryStackLimit() 
+	{
+		return 1;
 	}
 
 	@Override
@@ -81,7 +87,6 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) 
 	{
-		System.out.println("attempted extract: " + maxExtract);
 		return storage.extractEnergy(maxExtract, simulate);
 	}
 
@@ -127,7 +132,7 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 		return STORAGE_CAP;
 	}
 	
-	public boolean insertStar(EntityPlayer player)
+	public boolean handleRightClick(EntityPlayer player)
 	{
 		ItemStack stack = player.getCurrentEquippedItem();
 		if (stack != null && stack.getItem() instanceof ItemStar && inventory[slot] == null)
@@ -136,6 +141,14 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 			insert.stackSize = 1;
 			inventory[slot] = insert;
 			player.getCurrentEquippedItem().stackSize--;
+			return true;
+		}
+		else if (stack == null && inventory[slot] != null)
+		{
+			if (!player.inventory.addItemStackToInventory(inventory[slot]))
+				player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
+			
+			inventory[slot] = null;
 			return true;
 		}
 		return false;
