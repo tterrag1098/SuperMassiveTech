@@ -38,13 +38,13 @@ public class SuperMassiveTech
 
 	public static ChannelHandler channelHandler = new ChannelHandler();
 	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", channelHandler);
-	
+
 	public static ModItems itemRegistry = ModItems.instance;
 	public static ModBlocks blockRegistry = ModBlocks.instance;
 	public static Stars starRegistry = Stars.instance;
 
 	public static CreativeTabs tabSMT = Utils.tab;
-	
+
 	public static int renderIDHopper;
 
 	@EventHandler
@@ -63,7 +63,7 @@ public class SuperMassiveTech
 
 		proxy.registerGuis();
 		proxy.registerRenderers();
-		
+
 		ChannelHandler.init();
 	}
 

@@ -26,7 +26,7 @@ public class Utils
 {
 	private static Constants c = Constants.instance();
 	private static Stars stars = Stars.instance;
-	
+
 	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "superMassiveTech")
 	{
 		@Override
@@ -128,7 +128,7 @@ public class Utils
 		double phi = Math.atan2(yDisplacment, xDisplacment);
 
 		showParticles &= dist > 1;
-		
+
 		// More strength for everything but players, lower dist is bigger effect
 		if (!(entity instanceof EntityPlayer))
 			dist *= 0.5;
@@ -163,10 +163,12 @@ public class Utils
 			vecZ = 0;
 
 		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
-	
+
 		// shows smoke particles
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles && FMLClientHandler.instance().getClient().effectRenderer != null && Minecraft.getMinecraft().thePlayer != null)
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ, ((xCoord + 0.5) - entity.posX) / 10, ((yCoord + 0.5) - entity.posY) / 10, ((zCoord + 0.5) - entity.posZ) / 10));
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles && FMLClientHandler.instance().getClient().effectRenderer != null
+				&& Minecraft.getMinecraft().thePlayer != null)
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ,
+					((xCoord + 0.5) - entity.posX) / 10, ((yCoord + 0.5) - entity.posY) / 10, ((zCoord + 0.5) - entity.posZ) / 10));
 	}
 
 	/**
@@ -258,7 +260,7 @@ public class Utils
 
 		return stack;
 	}
-	
+
 	/**
 	 * @author powercrystals
 	 */

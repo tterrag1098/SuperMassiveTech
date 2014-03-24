@@ -15,25 +15,25 @@ public class HopperRenderer extends TileEntitySpecialRenderer
 {
 	private IModelCustom model;
 	public static HopperRenderer instance = new HopperRenderer();
-	
+
 	public HopperRenderer()
 	{
 		model = AdvancedModelLoader.loadModel(new ResourceLocation("supermassivetech", "models/hopper.obj"));
 	}
-	
+
 	private static final ResourceLocation texture = new ResourceLocation("supermassivetech", "textures/models/hopper.png");
 
 	public void renderTileEntityBLHAt(TileBlackHoleHopper tile, double x, double y, double z, boolean metaOverride)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.1f : 0), (float) z + 0.5f);
-				
+
 		int meta = metaOverride ? 0 : tile.getBlockMetadata();
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		
-		switch(meta)
+
+		switch (meta)
 		{
-		case 1: 
+		case 1:
 			GL11.glRotatef(180f, 0, 0, 1);
 			GL11.glTranslatef(0, -1f, 0);
 			break;
@@ -54,14 +54,14 @@ public class HopperRenderer extends TileEntitySpecialRenderer
 			GL11.glTranslatef(0.5f, -0.5f, 0);
 			break;
 		}
-		
+
 		GL11.glScalef(0.5f, 0.5f, 0.5f);
-				
+
 		model.renderAll();
-		
+
 		GL11.glPopMatrix();
 	}
-	
+
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float yaw)
 	{

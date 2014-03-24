@@ -42,12 +42,12 @@ public abstract class BlockContainerSMT extends BlockContainer
 		}
 		return null;
 	}
-	
+
 	public boolean hasPlacementRotation()
 	{
 		return true;
 	}
-	
+
 	@Override
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitx, float hity, float hitz, int meta)
 	{

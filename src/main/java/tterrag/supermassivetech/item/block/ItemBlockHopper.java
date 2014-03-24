@@ -8,9 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockHopper extends ItemBlockGravity {
+public class ItemBlockHopper extends ItemBlockGravity
+{
 
-	public ItemBlockHopper(Block block) 
+	public ItemBlockHopper(Block block)
 	{
 		super(block);
 	}
@@ -18,7 +19,7 @@ public class ItemBlockHopper extends ItemBlockGravity {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack,	EntityPlayer par2EntityPlayer, List list, boolean par4) 
+	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List list, boolean par4)
 	{
 		list.add("Right click with an item to configure");
 		list.add("Right click with empty hand to check configuration");

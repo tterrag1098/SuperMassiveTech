@@ -29,16 +29,16 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 	private int explodeTimer = -1, particlesLeft = 0, powerLevel;
 	private final int TIMER_MAX = 60;
 	private BlockCoord toRemove = null;
-	
+
 	private LinkedList<BlockCoord> fire = new LinkedList<BlockCoord>();
-	
+
 	@Override
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
+
 		if (explodeTimer < 0)
-		{	
+		{
 			if (this.isBurning() && ready)
 			{
 				explodeTimer = TIMER_MAX;
@@ -59,7 +59,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 			else
 				changeToStar();
 		}
-		
+
 		if (explodeTimer > 0 && explodeTimer < TIMER_MAX)
 		{
 			if (fire.size() > 0)
@@ -68,7 +68,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 				{
 					toRemove = fire.remove(new Random().nextInt(fire.size()));
 					extinguish(toRemove);
-					
+
 					particlesLeft = 6 + new Random().nextInt(2) - 1;
 					explodeTimer--;
 				}
@@ -77,12 +77,14 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 					spawnInwardParticles(toRemove.x, toRemove.y, toRemove.z);
 					particlesLeft--;
 				}
-				else explodeTimer--;
+				else
+					explodeTimer--;
 			}
-			else explodeTimer = 0;
+			else
+				explodeTimer = 0;
 		}
 	}
-	
+
 	private void changeToStar()
 	{
 		ItemStack star = new ItemStack(itemRegistry.star, this.getEntityItem().stackSize);
@@ -93,7 +95,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 		worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
 		worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
-		
+
 		this.setDead();
 	}
 
@@ -114,7 +116,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 		else
 			return super.attackEntityFrom(par1DamageSource, par2);
 	}
-	
+
 	@SuppressWarnings("unused")
 	private boolean isInValidState()
 	{
@@ -129,10 +131,10 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	private void getFire()
 	{
 		for (int x = -5; x <= 5; x++)
@@ -141,23 +143,23 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 			{
 				for (int z = -5; z <= 5; z++)
 				{
-					if (worldObj.getBlock((int) posX + x, (int) posY + y , (int) posZ + z) == Blocks.fire)
+					if (worldObj.getBlock((int) posX + x, (int) posY + y, (int) posZ + z) == Blocks.fire)
 					{
 						fire.add(new BlockCoord((int) posX + x, (int) posY + y, (int) posZ + z));
 					}
 				}
 			}
-		}	
+		}
 	}
-	
-	private void spawnInwardParticles(int x, int y, int z) 
+
+	private void spawnInwardParticles(int x, int y, int z)
 	{
 		if (Minecraft.getMinecraft().thePlayer != null && FMLClientHandler.instance().getClient().thePlayer.worldObj != null)
 		{
 			FMLClientHandler.instance().getClient().thePlayer.worldObj.spawnParticle("flame", x + 0.5, y + 0.5, z + 0.5, (posX - x - 0.5) / 13, (posY - y - 0.5) / 13, (posZ - z - 0.5) / 13);
 		}
 	}
-	
+
 	private void extinguish(BlockCoord coord)
 	{
 		if (worldObj.getBlock(toRemove.x, toRemove.y, toRemove.z) == Blocks.fire)

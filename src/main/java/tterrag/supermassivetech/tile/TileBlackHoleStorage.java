@@ -160,9 +160,9 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 	{
 		return true;
 	}
-	
+
 	@Override
-	public boolean showParticles() 
+	public boolean showParticles()
 	{
 		return true;
 	}

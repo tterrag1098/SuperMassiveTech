@@ -174,9 +174,9 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 	{
 		return null;
 	}
-	
+
 	@Override
-	public boolean hasPlacementRotation() 
+	public boolean hasPlacementRotation()
 	{
 		return false;
 	}

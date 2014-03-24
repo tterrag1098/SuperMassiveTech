@@ -30,7 +30,7 @@ public class TileBlackHoleHopper extends TileSMTInventory
 	{
 		public int x, y, z;
 		public IInventory inv;
-		
+
 		public InventoryConnection(IInventory inv, int x, int y, int z)
 		{
 			this.inv = inv;
@@ -58,7 +58,7 @@ public class TileBlackHoleHopper extends TileSMTInventory
 
 		if (worldObj.isRemote)
 			return;
-		
+
 		if (connectionDir == null || connection == null)
 		{
 			connectionDir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
@@ -78,7 +78,6 @@ public class TileBlackHoleHopper extends TileSMTInventory
 		}
 
 		processNearbyItems();
-
 
 		if (onTime())
 		{
@@ -158,12 +157,12 @@ public class TileBlackHoleHopper extends TileSMTInventory
 						&& (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
 				{
 					i.inv.decrStackSize(idx, 1);
-		
+
 					if (inventory[hiddenSlot] == null)
 						inventory[hiddenSlot] = new ItemStack(stack.getItem());
 					else
 						inventory[hiddenSlot].stackSize++;
-					
+
 					spawnParticle(i.x, i.y, i.z);
 					break loop;
 				}
@@ -177,9 +176,10 @@ public class TileBlackHoleHopper extends TileSMTInventory
 		return list;
 	}
 
-	private void spawnParticle(int fromX, int fromY, int fromZ) 
+	private void spawnParticle(int fromX, int fromY, int fromZ)
 	{
-		SuperMassiveTech.channelHandler.sendToAllInRange(20D, fromX, fromY, fromZ, FMLClientHandler.instance().getClient().thePlayer.dimension, new PacketHopperParticle(xCoord, yCoord, zCoord, fromX, fromY, fromZ));	
+		SuperMassiveTech.channelHandler.sendToAllInRange(20D, fromX, fromY, fromZ, FMLClientHandler.instance().getClient().thePlayer.dimension, new PacketHopperParticle(xCoord, yCoord, zCoord, fromX,
+				fromY, fromZ));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -191,7 +191,7 @@ public class TileBlackHoleHopper extends TileSMTInventory
 		for (EntityItem item : touchingEntityItems)
 		{
 			if ((inventory[hiddenSlot] == null || itemStackEquals(item.getEntityItem(), inventory[hiddenSlot])
-					 && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize())))
+					&& (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize())))
 			{
 				if (inventory[hiddenSlot] == null)
 				{
@@ -219,9 +219,9 @@ public class TileBlackHoleHopper extends TileSMTInventory
 	{
 		return true;
 	}
-	
+
 	@Override
-	public boolean showParticles() 
+	public boolean showParticles()
 	{
 		return true;
 	}
@@ -276,18 +276,18 @@ public class TileBlackHoleHopper extends TileSMTInventory
 	{
 		return te1.xCoord != te2.x || te1.yCoord != te2.y || te1.zCoord != te2.z;
 	}
-	
+
 	public void setConfig(ItemStack stack, EntityPlayer player)
 	{
 		player.addChatMessage(new ChatComponentText("Set Configuration: " + StatCollector.translateToLocal(stack.getUnlocalizedName() + ".name")));
 		inventory[cfgSlot] = stack.copy();
 	}
-	
+
 	public String getConfig()
 	{
 		return inventory[cfgSlot] == null ? "nothing" : StatCollector.translateToLocal(inventory[cfgSlot].getUnlocalizedName() + ".name");
 	}
-	
+
 	public void clearConfig(EntityPlayer player)
 	{
 		if (inventory[cfgSlot] == null)
@@ -295,7 +295,7 @@ public class TileBlackHoleHopper extends TileSMTInventory
 			player.addChatMessage(new ChatComponentText("No Configuration Set!"));
 			return;
 		}
-		
+
 		player.addChatMessage(new ChatComponentText("Cleared Configuration: " + StatCollector.translateToLocal(inventory[cfgSlot].getUnlocalizedName() + ".name")));
 		inventory[cfgSlot] = null;
 	}
@@ -315,9 +315,9 @@ public class TileBlackHoleHopper extends TileSMTInventory
 
 		return s1.getTagCompound().equals(s2.getTagCompound());
 	}
-	
+
 	@Override
-	public String getInventoryName() 
+	public String getInventoryName()
 	{
 		return "tterrag.inventory.blackHoleHopper";
 	}

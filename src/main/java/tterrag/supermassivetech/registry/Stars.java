@@ -15,22 +15,20 @@ public class Stars
 {
 	private static int nextStarID = 0;
 	public static Stars instance = new Stars();
-	
+
 	public enum StarTier
 	{
-		LOW("Low"), 
-		NORMAL("Normal"),
-		HIGH("High");
-		
+		LOW("Low"), NORMAL("Normal"), HIGH("High");
+
 		private String name;
-		
+
 		StarTier(String name)
 		{
 			this.name = name;
 		}
-		
+
 		@Override
-		public String toString() 
+		public String toString()
 		{
 			return name;
 		}
@@ -53,11 +51,12 @@ public class Stars
 		 * Creates a new <code>StarType</code> object
 		 * 
 		 * @param name - name of the star type
-		 * @param tier - {@link StarTier} of this star, low &lt; normal &lt; high, in terms of value
+		 * @param tier - {@link StarTier} of this star, low &lt; normal &lt;
+		 *            high, in terms of value
 		 * @param color - hex color value
 		 * @param powerMax - max amount of power "stored" in this star
-		 * @param powerPerTick - max power per tick (in RF) this provides in a star
-		 *            harvester
+		 * @param powerPerTick - max power per tick (in RF) this provides in a
+		 *            star harvester
 		 * @param fuse - amount of time before exploding once it goes critical
 		 */
 		public StarType(String name, StarTier tier, int color, int powerMax, int powerPerTick, int fuse)
@@ -84,6 +83,7 @@ public class Stars
 		 * The automatically assigned numerical ID of this star, used for
 		 * ordering purposes
 		 */
+		@Override
 		public int getID()
 		{
 			return id;
@@ -94,15 +94,15 @@ public class Stars
 		{
 			return color;
 		}
-		
+
 		@Override
-		public int getPowerStored(ItemStack stack) 
+		public int getPowerStored(ItemStack stack)
 		{
 			return stack.getTagCompound() == null ? 0 : stack.getTagCompound().getInteger("energy");
 		}
-		
+
 		@Override
-		public int getPowerStoredMax() 
+		public int getPowerStoredMax()
 		{
 			return powerMax;
 		}
@@ -118,14 +118,14 @@ public class Stars
 		{
 			return fuse;
 		}
-		
+
 		@Override
 		public StarTier getTier()
 		{
 			return this.tier;
 		}
 	}
-	
+
 	public static int getNextStarID()
 	{
 		return nextStarID++;
@@ -174,7 +174,7 @@ public class Stars
 		}
 		return null;
 	}
-	
+
 	public StarTier getWeightedRandomTier(int offset)
 	{
 		int tier = new Random().nextInt(1000) - (offset * 2);
@@ -182,9 +182,10 @@ public class Stars
 			return HIGH;
 		else if (tier < 100)
 			return NORMAL;
-		else return LOW;
+		else
+			return LOW;
 	}
-	
+
 	public ArrayList<IStar> getStarsOfTier(StarTier tier)
 	{
 		ArrayList<IStar> list = new ArrayList<IStar>();
@@ -195,7 +196,7 @@ public class Stars
 		}
 		return list;
 	}
-	
+
 	public IStar getRandomTypeByTier(StarTier tier)
 	{
 		List<IStar> list = getStarsOfTier(tier);
@@ -213,16 +214,18 @@ public class Stars
 		registerStarType(new StarType("Supergiant", HIGH, 0xFFFFFF, 100000000, 160, 1200));
 		registerStarType(new StarType("Brown Dwarf", LOW, 0xAA5522, 2500000, 20, 2400));
 		registerStarType(new StarType("White Dwarf", LOW, 0x999999, 5000000, 160, 1200));
-		// TODO something awesome 
-		// registerStarType(new StarType("Neutron", NORMAL, 0x555577, 0, 0)); 
+		// TODO something awesome
+		// registerStarType(new StarType("Neutron", NORMAL, 0x555577, 0, 0));
 		// registerStarType(new StarType("Pulsar", HIGH, 0xFF00FF, 0, 0));
-		
+
 		/*
-		 *  - pulsars are neutron stars, neutrons are formed INSTEAD of black holes.
-		 *  - a critical star could have a chance of forming either of these two, OR a black hole.
-		 *  - the advantage of these would be a low power output for an infinite time (think RTG from IC2).
-		 *  - however, due to their unstable nature, stacking either of these items would cause a 
-		 *  	catastrophic explosion resulting in a black hole...probably obliterating whatever was holding the items. 
+		 * - pulsars are neutron stars, neutrons are formed INSTEAD of black
+		 * holes. - a critical star could have a chance of forming either of
+		 * these two, OR a black hole. - the advantage of these would be a low
+		 * power output for an infinite time (think RTG from IC2). - however,
+		 * due to their unstable nature, stacking either of these items would
+		 * cause a catastrophic explosion resulting in a black hole...probably
+		 * obliterating whatever was holding the items.
 		 */
 	}
 }

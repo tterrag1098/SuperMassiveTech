@@ -17,15 +17,15 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 	private int slot = 0, currentPerTick = 0;
 	private EnergyStorage storage;
 	private final int STORAGE_CAP = 100000;
-	
+
 	public TileStarHarvester()
 	{
 		storage = new EnergyStorage(STORAGE_CAP);
 		inventory = new ItemStack[1];
 	}
-	
+
 	@Override
-	public void updateEntity() 
+	public void updateEntity()
 	{
 		super.updateEntity();
 		if (!worldObj.isRemote && inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar)
@@ -40,8 +40,8 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 			attemptOutputEnergy();
 		}
 	}
-	
-	private void attemptOutputEnergy() 
+
+	private void attemptOutputEnergy()
 	{
 		for (ForgeDirection f : ForgeDirection.values())
 		{
@@ -53,85 +53,85 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 			}
 		}
 	}
-	
+
 	@Override
-	public int getInventoryStackLimit() 
+	public int getInventoryStackLimit()
 	{
 		return 1;
 	}
 
 	@Override
-	public boolean isGravityWell() 
+	public boolean isGravityWell()
 	{
 		return inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar;
 	}
 
 	@Override
-	public boolean showParticles() 
+	public boolean showParticles()
 	{
 		return true;
 	}
 
 	@Override
-	public String getInventoryName() 
+	public String getInventoryName()
 	{
 		return "tterrag.inventory.starHarvester";
 	}
 
 	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) 
+	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate)
 	{
 		return 0;
 	}
 
 	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) 
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate)
 	{
 		return storage.extractEnergy(maxExtract, simulate);
 	}
 
 	@Override
-	public boolean canInterface(ForgeDirection from) 
+	public boolean canInterface(ForgeDirection from)
 	{
 		return true;
 	}
 
 	@Override
-	public int getEnergyStored(ForgeDirection from) 
+	public int getEnergyStored(ForgeDirection from)
 	{
 		return storage.getEnergyStored();
 	}
 
 	@Override
-	public int getMaxEnergyStored(ForgeDirection from) 
+	public int getMaxEnergyStored(ForgeDirection from)
 	{
 		return STORAGE_CAP;
 	}
 
 	@Override
-	public int getEnergyPerTick() 
+	public int getEnergyPerTick()
 	{
 		return getMaxEnergyPerTick();
 	}
 
 	@Override
-	public int getMaxEnergyPerTick() 
+	public int getMaxEnergyPerTick()
 	{
 		return ((IStar) inventory[slot].getItem()).getPowerPerTick();
 	}
 
 	@Override
-	public int getEnergy() 
+	public int getEnergy()
 	{
 		return storage.getEnergyStored();
 	}
 
 	@Override
-	public int getMaxEnergy() 
+	public int getMaxEnergy()
 	{
 		return STORAGE_CAP;
 	}
-	
+
 	public boolean handleRightClick(EntityPlayer player)
 	{
 		ItemStack stack = player.getCurrentEquippedItem();
@@ -147,7 +147,7 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 		{
 			if (!player.inventory.addItemStackToInventory(inventory[slot]))
 				player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
-			
+
 			inventory[slot] = null;
 			return true;
 		}

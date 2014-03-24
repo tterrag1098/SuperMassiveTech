@@ -18,13 +18,13 @@ import cpw.mods.fml.relauncher.Side;
 public class ChannelHandler extends FMLIndexedMessageToMessageCodec<ISMTPacket>
 {
 	public static EnumMap<Side, FMLEmbeddedChannel> channels;
-	
+
 	public ChannelHandler()
 	{
 		addDiscriminator(0, PacketBlackHoleStorage.class);
 		addDiscriminator(1, PacketHopperParticle.class);
 	}
-	
+
 	public static void init()
 	{
 		channels = SuperMassiveTech.channels;
@@ -41,20 +41,20 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<ISMTPacket>
 	{
 		msg.decodeInto(source);
 	}
-	
+
 	public void sendToPlayer(EntityPlayer player, ISMTPacket packet)
 	{
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
 		channels.get(Side.SERVER).writeOutbound(packet);
 	}
-	
+
 	public void sendToAll(ISMTPacket packet)
 	{
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
 		channels.get(Side.SERVER).writeOutbound(packet);
 	}
-	
+
 	public void sendToAllInRange(double range, int x, int y, int z, int dimension, ISMTPacket packet)
 	{
 		channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);

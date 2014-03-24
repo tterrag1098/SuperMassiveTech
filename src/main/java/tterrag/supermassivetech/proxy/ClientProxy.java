@@ -21,7 +21,7 @@ public class ClientProxy extends CommonProxy
 	public void registerRenderers()
 	{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleHopper.class, new HopperRenderer());
-		
+
 		SuperMassiveTech.renderIDHopper = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(new HopperItemRenderer());
 	}

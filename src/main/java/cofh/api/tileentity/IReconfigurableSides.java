@@ -1,20 +1,21 @@
 package cofh.api.tileentity;
 
 /**
- * Implement this interface on Tile Entities which allow for reconfiguration of their sides.
+ * Implement this interface on Tile Entities which allow for reconfiguration of
+ * their sides.
  * 
  * Coordination with the containing block is required.
  * 
  * @author King Lemming
  * 
  */
-public interface IReconfigurableSides {
+public interface IReconfigurableSides
+{
 
 	/**
 	 * Decrement the config for a given side.
 	 * 
-	 * @param side
-	 *            The side to decrement.
+	 * @param side The side to decrement.
 	 * @return True if config was changed, false otherwise.
 	 */
 	public boolean decrSide(int side);
@@ -22,8 +23,7 @@ public interface IReconfigurableSides {
 	/**
 	 * Increment the config for a given side.
 	 * 
-	 * @param side
-	 *            The side to decrement.
+	 * @param side The side to decrement.
 	 * @return True if config was changed, false otherwise.
 	 */
 	public boolean incrSide(int side);
@@ -31,10 +31,8 @@ public interface IReconfigurableSides {
 	/**
 	 * Set the config for a given side.
 	 * 
-	 * @param side
-	 *            The side to set.
-	 * @param config
-	 *            The config value to use.
+	 * @param side The side to set.
+	 * @param config The config value to use.
 	 * @return True of config was set, false otherwise.
 	 */
 	public boolean setSide(int side, int config);

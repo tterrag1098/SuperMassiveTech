@@ -3,9 +3,11 @@ package cofh.api.transport;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-public interface IEnderAttuned {
+public interface IEnderAttuned
+{
 
-	public enum EnderTypes {
+	public enum EnderTypes
+	{
 		ITEM, FLUID, REDSTONE_FLUX
 	}
 

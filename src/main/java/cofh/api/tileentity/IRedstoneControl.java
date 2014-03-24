@@ -1,12 +1,14 @@
 package cofh.api.tileentity;
 
 /**
- * Implement this interface on Tile Entities which have redstone control functionality.
+ * Implement this interface on Tile Entities which have redstone control
+ * functionality.
  * 
  * @author King Lemming
  * 
  */
-public interface IRedstoneControl {
+public interface IRedstoneControl
+{
 
 	public boolean getControlDisable();
 

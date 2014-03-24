@@ -76,13 +76,13 @@ public class ItemStar extends ItemSMT
 	{
 		return true;
 	}
-	
+
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
 	{
 		if (entity instanceof EntityLivingBase)
 		{
-			((EntityLivingBase)entity).setFire(10);
+			((EntityLivingBase) entity).setFire(10);
 		}
 		return false;
 	}
@@ -92,7 +92,7 @@ public class ItemStar extends ItemSMT
 	{
 		if (block.isFlammable(world, x, y - 1, z, ForgeDirection.UP))
 			world.setBlock(x, y, z, Blocks.fire);
-		
+
 		return world.isRemote;
 	}
 }

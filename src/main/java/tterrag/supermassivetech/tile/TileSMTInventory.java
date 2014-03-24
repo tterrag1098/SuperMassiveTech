@@ -86,15 +86,14 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 	 * surrounding entities.
 	 */
 	public abstract boolean isGravityWell();
-	
+
 	public abstract boolean showParticles();
 
 	@Override
-	public int getSizeInventory() 
+	public int getSizeInventory()
 	{
 		return inventory.length;
 	}
-
 
 	@Override
 	public ItemStack decrStackSize(int i, int j)
@@ -125,11 +124,11 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int var1) 
+	public ItemStack getStackInSlot(int var1)
 	{
 		return var1 < inventory.length ? inventory[var1] : null;
 	}
-	
+
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i)
 	{
@@ -154,43 +153,43 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 			itemstack.stackSize = this.getInventoryStackLimit();
 		}
 	}
-	
+
 	@Override
-	public boolean hasCustomInventoryName() 
+	public boolean hasCustomInventoryName()
 	{
 		return false;
 	}
 
 	@Override
-	public int getInventoryStackLimit() 
+	public int getInventoryStackLimit()
 	{
 		return 64;
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1) 
+	public boolean isUseableByPlayer(EntityPlayer var1)
 	{
 		return true;
 	}
 
 	@Override
-	public void openInventory() 
+	public void openInventory()
 	{
 		// Do nothing
 	}
 
 	@Override
-	public void closeInventory() 
+	public void closeInventory()
 	{
 		// Do nothing
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int var1, ItemStack var2) 
+	public boolean isItemValidForSlot(int var1, ItemStack var2)
 	{
 		return var1 < inventory.length;
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{

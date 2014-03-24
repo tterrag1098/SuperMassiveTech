@@ -22,7 +22,8 @@ public class ItemStarHeart extends ItemSMT
 	@Override
 	public Entity createEntity(World world, Entity location, ItemStack itemstack)
 	{
-		return new EntityItemStarHeart(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
+		return new EntityItemStarHeart(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
+				((EntityItem) location).delayBeforeCanPickup);
 	}
 
 	@Override
@@ -30,11 +31,11 @@ public class ItemStarHeart extends ItemSMT
 	{
 		return true;
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) 
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
 	{
 		list.add("Creates a star when ignited in-world.");
 		list.add("More fire in the vicinity causes");
