@@ -19,11 +19,11 @@ import tterrag.supermassivetech.tile.TileSMTInventory;
 public class DirectionalObjRenderer extends TileEntitySpecialRenderer
 {
 	private IModelCustom model;
-	private ResourceLocation texture;// = new ResourceLocation("supermassivetech", "textures/models/hopper.png");
+	private ResourceLocation texture;
 
 	public DirectionalObjRenderer(ResourceLocation model, ResourceLocation texture)
 	{
-		this.model = AdvancedModelLoader.loadModel(model);//new ResourceLocation("supermassivetech", "models/hopper.obj"));
+		this.model = AdvancedModelLoader.loadModel(model);
 		this.texture = texture;
 	}
 

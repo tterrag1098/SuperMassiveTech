@@ -31,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Garrett Spicer-Davis
  * 
  */
-public class BlockBlackHoleStorage extends BlockContainerSMT
+public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInventoryAsItem
 {
 	public BlockBlackHoleStorage()
 	{
@@ -93,19 +93,25 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 
 		if (te instanceof TileBlackHoleStorage && stack.stackTagCompound != null && !world.isRemote)
 		{
-			long itemsStored = stack.stackTagCompound.getLong("itemsStored");
-			long fluidStored = stack.stackTagCompound.getLong("fluidStored");
-
-			ItemStack stackStored = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("itemStack"));
-			FluidStack fluidStackStored = FluidStack.loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack"));
-
-			TileBlackHoleStorage tile = (TileBlackHoleStorage) te;
-
-			tile.storedAmount = itemsStored;
-			tile.getTank().amountStored = fluidStored;
-			tile.setStoredItemOnPlace(stackStored);
-			tile.getTank().setStoredFluidOnPlace(fluidStackStored);
+			processBlockPlace(stack.stackTagCompound, te);
 		}
+	}
+	
+	@Override
+	public void processBlockPlace(NBTTagCompound tag, TileEntity te)
+	{
+		long itemsStored = tag.getLong("itemsStored");
+		long fluidStored = tag.getLong("fluidStored");
+
+		ItemStack stackStored = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("itemStack"));
+		FluidStack fluidStackStored = FluidStack.loadFluidStackFromNBT(tag.getCompoundTag("fluidStack"));
+
+		TileBlackHoleStorage tile = (TileBlackHoleStorage) te;
+
+		tile.storedAmount = itemsStored;
+		tile.getTank().amountStored = fluidStored;
+		tile.setStoredItemOnPlace(stackStored);
+		tile.getTank().setStoredFluidOnPlace(fluidStackStored);
 	}
 
 	@Override
@@ -115,6 +121,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 			dropItem(world, getNBTItem(world, x, y, z), x, y, z);
 	}
 
+	@Override
 	public ItemStack getNBTItem(World world, int x, int y, int z)
 	{
 		ItemStack stack = new ItemStack(this);
@@ -154,7 +161,8 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 		return stack;
 	}
 
-	private void dropItem(World world, ItemStack item, int x, int y, int z)
+	@Override
+	public void dropItem(World world, ItemStack item, int x, int y, int z)
 	{
 		float f = (float) Math.random() + x;
 		float f1 = (float) Math.random() + y;

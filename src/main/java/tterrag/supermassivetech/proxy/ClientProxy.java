@@ -17,7 +17,7 @@ public class ClientProxy extends CommonProxy
 	public static final DirectionalObjRenderer hopper = new DirectionalObjRenderer(new ResourceLocation("supermassivetech", "models/hopper.obj"), new ResourceLocation("supermassivetech", "textures/models/hopper.png"));
 	public static ItemObjRenderer hopperItem;
 
-	public static final DirectionalObjRenderer starHarvester = new DirectionalObjRenderer(new ResourceLocation("supermassivetech", "models/starHarvester.obj"), new ResourceLocation("supermassivetech", "textures/models/harvesterBlob.png"));
+	public static final DirectionalObjRenderer starHarvester = new DirectionalObjRenderer(new ResourceLocation("supermassivetech", "models/starHarvester.obj"), new ResourceLocation("supermassivetech", "textures/models/hopperBlob.png"));
 	public static ItemObjRenderer starHarvesterItem;
 
 	@Override
