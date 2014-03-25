@@ -31,8 +31,10 @@ public class ItemBlockHopper extends ItemBlockGravity
 			ItemStack cfg = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory1"));
 			ItemStack stored = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory0"));
 
-			list.add("Stored: " + stored != null ? stored.stackSize + " " + StatCollector.translateToLocal(stored.getUnlocalizedName() + ".name") : "None");
-			list.add("Configuration: " + cfg != null ? StatCollector.translateToLocal(cfg.getUnlocalizedName() + ".name") : "None");
+			if (stored != null)
+				list.add(String.format("Stored: %i %s", stored.stackSize, StatCollector.translateToLocal(stored.getUnlocalizedName() + ".name")));
+			if (cfg != null)
+				list.add(String.format("Configuration: %s", StatCollector.translateToLocal(cfg.getUnlocalizedName() + ".name")));
 		}
 	}
 }
