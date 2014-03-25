@@ -12,30 +12,9 @@ public class BlockBlackHoleHopper extends BlockContainerSMT
 {
 	public BlockBlackHoleHopper()
 	{
-		super("tterrag.blackHoleHopper", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleHopper.class);
-		setStepSound(soundTypeMetal);
-		setHardness(30.0f);
-		setCreativeTab(SuperMassiveTech.tabSMT);
+		super("tterrag.blackHoleHopper", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleHopper.class, SuperMassiveTech.renderIDHopper);
 	}
-
-	@Override
-	public boolean isOpaqueCube()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock()
-	{
-		return false;
-	}
-
-	@Override
-	public int getRenderType()
-	{
-		return SuperMassiveTech.renderIDHopper;
-	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{

@@ -4,13 +4,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 
 public class BlockStarHarvester extends BlockContainerSMT
 {
 	public BlockStarHarvester()
 	{
-		super("tterrag.starHarvester", Material.iron, soundTypeMetal, 15.0f, TileStarHarvester.class);
+		super("tterrag.starHarvester", Material.iron, soundTypeMetal, 15.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
 	}
 
 	@Override

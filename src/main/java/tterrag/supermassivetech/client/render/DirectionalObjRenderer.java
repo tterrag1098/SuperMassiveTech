@@ -9,21 +9,25 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.supermassivetech.tile.TileBlackHoleHopper;
+import tterrag.supermassivetech.tile.TileSMTInventory;
 
-public class HopperRenderer extends TileEntitySpecialRenderer
+/**
+ * Renders a model with directional placement
+ * 
+ * @author Garrett Spicer-Davis
+ */
+public class DirectionalObjRenderer extends TileEntitySpecialRenderer
 {
 	private IModelCustom model;
-	public static HopperRenderer instance = new HopperRenderer();
+	private ResourceLocation texture;// = new ResourceLocation("supermassivetech", "textures/models/hopper.png");
 
-	public HopperRenderer()
+	public DirectionalObjRenderer(ResourceLocation model, ResourceLocation texture)
 	{
-		model = AdvancedModelLoader.loadModel(new ResourceLocation("supermassivetech", "models/hopper.obj"));
+		this.model = AdvancedModelLoader.loadModel(model);//new ResourceLocation("supermassivetech", "models/hopper.obj"));
+		this.texture = texture;
 	}
 
-	private static final ResourceLocation texture = new ResourceLocation("supermassivetech", "textures/models/hopper.png");
-
-	public void renderTileEntityBLHAt(TileBlackHoleHopper tile, double x, double y, double z, boolean metaOverride)
+	public void renderDirectionalTileEntityAt(TileSMTInventory tile, double x, double y, double z, boolean metaOverride)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.1f : 0), (float) z + 0.5f);
@@ -65,6 +69,6 @@ public class HopperRenderer extends TileEntitySpecialRenderer
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float yaw)
 	{
-		renderTileEntityBLHAt((TileBlackHoleHopper) tile, x, y, z, false);
+		renderDirectionalTileEntityAt((TileSMTInventory) tile, x, y, z, false);
 	}
 }

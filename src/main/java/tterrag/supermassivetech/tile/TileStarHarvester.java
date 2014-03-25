@@ -93,7 +93,7 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 	@Override
 	public boolean canInterface(ForgeDirection from)
 	{
-		return true;
+		return from.ordinal() == getBlockMetadata();
 	}
 
 	@Override

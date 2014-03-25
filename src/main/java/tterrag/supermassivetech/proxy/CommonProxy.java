@@ -11,4 +11,9 @@ public class CommonProxy
 	{
 		// Overriden
 	}
+
+	public void init()
+	{
+		// Overriden
+	}
 }

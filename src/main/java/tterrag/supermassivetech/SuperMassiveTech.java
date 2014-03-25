@@ -17,6 +17,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -45,13 +46,16 @@ public class SuperMassiveTech
 
 	public static CreativeTabs tabSMT = Utils.tab;
 
-	public static int renderIDHopper;
+	public static int renderIDHopper, renderIDStarHarvester;
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
 	{
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		Constants.init();
+
+		proxy.registerGuis();
+		proxy.registerRenderers();
 
 		itemRegistry.register();
 		itemRegistry.addRecipes();
@@ -61,14 +65,12 @@ public class SuperMassiveTech
 
 		starRegistry.registerDefaultStars();
 
-		proxy.registerGuis();
-		proxy.registerRenderers();
-
 		ChannelHandler.init();
 	}
 
 	@EventHandler
-	public static void init(FMLPreInitializationEvent event)
+	public static void init(FMLInitializationEvent event)
 	{
+		proxy.init();
 	}
 }

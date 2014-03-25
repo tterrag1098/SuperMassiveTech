@@ -180,4 +180,10 @@ public class BlockBlackHoleStorage extends BlockContainerSMT
 	{
 		return false;
 	}
+	
+	@Override
+	public boolean hasCustomModel()
+	{
+		return false;
+	}
 }
