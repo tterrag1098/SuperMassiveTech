@@ -11,6 +11,15 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 {
 	private double toX, toY, toZ;
 
+	/**
+	 * @param x - starting posX
+	 * @param y - starting posY
+	 * @param z - starting posZ
+	 * @param toX - ending posX
+	 * @param toY - ending posY
+	 * @param toZ - ending posZ
+	 * @param movementFactor - factor to multiply movement by (usually < 1)
+	 */
 	public EntityCustomSmokeFX(World world, double x, double y, double z, double toX, double toY, double toZ, double movementFactor)
 	{
 		this(world, x, y, z, (toX - x) * movementFactor, (toY - y) * movementFactor, (toZ - z) * movementFactor, 1.0F);
@@ -42,7 +51,7 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 		{
 			this.setDead();
 		}
-		
+
 		System.out.println(this.posX + " " + this.posY);
 
 		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
@@ -67,8 +76,6 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 
 	private boolean isInRange()
 	{
-		return Math.floor(toX) == Math.floor(posX) &&
-			   Math.floor(toY) == Math.floor(posY) &&
-			   Math.floor(toZ) == Math.floor(posZ);
+		return Math.floor(toX) == Math.floor(posX) && Math.floor(toY) == Math.floor(posY) && Math.floor(toZ) == Math.floor(posZ);
 	}
 }
