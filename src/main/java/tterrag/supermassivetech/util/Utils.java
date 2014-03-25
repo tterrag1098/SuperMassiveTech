@@ -4,11 +4,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
@@ -277,5 +279,14 @@ public class Utils
 		if (s1.getTagCompound() == null || s2.getTagCompound() == null)
 			return false;
 		return s1.getTagCompound().equals(s2.getTagCompound());
+	}
+	
+	public static void spawnItemInWorldWithRandomMotion(World world, ItemStack item, int x, int y, int z)
+	{
+		float f = (float) Math.random() + x;
+		float f1 = (float) Math.random() + y;
+		float f2 = (float) Math.random() + z;
+
+		world.spawnEntityInWorld(new EntityItem(world, f, f1, f2, item));
 	}
 }

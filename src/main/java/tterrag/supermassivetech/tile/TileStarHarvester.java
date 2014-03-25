@@ -83,6 +83,11 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 	{
 		return 0;
 	}
+	
+	public void setEnergyStored(int energy)
+	{
+		storage.setEnergyStored(energy);
+	}
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate)

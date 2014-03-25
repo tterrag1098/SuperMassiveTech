@@ -5,19 +5,13 @@
  */
 package tterrag.supermassivetech.block.container;
 
-import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
@@ -82,20 +76,6 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 		else
 			return this.side;
 	}
-
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack)
-	{
-		int whichDirectionFacing = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
-		world.setBlockMetadataWithNotify(x, y, z, whichDirectionFacing, 2);
-
-		TileEntity te = world.getTileEntity(x, y, z);
-
-		if (te instanceof TileBlackHoleStorage && stack.stackTagCompound != null && !world.isRemote)
-		{
-			processBlockPlace(stack.stackTagCompound, te);
-		}
-	}
 	
 	@Override
 	public void processBlockPlace(NBTTagCompound tag, TileEntity te)
@@ -112,13 +92,6 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 		tile.getTank().amountStored = fluidStored;
 		tile.setStoredItemOnPlace(stackStored);
 		tile.getTank().setStoredFluidOnPlace(fluidStackStored);
-	}
-
-	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int p_149681_5_, EntityPlayer player)
-	{
-		if (!player.capabilities.isCreativeMode && !world.isRemote)
-			dropItem(world, getNBTItem(world, x, y, z), x, y, z);
 	}
 
 	@Override
@@ -162,25 +135,9 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 	}
 
 	@Override
-	public void dropItem(World world, ItemStack item, int x, int y, int z)
-	{
-		float f = (float) Math.random() + x;
-		float f1 = (float) Math.random() + y;
-		float f2 = (float) Math.random() + z;
-
-		world.spawnEntityInWorld(new EntityItem(world, f, f1, f2, item));
-	}
-
-	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
 	{
 		return new ItemStack(this); // Temp code why doesn't this work D:
-	}
-
-	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-	{
-		return null;
 	}
 
 	@Override

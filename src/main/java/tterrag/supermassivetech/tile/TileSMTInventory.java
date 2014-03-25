@@ -55,6 +55,8 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 		MAX_GRAV_XZ = maxGravXZ;
 		MAX_GRAV_Y = maxGravY;
 		MIN_GRAV = minGrav;
+		
+		inventory = new ItemStack[3];
 	}
 
 	@Override
