@@ -168,7 +168,7 @@ public class Utils
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles && FMLClientHandler.instance().getClient().effectRenderer != null
 				&& Minecraft.getMinecraft().thePlayer != null)
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ,
-					((xCoord + 0.5) - entity.posX) / 10, ((yCoord + 0.5) - entity.posY) / 10, ((zCoord + 0.5) - entity.posZ) / 10));
+					xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.1d));
 	}
 
 	/**

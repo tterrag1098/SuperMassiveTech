@@ -1,9 +1,7 @@
 package tterrag.supermassivetech.client.fx;
 
 import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.tile.TileSMTInventory;
 
 /**
  * Smoke particle that doesn't "float" upwards, noclips, and disappears inside
@@ -11,10 +9,15 @@ import tterrag.supermassivetech.tile.TileSMTInventory;
  */
 public class EntityCustomSmokeFX extends EntitySmokeFX
 {
+	private double toX, toY, toZ;
 
-	public EntityCustomSmokeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntityCustomSmokeFX(World world, double x, double y, double z, double toX, double toY, double toZ, double movementFactor)
 	{
-		this(par1World, par2, par4, par6, par8, par10, par12, 1.0F);
+		this(world, x, y, z, (toX - x) * movementFactor, (toY - y) * movementFactor, (toZ - z) * movementFactor, 1.0F);
+
+		this.toX = toX;
+		this.toY = toY;
+		this.toZ = toZ;
 	}
 
 	public EntityCustomSmokeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, float par14)
@@ -39,6 +42,8 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 		{
 			this.setDead();
 		}
+		
+		System.out.println(this.posX + " " + this.posY);
 
 		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -62,15 +67,8 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 
 	private boolean isInRange()
 	{
-		return isInGravityWell(worldObj.getTileEntity((int) (posX), (int) posY, (int) posZ)) || isInGravityWell(worldObj.getTileEntity((int) (posX), (int) posY - 1, (int) posZ))
-				|| isInGravityWell(worldObj.getTileEntity((int) (posX), (int) posY + 1, (int) posZ));
-	}
-
-	private boolean isInGravityWell(TileEntity te)
-	{
-		if (te == null || !(te instanceof TileSMTInventory))
-			return false;
-
-		return ((TileSMTInventory) te).isGravityWell();
+		return Math.floor(toX) == Math.floor(posX) &&
+			   Math.floor(toY) == Math.floor(posY) &&
+			   Math.floor(toZ) == Math.floor(posZ);
 	}
 }

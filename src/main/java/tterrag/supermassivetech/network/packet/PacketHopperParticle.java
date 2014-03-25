@@ -10,9 +10,7 @@ public class PacketHopperParticle implements ISMTPacket
 
 	private int[] info = new int[6];
 
-	public PacketHopperParticle()
-	{
-	}
+	public PacketHopperParticle() {}
 
 	public PacketHopperParticle(int... information)
 	{
@@ -41,6 +39,6 @@ public class PacketHopperParticle implements ISMTPacket
 		}
 
 		Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, data[3] + 0.5, data[4] + 0.5, data[5] + 0.5,
-				((double) (data[0] - data[3])) / 10, ((data[1] + 0.5) - data[4]) / 10, ((double) (data[2] - data[5])) / 10));
+				data[0] + 0.5, data[1] + 0.5, data[2] + 0.5, 0.1d));
 	}
 }
