@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import tterrag.supermassivetech.util.Utils;
 
 public class ItemBlockStarHarvester extends ItemBlockGravity
 {
@@ -21,10 +21,12 @@ public class ItemBlockStarHarvester extends ItemBlockGravity
 	{
 		if (stack.stackTagCompound != null)
 		{
-			list.add("Stored: ");
-
 			if (stack.stackTagCompound.getTag("inventory") != null)
-				list.add(StatCollector.translateToLocal(ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory")).getUnlocalizedName() + ".name"));
+			{
+				ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));
+				list.add(String.format("Stored: %s", Utils.getType(star).toString()));
+				list.add(String.format("Power Remaining: %s", Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false)));
+			}
 		}
 	}
 }

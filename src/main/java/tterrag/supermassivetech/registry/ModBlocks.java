@@ -5,6 +5,7 @@ import tterrag.supermassivetech.block.container.BlockBlackHoleHopper;
 import tterrag.supermassivetech.block.container.BlockBlackHoleStorage;
 import tterrag.supermassivetech.block.container.BlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockHopper;
+import tterrag.supermassivetech.item.block.ItemBlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -30,7 +31,7 @@ public class ModBlocks
 		GameRegistry.registerTileEntity(TileBlackHoleHopper.class, "tileBlackHoleHopper");
 
 		starHarvester = new BlockStarHarvester();
-		GameRegistry.registerBlock(starHarvester, "starHarvester");
+		GameRegistry.registerBlock(starHarvester, ItemBlockStarHarvester.class, "starHarvester");
 		GameRegistry.registerTileEntity(TileStarHarvester.class, "tileStarHarvester");
 	}
 

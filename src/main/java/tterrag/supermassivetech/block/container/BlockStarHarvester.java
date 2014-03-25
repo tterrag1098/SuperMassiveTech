@@ -63,10 +63,4 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
 			harvester.setEnergyStored(tag.getInteger("energy"));
 		}
 	}
-
-	@Override
-	public void dropItem(World world, ItemStack item, int x, int y, int z) 
-	{
-		
-	}
 }

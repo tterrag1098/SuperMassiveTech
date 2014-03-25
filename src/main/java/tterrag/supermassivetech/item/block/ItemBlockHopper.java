@@ -32,7 +32,7 @@ public class ItemBlockHopper extends ItemBlockGravity
 			ItemStack stored = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory0"));
 
 			if (stored != null)
-				list.add(String.format("Stored: %i %s", stored.stackSize, StatCollector.translateToLocal(stored.getUnlocalizedName() + ".name")));
+				list.add(String.format("Stored: %d %s", stored.stackSize, StatCollector.translateToLocal(stored.getUnlocalizedName() + ".name")));
 			if (cfg != null)
 				list.add(String.format("Configuration: %s", StatCollector.translateToLocal(cfg.getUnlocalizedName() + ".name")));
 		}

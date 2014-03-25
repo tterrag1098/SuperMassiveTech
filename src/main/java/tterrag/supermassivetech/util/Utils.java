@@ -232,6 +232,14 @@ public class Utils
 		else
 			return null;
 	}
+	
+	public static int getStarPowerRemaining(ItemStack star)
+	{
+		if (star != null && star.getItem() instanceof ItemStar && star.stackTagCompound != null)
+			return star.stackTagCompound.getInteger("energy");
+		else
+			return 0;
+	}
 
 	/**
 	 * Sets the type of a star itemstack, can handle items that are not

@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Facing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.util.Utils;
@@ -99,9 +98,6 @@ public abstract class BlockContainerSMT extends BlockContainer
 	{
 		if (this.keepInventoryAsItem())
 		{
-			int whichDirectionFacing = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
-			world.setBlockMetadataWithNotify(x, y, z, whichDirectionFacing, 2);
-
 			TileEntity te = world.getTileEntity(x, y, z);
 
 			if (te != null && te.getClass() == this.teClass && stack.stackTagCompound != null && !world.isRemote)

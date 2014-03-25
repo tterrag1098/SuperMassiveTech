@@ -225,7 +225,7 @@ public class Stars
 		 * power output for an infinite time (think RTG from IC2). - however,
 		 * due to their unstable nature, stacking either of these items would
 		 * cause a catastrophic explosion resulting in a black hole...probably
-		 * obliterating whatever was holding the items.
+		 * obliterating whatever was holding the items.	
 		 */
 	}
 }
