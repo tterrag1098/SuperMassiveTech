@@ -1,5 +1,8 @@
 package tterrag.supermassivetech.tile;
 
+import java.util.Random;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -11,8 +14,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public abstract class TileSMTInventory extends TileEntity implements IInventory
 {
@@ -20,6 +25,7 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 	protected final float RANGE;
 	protected final float STRENGTH;
 	protected final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
+	private int ticksSinceLastParticle = 0;
 	private static Constants c = Constants.instance();
 
 	/**
@@ -67,6 +73,17 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 			{
 				Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this, showParticles());
 			}
+			
+			if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 - (RANGE / 10) && showParticles() && FMLClientHandler.instance().getClient().effectRenderer != null && Minecraft.getMinecraft().thePlayer != null)
+			{
+				Random rand = worldObj.rand;
+				double x = rand.nextFloat() * (RANGE * 2) - RANGE, y = rand.nextFloat() * (RANGE * 2) - RANGE, z = rand.nextFloat() * (RANGE * 2) - RANGE;
+				FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1/((RANGE + 13))));
+				ticksSinceLastParticle = 0;
+			}
+			else if (ticksSinceLastParticle < 4 - (RANGE / 10)) ticksSinceLastParticle++;
+			else ticksSinceLastParticle = 0;
+			System.out.println(ticksSinceLastParticle);
 		}
 	}
 

@@ -122,6 +122,6 @@ public class GuiStorageBlock extends GuiContainer
 	{
 		long l = getScaledLiquidAmount();
 
-		return Utils.formatString("", "mB", l, l == max);
+		return Utils.formatString("", " mB", l, l == max);
 	}
 }

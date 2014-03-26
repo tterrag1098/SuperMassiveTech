@@ -1,6 +1,7 @@
 package tterrag.supermassivetech.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -151,7 +152,7 @@ public class Utils
 	 */
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord, boolean showParticles)
 	{
-		if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem))
+		if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem) && !(entity instanceof EntityFX))
 			return;
 		
 		// distance forumla
@@ -208,7 +209,7 @@ public class Utils
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles && FMLClientHandler.instance().getClient().effectRenderer != null
 				&& Minecraft.getMinecraft().thePlayer != null)
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ, xCoord + 0.5,
-					yCoord + 0.5, zCoord + 0.5, 0.1d));
+					yCoord + 0.5, zCoord + 0.5, (double) (1/range)));
 	}
 
 	/**

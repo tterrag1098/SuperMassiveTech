@@ -22,17 +22,18 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 	 */
 	public EntityCustomSmokeFX(World world, double x, double y, double z, double toX, double toY, double toZ, double movementFactor)
 	{
-		this(world, x, y, z, (toX - x) * movementFactor, (toY - y) * movementFactor, (toZ - z) * movementFactor, 1.0F);
+		this(world, x, y, z, (toX - x) * movementFactor, (toY - y) * movementFactor, (toZ - z) * movementFactor);
 
 		this.toX = toX;
 		this.toY = toY;
 		this.toZ = toZ;
 	}
 
-	public EntityCustomSmokeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, float par14)
+	public EntityCustomSmokeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		super(par1World, par2, par4, par6, par8, par10, par12, par14);
+		super(par1World, par2, par4, par6, par8, par10, par12, 1.0f);
 		this.noClip = true;
+		this.particleMaxAge *= 2;
 	}
 
 	@Override
@@ -57,13 +58,13 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 
 		if (this.posY == this.prevPosY)
 		{
-			this.motionX *= 1.1D;
-			this.motionZ *= 1.1D;
+			this.motionX *= 1.01D;
+			this.motionZ *= 1.01D;
 		}
 
-		this.motionX *= 0.9599999785423279D;
-		this.motionY *= 0.9599999785423279D;
-		this.motionZ *= 0.9599999785423279D;
+		this.motionX *= 0.9899999785423279D;
+		this.motionY *= 0.9899999785423279D;
+		this.motionZ *= 0.9899999785423279D;
 
 		if (this.onGround)
 		{
