@@ -39,17 +39,9 @@ public class GuiStorageBlock extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
 	{
-		formattedItemAmount = "Stored: ";
-		if (itemsStored < 1000000)
-			formattedItemAmount += itemsStored;
-		else if (itemsStored >= 1000000)
-			formattedItemAmount = Utils.formatString(formattedItemAmount, "", itemsStored, true);
+		formattedItemAmount = Utils.formatString("Stored: ", "", itemsStored, true, true);
 
-		formattedFluidAmount = "Stored: ";
-		if (fluidStored < 1000000)
-			formattedFluidAmount += fluidStored + "mB";
-		else if (fluidStored >= 1000000)
-			formattedFluidAmount = Utils.formatString(formattedFluidAmount, "mB", fluidStored, true);
+		formattedFluidAmount = Utils.formatString("Stored: ", " mB", fluidStored, true);
 
 		this.mc.getTextureManager().bindTexture(new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/storageGui.png"));
 
@@ -63,8 +55,8 @@ public class GuiStorageBlock extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
 	{
-		this.fontRendererObj.drawString(formattedItemAmount, (int) (this.xSize / 1.44) - ((formattedItemAmount.length() - 8) * 4), 54, 0x000000);
-		this.fontRendererObj.drawString(formattedFluidAmount, this.xSize / 5 - ((formattedFluidAmount.length() - 8) * 4), 80, 0x000000);
+		this.fontRendererObj.drawString(formattedItemAmount, (int) ((this.xSize / 1.31) - (formattedItemAmount.length() * 2.5)), 54, 0x000000);
+		this.fontRendererObj.drawString(formattedFluidAmount, (int) ((this.xSize / 4) - (formattedFluidAmount.length() * 2.5)), 80, 0x000000);
 		this.fontRendererObj.drawString("Current", this.xSize / 3, 30, 0x000000);
 		this.fontRendererObj.drawString("Scale Max: ", (int) (this.xSize / 3.2), 40, 0x000000);
 		this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.5)) - Math.round(getScaledLiquidMaxAsString().length() * 2.5f), 50, 0x000000);

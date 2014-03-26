@@ -52,8 +52,6 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 			this.setDead();
 		}
 
-		System.out.println(this.posX + " " + this.posY);
-
 		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 

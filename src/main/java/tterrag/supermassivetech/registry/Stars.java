@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import tterrag.supermassivetech.util.EnumColor;
 import net.minecraft.item.ItemStack;
 
 public class Stars
@@ -33,6 +34,17 @@ public class Stars
 			return name;
 		}
 	}
+	
+	public static EnumColor getEnumColor(StarTier tier)
+	{
+		switch(tier)
+		{
+		case LOW: return EnumColor.RED;
+		case NORMAL: return EnumColor.ORANGE;
+		case HIGH: return EnumColor.BRIGHT_GREEN;
+		}
+		return EnumColor.OBFUSCATED;
+	}
 
 	/**
 	 * Defines a new type of star, all registered star types will have their own
@@ -45,6 +57,7 @@ public class Stars
 		private String name;
 		private int id;
 		private int color, powerMax, powerPerTick, fuse;
+		private EnumColor textColor;
 		StarTier tier;
 
 		/**
@@ -59,12 +72,13 @@ public class Stars
 		 *            star harvester
 		 * @param fuse - amount of time before exploding once it goes critical
 		 */
-		public StarType(String name, StarTier tier, int color, int powerMax, int powerPerTick, int fuse)
+		public StarType(String name, StarTier tier, int color, EnumColor textColor, int powerMax, int powerPerTick, int fuse)
 		{
 			this.name = name;
 			id = nextStarID++;
 			this.tier = tier;
 			this.color = color;
+			this.textColor = textColor;
 			this.powerMax = powerMax;
 			this.powerPerTick = powerPerTick;
 			this.fuse = fuse;
@@ -93,6 +107,12 @@ public class Stars
 		public int getColor()
 		{
 			return color;
+		}
+		
+		@Override
+		public EnumColor getTextColor()
+		{
+			return textColor;
 		}
 
 		@Override
@@ -207,13 +227,13 @@ public class Stars
 	public void registerDefaultStars()
 	{
 		// TODO balance
-		registerStarType(new StarType("Yellow Dwarf", LOW, 0xCCCCAA, 10000000, 80, 600));
-		registerStarType(new StarType("Red Dwarf", NORMAL, 0xCC5555, 20000000, 40, 600));
-		registerStarType(new StarType("Red Giant", LOW, 0xBB2222, 5000000, 40, 400));
-		registerStarType(new StarType("Blue Giant", NORMAL, 0x2222FF, 40000000, 20, 400));
-		registerStarType(new StarType("Supergiant", HIGH, 0xFFFFFF, 100000000, 160, 1200));
-		registerStarType(new StarType("Brown Dwarf", LOW, 0xAA5522, 2500000, 20, 2400));
-		registerStarType(new StarType("White Dwarf", LOW, 0x999999, 5000000, 160, 1200));
+		registerStarType(new StarType("Yellow Dwarf", LOW, 0xCCCCAA, EnumColor.YELLOW, 10000000, 80, 600));
+		registerStarType(new StarType("Red Dwarf", NORMAL, 0xCC5555, EnumColor.RED, 20000000, 40, 600));
+		registerStarType(new StarType("Red Giant", LOW, 0xBB2222, EnumColor.RED, 5000000, 40, 400));
+		registerStarType(new StarType("Blue Giant", NORMAL, 0x2222FF, EnumColor.DARK_BLUE, 40000000, 20, 400));
+		registerStarType(new StarType("Supergiant", HIGH, 0xFFFFFF, EnumColor.WHITE, 100000000, 160, 1200));
+		registerStarType(new StarType("Brown Dwarf", LOW, 0xAA5522, EnumColor.DARK_GREY, 2500000, 20, 2400));
+		registerStarType(new StarType("White Dwarf", LOW, 0x999999, EnumColor.WHITE, 5000000, 160, 1200));
 		// TODO something awesome
 		// registerStarType(new StarType("Neutron", NORMAL, 0x555577, 0, 0));
 		// registerStarType(new StarType("Pulsar", HIGH, 0xFF00FF, 0, 0));

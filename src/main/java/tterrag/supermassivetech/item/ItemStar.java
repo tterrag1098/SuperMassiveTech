@@ -2,6 +2,8 @@ package tterrag.supermassivetech.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -16,6 +18,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
+import tterrag.supermassivetech.util.EnumColor;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -55,13 +58,31 @@ public class ItemStar extends ItemSMT
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
 	{
-		IStar type = Utils.getType(par1ItemStack);
-		par3List.add(type.toString());
-		par3List.add("Tier: " + type.getTier().toString());
-		par3List.add(Utils.formatString("Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t");
-		par3List.add(Utils.formatString("Power Remaining: ", " RF", par1ItemStack.getTagCompound().getInteger("energy"), false));
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+		{
+			IStar type = Utils.getType(stack);
+			list.add(type.getTextColor() + type.toString());
+			list.add(EnumColor.WHITE + "Tier: " + Stars.getEnumColor(type.getTier()) + type.getTier().toString());
+			list.add(Utils.formatString(EnumColor.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t");
+			double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
+			list.add(Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, false));
+		}
+		else
+		{
+			list.add(EnumColor.RED + "Hold" + EnumColor.YELLOW + " -Shift- " + EnumColor.RED + "for more info");
+		}
+	}
+	
+	private EnumColor getColorForPowerLeft(double power, double powerMax)
+	{
+		if (power / powerMax <= .25)
+			return EnumColor.ORANGE;
+		else if (power / powerMax <= .1)
+			return EnumColor.RED;
+		
+		return EnumColor.BRIGHT_GREEN;
 	}
 
 	@Override

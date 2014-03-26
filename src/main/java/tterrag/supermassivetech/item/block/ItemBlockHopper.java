@@ -28,13 +28,14 @@ public class ItemBlockHopper extends ItemBlockGravity
 	{
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
 		{
-			list.add("Right click with an item to configure");
-			list.add("Right click with empty hand to check configuration");
-			list.add("Shift right click with an empty hand to clear");
+			list.add(EnumColor.BRIGHT_GREEN + "- Right click with an item to configure");
+			list.add(EnumColor.WHITE + "- Right click with empty hand");
+			list.add(EnumColor.WHITE + "   to check configuration");
+			list.add(EnumColor.BRIGHT_GREEN + "- Shift right click with an empty hand to clear");
 		}
 		else
 		{
-			list.add("Hold" + EnumColor.AQUA + " -Shift- " + EnumColor.WHITE + "for more info");
+			list.add(EnumColor.RED + "Hold" + EnumColor.YELLOW + " -Shift- " + EnumColor.RED + "for more info");
 		}
 				
 		if (stack.stackTagCompound != null)

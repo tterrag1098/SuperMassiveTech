@@ -1,9 +1,9 @@
 package tterrag.supermassivetech.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -69,7 +69,7 @@ public class Utils
 			return prefix;
 		}
 
-		if (formatK && Long.toString(amnt).length() < 7)
+		if (formatK && Long.toString(amnt).length() < 7 && Long.toString(amnt).length() > 3)
 		{
 			return formatSmallerNumber(prefix, suffix, amnt, useDecimals);
 		}
@@ -151,6 +151,9 @@ public class Utils
 	 */
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord, boolean showParticles)
 	{
+		if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem))
+			return;
+		
 		// distance forumla
 		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
@@ -171,8 +174,6 @@ public class Utils
 		// More strength for everything but players, lower dist is bigger effect
 		if (!(entity instanceof EntityPlayer))
 			dist *= 0.5;
-		else if (entity instanceof EntityFX)
-			return;
 		else
 		{
 			if (((EntityPlayer) entity).capabilities.isCreativeMode)

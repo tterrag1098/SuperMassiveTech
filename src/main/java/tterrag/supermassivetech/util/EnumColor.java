@@ -23,8 +23,9 @@ public enum EnumColor
 	RED("\u00a7c", "red", new int[] {255, 85, 85}, 13),
 	PINK("\u00a7d", "pink", new int[] {255, 85, 255}, 9),
 	YELLOW("\u00a7e", "yellow", new int[] {255, 255, 85}, 11),
-	WHITE("\u00a7f", "white", new int[] {255, 255, 255}, 15);
-
+	WHITE("\u00a7f", "white", new int[] {255, 255, 255}, 15),
+	OBFUSCATED("\u00a7k", "obfuscated", null, -1);
+	
 	public static EnumColor[] DYES = new EnumColor[] {BLACK, DARK_RED, DARK_GREEN, null, DARK_BLUE, PURPLE, DARK_AQUA, GREY, DARK_GREY, PINK, BRIGHT_GREEN, YELLOW, INDIGO, RED, ORANGE, WHITE};
 
 	/** The color code that will be displayed */

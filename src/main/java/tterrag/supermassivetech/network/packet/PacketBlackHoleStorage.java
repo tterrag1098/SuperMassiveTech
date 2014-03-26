@@ -36,7 +36,6 @@ public class PacketBlackHoleStorage implements ISMTPacket
 	@Override
 	public void decodeInto(ByteBuf buffer)
 	{
-		System.out.println("storage");
 		if (Minecraft.getMinecraft().currentScreen != null && Minecraft.getMinecraft().currentScreen instanceof GuiStorageBlock)
 		{
 			((GuiStorageBlock) Minecraft.getMinecraft().currentScreen).itemsStored = buffer.readLong();

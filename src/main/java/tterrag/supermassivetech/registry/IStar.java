@@ -2,6 +2,7 @@ package tterrag.supermassivetech.registry;
 
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.registry.Stars.StarTier;
+import tterrag.supermassivetech.util.EnumColor;
 
 public interface IStar
 {
@@ -14,6 +15,11 @@ public interface IStar
 	 * The color of the star icon, a hex value (0xRRGGBB)
 	 */
 	public int getColor();
+	
+	/**
+	 * Color of the name in tooltips
+	 */
+	public EnumColor getTextColor();
 
 	/**
 	 * The amount of power currently stored in this star
