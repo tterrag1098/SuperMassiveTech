@@ -107,7 +107,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 
 		NBTTagCompound tag = new NBTTagCompound();
 
-		long itemAmount = te.storedAmount + (te.inventory[2] == null ? 0 : te.inventory[2].stackSize);
+		long itemAmount = te.storedAmount + (te.getStackInSlot(2) == null ? 0 : te.getStackInSlot(2).stackSize);
 		tag.setLong("itemsStored", itemAmount);
 		tag.setLong("fluidStored", te.getTank().amountStored);
 
@@ -118,10 +118,10 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 			tag.setTag("itemStack", itemTag);
 		}
 
-		if (te.getStoredItem() == null && te.inventory[2] != null)
+		if (te.getStoredItem() == null && te.getStackInSlot(2) != null)
 		{
 			NBTTagCompound itemTag = new NBTTagCompound();
-			te.inventory[2].writeToNBT(itemTag);
+			te.getStackInSlot(2).writeToNBT(itemTag);
 			tag.setTag("itemStack", itemTag);
 		}
 

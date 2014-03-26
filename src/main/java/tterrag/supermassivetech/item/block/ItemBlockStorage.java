@@ -25,11 +25,11 @@ public class ItemBlockStorage extends ItemBlockGravity
 			list.add("Stored: ");
 
 			if (stack.stackTagCompound.getTag("itemStack") != null)
-				list.add(Utils.formatString("", "", stack.stackTagCompound.getLong("itemsStored"), true) + " "
+				list.add(Utils.formatString("", "", stack.stackTagCompound.getLong("itemsStored"), true, true) + " "
 						+ StatCollector.translateToLocal(ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("itemStack")).getUnlocalizedName() + ".name"));
 
 			if (stack.stackTagCompound.getTag("fluidStack") != null)
-				list.add(Utils.formatString("", "mB", stack.stackTagCompound.getLong("fluidStored"), true) + " "
+				list.add(Utils.formatString("", " mB", stack.stackTagCompound.getLong("fluidStored"), true, true) + " "
 						+ StatCollector.translateToLocal(FluidStack.loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack")).getFluid().getLocalizedName()));
 		}
 	}

@@ -25,7 +25,6 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 	public final static long max = 1099511627776L;
 
 	/* Item handling */
-	public ItemStack[] inventory;
 	public long storedAmount;
 	private ItemStack storedItem;
 

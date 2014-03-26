@@ -50,7 +50,7 @@ public class Utils
 		float blue = (color & 255) / 255.0F;
 		GL11.glColor4f(red, green, blue, 1.0F);
 	}
-
+	
 	/**
 	 * Formats a string and number for use in GUIs and tooltips
 	 * 
@@ -58,9 +58,10 @@ public class Utils
 	 * @param suffix - The string to put after the formatted number
 	 * @param amnt - The number to be formatted
 	 * @param useDecimals - Whether or not to use decimals in the representation
+	 * @param formatK - Whether or not to format the thousands
 	 * @return
 	 */
-	public static String formatString(String prefix, String suffix, long amnt, boolean useDecimals)
+	public static String formatString(String prefix, String suffix, long amnt, boolean useDecimals, boolean formatK)
 	{
 		if (amnt == TileBlackHoleStorage.max)
 		{
@@ -68,6 +69,11 @@ public class Utils
 			return prefix;
 		}
 
+		if (formatK && Long.toString(amnt).length() < 7)
+		{
+			return formatSmallerNumber(prefix, suffix, amnt, useDecimals);
+		}
+		
 		switch (Long.toString(amnt).length())
 		{
 		case 7:
@@ -95,6 +101,37 @@ public class Utils
 			prefix += "" + amnt + suffix;
 			return prefix;
 		}
+	}
+
+	/**
+	 * Formats a string and number for use in GUIs and tooltips
+	 * 
+	 * @param prefix - The string to put before the formatted number
+	 * @param suffix - The string to put after the formatted number
+	 * @param amnt - The number to be formatted
+	 * @param useDecimals - Whether or not to use decimals in the representation
+	 * @return
+	 */
+	public static String formatString(String prefix, String suffix, long amnt, boolean useDecimals)
+	{
+		return formatString(prefix, suffix, amnt, useDecimals, false);
+	}
+
+	private static String formatSmallerNumber(String prefix, String suffix, long amnt, boolean useDecimals)
+	{
+		switch (Long.toString(amnt).length())
+		{
+		case 4:
+			prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + "K" + suffix;
+			return prefix;
+		case 5:
+			prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + "K" + suffix;
+			return prefix;
+		case 6:
+			prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + "K" + suffix;
+			return prefix;
+		}
+		return "";
 	}
 
 	/**
@@ -169,8 +206,8 @@ public class Utils
 		// shows smoke particles
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles && FMLClientHandler.instance().getClient().effectRenderer != null
 				&& Minecraft.getMinecraft().thePlayer != null)
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ,
-					xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.1d));
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ, xCoord + 0.5,
+					yCoord + 0.5, zCoord + 0.5, 0.1d));
 	}
 
 	/**
@@ -232,7 +269,7 @@ public class Utils
 		else
 			return null;
 	}
-	
+
 	public static int getStarPowerRemaining(ItemStack star)
 	{
 		if (star != null && star.getItem() instanceof ItemStar && star.stackTagCompound != null)
@@ -288,7 +325,7 @@ public class Utils
 			return false;
 		return s1.getTagCompound().equals(s2.getTagCompound());
 	}
-	
+
 	public static void spawnItemInWorldWithRandomMotion(World world, ItemStack item, int x, int y, int z)
 	{
 		float f = (float) Math.random() + x;
