@@ -33,7 +33,7 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 	 */
 	public TileSMTInventory()
 	{
-		this(1, 1, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
+		this(3, 1, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
 	}
 
 	/**
@@ -78,12 +78,15 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 			{
 				Random rand = worldObj.rand;
 				double x = rand.nextFloat() * (RANGE * 2) - RANGE, y = rand.nextFloat() * (RANGE * 2) - RANGE, z = rand.nextFloat() * (RANGE * 2) - RANGE;
-				FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1/((RANGE + 13))));
+				double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+				
+				System.out.println(distance);
+				
+				FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, distance * 0.001));
 				ticksSinceLastParticle = 0;
 			}
 			else if (ticksSinceLastParticle < 4 - (RANGE / 10)) ticksSinceLastParticle++;
 			else ticksSinceLastParticle = 0;
-			System.out.println(ticksSinceLastParticle);
 		}
 	}
 
