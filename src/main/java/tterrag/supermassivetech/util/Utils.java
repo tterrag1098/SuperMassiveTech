@@ -1,7 +1,6 @@
 package tterrag.supermassivetech.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -152,9 +151,9 @@ public class Utils
 	 */
 	public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord, boolean showParticles)
 	{
-		if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem) && !(entity instanceof EntityFX))
+		if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem))
 			return;
-		
+				
 		// distance forumla
 		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
@@ -182,6 +181,8 @@ public class Utils
 
 			dist *= 2;
 		}
+		
+		System.out.println(entity.getClass().getName());
 
 		double vecX = -gravStrength * Math.sin(theta) * Math.cos(phi) / dist;
 		double vecY = -gravStrength * Math.sin(theta) * Math.sin(phi) / dist;

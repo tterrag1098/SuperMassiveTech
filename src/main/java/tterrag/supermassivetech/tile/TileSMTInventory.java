@@ -1,7 +1,5 @@
 package tterrag.supermassivetech.tile;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,20 +72,24 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 				Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this, showParticles());
 			}
 			
-			if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 - (RANGE / 10) && showParticles() && FMLClientHandler.instance().getClient().effectRenderer != null && Minecraft.getMinecraft().thePlayer != null)
+			if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 && showParticles() && FMLClientHandler.instance().getClient().effectRenderer != null && Minecraft.getMinecraft().thePlayer != null)
 			{
-				Random rand = worldObj.rand;
-				double x = rand.nextFloat() * (RANGE * 2) - RANGE, y = rand.nextFloat() * (RANGE * 2) - RANGE, z = rand.nextFloat() * (RANGE * 2) - RANGE;
-				double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-				
-				System.out.println(distance);
-				
-				FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, distance * 0.001));
+				double x = getRand(), y = getRand(), z = getRand();
+								
+				FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.05));
 				ticksSinceLastParticle = 0;
 			}
-			else if (ticksSinceLastParticle < 4 - (RANGE / 10)) ticksSinceLastParticle++;
+			else if (ticksSinceLastParticle < 4) ticksSinceLastParticle++;
 			else ticksSinceLastParticle = 0;
 		}
+	}
+	
+	private double getRand()
+	{
+		double num = (worldObj.rand.nextFloat() * (RANGE * 2) - RANGE);
+		if (num < 0 && num > -1.0) num = -1.0f;
+		if (num > 0 && num < 1.0) num = 1.0f;
+		return num;
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 	{
 		super(par1World, par2, par4, par6, par8, par10, par12, 1.0f);
 		this.noClip = true;
-		this.particleMaxAge *= 2;
+		;
 	}
 
 	@Override
@@ -53,24 +53,18 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 			this.setDead();
 		}
 
-		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
+		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge + 3);
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
 		if (this.posY == this.prevPosY)
 		{
-			this.motionX *= 1.01D;
-			this.motionZ *= 1.01D;
+			this.motionX *= 1.1D;
+			this.motionZ *= 1.1D;
 		}
 
-		this.motionX *= 0.9899999785423279D;
-		this.motionY *= 0.9899999785423279D;
-		this.motionZ *= 0.9899999785423279D;
-
-		if (this.onGround)
-		{
-			this.motionX *= 0.699999988079071D;
-			this.motionZ *= 0.699999988079071D;
-		}
+		this.motionX *= 1.01;
+		this.motionY *= 1.01;
+		this.motionZ *= 1.01;
 	}
 
 	private boolean isInRange()
