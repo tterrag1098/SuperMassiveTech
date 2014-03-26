@@ -2,8 +2,6 @@ package tterrag.supermassivetech.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -52,20 +50,6 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 		for (IStar t : stars.types.values())
 		{
 			list.add(Utils.setType(new ItemStack(this), t));
-		}
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
-	{
-		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
-		{
-			}
-		else
-		{
-			list.add(EnumColor.RED + "Hold" + EnumColor.YELLOW + " -Shift- " + EnumColor.RED + "for more info");
 		}
 	}
 	
