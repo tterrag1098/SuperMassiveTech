@@ -33,7 +33,7 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 	 */
 	public TileSMTInventory()
 	{
-		this(3, 1, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
+		this(1, 1, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
 	}
 
 	/**
