@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.item.IAdvancedTooltip;
 
 public class ItemBlockGravity extends ItemBlock
 {
@@ -25,5 +26,13 @@ public class ItemBlockGravity extends ItemBlock
 			((EntityPlayer) par3Entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, 3, true));
 		}
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+	}
+	
+	/**
+	 * Implementation to avoid redundancy in subclasses. {@link ItemBlockGravity} does NOT implement {@link IAdvancedTooltip}
+	 */
+	public boolean colorHiddenLines(ItemStack stack) 
+	{
+		return true;
 	}
 }

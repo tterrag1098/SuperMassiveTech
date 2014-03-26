@@ -23,7 +23,7 @@ import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemStar extends ItemSMT
+public class ItemStar extends ItemSMT implements IAdvancedTooltip
 {
 	private Stars stars = Stars.instance;
 
@@ -62,13 +62,7 @@ public class ItemStar extends ItemSMT
 	{
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
 		{
-			IStar type = Utils.getType(stack);
-			list.add(type.getTextColor() + type.toString());
-			list.add(EnumColor.WHITE + "Tier: " + Stars.getEnumColor(type.getTier()) + type.getTier().toString());
-			list.add(Utils.formatString(EnumColor.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t");
-			double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
-			list.add(Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, false));
-		}
+			}
 		else
 		{
 			list.add(EnumColor.RED + "Hold" + EnumColor.YELLOW + " -Shift- " + EnumColor.RED + "for more info");
@@ -115,5 +109,31 @@ public class ItemStar extends ItemSMT
 			world.setBlock(x, y, z, Blocks.fire);
 
 		return world.isRemote;
+	}
+
+	@Override
+	public String[] getHiddenLines(ItemStack stack) 
+	{
+		IStar type = Utils.getType(stack);
+		double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
+
+		return new String[]{
+				type.getTextColor() + type.toString(),
+				Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
+				Utils.formatString(EnumColor.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
+				Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, false)
+		};
+	}
+		
+	@Override
+	public boolean colorHiddenLines(ItemStack stack) 
+	{
+		return false;
+	}
+	
+	@Override
+	public String[] getStaticLines(ItemStack stack) 
+	{
+		return null;
 	}
 }
