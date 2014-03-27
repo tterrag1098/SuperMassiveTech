@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.util.Utils;
 
-public class ItemBlockStarHarvester extends ItemBlockGravity implements IAdvancedTooltip
+public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedTooltip
 {
 	public ItemBlockStarHarvester(Block block)
 	{
@@ -18,8 +18,7 @@ public class ItemBlockStarHarvester extends ItemBlockGravity implements IAdvance
 		return new String[]{
 				"- Harvests the power of stars!",
 				"- Outputs at the rate of the star inside.",
-				"- Once the star is out of power",
-				"   it will go critical. Better run!"
+				"- Once the star is out of power\n   it will go critical. Better run!"
 		};
 	}
 

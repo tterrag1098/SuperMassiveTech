@@ -32,8 +32,7 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
 	{
 		return new String[]{
 				"- Creates a star when ignited in-world.",
-				"- More fire in the vicinity causes",
-				"   a higher chance for better stars."
+				"- More fire in the vicinity causes\n   a higher chance for better stars."
 		};
 	}
 

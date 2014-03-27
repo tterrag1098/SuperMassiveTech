@@ -11,12 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
-import tterrag.supermassivetech.util.EnumColor;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -53,14 +53,14 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 		}
 	}
 	
-	private EnumColor getColorForPowerLeft(double power, double powerMax)
+	private EnumChatFormatting getColorForPowerLeft(double power, double powerMax)
 	{
 		if (power / powerMax <= .25)
-			return EnumColor.ORANGE;
+			return EnumChatFormatting.GOLD;
 		else if (power / powerMax <= .1)
-			return EnumColor.RED;
+			return EnumChatFormatting.RED;
 		
-		return EnumColor.BRIGHT_GREEN;
+		return EnumChatFormatting.GREEN;
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 		return new String[]{
 				type.getTextColor() + type.toString(),
 				Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-				Utils.formatString(EnumColor.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
+				Utils.formatString(EnumChatFormatting.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
 				Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, false)
 		};
 	}

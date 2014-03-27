@@ -1,8 +1,8 @@
 package tterrag.supermassivetech.registry;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import tterrag.supermassivetech.registry.Stars.StarTier;
-import tterrag.supermassivetech.util.EnumColor;
 
 public interface IStar
 {
@@ -19,7 +19,7 @@ public interface IStar
 	/**
 	 * Color of the name in tooltips
 	 */
-	public EnumColor getTextColor();
+	public EnumChatFormatting getTextColor();
 
 	/**
 	 * The amount of power currently stored in this star

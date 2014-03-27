@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 
-public class ItemBlockHopper extends ItemBlockGravity implements IAdvancedTooltip
+public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
 {
 	public ItemBlockHopper(Block block)
 	{
@@ -20,14 +20,13 @@ public class ItemBlockHopper extends ItemBlockGravity implements IAdvancedToolti
 	{
 		return new String[]{
 				"- Right click with an item to configure",
-				"- Right click with empty hand",
-				"   to check configuration",
+				"- Right click with empty hand\n   to check configuration",
 				"- Shift right click with an empty hand to clear"
 		};
 	}
 
 	@Override
-	public String[] getStaticLines(ItemStack stack) 
+	public String[] getStaticLines(ItemStack stack)
 	{
 		if (stack.stackTagCompound == null) return null;
 		

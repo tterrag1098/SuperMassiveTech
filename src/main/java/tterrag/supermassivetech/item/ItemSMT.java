@@ -2,16 +2,17 @@ package tterrag.supermassivetech.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.util.EnumColor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+
+import org.lwjgl.input.Keyboard;
+
+import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.lib.Reference;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSMT extends Item
 {
@@ -41,13 +42,18 @@ public class ItemSMT extends Item
 				{
 					for (String s : item.getHiddenLines(stack))
 					{
-						list.add(green ? EnumColor.BRIGHT_GREEN : EnumColor.WHITE + s);
+						String[] ss = s.split("\n");
+						for (String line : ss)
+						{
+							list.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
+						}
 						green = green ? false : true;
 					}
+					green = true;
 				}
 				else
 				{
-					list.add(EnumColor.RED + "Hold" + EnumColor.YELLOW + " -Shift- " + EnumColor.RED + "for more info");
+					list.add(EnumChatFormatting.RED + "Hold" + EnumChatFormatting.YELLOW + " -Shift- " + EnumChatFormatting.RED + "for more info");
 				}
 			}
 			

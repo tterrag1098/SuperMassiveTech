@@ -10,7 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.util.Utils;
 
-public class ItemBlockStorage extends ItemBlockGravity implements IAdvancedTooltip
+public class ItemBlockStorage extends ItemBlockSMT implements IAdvancedTooltip
 {
 	public ItemBlockStorage(Block block)
 	{
