@@ -1,9 +1,9 @@
 package tterrag.supermassivetech.network.packet;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.network.ISMTPacket;
-import net.minecraft.client.Minecraft;
-import io.netty.buffer.ByteBuf;
 
 public class PacketHopperParticle implements ISMTPacket
 {

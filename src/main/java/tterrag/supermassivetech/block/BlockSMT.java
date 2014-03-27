@@ -1,8 +1,8 @@
 package tterrag.supermassivetech.block;
 
-import tterrag.supermassivetech.SuperMassiveTech;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import tterrag.supermassivetech.SuperMassiveTech;
 
 public class BlockSMT extends Block
 {

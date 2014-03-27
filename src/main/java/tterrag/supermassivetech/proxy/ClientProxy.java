@@ -1,13 +1,15 @@
 package tterrag.supermassivetech.proxy;
 
+import static tterrag.supermassivetech.SuperMassiveTech.blockRegistry;
+import static tterrag.supermassivetech.SuperMassiveTech.renderIDHopper;
+import static tterrag.supermassivetech.SuperMassiveTech.renderIDStarHarvester;
 import net.minecraft.util.ResourceLocation;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.client.render.ItemObjRenderer;
 import tterrag.supermassivetech.client.render.DirectionalObjRenderer;
+import tterrag.supermassivetech.client.render.ItemObjRenderer;
 import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileStarHarvester;
-import static tterrag.supermassivetech.SuperMassiveTech.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry;

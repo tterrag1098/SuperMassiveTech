@@ -53,7 +53,7 @@ public class SuperMassiveTech
 	{
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		Constants.init();
-
+		
 		proxy.registerGuis();
 		proxy.registerRenderers();
 
