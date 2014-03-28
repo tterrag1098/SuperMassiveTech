@@ -46,7 +46,7 @@ public class SuperMassiveTech
 
 	public static CreativeTabs tabSMT = Utils.tab;
 
-	public static int renderIDHopper, renderIDStarHarvester;
+	public static int renderIDStorage, renderIDHopper, renderIDStarHarvester;
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)

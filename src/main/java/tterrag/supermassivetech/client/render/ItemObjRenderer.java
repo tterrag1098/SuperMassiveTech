@@ -9,9 +9,9 @@ public class ItemObjRenderer implements ISimpleBlockRenderingHandler
 {
 	private Block block;
 	private int renderID;
-	private DirectionalObjRenderer objRenderer;
+	private DirectionalModelRenderer objRenderer;
 	
-	public ItemObjRenderer(int renderID, DirectionalObjRenderer objRenderer)
+	public ItemObjRenderer(int renderID, DirectionalModelRenderer objRenderer)
 	{
 		this.renderID = renderID;
 		this.objRenderer = objRenderer;
@@ -25,6 +25,8 @@ public class ItemObjRenderer implements ISimpleBlockRenderingHandler
 	@Override
 	public void renderInventoryBlock(Block passedBlock, int metadata, int modelId, RenderBlocks renderer)
 	{
+		if (block == null) throw new RuntimeException("You didn't initialize the item renderer.");
+		
 		if (passedBlock.getClass() == block.getClass())
 			objRenderer.renderDirectionalTileEntityAt(null, 0, 0, 0, true);
 	}

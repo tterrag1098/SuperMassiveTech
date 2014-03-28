@@ -7,13 +7,11 @@ package tterrag.supermassivetech.block.container;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
@@ -31,7 +29,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 {
 	public BlockBlackHoleStorage()
 	{
-		super("tterrag.storageBlock", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleStorage.class);
+		super("tterrag.storageBlock", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleStorage.class, SuperMassiveTech.renderIDStorage);
 	}
 
 	@Override
@@ -141,24 +139,16 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 	{
 		return new ItemStack(this); // Temp code why doesn't this work D:
 	}
-	
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) 
-	{
-		int whichDirectionFacing = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
-		world.setBlockMetadataWithNotify(x, y, z, whichDirectionFacing, 2);
-		super.onBlockPlacedBy(world, x, y, z, player, stack);
-	}
 
 	@Override
 	public boolean hasPlacementRotation()
 	{
-		return false;
+		return true;
 	}
 	
 	@Override
 	public boolean hasCustomModel()
 	{
-		return false;
+		return true;
 	}
 }

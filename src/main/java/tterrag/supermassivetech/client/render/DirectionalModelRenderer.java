@@ -9,6 +9,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
+import tterrag.supermassivetech.client.model.ModelSMT;
 import tterrag.supermassivetech.tile.TileSMTInventory;
 
 /**
@@ -16,14 +17,21 @@ import tterrag.supermassivetech.tile.TileSMTInventory;
  * 
  * @author Garrett Spicer-Davis
  */
-public class DirectionalObjRenderer extends TileEntitySpecialRenderer
+public class DirectionalModelRenderer extends TileEntitySpecialRenderer
 {
 	private IModelCustom model;
 	private ResourceLocation texture;
+	private ModelSMT modelSMT;
 
-	public DirectionalObjRenderer(ResourceLocation model, ResourceLocation texture)
+	public DirectionalModelRenderer(ResourceLocation model, ResourceLocation texture)
 	{
 		this.model = AdvancedModelLoader.loadModel(model);
+		this.texture = texture;
+	}
+	
+	public DirectionalModelRenderer(ModelSMT model, ResourceLocation texture)
+	{
+		this.modelSMT = model;
 		this.texture = texture;
 	}
 
@@ -59,9 +67,16 @@ public class DirectionalObjRenderer extends TileEntitySpecialRenderer
 			break;
 		}
 
-		GL11.glScalef(0.5f, 0.5f, 0.5f);
-
-		model.renderAll();
+		if (model != null)
+		{
+			GL11.glScalef(0.5f, 0.5f, 0.5f);
+			model.renderAll();
+		}
+		else
+		{
+			GL11.glTranslated(0, -0.5, 0);
+			modelSMT.render(0.0625f);
+		}
 
 		GL11.glPopMatrix();
 	}

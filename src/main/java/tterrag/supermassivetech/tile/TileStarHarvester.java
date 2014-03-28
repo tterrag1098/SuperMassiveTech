@@ -1,6 +1,7 @@
 package tterrag.supermassivetech.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -12,7 +13,7 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.tileentity.IEnergyInfo;
 
-public class TileStarHarvester extends TileSMTInventory implements IEnergyHandler, IEnergyInfo
+public class TileStarHarvester extends TileSMTInventory implements ISidedInventory, IEnergyHandler, IEnergyInfo
 {
 	private int slot = 0, currentPerTick = 0;
 	private EnergyStorage storage;
@@ -157,5 +158,23 @@ public class TileStarHarvester extends TileSMTInventory implements IEnergyHandle
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1)
+	{
+		return var1 == 1 ? new int[]{0} : new int[]{};
+	}
+
+	@Override
+	public boolean canInsertItem(int var1, ItemStack var2, int var3)
+	{
+		return var1 == 0 && var3 == 1 && var2 != null ? var2.getItem() instanceof ItemStar : false;
+	}
+
+	@Override
+	public boolean canExtractItem(int var1, ItemStack var2, int var3)
+	{
+		return var1 == 0 && var3 == 1;
 	}
 }

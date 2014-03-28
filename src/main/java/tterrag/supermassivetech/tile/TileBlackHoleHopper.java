@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -15,9 +16,10 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.network.packet.PacketHopperParticle;
+import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class TileBlackHoleHopper extends TileSMTInventory
+public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInventory
 {
 	private ForgeDirection connectionDir;
 	ArrayList<InventoryConnection> inventories = new ArrayList<InventoryConnection>();
@@ -320,5 +322,23 @@ public class TileBlackHoleHopper extends TileSMTInventory
 	public String getInventoryName()
 	{
 		return "tterrag.inventory.blackHoleHopper";
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1)
+	{
+		return var1 <= 1 ? new int[]{hiddenSlot} : new int[]{};
+	}
+
+	@Override
+	public boolean canInsertItem(int var1, ItemStack var2, int var3)
+	{
+		return var1 == hiddenSlot && var3 == 1 && Utils.stacksEqual(inventory[cfgSlot], var2);
+	}
+
+	@Override
+	public boolean canExtractItem(int var1, ItemStack var2, int var3)
+	{
+		return var1 == hiddenSlot && var3 == 0;
 	}
 }
