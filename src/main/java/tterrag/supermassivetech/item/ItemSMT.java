@@ -66,12 +66,4 @@ public class ItemSMT extends Item
 			}
 		}
 	}
-	
-	/**
-	 * Implementation to avoid redundancy in subclasses. {@link ItemSMT} does NOT implement {@link IAdvancedTooltip}
-	 */
-	public boolean colorHiddenLines(ItemStack stack) 
-	{
-		return true;
-	}
 }

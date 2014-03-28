@@ -77,15 +77,6 @@ public class ItemBlockSMT extends ItemBlock
 			}
 		}
 	}
-
-	/**
-	 * Implementation to avoid redundancy in subclasses.
-	 * {@link ItemBlockSMT} does NOT implement {@link IAdvancedTooltip}
-	 */
-	public boolean colorHiddenLines(ItemStack stack)
-	{
-		return true;
-	}
 	
 	public boolean isGravityWell()
 	{

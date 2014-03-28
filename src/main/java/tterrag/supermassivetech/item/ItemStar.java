@@ -108,12 +108,6 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 				Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, false)
 		};
 	}
-		
-	@Override
-	public boolean colorHiddenLines(ItemStack stack) 
-	{
-		return false;
-	}
 	
 	@Override
 	public String[] getStaticLines(ItemStack stack) 
