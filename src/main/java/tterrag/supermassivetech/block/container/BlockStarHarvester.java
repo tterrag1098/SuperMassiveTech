@@ -14,7 +14,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
 {
 	public BlockStarHarvester()
 	{
-		super("tterrag.starHarvester", Material.iron, soundTypeMetal, 15.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
+		super("tterrag.starHarvester", Material.iron, soundTypeMetal, 5.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
 	{
 		TileEntity te = world.getTileEntity(x, y, z);
 		boolean returnVal = false;
-		if (!world.isRemote && te instanceof TileStarHarvester)
+		if (te instanceof TileStarHarvester)
 		{
 			returnVal = ((TileStarHarvester) te).handleRightClick(player);
 		}

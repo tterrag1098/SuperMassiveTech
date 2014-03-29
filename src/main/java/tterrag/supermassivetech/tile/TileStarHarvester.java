@@ -149,7 +149,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 			player.getCurrentEquippedItem().stackSize--;
 			return true;
 		}
-		else if (stack == null && inventory[slot] != null)
+		else if (inventory[slot] != null)
 		{
 			if (!player.inventory.addItemStackToInventory(inventory[slot]))
 				player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));

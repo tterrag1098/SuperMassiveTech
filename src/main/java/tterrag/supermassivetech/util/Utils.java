@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.util;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
@@ -28,6 +30,8 @@ public class Utils
 {
 	private static Constants c = Constants.instance();
 	private static Stars stars = Stars.instance;
+	private static Material[] pickMats = {Material.rock, Material.iron, Material.anvil};
+	private static Material[] shovelMats = {Material.clay, Material.snow, Material.ground};
 
 	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "superMassiveTech")
 	{
@@ -336,5 +340,30 @@ public class Utils
 		float f2 = (float) Math.random() + z;
 
 		world.spawnEntityInWorld(new EntityItem(world, f, f1, f2, item));
+	}
+	
+	/**
+	 * Finds the proper tool for this material, returns "none" if there isn't one
+	 */
+	public static String getToolClassFromMaterial(Material mat)
+	{
+		if (ArrayUtils.contains(pickMats, mat)) return "pickaxe";
+		if (ArrayUtils.contains(shovelMats, mat)) return "shovel";
+		if (mat == Material.wood) return "axe";
+		else return "none";
+	}
+
+	/**
+	 * Gets the tool level for this material
+	 */
+	public static int getToolLevelFromMaterial(Material mat)
+	{
+		if (ArrayUtils.contains(pickMats, mat))
+		{
+			if (mat == Material.rock) return 0;
+			if (mat == Material.iron) return 1;
+			if (mat == Material.anvil) return 1;
+		}
+		return 0;
 	}
 }

@@ -32,6 +32,12 @@ public abstract class BlockContainerSMT extends BlockContainer
 		setStepSound(type);
 		setHardness(hardness);
 		setCreativeTab(SuperMassiveTech.tabSMT);
+		
+		String toolLevel = Utils.getToolClassFromMaterial(mat);
+		
+		if (!toolLevel.equals("none"))
+			setHarvestLevel("pickaxe", Utils.getToolLevelFromMaterial(mat));
+		
 		this.teClass = te;
 		this.unlocName = unlocName;
 		this.renderID = renderID;
@@ -114,7 +120,7 @@ public abstract class BlockContainerSMT extends BlockContainer
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int p_149681_5_, EntityPlayer player)
 	{
-		if (this.keepInventoryAsItem() && !player.capabilities.isCreativeMode && !world.isRemote)
+		if (this.keepInventoryAsItem() && canHarvestBlock(player, world.getBlockMetadata(x, y, z)) && !player.capabilities.isCreativeMode && !world.isRemote)
 		{
 			((IKeepInventoryAsItem) this).dropItem(world, ((IKeepInventoryAsItem) this).getNBTItem(world, x, y, z), x, y, z);
 		}
