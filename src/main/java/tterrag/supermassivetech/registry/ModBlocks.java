@@ -1,6 +1,9 @@
 package tterrag.supermassivetech.registry;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.block.container.BlockBlackHoleHopper;
 import tterrag.supermassivetech.block.container.BlockBlackHoleStorage;
 import tterrag.supermassivetech.block.container.BlockStarHarvester;
@@ -10,6 +13,7 @@ import tterrag.supermassivetech.item.block.ItemBlockStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks
@@ -37,5 +41,14 @@ public class ModBlocks
 
 	public void addRecipes()
 	{
+		GameRegistry.addRecipe(new ItemStack(starHarvester), 
+				"iii",
+				"bCb",
+				"iii",
+				
+				'i', Items.iron_ingot,
+				'b', Blocks.iron_bars,
+				'C', itemRegistry.starContainer
+		);
 	}
 }

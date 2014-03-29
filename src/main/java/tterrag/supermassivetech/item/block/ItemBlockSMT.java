@@ -9,12 +9,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-
-import org.lwjgl.input.Keyboard;
-
 import tterrag.supermassivetech.item.IAdvancedTooltip;
+import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -36,8 +33,6 @@ public class ItemBlockSMT extends ItemBlock
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 	}
 
-	private boolean green = true;
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -46,35 +41,7 @@ public class ItemBlockSMT extends ItemBlock
 		if (this instanceof IAdvancedTooltip)
 		{
 			IAdvancedTooltip item = (IAdvancedTooltip) this;
-
-			if (item.getHiddenLines(stack) != null)
-			{
-				if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
-				{
-					for (String s : item.getHiddenLines(stack))
-					{
-						String[] ss = s.split("\n");
-						for (String line : ss)
-						{
-							list.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
-						}
-						green = green ? false : true;
-					}
-					green = true;
-				}
-				else
-				{
-					list.add(EnumChatFormatting.RED + "Hold" + EnumChatFormatting.YELLOW + " -Shift- " + EnumChatFormatting.RED + "for more info");
-				}
-			}
-
-			if (item.getStaticLines(stack) != null)
-			{
-				list.add("");
-
-				for (String s : item.getStaticLines(stack))
-					list.add(s);
-			}
+			Utils.formAdvancedTooltip(list, stack, item);
 		}
 	}
 	

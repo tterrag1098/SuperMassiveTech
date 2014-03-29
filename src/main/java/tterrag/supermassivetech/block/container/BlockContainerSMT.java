@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -38,11 +39,18 @@ public abstract class BlockContainerSMT extends BlockContainer
 		if (!toolLevel.equals("none"))
 			setHarvestLevel("pickaxe", Utils.getToolLevelFromMaterial(mat));
 		
+		this.unlocName = unlocName;
 		this.teClass = te;
 		this.unlocName = unlocName;
 		this.renderID = renderID;
 	}
 
+	@Override
+	public void registerBlockIcons(IIconRegister register)
+	{
+		this.blockIcon = register.registerIcon("supermassivetech:" + unlocName.substring(unlocName.indexOf(".") + 1, unlocName.length()));
+	}
+	
 	@Override
 	public String getUnlocalizedName()
 	{

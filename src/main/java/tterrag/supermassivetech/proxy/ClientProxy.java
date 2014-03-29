@@ -19,7 +19,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-	public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation("supermassivetech", "textures/models/hopperBlob.png"));
+	public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation("supermassivetech", "textures/models/storage.png"));
 	public static ItemObjRenderer storageItem;
 
 	public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation("supermassivetech", "models/hopper.obj"), new ResourceLocation("supermassivetech", "textures/models/hopper.png"));

@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.util;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,13 +13,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
+import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
@@ -365,5 +370,41 @@ public class Utils
 			if (mat == Material.anvil) return 1;
 		}
 		return 0;
+	}
+	
+	private static boolean green = true;
+	/**
+	 * In-place adds to a list, forming an advanced tooltip from the passed item
+	 */
+	public static void formAdvancedTooltip(List<Object> list, ItemStack stack, IAdvancedTooltip item)
+	{
+		if (item.getHiddenLines(stack) != null)
+		{
+			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+			{
+				for (String s : item.getHiddenLines(stack))
+				{
+					String[] ss = s.split("\n");
+					for (String line : ss)
+					{
+						list.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
+					}
+					green = green ? false : true;
+				}
+				green = true;
+			}
+			else
+			{
+				list.add(EnumChatFormatting.RED + "Hold" + EnumChatFormatting.YELLOW + " -Shift- " + EnumChatFormatting.RED + "for more info");
+			}
+		}
+		
+		if (item.getStaticLines(stack) != null)
+		{
+			list.add("");
+			
+			for (String s : item.getStaticLines(stack))
+				list.add(s);
+		}		
 	}
 }
