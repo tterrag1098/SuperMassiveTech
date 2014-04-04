@@ -10,6 +10,7 @@
 *.mtl
 *.classpath
 *.project
+/.gradle
 /.settings
 /config
 !/src/main/resources
