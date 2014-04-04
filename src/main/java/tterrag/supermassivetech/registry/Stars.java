@@ -67,6 +67,7 @@ public class Stars
 		 * @param tier - {@link StarTier} of this star, low &lt; normal &lt;
 		 *            high, in terms of value
 		 * @param color - hex color value
+		 * @param textColor - {@link EnumChatFormatting} to use in tooltips
 		 * @param powerMax - max amount of power "stored" in this star
 		 * @param powerPerTick - max power per tick (in RF) this provides in a
 		 *            star harvester
