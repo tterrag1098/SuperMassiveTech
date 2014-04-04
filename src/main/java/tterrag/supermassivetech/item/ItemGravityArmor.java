@@ -203,7 +203,6 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 	@Override
 	public String[] getStaticLines(ItemStack stack)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

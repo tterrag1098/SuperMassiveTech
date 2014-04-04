@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.ItemStar;
@@ -29,11 +30,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 	public void updateEntity()
 	{
 		super.updateEntity();
-		if (!worldObj.isRemote && inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar)
+		if (inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar)
 		{
 			IStar type = Utils.getType(inventory[slot]);
 			int energy = inventory[slot].getTagCompound().getInteger("energy");
-			currentPerTick = type.getPowerPerTick();
+			currentPerTick = type.getPowerPerTick() * 2;
 			if (energy > 0)
 			{
 				inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > currentPerTick ? currentPerTick : energy, false));
@@ -44,14 +45,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
 	private void attemptOutputEnergy()
 	{
-		for (ForgeDirection f : ForgeDirection.values())
+		ForgeDirection f = ForgeDirection.getOrientation(getBlockMetadata());
+		TileEntity te = worldObj.getTileEntity(xCoord + f.offsetX, yCoord + f.offsetY, zCoord + f.offsetZ);
+		if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
 		{
-			TileEntity te = worldObj.getTileEntity(xCoord + f.offsetX, yCoord + f.offsetY, zCoord + f.offsetZ);
-			if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
-			{
-				IEnergyHandler ieh = (IEnergyHandler) te;
-				storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), currentPerTick, false), false);
-			}
+			IEnergyHandler ieh = (IEnergyHandler) te;
+			storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), currentPerTick, false), false);
 		}
 	}
 
@@ -84,7 +83,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 	{
 		return 0;
 	}
-	
+
 	public void setEnergyStored(int energy)
 	{
 		storage.setEnergyStored(energy);
@@ -149,7 +148,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 			player.getCurrentEquippedItem().stackSize--;
 			return true;
 		}
-		else if (inventory[slot] != null)
+		else if (!player.isSneaking() && inventory[slot] != null)
 		{
 			if (!player.inventory.addItemStackToInventory(inventory[slot]))
 				player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
@@ -157,13 +156,24 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 			inventory[slot] = null;
 			return true;
 		}
-		return false;
+		else if (!player.worldObj.isRemote)
+		{
+			if (inventory[slot] == null)
+				player.addChatMessage(new ChatComponentText("No star in place."));
+			else
+			{
+				player.addChatMessage(new ChatComponentText("Current star is: " + Utils.getType(inventory[slot]).toString()));
+				player.addChatMessage(new ChatComponentText("Energy remaining: " + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true)));
+			}
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1)
 	{
-		return var1 == 1 ? new int[]{0} : new int[]{};
+		return var1 == 1 ? new int[] { 0 } : new int[] {};
 	}
 
 	@Override

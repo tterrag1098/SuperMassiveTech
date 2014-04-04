@@ -105,7 +105,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 				type.getTextColor() + type.toString(),
 				Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
 				Utils.formatString(EnumChatFormatting.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
-				Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, false)
+				Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true)
 		};
 	}
 	

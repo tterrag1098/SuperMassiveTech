@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
@@ -62,5 +63,16 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
 			harvester.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory")));
 			harvester.setEnergyStored(tag.getInteger("energy"));
 		}
+	}
+	
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	{
+		TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
+		if (te != null)
+		{
+			return te.getStackInSlot(0) != null ? 9 : 0;
+		}
+		return 0;
 	}
 }
