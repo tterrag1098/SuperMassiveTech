@@ -60,7 +60,7 @@ public class Utils
 		float blue = (color & 255) / 255.0F;
 		GL11.glColor4f(red, green, blue, 1.0F);
 	}
-	
+
 	/**
 	 * Formats a string and number for use in GUIs and tooltips
 	 * 
@@ -83,7 +83,7 @@ public class Utils
 		{
 			return formatSmallerNumber(prefix, suffix, amnt, useDecimals);
 		}
-		
+
 		switch (Long.toString(amnt).length())
 		{
 		case 7:
@@ -163,11 +163,11 @@ public class Utils
 	{
 		if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem))
 			return;
-				
+
 		// distance forumla
 		double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
-		if (dist > range || dist == 0)
+		if (dist > range)
 			return;
 
 		double xDisplacment = entity.posX - (xCoord + 0.5);
@@ -175,30 +175,38 @@ public class Utils
 		double zDisplacment = entity.posZ - (zCoord + 0.5);
 
 		// http://en.wikipedia.org/wiki/Spherical_coordinate_system#Coordinate_system_conversions
-
 		double theta = Math.acos(zDisplacment / dist);
 		double phi = Math.atan2(yDisplacment, xDisplacment);
 
-		showParticles &= dist > 1;
+		// Gravity decreases linearly 
+		double gravForce = gravStrength * (1 - dist / range);
 
-		// More strength for everything but players, lower dist is bigger effect
-		if (!(entity instanceof EntityPlayer))
-			dist *= 0.5;
-		else
-		{
+		// More strength for everything but players
+		if (entity instanceof EntityPlayer){
 			if (((EntityPlayer) entity).capabilities.isCreativeMode)
 				return;
 
-			dist *= 2;
+			gravForce *= 0.5;
+
+			double armorMult = 1.0;
+			for (ItemStack s : ((EntityPlayer)entity).inventory.armorInventory){
+				if (s != null && itemRegistry.armors.contains(s.getItem()))
+				{
+					armorMult -= 0.25;
+				}
+			}
+			
+			gravForce *= armorMult;
+			
+		} else {
+			gravForce *= 2;
 		}
-		
-		System.out.println(entity.getClass().getName());
 
-		double vecX = -gravStrength * Math.sin(theta) * Math.cos(phi) / dist;
-		double vecY = -gravStrength * Math.sin(theta) * Math.sin(phi) / dist;
-		double vecZ = -gravStrength * Math.cos(theta) / dist;
+		double vecX = -gravForce * Math.sin(theta) * Math.cos(phi);
+		double vecY = -gravForce * Math.sin(theta) * Math.sin(phi);
+		double vecZ = -gravForce * Math.cos(theta);
 
-		// trims gravity below max
+		// trims gravity above max
 		if (Math.abs(vecX) > maxGravXZ)
 			vecX *= maxGravXZ / Math.abs(vecX);
 		if (Math.abs(vecY) > maxGravY)
@@ -206,7 +214,7 @@ public class Utils
 		if (Math.abs(vecZ) > maxGravXZ)
 			vecZ *= maxGravXZ / Math.abs(vecZ);
 
-		// trims gravity above min
+		// trims gravity below min
 		if (Math.abs(vecX) < minGrav)
 			vecX = 0;
 		if (Math.abs(vecY) < minGrav)
@@ -214,21 +222,9 @@ public class Utils
 		if (Math.abs(vecZ) < minGrav)
 			vecZ = 0;
 
-		if (entity instanceof EntityPlayer)
-		{
-			double armorMult = 1.0;
-			for (ItemStack s : ((EntityPlayer)entity).inventory.armorInventory)
-				if (s != null && itemRegistry.armors.contains(s.getItem()))
-				{
-					armorMult -= 0.25;
-				}
-			
-			vecX *= armorMult;
-			vecY *= armorMult;
-			vecZ *= armorMult;
-		}
-			
 		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
+
+		showParticles &= dist > 1;
 
 		// shows smoke particles
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles && FMLClientHandler.instance().getClient().effectRenderer != null
@@ -361,7 +357,7 @@ public class Utils
 
 		world.spawnEntityInWorld(new EntityItem(world, f, f1, f2, item));
 	}
-	
+
 	/**
 	 * Finds the proper tool for this material, returns "none" if there isn't one
 	 */
@@ -386,7 +382,7 @@ public class Utils
 		}
 		return 0;
 	}
-	
+
 	private static boolean green = true;
 	/**
 	 * In-place adds to a list, forming an advanced tooltip from the passed item
@@ -413,11 +409,11 @@ public class Utils
 				list.add(EnumChatFormatting.RED + "Hold" + EnumChatFormatting.YELLOW + " -Shift- " + EnumChatFormatting.RED + "for more info");
 			}
 		}
-		
+
 		if (item.getStaticLines(stack) != null)
 		{
 			list.add("");
-			
+
 			for (String s : item.getStaticLines(stack))
 				list.add(s);
 		}		
