@@ -71,7 +71,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 				{
 					toRemove = fire.remove(new Random().nextInt(fire.size()));
 					
-					particlesLeft = extinguish(toRemove) ? 6 + new Random().nextInt(2) - 1 : 0;
+					particlesLeft = extinguish(toRemove) ? 4 + new Random().nextInt(2) - 1 : 0;
 					explodeTimer--;
 				}
 				else

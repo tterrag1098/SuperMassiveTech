@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.registry;
 
+import java.util.ArrayList;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -23,6 +25,8 @@ public class ModItems
 	
 	public Item gravityHelm, gravityChest, gravityLegs, gravityBoots;
 	
+	public ArrayList<Item> armors = new ArrayList<Item>();
+	
 	public void register()
 	{
 		heartOfStar = new ItemStarHeart("starHeart");
@@ -42,6 +46,11 @@ public class ModItems
 		GameRegistry.registerItem(gravityChest, "gravityChestplate");
 		GameRegistry.registerItem(gravityLegs, "gravityLeggings");
 		GameRegistry.registerItem(gravityBoots, "gravityBoots");
+		
+		armors.add(gravityHelm);
+		armors.add(gravityChest);
+		armors.add(gravityLegs);
+		armors.add(gravityBoots);
 	}
 
 	public void addRecipes()

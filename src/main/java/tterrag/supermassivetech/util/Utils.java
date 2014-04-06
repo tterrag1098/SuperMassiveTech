@@ -20,6 +20,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
@@ -213,6 +214,20 @@ public class Utils
 		if (Math.abs(vecZ) < minGrav)
 			vecZ = 0;
 
+		if (entity instanceof EntityPlayer)
+		{
+			double armorMult = 1.0;
+			for (ItemStack s : ((EntityPlayer)entity).inventory.armorInventory)
+				if (s != null && itemRegistry.armors.contains(s.getItem()))
+				{
+					armorMult -= 0.25;
+				}
+			
+			vecX *= armorMult;
+			vecY *= armorMult;
+			vecZ *= armorMult;
+		}
+			
 		entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 
 		// shows smoke particles
