@@ -14,6 +14,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import cofh.api.energy.IEnergyContainerItem;
@@ -62,7 +63,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 		setCreativeTab(SuperMassiveTech.tabSMT);
 		setUnlocalizedName(unlocalized);
 		setMaxStackSize(1);
-		setMaxDamage(101);
+		setMaxDamage(99);
 	}
 
 	@Override
@@ -86,15 +87,31 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 	@Override
 	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate)
 	{
-		return 0;
+		if (container == null || container.getTagCompound() == null)
+			return 0;
+		
+		int available = container.stackTagCompound.getInteger("energy");
+		int removed;
+		if (maxExtract < available)
+		{
+			container.stackTagCompound.setInteger("energy", available - maxExtract);
+			removed = maxExtract;
+		}
+		else
+		{
+			container.stackTagCompound.setInteger("energy", 0);
+			removed = available;
+		}
+		container.setItemDamage(getDamageFromEnergy(container.stackTagCompound, container.getMaxDamage()));
+		return removed;
 	}
 
 	@Override
 	public int getEnergyStored(ItemStack container)
 	{
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("energy"))
+		if (container == null || container.stackTagCompound == null || !container.stackTagCompound.hasKey("energy"))
 			return 0;
-		return container.stackTagCompound.getInteger("Energy");
+		return container.stackTagCompound.getInteger("energy");
 	}
 
 	@Override
@@ -154,7 +171,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 	
 	private int getDamageFromEnergy(NBTTagCompound tag, int max)
 	{
-		return ((int) (Math.abs((float) tag.getInteger("energy") / CAPACITY - 1) * max)) + 1;
+		return ((int) (Math.abs(((float) tag.getInteger("energy") / CAPACITY) - 1) * max) + 1);
 	}
 	
 	@Override
@@ -197,13 +214,13 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 	@Override
 	public String[] getHiddenLines(ItemStack stack)
 	{
-		return new String[]{"" + stack.getTagCompound().getInteger("energy")};
+		return null;
 	}
 
 	@Override
 	public String[] getStaticLines(ItemStack stack)
 	{
-		return null;
+		return new String[]{EnumChatFormatting.WHITE + "Energy Stored: " + Utils.getColorForPowerLeft(stack.getTagCompound().getInteger("energy"), CAPACITY) + Utils.formatString("", " RF", stack.getTagCompound().getInteger("energy"), true, true)};
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

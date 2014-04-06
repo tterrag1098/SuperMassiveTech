@@ -4,7 +4,7 @@ import tterrag.supermassivetech.config.ConfigHandler;
 
 public class Constants
 {
-	private static Constants instance;
+	private static Constants instance = new Constants();
 
 	public static Constants instance()
 	{
@@ -14,6 +14,7 @@ public class Constants
 	public final float RANGE;
 	public final float STRENGTH;
 	public final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
+	public final int ENERGY_DRAIN;
 
 	private Constants()
 	{
@@ -22,6 +23,7 @@ public class Constants
 		MAX_GRAV_Y = Math.min(1, ConfigHandler.maxGravityY);
 		MIN_GRAV = Math.min(Math.min(MAX_GRAV_XZ, MAX_GRAV_Y), ConfigHandler.minGravity);
 		STRENGTH = Math.min(1000, ConfigHandler.strength);
+		ENERGY_DRAIN = Math.min(1000, ConfigHandler.gravArmorDrain);
 	}
 
 	public static void init()

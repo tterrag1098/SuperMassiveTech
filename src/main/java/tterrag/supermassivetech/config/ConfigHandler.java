@@ -9,6 +9,7 @@ public class ConfigHandler
 
 	public static float maxGravityXZ, maxGravityY, minGravity, range, strength;
 	public static boolean doGravityWell;
+	public static int gravArmorDrain;
 
 	public static void init(File file)
 	{
@@ -29,6 +30,8 @@ public class ConfigHandler
 				"The max gravity that can be applied in the Y direction, used to allow easier jumping in gravity wells so they are less annoying").getDouble(0.028);
 		minGravity = (float) config.get(section, "minGravity", 0, "The minimun force to apply, can be zero. Used to prevent \"wobbling\" near the center of axes").getDouble(0);
 
+		gravArmorDrain = config.get(section, "gravArmorDrain", 100, "The base value that gravity effects passively drain gravity armor").getInt();
+		
 		config.save();
 	}
 }

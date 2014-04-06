@@ -52,16 +52,6 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 			list.add(Utils.setType(new ItemStack(this), t));
 		}
 	}
-	
-	private EnumChatFormatting getColorForPowerLeft(double power, double powerMax)
-	{
-		if (power / powerMax <= .25)
-			return EnumChatFormatting.GOLD;
-		else if (power / powerMax <= .1)
-			return EnumChatFormatting.RED;
-		
-		return EnumChatFormatting.GREEN;
-	}
 
 	@Override
 	public Entity createEntity(World world, Entity location, ItemStack itemstack)
@@ -105,7 +95,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 				type.getTextColor() + type.toString(),
 				Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
 				Utils.formatString(EnumChatFormatting.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
-				Utils.formatString(getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true)
+				Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true)
 		};
 	}
 	

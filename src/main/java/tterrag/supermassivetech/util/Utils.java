@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.util;
 
+import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
+
 import java.util.List;
 
 import net.minecraft.block.material.Material;
@@ -20,7 +22,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import static tterrag.supermassivetech.SuperMassiveTech.*;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
@@ -28,17 +29,23 @@ import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
+import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
 public class Utils
 {
-	private static Constants c = Constants.instance();
+	private static Constants c;
 	private static Stars stars = Stars.instance;
 	private static Material[] pickMats = {Material.rock, Material.iron, Material.anvil};
 	private static Material[] shovelMats = {Material.clay, Material.snow, Material.ground};
 
+	public static void init()
+	{
+		c = Constants.instance();
+	}
+	
 	public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "superMassiveTech")
 	{
 		@Override
@@ -192,7 +199,13 @@ public class Utils
 			for (ItemStack s : ((EntityPlayer)entity).inventory.armorInventory){
 				if (s != null && itemRegistry.armors.contains(s.getItem()))
 				{
-					armorMult -= 0.25;
+					IEnergyContainerItem item = (IEnergyContainerItem) s.getItem();
+					if (item.getEnergyStored(s) > 0)
+					{
+						System.out.println("player");
+						item.extractEnergy(s, (int) (c.ENERGY_DRAIN * gravForce), false);
+						armorMult -= 0.23;
+					}
 				}
 			}
 			
@@ -412,10 +425,21 @@ public class Utils
 
 		if (item.getStaticLines(stack) != null)
 		{
-			list.add("");
+			if (item.getHiddenLines(stack) != null)
+				list.add("");
 
 			for (String s : item.getStaticLines(stack))
 				list.add(s);
 		}		
+	}
+	
+	public static EnumChatFormatting getColorForPowerLeft(double power, double powerMax)
+	{
+		if (power / powerMax <= .25)
+			return EnumChatFormatting.GOLD;
+		else if (power / powerMax <= .1)
+			return EnumChatFormatting.RED;
+		
+		return EnumChatFormatting.GREEN;
 	}
 }

@@ -2,6 +2,7 @@ package tterrag.supermassivetech.registry;
 
 import java.util.ArrayList;
 
+import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -25,7 +26,7 @@ public class ModItems
 	
 	public Item gravityHelm, gravityChest, gravityLegs, gravityBoots;
 	
-	public ArrayList<Item> armors = new ArrayList<Item>();
+	public ArrayList<IEnergyContainerItem> armors = new ArrayList<IEnergyContainerItem>();
 	
 	public void register()
 	{
@@ -47,10 +48,10 @@ public class ModItems
 		GameRegistry.registerItem(gravityLegs, "gravityLeggings");
 		GameRegistry.registerItem(gravityBoots, "gravityBoots");
 		
-		armors.add(gravityHelm);
-		armors.add(gravityChest);
-		armors.add(gravityLegs);
-		armors.add(gravityBoots);
+		armors.add((IEnergyContainerItem) gravityHelm);
+		armors.add((IEnergyContainerItem) gravityChest);
+		armors.add((IEnergyContainerItem) gravityLegs);
+		armors.add((IEnergyContainerItem) gravityBoots);
 	}
 
 	public void addRecipes()

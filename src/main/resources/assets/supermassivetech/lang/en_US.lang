@@ -6,4 +6,9 @@ item.star.name=Star
 item.starHeart.name=Heart of Star
 item.starContainer.name=Star Container
 
+item.gravityHelmet.name=Gravity Helmet
+item.gravityChestplate.name=Gravity Chestplate
+item.gravityLeggings.name=Gravity Leggings
+item.gravityBoots.name=Gravity Boots
+
 itemGroup.superMassiveTech=Super Massive Tech
