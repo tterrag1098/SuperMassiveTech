@@ -442,4 +442,17 @@ public class Utils
 		
 		return EnumChatFormatting.GREEN;
 	}
+
+	public static void registerEventHandlers(Class<?>... classes)
+	{
+		for (Class<?> c : classes)
+		{
+			try { FMLCommonHandler.instance().bus().register(c.newInstance()); }
+			catch (Throwable t)
+			{
+				SuperMassiveTech.logger.severe(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
+				t.printStackTrace();
+			}
+		}
+	}
 }

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.item.GravityArmorHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
 import tterrag.supermassivetech.proxy.CommonProxy;
@@ -73,5 +74,7 @@ public class SuperMassiveTech
 	public static void init(FMLInitializationEvent event)
 	{
 		proxy.init();
+		
+		Utils.registerEventHandlers(GravityArmorHandler.class);
 	}
 }
