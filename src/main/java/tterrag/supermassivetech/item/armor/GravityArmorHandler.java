@@ -44,8 +44,8 @@ public class GravityArmorHandler
 		{
 			double effect = getArmorMult(player, Constants.instance().ENERGY_DRAIN / 50);
 			if (effect == 0) return;
-			player.motionY *= 1 - (0.1 * effect);
-			player.fallDistance /= 1 + effect * 5;
+			player.motionY *= 1 - (0.08 * effect);
+			player.fallDistance /= 1 + effect / 3;
 		}
 	}
 	

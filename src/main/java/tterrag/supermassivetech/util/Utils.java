@@ -446,12 +446,12 @@ public class Utils
 	
 	public static EnumChatFormatting getColorForPowerLeft(double power, double powerMax)
 	{
-		if (power / powerMax <= .25)
-			return EnumChatFormatting.GOLD;
-		else if (power / powerMax <= .1)
+		if (power / powerMax <= .1)
 			return EnumChatFormatting.RED;
-		
-		return EnumChatFormatting.GREEN;
+		else if (power / powerMax <= .25)
+			return EnumChatFormatting.GOLD;
+		else
+			return EnumChatFormatting.GREEN;
 	}
 
 	public static void registerEventHandlers(boolean useForge, Class<?>... classes)

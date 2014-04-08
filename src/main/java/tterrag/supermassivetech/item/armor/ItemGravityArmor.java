@@ -65,6 +65,8 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 		setUnlocalizedName(unlocalized);
 		setMaxStackSize(1);
 		setMaxDamage(99);
+		setNoRepair();
+		
 	}
 
 	@Override
@@ -234,5 +236,17 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 			IAdvancedTooltip item = (IAdvancedTooltip) this;
 			Utils.formAdvancedTooltip(list, stack, item);
 		}
+	}
+	
+	@Override
+	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
+	{
+		return false;
+	}
+	
+	@Override
+	public int getItemEnchantability()
+	{
+		return 0;
 	}
 }

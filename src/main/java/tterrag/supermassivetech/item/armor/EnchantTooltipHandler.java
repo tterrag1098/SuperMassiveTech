@@ -16,7 +16,7 @@ public class EnchantTooltipHandler
 			{
 				if (event.toolTip.get(i).contains("Gravity Resist"))
 				{
-					event.toolTip.add(i + 1, EnumChatFormatting.DARK_GRAY.toString() + EnumChatFormatting.ITALIC + "  - Reduces gravity well effects");
+					event.toolTip.add(i + 1, EnumChatFormatting.DARK_GRAY.toString() + EnumChatFormatting.ITALIC + "  - Reduces all gravity effects");
 					break;
 				}
 			}
