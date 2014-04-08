@@ -1,9 +1,10 @@
-package tterrag.supermassivetech.item;
+package tterrag.supermassivetech.item.armor;
 
 import java.util.List;
 import java.util.Random;
 
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.util.Utils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;

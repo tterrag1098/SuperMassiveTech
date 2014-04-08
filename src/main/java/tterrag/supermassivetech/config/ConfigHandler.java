@@ -10,6 +10,7 @@ public class ConfigHandler
 	public static float maxGravityXZ, maxGravityY, minGravity, range, strength;
 	public static boolean doGravityWell;
 	public static int gravArmorDrain;
+	public static int gravEnchantID;
 
 	public static void init(File file)
 	{
@@ -31,6 +32,10 @@ public class ConfigHandler
 		minGravity = (float) config.get(section, "minGravity", 0, "The minimun force to apply, can be zero. Used to prevent \"wobbling\" near the center of axes").getDouble(0);
 
 		gravArmorDrain = config.get(section, "gravArmorDrain", 100, "The base value that gravity effects passively drain gravity armor").getInt();
+		
+		//ids
+		
+		gravEnchantID = config.get("enchants", "gravityResistID", 42, "The enchantment ID for Gravity Resist").getInt();
 		
 		config.save();
 	}

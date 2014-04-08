@@ -3,10 +3,12 @@ package tterrag.supermassivetech.util;
 import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -17,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -188,15 +191,17 @@ public class Utils
 		// Gravity decreases linearly 
 		double gravForce = gravStrength * (1 - dist / range);
 
-		// More strength for everything but players
 		if (entity instanceof EntityPlayer){
 			if (((EntityPlayer) entity).capabilities.isCreativeMode)
 				return;
-
+			
+			// instant half gravity
 			gravForce *= 0.5;
 
 			double armorMult = 1.0;
-			for (ItemStack s : ((EntityPlayer)entity).inventory.armorInventory){
+			for (ItemStack s : ((EntityPlayer)entity).inventory.armorInventory)
+			{
+				// handles gravity armor
 				if (s != null && itemRegistry.armors.contains(s.getItem()))
 				{
 					IEnergyContainerItem item = (IEnergyContainerItem) s.getItem();
@@ -206,6 +211,12 @@ public class Utils
 						item.extractEnergy(s, (int) (c.ENERGY_DRAIN * gravForce), false);
 						armorMult -= 0.23;
 					}
+				}
+				// handles enchant
+				else if (s != null && EnchantmentHelper.getEnchantmentLevel(42, s) != 0)
+				{
+					armorMult -= 0.23 / 2;
+					s.damageItem(new Random().nextInt(100) < 2 && !entity.worldObj.isRemote ? 1 : 0, (EntityLivingBase) entity);
 				}
 			}
 			
@@ -443,11 +454,17 @@ public class Utils
 		return EnumChatFormatting.GREEN;
 	}
 
-	public static void registerEventHandlers(Class<?>... classes)
+	public static void registerEventHandlers(boolean useForge, Class<?>... classes)
 	{
 		for (Class<?> c : classes)
 		{
-			try { FMLCommonHandler.instance().bus().register(c.newInstance()); }
+			try 
+			{
+				if (useForge)
+					MinecraftForge.EVENT_BUS.register(c.newInstance());
+				else
+					FMLCommonHandler.instance().bus().register(c.newInstance()); 
+			}
 			catch (Throwable t)
 			{
 				SuperMassiveTech.logger.severe(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));

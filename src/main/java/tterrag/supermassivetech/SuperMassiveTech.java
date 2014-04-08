@@ -5,11 +5,13 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.item.GravityArmorHandler;
+import tterrag.supermassivetech.item.armor.EnchantTooltipHandler;
+import tterrag.supermassivetech.item.armor.GravityArmorHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
 import tterrag.supermassivetech.proxy.CommonProxy;
 import tterrag.supermassivetech.registry.ModBlocks;
+import tterrag.supermassivetech.registry.ModEnchants;
 import tterrag.supermassivetech.registry.ModItems;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.util.Constants;
@@ -42,6 +44,7 @@ public class SuperMassiveTech
 	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", channelHandler);
 
 	public static ModItems itemRegistry = ModItems.instance;
+	public static ModEnchants enchantRegistry = ModEnchants.instance;
 	public static ModBlocks blockRegistry = ModBlocks.instance;
 	public static Stars starRegistry = Stars.instance;
 
@@ -61,6 +64,8 @@ public class SuperMassiveTech
 
 		itemRegistry.register();
 		itemRegistry.addRecipes();
+		
+		enchantRegistry.init();
 
 		blockRegistry.register();
 		blockRegistry.addRecipes();
@@ -75,6 +80,7 @@ public class SuperMassiveTech
 	{
 		proxy.init();
 		
-		Utils.registerEventHandlers(GravityArmorHandler.class);
+		Utils.registerEventHandlers(false, GravityArmorHandler.class);
+		Utils.registerEventHandlers(true, EnchantTooltipHandler.class);
 	}
 }
