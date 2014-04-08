@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.item.armor.EnchantTooltipHandler;
+import tterrag.supermassivetech.enchant.EnchantTooltipHandler;
 import tterrag.supermassivetech.item.armor.GravityArmorHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;

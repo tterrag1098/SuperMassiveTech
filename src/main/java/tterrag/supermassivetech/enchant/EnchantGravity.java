@@ -2,8 +2,9 @@ package tterrag.supermassivetech.enchant;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.item.ItemStack;
 
-public class EnchantGravity extends Enchantment
+public class EnchantGravity extends Enchantment implements IAdvancedEnchant
 {
 	public EnchantGravity()
 	{
@@ -26,5 +27,11 @@ public class EnchantGravity extends Enchantment
 	public String getName()
 	{
 		return "Gravity Resist";
+	}
+
+	@Override
+	public String[] getTooltipDetails(ItemStack stack)
+	{
+		return new String[]{"Reduces all gravity effects"};
 	}
 }
