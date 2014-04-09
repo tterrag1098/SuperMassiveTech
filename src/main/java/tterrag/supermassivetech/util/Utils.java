@@ -27,6 +27,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
+import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.registry.IStar;
@@ -213,7 +214,7 @@ public class Utils
 					}
 				}
 				// handles enchant
-				else if (s != null && EnchantmentHelper.getEnchantmentLevel(42, s) != 0)
+				else if (s != null && EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, s) != 0)
 				{
 					armorMult -= 0.23 / 2;
 					s.damageItem(new Random().nextInt(100) < 2 && !entity.worldObj.isRemote ? 1 : 0, (EntityLivingBase) entity);
