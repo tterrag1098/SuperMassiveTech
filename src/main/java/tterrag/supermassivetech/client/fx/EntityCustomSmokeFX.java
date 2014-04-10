@@ -33,7 +33,6 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 	{
 		super(par1World, par2, par4, par6, par8, par10, par12, 1.0f);
 		this.noClip = true;
-		;
 	}
 
 	@Override
@@ -54,6 +53,7 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
 		}
 
 		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge + 3);
+		
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
 		if (this.posY == this.prevPosY)
