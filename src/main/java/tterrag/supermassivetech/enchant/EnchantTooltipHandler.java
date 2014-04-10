@@ -6,6 +6,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -24,7 +25,7 @@ public class EnchantTooltipHandler
 				Enchantment e = SuperMassiveTech.enchantRegistry.getEnchantByID(integer);
 				for (int i = 0; i < event.toolTip.size(); i++)
 				{
-					if (event.toolTip.get(i).contains(e.getName()))
+					if (event.toolTip.get(i).contains(StatCollector.translateToLocal(e.getName())))
 					{
 						for (String s : ((IAdvancedEnchant)e).getTooltipDetails(event.itemStack))
 							event.toolTip.add(i + 1, EnumChatFormatting.DARK_GRAY.toString() + EnumChatFormatting.ITALIC + "  - " + s);
