@@ -17,16 +17,14 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class GravityArmorHandler
 {
-	boolean hasJumped;
-
 	@SubscribeEvent
 	public void doAntiGrav(PlayerTickEvent event)
 	{
-		if (!event.player.onGround && (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || (event.player.motionY < -0.2 && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))))
+		if (!event.player.onGround && !event.player.capabilities.isFlying && (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || (event.player.motionY < -0.2 && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))))
 		{
 			double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
 			event.player.motionY += effect;
-			event.player.fallDistance -= effect * 2;
+			event.player.fallDistance *= 1 - effect * 2;
 		}
 	}
 	
