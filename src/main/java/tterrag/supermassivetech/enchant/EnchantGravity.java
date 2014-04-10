@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.enchant;
 
+import tterrag.supermassivetech.config.ConfigHandler;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
@@ -8,7 +9,7 @@ public class EnchantGravity extends Enchantment implements IAdvancedEnchant
 {
 	public EnchantGravity()
 	{
-		super(42, 2, EnumEnchantmentType.armor);
+		super(ConfigHandler.gravEnchantID, 2, EnumEnchantmentType.armor);
 	}
 	
 	@Override
@@ -26,7 +27,7 @@ public class EnchantGravity extends Enchantment implements IAdvancedEnchant
 	@Override
 	public String getName()
 	{
-		return "Gravity Resist";
+		return "enchantment.gravityResist";
 	}
 
 	@Override
