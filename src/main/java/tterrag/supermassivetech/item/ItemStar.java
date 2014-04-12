@@ -29,6 +29,12 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
 	{
 		super(unlocName, unlocName);
 	}
+	
+	@Override
+	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+	{
+		Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getTier().ordinal());
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -28,6 +28,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
 	public TileStarHarvester()
 	{
+		super(1.0f, 0.5f);
 		storage = new EnergyStorage(STORAGE_CAP);
 		inventory = new ItemStack[1];
 	}

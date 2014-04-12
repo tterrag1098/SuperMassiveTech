@@ -7,8 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.util.Utils;
@@ -23,14 +21,13 @@ public class ItemBlockSMT extends ItemBlock
 	}
 
 	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+	public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5)
 	{
-		if (isGravityWell() && par3Entity instanceof EntityPlayer && !par2World.isRemote && !((EntityPlayer) par3Entity).capabilities.isCreativeMode)
+		if (isGravityWell(stack) && entity instanceof EntityPlayer && !world.isRemote && !((EntityPlayer) entity).capabilities.isCreativeMode)
 		{
-			((EntityPlayer) par3Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, 3, true));
-			((EntityPlayer) par3Entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, 3, true));
+			Utils.applyGravPotionEffects((EntityPlayer) entity, getGravStrength(stack));
 		}
-		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+		super.onUpdate(stack, world, entity, par4, par5);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -45,8 +42,13 @@ public class ItemBlockSMT extends ItemBlock
 		}
 	}
 	
-	public boolean isGravityWell()
+	public boolean isGravityWell(ItemStack stack)
 	{
 		return true;
+	}
+
+	public int getGravStrength(ItemStack stack)
+	{
+		return 3;
 	}
 }

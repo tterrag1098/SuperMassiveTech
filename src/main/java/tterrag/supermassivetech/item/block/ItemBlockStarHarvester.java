@@ -21,6 +21,23 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
 				"- Once the star is out of power\n   it will go critical. Better run!"
 		};
 	}
+	
+	@Override
+	public boolean isGravityWell(ItemStack stack)
+	{
+		return stack.stackTagCompound != null && stack.stackTagCompound.getTag("inventory") != null;
+	}
+	
+	@Override
+	public int getGravStrength(ItemStack stack)
+	{
+		if (isGravityWell(stack))
+		{
+			ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));	
+			return Utils.getType(star).getTier().ordinal();
+		}
+		return 0;
+	}
 
 	@Override
 	public String[] getStaticLines(ItemStack stack) 

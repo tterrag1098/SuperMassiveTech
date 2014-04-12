@@ -16,6 +16,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -471,5 +473,14 @@ public class Utils
 				t.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * Applies the potion effects associated with gravity to the player at effect level <code> level </code>
+	 */
+	public static void applyGravPotionEffects(EntityPlayer player, int level)
+	{
+		player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, level, true));
+		player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, level, true));
 	}
 }
