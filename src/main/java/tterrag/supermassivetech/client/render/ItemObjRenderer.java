@@ -2,6 +2,7 @@ package tterrag.supermassivetech.client.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -9,12 +10,12 @@ public class ItemObjRenderer implements ISimpleBlockRenderingHandler
 {
 	private Block block;
 	private int renderID;
-	private DirectionalModelRenderer objRenderer;
+	private TileEntitySpecialRenderer tesr;
 	
-	public ItemObjRenderer(int renderID, DirectionalModelRenderer objRenderer)
+	public ItemObjRenderer(int renderID, TileEntitySpecialRenderer tesr)
 	{
 		this.renderID = renderID;
-		this.objRenderer = objRenderer;
+		this.tesr = tesr;
 	}
 	
 	public void init(Block block)
@@ -28,7 +29,12 @@ public class ItemObjRenderer implements ISimpleBlockRenderingHandler
 		if (block == null) throw new RuntimeException("You didn't initialize the item renderer.");
 		
 		if (passedBlock.getClass() == block.getClass())
-			objRenderer.renderDirectionalTileEntityAt(null, 0, 0, 0, true);
+		{
+			if (tesr instanceof DirectionalModelRenderer)
+				((DirectionalModelRenderer)tesr).renderDirectionalTileEntityAt(null, 0, 0, 0, true);
+			else
+				tesr.renderTileEntityAt(null, 0, 0, 0, 0);
+		}
 	}
 
 	@Override

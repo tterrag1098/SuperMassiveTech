@@ -19,6 +19,8 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 	private int slot = 0, currentPerTick = 0;
 	private EnergyStorage storage;
 	private final int STORAGE_CAP = 100000;
+	public double spinSpeed = 0;
+	public float spinRot = 0;
 
 	public TileStarHarvester()
 	{

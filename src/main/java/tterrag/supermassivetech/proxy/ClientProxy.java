@@ -9,6 +9,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.ItemObjRenderer;
+import tterrag.supermassivetech.client.render.RenderStarHarvester;
 import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -25,7 +26,8 @@ public class ClientProxy extends CommonProxy
 	public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation("supermassivetech", "models/hopper.obj"), new ResourceLocation("supermassivetech", "textures/models/hopper.png"));
 	public static ItemObjRenderer hopperItem;
 
-	public static final DirectionalModelRenderer starHarvester = new DirectionalModelRenderer(new ResourceLocation("supermassivetech", "models/starHarvester.obj"), new ResourceLocation("supermassivetech", "textures/models/starHarvester.png"));
+	public static final RenderStarHarvester starHarvester = new RenderStarHarvester(new ResourceLocation("supermassivetech", "models/starHarvesterMain"
+			+ ".obj"), new ResourceLocation("supermassivetech", "models/starHarvesterSphere.obj"));
 	public static ItemObjRenderer starHarvesterItem;
 
 	@Override
