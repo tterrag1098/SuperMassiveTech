@@ -48,6 +48,8 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 		}
 		
 		attemptOutputEnergy();
+		attemptOutputEnergy();
+		
 		updateAnimation();
 	}
 	
@@ -192,6 +194,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 		{
 			IStar star = Utils.getType(inventory[slot]);
 			
+			player.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_GRAY + "------------------------------"));
 			if (star != null)
 			{
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current star is: " + star.getTextColor() + star.toString()));
@@ -203,6 +206,8 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 			}
 			
 			player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Buffer Storage: " + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
+			player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current Output Max: " + Utils.getColorForPowerLeft(perTick, 500) + Utils.formatString("", " RF/t", perTick, false)));
+
 			return false;
 		}
 		return true;
