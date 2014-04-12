@@ -157,10 +157,13 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 				if (stack != null && inventory[cfgSlot] != null && stack.getItem() == inventory[cfgSlot].getItem() && stack.stackSize > 0
 						&& (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
 				{
+					ItemStack single = stack.copy();
+					single.stackSize = 1;
+					
 					i.inv.decrStackSize(idx, 1);
 
 					if (inventory[hiddenSlot] == null)
-						inventory[hiddenSlot] = new ItemStack(stack.getItem());
+						inventory[hiddenSlot] = single;
 					else
 						inventory[hiddenSlot].stackSize++;
 

@@ -27,7 +27,7 @@ public class ItemSMT extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack,	EntityPlayer player, List list, boolean held) 
 	{
-		if (this instanceof IAdvancedTooltip)
+		if (this instanceof IAdvancedTooltip && stack != null)
 		{
 			IAdvancedTooltip item = (IAdvancedTooltip) this;
 			Utils.formAdvancedTooltip(list, stack, item);
