@@ -208,7 +208,7 @@ public class Utils
 					IEnergyContainerItem item = (IEnergyContainerItem) s.getItem();
 					if (item.getEnergyStored(s) > 0)
 					{
-						item.extractEnergy(s, (int) (c.ENERGY_DRAIN * gravForce), false);
+						item.extractEnergy(s, (int) (c.ENERGY_DRAIN * gravForce) / 20, false);
 						armorMult -= 0.23;
 					}
 				}

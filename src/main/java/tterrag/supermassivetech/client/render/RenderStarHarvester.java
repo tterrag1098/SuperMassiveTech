@@ -58,29 +58,18 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
 		GL11.glScalef(0.5f, 0.5f, 0.5f);
 		main.renderAll();
 
-		double speed = 0;
+		double speed = 0d;
+		float spinRot = 0f;
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphereInactive);
 
 		if (tile != null)
-		{
+		{			
 			speed = tile.spinSpeed;
-			if (tile.isGravityWell())
-			{
-				tile.spinSpeed = speed >= 1 ? 1 : speed + 0.001;
-			}
-			else
-			{
-				tile.spinSpeed = speed <= 0 ? 0 : speed - 0.001;
-			}
-
-			float spinRot = tile.spinRot;
-
-			if (!Minecraft.getMinecraft().isGamePaused())
-				tile.spinRot = (float) (spinRot > 360 ? 0 : spinRot + 1d * (speed));
-				
-			GL11.glRotatef(spinRot * 3, 0, 1f, 0);
+			spinRot = tile.spinRot;	
 		}
+		
+		GL11.glRotatef(spinRot, 0, 1f, 0);
 		
 		if (speed < 0.4f)
 		{
@@ -88,8 +77,10 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
 		}
 		else 
 		{
-			GL11.glColor4f(1.0f, ((float) speed * 2 - 1.5f), 0, 1.0f);
+			GL11.glColor4f(1.0f, ((float) speed * 2 - 1.2f), 0, 1.0f);
 		}
+		
+		GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
 		
 		sphere.renderAll();
 

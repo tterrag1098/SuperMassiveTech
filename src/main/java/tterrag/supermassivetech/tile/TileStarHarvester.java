@@ -3,8 +3,11 @@ package tterrag.supermassivetech.tile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.ItemStar;
@@ -16,11 +19,12 @@ import cofh.api.tileentity.IEnergyInfo;
 
 public class TileStarHarvester extends TileSMTInventory implements ISidedInventory, IEnergyHandler, IEnergyInfo
 {
-	private int slot = 0, currentPerTick = 0;
+	private int slot = 0, perTick = 500;
 	private EnergyStorage storage;
 	private final int STORAGE_CAP = 100000;
 	public double spinSpeed = 0;
 	public float spinRot = 0;
+	public int lastLightLev;
 
 	public TileStarHarvester()
 	{
@@ -32,16 +36,42 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 	public void updateEntity()
 	{
 		super.updateEntity();
-		if (inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar)
+
+		perTick = (int) (500 * spinSpeed);
+		
+		if (inventory[slot] != null)
 		{
 			IStar type = Utils.getType(inventory[slot]);
-			int energy = inventory[slot].getTagCompound().getInteger("energy");
-			currentPerTick = type.getPowerPerTick() * 2;
-			if (energy > 0)
-			{
-				inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > currentPerTick ? currentPerTick : energy, false));
-			}
-			attemptOutputEnergy();
+			int energy = type.getPowerStored(inventory[slot]);
+			int max = type.getPowerPerTick() * 2;
+			inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > max ? max : energy, false));
+		}
+		
+		attemptOutputEnergy();
+		updateAnimation();
+	}
+	
+	private void updateAnimation()
+	{
+		if (isGravityWell())
+		{
+			spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.0005;
+		}
+		else
+		{
+			spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.0005;
+		}
+		
+		if (spinRot >= 360)
+			spinRot -= 360;
+		
+		spinRot += (float) (spinSpeed * 30f);
+		
+		int light = (int) (spinSpeed * 15);
+		if (light != lastLightLev)
+		{
+			lastLightLev = light;
+			worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);		
 		}
 	}
 
@@ -52,7 +82,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 		if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
 		{
 			IEnergyHandler ieh = (IEnergyHandler) te;
-			storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), currentPerTick, false), false);
+			storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), storage.getEnergyStored() > perTick ? perTick : storage.getEnergyStored(), false), false);
 		}
 	}
 
@@ -160,13 +190,19 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 		}
 		else if (!player.worldObj.isRemote)
 		{
-			if (inventory[slot] == null)
-				player.addChatMessage(new ChatComponentText("No star in place."));
+			IStar star = Utils.getType(inventory[slot]);
+			
+			if (star != null)
+			{
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current star is: " + star.getTextColor() + star.toString()));
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Energy remaining: " + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax()) + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
+			}
 			else
 			{
-				player.addChatMessage(new ChatComponentText("Current star is: " + Utils.getType(inventory[slot]).toString()));
-				player.addChatMessage(new ChatComponentText("Energy remaining: " + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true)));
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No star in place!"));
 			}
+			
+			player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Buffer Storage: " + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
 			return false;
 		}
 		return true;
@@ -188,5 +224,19 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 	public boolean canExtractItem(int var1, ItemStack var2, int var3)
 	{
 		return var1 == 0 && var3 == 1;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		spinSpeed = nbt.getDouble("spin");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		nbt.setDouble("spin", spinSpeed);
 	}
 }

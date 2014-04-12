@@ -71,7 +71,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
 		TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
 		if (te != null)
 		{
-			return te.getStackInSlot(0) != null ? 9 : 0;
+			return te.lastLightLev;
 		}
 		return 0;
 	}
