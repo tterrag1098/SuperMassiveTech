@@ -13,24 +13,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSMT extends Item
 {
-	public ItemSMT(String unlocName, String textureName)
-	{
-		super();
+    public ItemSMT(String unlocName, String textureName)
+    {
+        super();
 
-		setCreativeTab(SuperMassiveTech.tabSMT);
-		setUnlocalizedName(unlocName);
-		setTextureName(Reference.MODID + ":" + textureName);
-	}
-		
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack,	EntityPlayer player, List list, boolean held) 
-	{
-		if (this instanceof IAdvancedTooltip && stack != null)
-		{
-			IAdvancedTooltip item = (IAdvancedTooltip) this;
-			Utils.formAdvancedTooltip(list, stack, item);
-		}
-	}
+        setCreativeTab(SuperMassiveTech.tabSMT);
+        setUnlocalizedName(unlocName);
+        setTextureName(Reference.MODID + ":" + textureName);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean held)
+    {
+        if (this instanceof IAdvancedTooltip && stack != null)
+        {
+            IAdvancedTooltip item = (IAdvancedTooltip) this;
+            Utils.formAdvancedTooltip(list, stack, item);
+        }
+    }
 }

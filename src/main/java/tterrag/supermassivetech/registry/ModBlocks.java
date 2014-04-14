@@ -18,37 +18,31 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks
 {
-	public static ModBlocks instance = new ModBlocks();
+    public static ModBlocks instance = new ModBlocks();
 
-	public Block blackHoleStorage;
-	public Block blackHoleHopper;
-	public Block starHarvester;
+    public Block blackHoleStorage;
+    public Block blackHoleHopper;
+    public Block starHarvester;
 
-	public void register()
-	{
-		blackHoleStorage = new BlockBlackHoleStorage();
-		GameRegistry.registerBlock(blackHoleStorage, ItemBlockStorage.class, "blackHoleStorage");
-		GameRegistry.registerTileEntity(TileBlackHoleStorage.class, "tileBlackHoleStorage");
+    public void register()
+    {
+        blackHoleStorage = new BlockBlackHoleStorage();
+        GameRegistry.registerBlock(blackHoleStorage, ItemBlockStorage.class, "blackHoleStorage");
+        GameRegistry.registerTileEntity(TileBlackHoleStorage.class, "tileBlackHoleStorage");
 
-		blackHoleHopper = new BlockBlackHoleHopper();
-		GameRegistry.registerBlock(blackHoleHopper, ItemBlockHopper.class, "blackHoleHopper");
-		GameRegistry.registerTileEntity(TileBlackHoleHopper.class, "tileBlackHoleHopper");
+        blackHoleHopper = new BlockBlackHoleHopper();
+        GameRegistry.registerBlock(blackHoleHopper, ItemBlockHopper.class, "blackHoleHopper");
+        GameRegistry.registerTileEntity(TileBlackHoleHopper.class, "tileBlackHoleHopper");
 
-		starHarvester = new BlockStarHarvester();
-		GameRegistry.registerBlock(starHarvester, ItemBlockStarHarvester.class, "starHarvester");
-		GameRegistry.registerTileEntity(TileStarHarvester.class, "tileStarHarvester");
-	}
+        starHarvester = new BlockStarHarvester();
+        GameRegistry.registerBlock(starHarvester, ItemBlockStarHarvester.class, "starHarvester");
+        GameRegistry.registerTileEntity(TileStarHarvester.class, "tileStarHarvester");
+    }
 
-	public void addRecipes()
-	{
-		GameRegistry.addRecipe(new ItemStack(starHarvester), 
-				"iii",
-				"bCb",
-				"iii",
-				
-				'i', Items.iron_ingot,
-				'b', Blocks.iron_bars,
-				'C', itemRegistry.starContainer
-		);
-	}
+    public void addRecipes()
+    {
+        GameRegistry.addRecipe(new ItemStack(starHarvester), "iii", "bCb", "iii",
+
+        'i', Items.iron_ingot, 'b', Blocks.iron_bars, 'C', itemRegistry.starContainer);
+    }
 }

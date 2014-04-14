@@ -13,6 +13,6 @@ import net.minecraft.util.IIcon;
 public interface ISidedBlockTexture
 {
 
-	public IIcon getBlockTexture(int side, int pass);
+    public IIcon getBlockTexture(int side, int pass);
 
 }

@@ -8,22 +8,22 @@ import tterrag.supermassivetech.enchant.EnchantGravity;
 
 public class ModEnchants
 {
-	public static ModEnchants instance = new ModEnchants();
-	
-	public Enchantment gravity;
-	
-	private HashMap<Integer, Enchantment> enchants;
-	
-	public void init()
-	{
-		enchants = new HashMap<Integer, Enchantment>();
-		
-		gravity = new EnchantGravity();
-		enchants.put(ConfigHandler.gravEnchantID, gravity);
-	}
-	
-	public Enchantment getEnchantByID(int id)
-	{
-		return enchants.get(id);
-	}
+    public static ModEnchants instance = new ModEnchants();
+
+    public Enchantment gravity;
+
+    private HashMap<Integer, Enchantment> enchants;
+
+    public void init()
+    {
+        enchants = new HashMap<Integer, Enchantment>();
+
+        gravity = new EnchantGravity();
+        enchants.put(ConfigHandler.gravEnchantID, gravity);
+    }
+
+    public Enchantment getEnchantByID(int id)
+    {
+        return enchants.get(id);
+    }
 }

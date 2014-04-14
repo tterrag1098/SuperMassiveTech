@@ -20,155 +20,155 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class EntityItemStarHeart extends EntityItemIndestructible
 {
-	public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
-	{
-		super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
-	}
+    public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
+    {
+        super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
+    }
 
-	private boolean ready;
-	private int explodeTimer = -1, particlesLeft = 0, powerLevel, postTimer = 20;
-	private final int TIMER_MAX = 60, RADIUS = 10;
-	private BlockCoord toRemove = null;
+    private boolean ready;
+    private int explodeTimer = -1, particlesLeft = 0, powerLevel, postTimer = 20;
+    private final int TIMER_MAX = 60, RADIUS = 10;
+    private BlockCoord toRemove = null;
 
-	private LinkedList<BlockCoord> fire = new LinkedList<BlockCoord>();
+    private LinkedList<BlockCoord> fire = new LinkedList<BlockCoord>();
 
-	@Override
-	public void onUpdate()
-	{
-		super.onUpdate();
+    @Override
+    public void onUpdate()
+    {
+        super.onUpdate();
 
-		if (explodeTimer < 0)
-		{
-			if (this.isBurning() && ready)
-			{
-				explodeTimer = TIMER_MAX;
-			}
-			else
-				ready = !this.isBurning();
-		}
-		else if (explodeTimer == TIMER_MAX)
-		{
-			getFire();
-			delayBeforeCanPickup = 1000000;
-			explodeTimer--;
-			powerLevel = fire.size();
-		}
-		else if (explodeTimer == 0)
-		{
-			if (!fire.isEmpty())
-				explodeTimer++;
-			else if (postTimer > 0)
-				postTimer--;
-			else
-				changeToStar();
-		}
+        if (explodeTimer < 0)
+        {
+            if (this.isBurning() && ready)
+            {
+                explodeTimer = TIMER_MAX;
+            }
+            else
+                ready = !this.isBurning();
+        }
+        else if (explodeTimer == TIMER_MAX)
+        {
+            getFire();
+            delayBeforeCanPickup = 1000000;
+            explodeTimer--;
+            powerLevel = fire.size();
+        }
+        else if (explodeTimer == 0)
+        {
+            if (!fire.isEmpty())
+                explodeTimer++;
+            else if (postTimer > 0)
+                postTimer--;
+            else
+                changeToStar();
+        }
 
-		if (explodeTimer > 0 && explodeTimer < TIMER_MAX)
-		{
-			if (fire.size() > 0)
-			{
-				if (particlesLeft <= 0)
-				{
-					toRemove = fire.remove(new Random().nextInt(fire.size()));
-					
-					particlesLeft = extinguish(toRemove) ? 4 + new Random().nextInt(2) - 1 : 0;
-					explodeTimer--;
-				}
-				else
-				{
-					spawnInwardParticles(toRemove.x, toRemove.y, toRemove.z);
-					particlesLeft--;
-				}
-			}
-			else
-			{
-				explodeTimer = 0;
-			}
-		}
-	}
+        if (explodeTimer > 0 && explodeTimer < TIMER_MAX)
+        {
+            if (fire.size() > 0)
+            {
+                if (particlesLeft <= 0)
+                {
+                    toRemove = fire.remove(new Random().nextInt(fire.size()));
 
-	private void changeToStar()
-	{
-		ItemStack star = new ItemStack(itemRegistry.star, this.getEntityItem().stackSize);
+                    particlesLeft = extinguish(toRemove) ? 4 + new Random().nextInt(2) - 1 : 0;
+                    explodeTimer--;
+                }
+                else
+                {
+                    spawnInwardParticles(toRemove.x, toRemove.y, toRemove.z);
+                    particlesLeft--;
+                }
+            }
+            else
+            {
+                explodeTimer = 0;
+            }
+        }
+    }
 
-		// Sets the type of the star to a random type
-		Utils.setType(star, starRegistry.getRandomTypeByTier(starRegistry.getWeightedRandomTier(powerLevel)));
+    private void changeToStar()
+    {
+        ItemStack star = new ItemStack(itemRegistry.star, this.getEntityItem().stackSize);
 
-		worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
+        // Sets the type of the star to a random type
+        Utils.setType(star, starRegistry.getRandomTypeByTier(starRegistry.getWeightedRandomTier(powerLevel)));
 
-		worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
+        worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
-		this.setDead();
-	}
+        worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
 
-	@Override
-	public boolean isBurning()
-	{
-		boolean flag = this.worldObj != null && this.worldObj.isRemote;
-		// TODO PR forge or AT
-		Integer fire = ObfuscationReflectionHelper.getPrivateValue(Entity.class, this, "fire", "field_70151_c");
-		return (fire > 0 || flag && this.getFlag(0));
-	}
+        this.setDead();
+    }
 
-	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
-		if (par1DamageSource.isFireDamage())
-			return false;
-		else
-			return super.attackEntityFrom(par1DamageSource, par2);
-	}
+    @Override
+    public boolean isBurning()
+    {
+        boolean flag = this.worldObj != null && this.worldObj.isRemote;
+        // TODO PR forge or AT
+        Integer fire = ObfuscationReflectionHelper.getPrivateValue(Entity.class, this, "fire", "field_70151_c");
+        return (fire > 0 || flag && this.getFlag(0));
+    }
 
-	@SuppressWarnings("unused")
-	private boolean isInValidState()
-	{
-		for (int i = -1; i <= 1; i++)
-		{
-			for (int j = -1; j <= 1; j++)
-			{
-				if (i != 0)
-				{
-					if (worldObj.getBlock((int) posX + i, (int) posY, (int) posZ + j) != Blocks.fire)
-						return false;
-				}
-			}
-		}
+    @Override
+    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+    {
+        if (par1DamageSource.isFireDamage())
+            return false;
+        else
+            return super.attackEntityFrom(par1DamageSource, par2);
+    }
 
-		return true;
-	}
+    @SuppressWarnings("unused")
+    private boolean isInValidState()
+    {
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                if (i != 0)
+                {
+                    if (worldObj.getBlock((int) posX + i, (int) posY, (int) posZ + j) != Blocks.fire)
+                        return false;
+                }
+            }
+        }
 
-	private void getFire()
-	{
-		for (int x = -RADIUS; x <= RADIUS; x++)
-		{
-			for (int y = -RADIUS; y <= RADIUS; y++)
-			{
-				for (int z = -RADIUS; z <= RADIUS; z++)
-				{
-					if (worldObj.getBlock((int) posX + x, (int) posY + y, (int) posZ + z) == Blocks.fire)
-					{
-						fire.add(new BlockCoord((int) posX + x, (int) posY + y, (int) posZ + z));
-					}
-				}
-			}
-		}
-	}
+        return true;
+    }
 
-	private void spawnInwardParticles(int x, int y, int z)
-	{
-		if (FMLClientHandler.instance().getClient().effectRenderer != null)
-		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomFlameFX(worldObj, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1/13));
-		}
-	}
+    private void getFire()
+    {
+        for (int x = -RADIUS; x <= RADIUS; x++)
+        {
+            for (int y = -RADIUS; y <= RADIUS; y++)
+            {
+                for (int z = -RADIUS; z <= RADIUS; z++)
+                {
+                    if (worldObj.getBlock((int) posX + x, (int) posY + y, (int) posZ + z) == Blocks.fire)
+                    {
+                        fire.add(new BlockCoord((int) posX + x, (int) posY + y, (int) posZ + z));
+                    }
+                }
+            }
+        }
+    }
 
-	private boolean extinguish(BlockCoord coord)
-	{
-		if (worldObj.getBlock(toRemove.x, toRemove.y, toRemove.z) == Blocks.fire)
-		{
-			worldObj.setBlockToAir(toRemove.x, toRemove.y, toRemove.z);
-			return true;
-		}
-		return false;
-	}
+    private void spawnInwardParticles(int x, int y, int z)
+    {
+        if (FMLClientHandler.instance().getClient().effectRenderer != null)
+        {
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomFlameFX(worldObj, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
+        }
+    }
+
+    private boolean extinguish(BlockCoord coord)
+    {
+        if (worldObj.getBlock(toRemove.x, toRemove.y, toRemove.z) == Blocks.fire)
+        {
+            worldObj.setBlockToAir(toRemove.x, toRemove.y, toRemove.z);
+            return true;
+        }
+        return false;
+    }
 }

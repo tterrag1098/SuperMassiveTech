@@ -13,10 +13,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 public interface IItemConduit
 {
 
-	/**
-	 * Insert items into the conduit. Returns the ItemStack left (null if fully
-	 * routed). Will only accept items if they have an valid destination.
-	 */
-	public ItemStack sendItems(ItemStack item, ForgeDirection side);
+    /**
+     * Insert items into the conduit. Returns the ItemStack left (null if fully
+     * routed). Will only accept items if they have an valid destination.
+     */
+    public ItemStack sendItems(ItemStack item, ForgeDirection side);
 
 }

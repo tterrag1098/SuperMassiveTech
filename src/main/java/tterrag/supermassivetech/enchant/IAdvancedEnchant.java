@@ -4,5 +4,5 @@ import net.minecraft.item.ItemStack;
 
 public interface IAdvancedEnchant
 {
-	public String[] getTooltipDetails(ItemStack stack);
+    public String[] getTooltipDetails(ItemStack stack);
 }

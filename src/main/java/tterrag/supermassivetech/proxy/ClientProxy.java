@@ -20,47 +20,48 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-	public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation("supermassivetech", "textures/models/storage.png"));
-	public static ItemObjRenderer storageItem;
+    public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation("supermassivetech", "textures/models/storage.png"));
+    public static ItemObjRenderer storageItem;
 
-	public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation("supermassivetech", "models/hopper.obj"), new ResourceLocation("supermassivetech", "textures/models/hopper.png"));
-	public static ItemObjRenderer hopperItem;
+    public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation("supermassivetech", "models/hopper.obj"), new ResourceLocation("supermassivetech",
+            "textures/models/hopper.png"));
+    public static ItemObjRenderer hopperItem;
 
-	public static final RenderStarHarvester starHarvester = new RenderStarHarvester(new ResourceLocation("supermassivetech", "models/starHarvesterMain"
-			+ ".obj"), new ResourceLocation("supermassivetech", "models/starHarvesterSphere.obj"));
-	public static ItemObjRenderer starHarvesterItem;
+    public static final RenderStarHarvester starHarvester = new RenderStarHarvester(new ResourceLocation("supermassivetech", "models/starHarvesterMain" + ".obj"), new ResourceLocation(
+            "supermassivetech", "models/starHarvesterSphere.obj"));
+    public static ItemObjRenderer starHarvesterItem;
 
-	@Override
-	public void registerGuis()
-	{
-		NetworkRegistry.INSTANCE.registerGuiHandler(SuperMassiveTech.instance, new GuiHandler());
-	}
+    @Override
+    public void registerGuis()
+    {
+        NetworkRegistry.INSTANCE.registerGuiHandler(SuperMassiveTech.instance, new GuiHandler());
+    }
 
-	@Override
-	public void registerRenderers()
-	{
-		ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleStorage.class, storage);
-		ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleHopper.class, hopper);
-		ClientRegistry.bindTileEntitySpecialRenderer(TileStarHarvester.class, starHarvester);
+    @Override
+    public void registerRenderers()
+    {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleStorage.class, storage);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleHopper.class, hopper);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileStarHarvester.class, starHarvester);
 
-		renderIDStorage = RenderingRegistry.getNextAvailableRenderId();
-		storageItem = new ItemObjRenderer(renderIDStorage, storage);
-		RenderingRegistry.registerBlockHandler(storageItem);
+        renderIDStorage = RenderingRegistry.getNextAvailableRenderId();
+        storageItem = new ItemObjRenderer(renderIDStorage, storage);
+        RenderingRegistry.registerBlockHandler(storageItem);
 
-		renderIDHopper = RenderingRegistry.getNextAvailableRenderId();
-		hopperItem = new ItemObjRenderer(renderIDHopper, hopper);
-		RenderingRegistry.registerBlockHandler(hopperItem);
+        renderIDHopper = RenderingRegistry.getNextAvailableRenderId();
+        hopperItem = new ItemObjRenderer(renderIDHopper, hopper);
+        RenderingRegistry.registerBlockHandler(hopperItem);
 
-		renderIDStarHarvester = RenderingRegistry.getNextAvailableRenderId();
-		starHarvesterItem = new ItemObjRenderer(renderIDStarHarvester, starHarvester);
-		RenderingRegistry.registerBlockHandler(starHarvesterItem);	
-	}
-	
-	@Override
-	public void init()
-	{
-		storageItem.init(blockRegistry.blackHoleStorage);
-		hopperItem.init(blockRegistry.blackHoleHopper);
-		starHarvesterItem.init(blockRegistry.starHarvester);
-	}
+        renderIDStarHarvester = RenderingRegistry.getNextAvailableRenderId();
+        starHarvesterItem = new ItemObjRenderer(renderIDStarHarvester, starHarvester);
+        RenderingRegistry.registerBlockHandler(starHarvesterItem);
+    }
+
+    @Override
+    public void init()
+    {
+        storageItem.init(blockRegistry.blackHoleStorage);
+        hopperItem.init(blockRegistry.blackHoleHopper);
+        starHarvesterItem.init(blockRegistry.starHarvester);
+    }
 }

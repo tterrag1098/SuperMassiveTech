@@ -2,18 +2,18 @@ package tterrag.supermassivetech.proxy;
 
 public class CommonProxy
 {
-	public void registerGuis()
-	{
-		// Overridden
-	}
+    public void registerGuis()
+    {
+        // Overridden
+    }
 
-	public void registerRenderers()
-	{
-		// Overriden
-	}
+    public void registerRenderers()
+    {
+        // Overriden
+    }
 
-	public void init()
-	{
-		// Overriden
-	}
+    public void init()
+    {
+        // Overriden
+    }
 }

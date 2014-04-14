@@ -7,11 +7,11 @@ import tterrag.supermassivetech.SuperMassiveTech;
 public class BlockSMT extends Block
 {
 
-	protected BlockSMT(Material mat, SoundType type, float hardness)
-	{
-		super(mat);
-		setStepSound(type);
-		setHardness(hardness);
-		setCreativeTab(SuperMassiveTech.tabSMT);
-	}
+    protected BlockSMT(Material mat, SoundType type, float hardness)
+    {
+        super(mat);
+        setStepSound(type);
+        setHardness(hardness);
+        setCreativeTab(SuperMassiveTech.tabSMT);
+    }
 }

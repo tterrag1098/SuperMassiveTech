@@ -14,8 +14,8 @@ import net.minecraft.entity.player.EntityPlayer;
 public interface ITileInfo
 {
 
-	public List<String> getTileInfo();
+    public List<String> getTileInfo();
 
-	public void sendTileInfoToPlayer(EntityPlayer player);
+    public void sendTileInfoToPlayer(EntityPlayer player);
 
 }

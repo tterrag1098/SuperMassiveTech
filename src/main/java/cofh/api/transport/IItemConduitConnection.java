@@ -12,6 +12,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 public interface IItemConduitConnection
 {
 
-	public boolean canConduitConnect(ForgeDirection side);
+    public boolean canConduitConnect(ForgeDirection side);
 
 }

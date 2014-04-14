@@ -12,71 +12,71 @@ import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 
 public class BlockBlackHoleHopper extends BlockContainerSMT implements IKeepInventoryAsItem
 {
-	public BlockBlackHoleHopper()
-	{
-		super("tterrag.blackHoleHopper", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleHopper.class, SuperMassiveTech.renderIDHopper);
-	}
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{
-		TileBlackHoleHopper te = (TileBlackHoleHopper) world.getTileEntity(x, y, z);
+    public BlockBlackHoleHopper()
+    {
+        super("tterrag.blackHoleHopper", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleHopper.class, SuperMassiveTech.renderIDHopper);
+    }
 
-		if (te == null || world.isRemote)
-			return true;
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        TileBlackHoleHopper te = (TileBlackHoleHopper) world.getTileEntity(x, y, z);
 
-		ItemStack current = player.getCurrentEquippedItem();
+        if (te == null || world.isRemote)
+            return true;
 
-		if (current == null)
-		{
-			if (player.isSneaking())
-				te.clearConfig(player);
-			else
-				player.addChatMessage(new ChatComponentText("Current Configuration: " + te.getConfig()));
-		}
-		else
-		{
-			te.setConfig(current, player);
-		}
+        ItemStack current = player.getCurrentEquippedItem();
 
-		return true;
-	}
+        if (current == null)
+        {
+            if (player.isSneaking())
+                te.clearConfig(player);
+            else
+                player.addChatMessage(new ChatComponentText("Current Configuration: " + te.getConfig()));
+        }
+        else
+        {
+            te.setConfig(current, player);
+        }
 
-	@Override
-	public ItemStack getNBTItem(World world, int x, int y, int z) 
-	{
-		ItemStack stack = new ItemStack(this);
-		TileBlackHoleHopper te = (TileBlackHoleHopper) world.getTileEntity(x, y, z);
-		
-		if (te == null)
-			return stack;
-		
-		stack.stackTagCompound = new NBTTagCompound();
-		
-		if (te.getStackInSlot(0) != null)
-		{
-			NBTTagCompound tag0 = new NBTTagCompound();
-			te.getStackInSlot(0).writeToNBT(tag0);
-			stack.stackTagCompound.setTag("inventory0", tag0);
-		}
-		if (te.getStackInSlot(1) != null)
-		{
-			NBTTagCompound tag1 = new NBTTagCompound();
-			te.getStackInSlot(1).writeToNBT(tag1);
-			stack.stackTagCompound.setTag("inventory1", tag1);
-		}
-		
-		return stack;
-	}
+        return true;
+    }
 
-	@Override
-	public void processBlockPlace(NBTTagCompound tag, TileEntity te) 
-	{
-		if (te instanceof TileBlackHoleHopper)
-		{
-			TileBlackHoleHopper hopper = (TileBlackHoleHopper) te;
-			hopper.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory0")));
-			hopper.setInventorySlotContents(1, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory1")));
-		}
-	}
+    @Override
+    public ItemStack getNBTItem(World world, int x, int y, int z)
+    {
+        ItemStack stack = new ItemStack(this);
+        TileBlackHoleHopper te = (TileBlackHoleHopper) world.getTileEntity(x, y, z);
+
+        if (te == null)
+            return stack;
+
+        stack.stackTagCompound = new NBTTagCompound();
+
+        if (te.getStackInSlot(0) != null)
+        {
+            NBTTagCompound tag0 = new NBTTagCompound();
+            te.getStackInSlot(0).writeToNBT(tag0);
+            stack.stackTagCompound.setTag("inventory0", tag0);
+        }
+        if (te.getStackInSlot(1) != null)
+        {
+            NBTTagCompound tag1 = new NBTTagCompound();
+            te.getStackInSlot(1).writeToNBT(tag1);
+            stack.stackTagCompound.setTag("inventory1", tag1);
+        }
+
+        return stack;
+    }
+
+    @Override
+    public void processBlockPlace(NBTTagCompound tag, TileEntity te)
+    {
+        if (te instanceof TileBlackHoleHopper)
+        {
+            TileBlackHoleHopper hopper = (TileBlackHoleHopper) te;
+            hopper.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory0")));
+            hopper.setInventorySlotContents(1, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory1")));
+        }
+    }
 }

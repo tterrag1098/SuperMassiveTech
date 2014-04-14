@@ -23,91 +23,88 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemStar extends ItemSMT implements IAdvancedTooltip
 {
-	private Stars stars = Stars.instance;
+    private Stars stars = Stars.instance;
 
-	public ItemStar(String unlocName)
-	{
-		super(unlocName, unlocName);
-	}
-	
-	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
-	{
-		Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getTier().ordinal());
-	}
+    public ItemStar(String unlocName)
+    {
+        super(unlocName, unlocName);
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
-	{
-		IStar type = Utils.getType(par1ItemStack);
+    @Override
+    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+    {
+        Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getTier().ordinal());
+    }
 
-		if (type == null)
-			return 0;
-		else
-			return type.getColor();
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
+    {
+        IStar type = Utils.getType(par1ItemStack);
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs tab, List list)
-	{
-		for (IStar t : stars.types.values())
-		{
-			list.add(Utils.setType(new ItemStack(this), t));
-		}
-	}
+        if (type == null)
+            return 0;
+        else
+            return type.getColor();
+    }
 
-	@Override
-	public Entity createEntity(World world, Entity location, ItemStack itemstack)
-	{
-		return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
-				((EntityItem) location).delayBeforeCanPickup);
-	}
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+        for (IStar t : stars.types.values())
+        {
+            list.add(Utils.setType(new ItemStack(this), t));
+        }
+    }
 
-	@Override
-	public boolean hasCustomEntity(ItemStack stack)
-	{
-		return true;
-	}
+    @Override
+    public Entity createEntity(World world, Entity location, ItemStack itemstack)
+    {
+        return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
+                ((EntityItem) location).delayBeforeCanPickup);
+    }
 
-	@Override
-	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
-	{
-		if (entity instanceof EntityLivingBase)
-		{
-			((EntityLivingBase) entity).setFire(10);
-		}
-		return false;
-	}
+    @Override
+    public boolean hasCustomEntity(ItemStack stack)
+    {
+        return true;
+    }
 
-	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase player)
-	{
-		if (block.isFlammable(world, x, y - 1, z, ForgeDirection.UP))
-			world.setBlock(x, y, z, Blocks.fire);
+    @Override
+    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
+    {
+        if (entity instanceof EntityLivingBase)
+        {
+            ((EntityLivingBase) entity).setFire(10);
+        }
+        return false;
+    }
 
-		return world.isRemote;
-	}
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase player)
+    {
+        if (block.isFlammable(world, x, y - 1, z, ForgeDirection.UP))
+            world.setBlock(x, y, z, Blocks.fire);
 
-	@Override
-	public String[] getHiddenLines(ItemStack stack) 
-	{
-		IStar type = Utils.getType(stack);
-		double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
+        return world.isRemote;
+    }
 
-		return new String[]{
-				type.getTextColor() + type.toString(),
-				Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-				Utils.formatString(EnumChatFormatting.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
-				Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true)
-		};
-	}
-	
-	@Override
-	public String[] getStaticLines(ItemStack stack) 
-	{
-		return null;
-	}
+    @Override
+    public String[] getHiddenLines(ItemStack stack)
+    {
+        IStar type = Utils.getType(stack);
+        double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
+
+        return new String[] { type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
+                Utils.formatString(EnumChatFormatting.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
+                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true) };
+    }
+
+    @Override
+    public String[] getStaticLines(ItemStack stack)
+    {
+        return null;
+    }
 }

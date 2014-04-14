@@ -10,14 +10,14 @@ package cofh.api.tileentity;
 public interface IRedstoneControl
 {
 
-	public boolean getControlDisable();
+    public boolean getControlDisable();
 
-	public boolean getControlSetting();
+    public boolean getControlSetting();
 
-	public boolean setControlDisable(boolean disable);
+    public boolean setControlDisable(boolean disable);
 
-	public boolean setControlSetting(boolean state);
+    public boolean setControlSetting(boolean state);
 
-	public boolean setRedstoneConfig(boolean disable, boolean state);
+    public boolean setRedstoneConfig(boolean disable, boolean state);
 
 }

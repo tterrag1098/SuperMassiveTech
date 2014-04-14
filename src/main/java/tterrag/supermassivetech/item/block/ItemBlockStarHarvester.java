@@ -7,54 +7,48 @@ import tterrag.supermassivetech.util.Utils;
 
 public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedTooltip
 {
-	public ItemBlockStarHarvester(Block block)
-	{
-		super(block);
-	}
+    public ItemBlockStarHarvester(Block block)
+    {
+        super(block);
+    }
 
-	@Override
-	public String[] getHiddenLines(ItemStack stack) 
-	{
-		return new String[]{
-				"- Harvests the power of stars!",
-				"- Outputs at the rate of the star inside.",
-				"- Once the star is out of power\n   it will go critical. Better run!"
-		};
-	}
-	
-	@Override
-	public boolean isGravityWell(ItemStack stack)
-	{
-		return stack.stackTagCompound != null && stack.stackTagCompound.getTag("inventory") != null;
-	}
-	
-	@Override
-	public int getGravStrength(ItemStack stack)
-	{
-		if (isGravityWell(stack))
-		{
-			ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));	
-			return Utils.getType(star).getTier().ordinal();
-		}
-		return 0;
-	}
+    @Override
+    public String[] getHiddenLines(ItemStack stack)
+    {
+        return new String[] { "- Harvests the power of stars!", "- Outputs at the rate of the star inside.", "- Once the star is out of power\n   it will go critical. Better run!" };
+    }
 
-	@Override
-	public String[] getStaticLines(ItemStack stack) 
-	{
-		if (stack.stackTagCompound != null)
-		{
-			if (stack.stackTagCompound.getTag("inventory") != null)
-			{
-				ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));
-				
-				return new String[]{
-						String.format("Stored: %s", Utils.getType(star).toString()),
-						String.format("Power Remaining: %s", Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false))
-				};
-			}
-		}
-		
-		return null;
-	}
+    @Override
+    public boolean isGravityWell(ItemStack stack)
+    {
+        return stack.stackTagCompound != null && stack.stackTagCompound.getTag("inventory") != null;
+    }
+
+    @Override
+    public int getGravStrength(ItemStack stack)
+    {
+        if (isGravityWell(stack))
+        {
+            ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));
+            return Utils.getType(star).getTier().ordinal();
+        }
+        return 0;
+    }
+
+    @Override
+    public String[] getStaticLines(ItemStack stack)
+    {
+        if (stack.stackTagCompound != null)
+        {
+            if (stack.stackTagCompound.getTag("inventory") != null)
+            {
+                ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));
+
+                return new String[] { String.format("Stored: %s", Utils.getType(star).toString()),
+                        String.format("Power Remaining: %s", Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false)) };
+            }
+        }
+
+        return null;
+    }
 }

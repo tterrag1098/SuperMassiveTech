@@ -5,28 +5,28 @@ import net.minecraft.world.World;
 
 public class EntityCustomFlameFX extends EntityFlameFX
 {
-	private double toX, toY, toZ;
+    private double toX, toY, toZ;
 
-	/**
-	 * @param x - starting posX
-	 * @param y - starting posY
-	 * @param z - starting posZ
-	 * @param toX - ending posX
-	 * @param toY - ending posY
-	 * @param toZ - ending posZ
-	 * @param movementFactor - factor to multiply movement by (usually < 1)
-	 */
-	public EntityCustomFlameFX(World world, double x, double y, double z, double toX, double toY, double toZ, double movementFactor)
-	{
-		super(world, x, y, z, (toX - x) * movementFactor, (toY - y) * movementFactor, (toZ - z) * movementFactor);
+    /**
+     * @param x - starting posX
+     * @param y - starting posY
+     * @param z - starting posZ
+     * @param toX - ending posX
+     * @param toY - ending posY
+     * @param toZ - ending posZ
+     * @param movementFactor - factor to multiply movement by (usually < 1)
+     */
+    public EntityCustomFlameFX(World world, double x, double y, double z, double toX, double toY, double toZ, double movementFactor)
+    {
+        super(world, x, y, z, (toX - x) * movementFactor, (toY - y) * movementFactor, (toZ - z) * movementFactor);
 
-		this.toX = toX;
-		this.toY = toY;
-		this.toZ = toZ;
-		this.noClip = true;
-	}
-	
-	public void onUpdate()
+        this.toX = toX;
+        this.toY = toY;
+        this.toZ = toZ;
+        this.noClip = true;
+    }
+
+    public void onUpdate()
     {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -36,10 +36,10 @@ public class EntityCustomFlameFX extends EntityFlameFX
         {
             this.setDead();
         }
-        
+
         if (isInRange())
         {
-        	this.setDead();
+            this.setDead();
         }
 
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -53,9 +53,9 @@ public class EntityCustomFlameFX extends EntityFlameFX
             this.motionZ *= 0.699999988079071D;
         }
     }
-	
-	private boolean isInRange()
-	{
-		return Math.floor(toX) == Math.floor(posX) && Math.floor(toY) == Math.floor(posY) && Math.floor(toZ) == Math.floor(posZ);
-	}
+
+    private boolean isInRange()
+    {
+        return Math.floor(toX) == Math.floor(posX) && Math.floor(toY) == Math.floor(posY) && Math.floor(toZ) == Math.floor(posZ);
+    }
 }

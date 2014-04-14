@@ -14,9 +14,9 @@ import net.minecraft.item.ItemStack;
 public interface IInventoryContainerItem
 {
 
-	/**
-	 * Get the size of this inventory.
-	 */
-	int getSizeInventory(ItemStack container);
+    /**
+     * Get the size of this inventory.
+     */
+    int getSizeInventory(ItemStack container);
 
 }

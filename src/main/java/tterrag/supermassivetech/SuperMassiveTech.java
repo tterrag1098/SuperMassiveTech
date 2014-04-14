@@ -29,58 +29,58 @@ import cpw.mods.fml.relauncher.Side;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "after:ThermalExpansion")
+@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION)
 public class SuperMassiveTech
 {
-	@Instance
-	public static SuperMassiveTech instance;
+    @Instance
+    public static SuperMassiveTech instance;
 
-	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
-	public static CommonProxy proxy;
+    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
+    public static CommonProxy proxy;
 
-	public static Logger logger = Logger.getLogger("SuperMassiveTech");
+    public static Logger logger = Logger.getLogger("SuperMassiveTech");
 
-	public static ChannelHandler channelHandler = new ChannelHandler();
-	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("ultimateStorage", channelHandler);
+    public static ChannelHandler channelHandler = new ChannelHandler();
+    public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("SMT", channelHandler);
 
-	public static ModItems itemRegistry = ModItems.instance;
-	public static ModEnchants enchantRegistry = ModEnchants.instance;
-	public static ModBlocks blockRegistry = ModBlocks.instance;
-	public static Stars starRegistry = Stars.instance;
+    public static ModItems itemRegistry = ModItems.instance;
+    public static ModEnchants enchantRegistry = ModEnchants.instance;
+    public static ModBlocks blockRegistry = ModBlocks.instance;
+    public static Stars starRegistry = Stars.instance;
 
-	public static CreativeTabs tabSMT = Utils.tab;
+    public static CreativeTabs tabSMT = Utils.tab;
 
-	public static int renderIDStorage, renderIDHopper, renderIDStarHarvester;
+    public static int renderIDStorage, renderIDHopper, renderIDStarHarvester;
 
-	@EventHandler
-	public static void preInit(FMLPreInitializationEvent event)
-	{
-		ConfigHandler.init(event.getSuggestedConfigurationFile());
-		Constants.init();
-		Utils.init();
-		
-		proxy.registerGuis();
-		proxy.registerRenderers();
+    @EventHandler
+    public static void preInit(FMLPreInitializationEvent event)
+    {
+        ConfigHandler.init(event.getSuggestedConfigurationFile());
+        Constants.init();
+        Utils.init();
 
-		itemRegistry.register();
-		itemRegistry.addRecipes();
-		
-		enchantRegistry.init();
+        proxy.registerGuis();
+        proxy.registerRenderers();
 
-		blockRegistry.register();
-		blockRegistry.addRecipes();
+        itemRegistry.register();
+        itemRegistry.addRecipes();
 
-		starRegistry.registerDefaultStars();
+        enchantRegistry.init();
 
-		ChannelHandler.init();
-	}
+        blockRegistry.register();
+        blockRegistry.addRecipes();
 
-	@EventHandler
-	public static void init(FMLInitializationEvent event)
-	{
-		proxy.init();
-		
-		Utils.registerEventHandlers(false, GravityArmorHandler.class);
-		Utils.registerEventHandlers(true, EnchantTooltipHandler.class);
-	}
+        starRegistry.registerDefaultStars();
+
+        ChannelHandler.init();
+    }
+
+    @EventHandler
+    public static void init(FMLInitializationEvent event)
+    {
+        proxy.init();
+
+        Utils.registerEventHandlers(false, GravityArmorHandler.class);
+        Utils.registerEventHandlers(true, EnchantTooltipHandler.class);
+    }
 }

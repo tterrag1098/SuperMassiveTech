@@ -13,66 +13,63 @@ import tterrag.supermassivetech.tile.TileStarHarvester;
 
 public class BlockStarHarvester extends BlockContainerSMT implements IKeepInventoryAsItem
 {
-	public BlockStarHarvester()
-	{
-		super("tterrag.starHarvester", Material.iron, soundTypeMetal, 5.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
-	}
+    public BlockStarHarvester()
+    {
+        super("tterrag.starHarvester", Material.iron, soundTypeMetal, 5.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
+    }
 
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{
-		TileEntity te = world.getTileEntity(x, y, z);
-		boolean returnVal = false;
-		if (te instanceof TileStarHarvester)
-		{
-			returnVal = ((TileStarHarvester) te).handleRightClick(player);
-		}
-		return returnVal;
-	}
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        TileEntity te = world.getTileEntity(x, y, z);
+        boolean returnVal = false;
+        if (te instanceof TileStarHarvester)
+        {
+            returnVal = ((TileStarHarvester) te).handleRightClick(player);
+        }
+        return returnVal;
+    }
 
-	@Override
-	public ItemStack getNBTItem(World world, int x, int y, int z) 
-	{
-		ItemStack stack = new ItemStack(this);
-		TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
-		
-		if (te == null)
-			return stack;
-		
-		stack.stackTagCompound = new NBTTagCompound();
-		
-		if (te.getStackInSlot(0) != null)
-		{
-			NBTTagCompound invTag = new NBTTagCompound();
-			te.getStackInSlot(0).writeToNBT(invTag);
-			stack.stackTagCompound.setTag("inventory", invTag);
-		}
-		
-		stack.stackTagCompound.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
-		
-		return stack;
-	}
+    @Override
+    public ItemStack getNBTItem(World world, int x, int y, int z)
+    {
+        ItemStack stack = new ItemStack(this);
+        TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
 
-	@Override
-	public void processBlockPlace(NBTTagCompound tag, TileEntity te) 
-	{
-		if (te instanceof TileStarHarvester)
-		{
-			TileStarHarvester harvester = (TileStarHarvester) te;
-			
-			harvester.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory")));
-			harvester.setEnergyStored(tag.getInteger("energy"));
-		}
-	}
-	
-	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z)
-	{
-		TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
-		if (te != null)
-		{
-			return te.lastLightLev;
-		}
-		return 0;
-	}
+        if (te == null)
+            return stack;
+
+        stack.stackTagCompound = new NBTTagCompound();
+
+        if (te.getStackInSlot(0) != null)
+        {
+            NBTTagCompound invTag = new NBTTagCompound();
+            te.getStackInSlot(0).writeToNBT(invTag);
+            stack.stackTagCompound.setTag("inventory", invTag);
+        }
+
+        stack.stackTagCompound.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
+
+        return stack;
+    }
+
+    @Override
+    public void processBlockPlace(NBTTagCompound tag, TileEntity te)
+    {
+        if (te instanceof TileStarHarvester)
+        {
+            TileStarHarvester harvester = (TileStarHarvester) te;
+
+            harvester.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory")));
+            harvester.setEnergyStored(tag.getInteger("energy"));
+        }
+    }
+
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z)
+    {
+        TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
+        if (te != null) { return te.lastLightLev; }
+        return 0;
+    }
 }
