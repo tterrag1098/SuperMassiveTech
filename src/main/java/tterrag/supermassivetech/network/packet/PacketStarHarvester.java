@@ -1,9 +1,6 @@
 package tterrag.supermassivetech.network.packet;
 
 import io.netty.buffer.ByteBuf;
-
-import java.io.IOException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -47,7 +44,7 @@ public class PacketStarHarvester extends SMTPacket
             {
                 pb.writeNBTTagCompoundToBuffer(data);
             }
-            catch (IOException e)
+            catch (Throwable e)
             {
                 e.printStackTrace();
             }
@@ -67,7 +64,7 @@ public class PacketStarHarvester extends SMTPacket
             {
                 data = new PacketBuffer(buffer).readNBTTagCompoundFromBuffer();
             }
-            catch (IOException e)
+            catch (Throwable e)
             {
                 e.printStackTrace();
             }
