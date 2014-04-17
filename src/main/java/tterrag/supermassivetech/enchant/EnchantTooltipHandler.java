@@ -2,12 +2,12 @@ package tterrag.supermassivetech.enchant;
 
 import java.util.Map;
 
-import tterrag.supermassivetech.SuperMassiveTech;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import tterrag.supermassivetech.SuperMassiveTech;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantTooltipHandler

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -171,7 +172,7 @@ public class Utils
      */
     public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord, boolean showParticles)
     {
-        if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem))
+        if (entity instanceof EntityFX)
             return;
 
         // distance forumla
@@ -451,7 +452,7 @@ public class Utils
                 list.add("");
 
             for (String s : item.getStaticLines(stack))
-                list.add(s);
+                list.add(EnumChatFormatting.WHITE + s);
         }
     }
 

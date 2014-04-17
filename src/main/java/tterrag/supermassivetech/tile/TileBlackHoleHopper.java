@@ -111,31 +111,53 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     {
         if (inventory[hiddenSlot] == null)
             return;
-
-        for (int idx = 0; idx < connection.inv.getSizeInventory(); idx++)
+        
+        if (connection.inv instanceof ISidedInventory)
         {
-            ItemStack stack = connection.inv.getStackInSlot(idx);
-
-            if (connection.inv.isItemValidForSlot(idx, inventory[hiddenSlot]) && (stack == null || (itemStackEquals(stack, inventory[hiddenSlot]) && stack.stackSize < stack.getMaxStackSize())))
+            ISidedInventory inv = (ISidedInventory) connection.inv;
+            
+            for (Integer i : inv.getAccessibleSlotsFromSide(connectionDir.flag))
             {
-                if (stack == null)
+                if (inv.canInsertItem(i, inventory[hiddenSlot], connectionDir.flag))
                 {
-                    ItemStack newStack = inventory[hiddenSlot].copy();
-                    newStack.stackSize = 1;
-                    connection.inv.setInventorySlotContents(idx, newStack);
-                    inventory[hiddenSlot].stackSize--;
+                    insertOneItem(inv, i);
+                    return;
                 }
-                else
-                {
-                    stack.stackSize++;
-                    inventory[hiddenSlot].stackSize--;
-                }
-                if (inventory[hiddenSlot].stackSize <= 0)
-                    inventory[hiddenSlot] = null;
-
-                break;
             }
         }
+        else
+        {
+            for (int idx = 0; idx < connection.inv.getSizeInventory(); idx++)
+            {
+                ItemStack stack = connection.inv.getStackInSlot(idx);
+
+                if (connection.inv.isItemValidForSlot(idx, inventory[hiddenSlot]) && (stack == null || (itemStackEquals(stack, inventory[hiddenSlot]) && stack.stackSize < stack.getMaxStackSize())))
+                {
+                    insertOneItem(connection.inv, idx);
+                    return;
+                }
+            }
+        }       
+    }
+    
+    private void insertOneItem(IInventory inv, int idx)
+    {
+        ItemStack stack = inv.getStackInSlot(idx);
+        
+        if (stack == null)
+        {
+            ItemStack newStack = inventory[hiddenSlot].copy();
+            newStack.stackSize = 1;
+            connection.inv.setInventorySlotContents(idx, newStack);
+            inventory[hiddenSlot].stackSize--;
+        }
+        else
+        {
+            stack.stackSize++;
+            inventory[hiddenSlot].stackSize--;
+        }
+        if (inventory[hiddenSlot].stackSize <= 0)
+            inventory[hiddenSlot] = null;
     }
 
     /**

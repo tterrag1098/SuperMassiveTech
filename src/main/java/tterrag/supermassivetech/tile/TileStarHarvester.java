@@ -40,7 +40,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
         perTick = (int) (500 * spinSpeed);
 
-        if (inventory[slot] != null)
+        if (inventory[slot] != null && inventory[slot].stackTagCompound != null)
         {
             IStar type = Utils.getType(inventory[slot]);
             int energy = type.getPowerStored(inventory[slot]);
@@ -232,6 +232,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public boolean canExtractItem(int var1, ItemStack var2, int var3)
     {
         return var1 == 0 && var3 == 1;
+    }
+    
+    @Override
+    public boolean isItemValidForSlot(int var1, ItemStack var2)
+    {
+        return var1 == slot && var2 != null && var2.getItem() instanceof ItemStar;
     }
 
     @Override

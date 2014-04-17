@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.registry;
 
+import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -13,7 +14,6 @@ import tterrag.supermassivetech.item.block.ItemBlockStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
-import static tterrag.supermassivetech.SuperMassiveTech.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks

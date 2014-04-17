@@ -3,6 +3,7 @@ package tterrag.supermassivetech.item.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
+import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.Utils;
 
 public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedTooltip
@@ -44,8 +45,9 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
             {
                 ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));
 
-                return new String[] { String.format("Stored: %s", Utils.getType(star).toString()),
-                        String.format("Power Remaining: %s", Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false)) };
+                IStar type = Utils.getType(star);
+                return new String[] { String.format("Stored: %s", type.getTextColor() + type.toString()),
+                        String.format("Power Remaining: %s", Utils.getColorForPowerLeft(type.getPowerStored(star), type.getPowerStoredMax()) + Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false)) };
             }
         }
 

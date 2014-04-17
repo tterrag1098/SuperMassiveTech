@@ -2,17 +2,17 @@ package tterrag.supermassivetech.registry;
 
 import java.util.ArrayList;
 
-import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import tterrag.supermassivetech.item.armor.ItemGravityArmor;
-import tterrag.supermassivetech.item.armor.ItemGravityArmor.ArmorType;
 import tterrag.supermassivetech.item.ItemSMT;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.item.ItemStarHeart;
+import tterrag.supermassivetech.item.armor.ItemGravityArmor;
+import tterrag.supermassivetech.item.armor.ItemGravityArmor.ArmorType;
+import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems

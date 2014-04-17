@@ -1,9 +1,9 @@
 package tterrag.supermassivetech.enchant;
 
-import tterrag.supermassivetech.config.ConfigHandler;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.ItemStack;
+import tterrag.supermassivetech.config.ConfigHandler;
 
 public class EnchantGravity extends Enchantment implements IAdvancedEnchant
 {

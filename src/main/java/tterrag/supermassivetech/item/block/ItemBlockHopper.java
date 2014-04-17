@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 
 public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
@@ -32,10 +31,10 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
         List<String> strs = new ArrayList<String>();
 
         if (stored != null)
-            strs.add(String.format("Stored: %d %s", stored.stackSize, StatCollector.translateToLocal(stored.getUnlocalizedName() + ".name")));
+            strs.add(String.format("Stored: %d %s", stored.stackSize, stored.getDisplayName())); 
         if (cfg != null)
-            strs.add(String.format("Configuration: %s", StatCollector.translateToLocal(cfg.getUnlocalizedName() + ".name")));
-
+            strs.add(String.format("Configuration: %s", cfg.getDisplayName()));
+        
         return strs.size() == 0 ? null : strs.toArray(new String[] {});
     }
 }
