@@ -151,11 +151,12 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
             connection.inv.setInventorySlotContents(idx, newStack);
             inventory[hiddenSlot].stackSize--;
         }
-        else
+        else if (stack.stackSize < inv.getInventoryStackLimit())
         {
             stack.stackSize++;
             inventory[hiddenSlot].stackSize--;
         }
+        
         if (inventory[hiddenSlot].stackSize <= 0)
             inventory[hiddenSlot] = null;
     }
@@ -232,10 +233,6 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
                     inventory[hiddenSlot].stackSize++;
                 }
                 processConnection();
-            }
-            else
-            {
-                System.out.println(item.getEntityItem());
             }
         }
     }

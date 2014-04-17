@@ -241,7 +241,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return var1 == 1 ? new int[] { 0 } : new int[] {};
+        return var1 == 1 && inventory[slot] == null ? new int[] { slot } : new int[] {};
     }
 
     @Override
@@ -259,7 +259,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public boolean isItemValidForSlot(int var1, ItemStack var2)
     {
-        return var1 == slot && var2 != null && var2.getItem() instanceof ItemStar;
+        return var1 == slot && inventory[var1] == null && var2 != null && var2.getItem() instanceof ItemStar;
     }
 
     @Override
