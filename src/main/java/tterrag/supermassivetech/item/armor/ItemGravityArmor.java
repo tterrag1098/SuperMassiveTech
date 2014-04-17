@@ -232,7 +232,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     {
         if (this instanceof IAdvancedTooltip)
         {
-            IAdvancedTooltip item = (IAdvancedTooltip) this;
+            IAdvancedTooltip item = this;
             Utils.formAdvancedTooltip(list, stack, item);
         }
     }

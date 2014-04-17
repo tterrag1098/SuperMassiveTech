@@ -3,16 +3,13 @@ package tterrag.supermassivetech.network.packet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
-import tterrag.supermassivetech.network.ISMTPacket;
+import tterrag.supermassivetech.network.SMTPacket;
 
-public class PacketHopperParticle implements ISMTPacket
+public class PacketHopperParticle extends SMTPacket
 {
-
     private int[] info = new int[6];
 
-    public PacketHopperParticle()
-    {
-    }
+    public PacketHopperParticle(){}
 
     public PacketHopperParticle(int... information)
     {

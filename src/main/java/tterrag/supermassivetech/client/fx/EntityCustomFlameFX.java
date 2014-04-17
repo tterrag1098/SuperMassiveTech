@@ -26,6 +26,7 @@ public class EntityCustomFlameFX extends EntityFlameFX
         this.noClip = true;
     }
 
+    @Override
     public void onUpdate()
     {
         this.prevPosX = this.posX;

@@ -3,21 +3,16 @@ package tterrag.supermassivetech.network.packet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import tterrag.supermassivetech.client.gui.GuiStorageBlock;
-import tterrag.supermassivetech.network.ISMTPacket;
+import tterrag.supermassivetech.network.SMTPacket;
 
-public class PacketBlackHoleStorage implements ISMTPacket
+public class PacketBlackHoleStorage extends SMTPacket
 {
     private long value;
     private long fluidValue;
     private int fluidID;
 
-    public PacketBlackHoleStorage()
-    {
-        this.value = 0;
-        this.fluidValue = 0;
-        this.fluidID = 0;
-    }
-
+    public PacketBlackHoleStorage(){}
+    
     public PacketBlackHoleStorage(long value, long fluidValue, int fluidID)
     {
         this.value = value;

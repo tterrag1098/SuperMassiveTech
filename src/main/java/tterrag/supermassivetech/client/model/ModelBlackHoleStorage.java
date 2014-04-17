@@ -86,6 +86,7 @@ public class ModelBlackHoleStorage extends ModelBase implements ModelSMT
         crossbars.add(crossbar2);
     }
 
+    @Override
     public void render(float size)
     {
         top.render(size);
@@ -100,6 +101,7 @@ public class ModelBlackHoleStorage extends ModelBase implements ModelSMT
             mr.render(size);
     }
 
+    @Override
     public void setRotation(ModelRenderer model, float x, float y, float z)
     {
         model.rotateAngleX = x;

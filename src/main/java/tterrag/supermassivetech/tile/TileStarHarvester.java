@@ -9,8 +9,10 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.ItemStar;
+import tterrag.supermassivetech.network.packet.PacketStarHarvester;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.EnergyStorage;
@@ -25,6 +27,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public double spinSpeed = 0;
     public float spinRot = 0;
     public int lastLightLev;
+    private boolean hasItem = false;
 
     public TileStarHarvester()
     {
@@ -37,6 +40,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public void updateEntity()
     {
         super.updateEntity();
+        
+        if ((inventory[slot] != null) != hasItem)
+        {
+            sendPacket();
+        }
 
         perTick = (int) (500 * spinSpeed);
 
@@ -52,6 +60,20 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         attemptOutputEnergy();
 
         updateAnimation();
+    }
+
+    private void sendPacket()
+    {
+        hasItem = inventory[slot] != null;
+        if (hasItem)
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            SuperMassiveTech.channelHandler.sendToAll(new PacketStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord));
+        }
+        else
+        {
+            SuperMassiveTech.channelHandler.sendToAll(new PacketStarHarvester(xCoord, yCoord, zCoord));
+        }
     }
 
     private void updateAnimation()
