@@ -5,18 +5,15 @@ import static tterrag.supermassivetech.SuperMassiveTech.renderIDHopper;
 import static tterrag.supermassivetech.SuperMassiveTech.renderIDStarHarvester;
 import static tterrag.supermassivetech.SuperMassiveTech.renderIDStorage;
 import net.minecraft.util.ResourceLocation;
-import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.ItemObjRenderer;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
-import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class ClientProxy extends CommonProxy
 {
@@ -30,12 +27,6 @@ public class ClientProxy extends CommonProxy
     public static final RenderStarHarvester starHarvester = new RenderStarHarvester(new ResourceLocation("supermassivetech", "models/starHarvesterMain" + ".obj"), new ResourceLocation(
             "supermassivetech", "models/starHarvesterSphere.obj"));
     public static ItemObjRenderer starHarvesterItem;
-
-    @Override
-    public void registerGuis()
-    {
-        NetworkRegistry.INSTANCE.registerGuiHandler(SuperMassiveTech.instance, new GuiHandler());
-    }
 
     @Override
     public void registerRenderers()

@@ -9,6 +9,7 @@ import tterrag.supermassivetech.enchant.EnchantTooltipHandler;
 import tterrag.supermassivetech.item.armor.GravityArmorHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
+import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.proxy.CommonProxy;
 import tterrag.supermassivetech.registry.ModBlocks;
 import tterrag.supermassivetech.registry.ModEnchants;
@@ -56,10 +57,12 @@ public class SuperMassiveTech
     public static void preInit(FMLPreInitializationEvent event)
     {
         ConfigHandler.init(event.getSuggestedConfigurationFile());
+        
         Constants.init();
         Utils.init();
 
-        proxy.registerGuis();
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+        
         proxy.registerRenderers();
 
         itemRegistry.register();

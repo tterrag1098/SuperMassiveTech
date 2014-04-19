@@ -75,7 +75,6 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
         if (connection == null)
         {
-            connectionDir = null;
             return;
         }
 
@@ -348,18 +347,18 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return var1 <= 1 ? new int[] { hiddenSlot } : new int[] {};
+        return connectionDir == null ? new int[]{} : new int[]{connectionDir.flag, connectionDir.getOpposite().flag};
     }
 
     @Override
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == hiddenSlot && var3 == 1 && Utils.stacksEqual(inventory[cfgSlot], var2);
+        return var1 == hiddenSlot && connectionDir != null && var3 == connectionDir.getOpposite().flag && Utils.stacksEqual(inventory[cfgSlot], var2);
     }
 
     @Override
     public boolean canExtractItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == hiddenSlot && var3 == 0;
+        return var1 == hiddenSlot && connectionDir != null && var3 == connectionDir.flag;
     }
 }

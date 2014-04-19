@@ -126,7 +126,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         if (armor.getTagCompound().getInteger("energy") <= 0)
             return new ArmorProperties(0, 0.25, 0);
 
-        return new ArmorProperties(0, 0.25, 80);
+        return new ArmorProperties(0, 0.25, source.isUnblockable() ? 0 : 80);
     }
 
     @Override
