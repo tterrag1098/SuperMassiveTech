@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
+import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -63,7 +64,13 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         setMaxStackSize(1);
         setMaxDamage(99);
         setNoRepair();
-
+    }
+    
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
+    {
+        int suffix = this.armorType == 2 ? 2 : 1; // thanks tcon
+        return Reference.MOD_TEXTUREPATH + ":textures/armor/gravityArmor" + suffix + ".png";
     }
 
     @Override
