@@ -1,5 +1,8 @@
 package tterrag.supermassivetech.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -43,24 +46,36 @@ public class GuiStorageBlock extends GuiContainer
 
         formattedFluidAmount = Utils.formatString("Stored: ", " mB", fluidStored, true);
 
-        this.mc.getTextureManager().bindTexture(new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/storageGui.png"));
+        this.mc.getTextureManager().bindTexture(TEXTURE);
 
         int j = (this.width - this.xSize) / 2;
         int k = (this.height - this.ySize) / 2;
 
         this.drawTexturedModalRect(j + 13, k, 0, 0, this.xSize - 16, this.ySize);
-        this.displayGauge(j, k, 12, 43, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 69) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
+        this.displayGauge(j, k, 12, 44, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 68) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_)
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString(formattedItemAmount, (int) ((this.xSize / 1.31) - (formattedItemAmount.length() * 2.5)), 54, 0x000000);
-        this.fontRendererObj.drawString(formattedFluidAmount, (int) ((this.xSize / 4) - (formattedFluidAmount.length() * 2.5)), 80, 0x000000);
-        this.fontRendererObj.drawString("Current", this.xSize / 3, 30, 0x000000);
-        this.fontRendererObj.drawString("Scale Max: ", (int) (this.xSize / 3.2), 40, 0x000000);
-        this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.5)) - Math.round(getScaledLiquidMaxAsString().length() * 2.5f), 50, 0x000000);
-        this.fontRendererObj.drawString("IDQSU", (int) (this.xSize / 2.2), 7, 0x000000);
+        int j = (this.width - this.xSize) / 2;
+        int k = (this.height - this.ySize) / 2;
+        
+        this.fontRendererObj.drawString(formattedItemAmount, (int) ((this.xSize / 1.31) - (formattedItemAmount.length() * 2.5)), 54, 0xCCCCCC);
+        this.fontRendererObj.drawString(formattedFluidAmount, (int) ((this.xSize / 4) - (formattedFluidAmount.length() * 2.5)), 80, 0xCCCCCC);
+        this.fontRendererObj.drawString("Current", (int) (this.xSize / 3.2), 30, 0xCCCCCC);
+        this.fontRendererObj.drawString("Scale Max: ", (int) (this.xSize / 3.4), 40, 0xCCCCCC);
+        this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.6)) - Math.round(getScaledLiquidMaxAsString().length() * 2.5f), 50, 0xCCCCCC);
+        this.fontRendererObj.drawString("Black Hole Storage", (int) (this.xSize / 3.2), 7, 0xCCCCCC);
+        
+        List<String> ttLines = new ArrayList<String>();
+        Fluid fluid = FluidRegistry.getFluid(fluidID);
+        if (fluid != null && mouseX < j + 68 && mouseX > j + 43 && mouseY > k + 6 && mouseY < k + 76)
+        {
+            System.out.println(mouseX + " : " + mouseY);
+            ttLines.add(fluid.getLocalizedName());
+            this.func_146283_a(ttLines, mouseX - j, mouseY - k);
+        }
     }
 
     /**
@@ -97,7 +112,7 @@ public class GuiStorageBlock extends GuiContainer
                     squaled = 0;
                 }
 
-                drawTexturedModelRectFromIcon(j + col + 1, k + line + 63 - x - start, liquidIcon, 23, 16 - (16 - x));
+                drawTexturedModelRectFromIcon(j + col + 1, k + line + 63 - x - start, liquidIcon, 22, 16 - (16 - x));
                 start = start + 16;
 
             }
@@ -106,7 +121,7 @@ public class GuiStorageBlock extends GuiContainer
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(TEXTURE);
-        drawTexturedModalRect(j + col, k + line, 234, 0, 16, 60);
+        drawTexturedModalRect(j + col, k + line + 1, 234, 0, 16, 60);
     }
 
     private long getScaledLiquidAmount()
