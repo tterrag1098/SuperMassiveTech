@@ -63,7 +63,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
         if (connectionDir == null)
         {
-            connectionDir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+            connectionDir = ForgeDirection.getOrientation(getBlockMetadata());
         }
         
         checkConnection();
@@ -118,9 +118,9 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         {
             ISidedInventory inv = (ISidedInventory) connection.inv;
             
-            for (Integer i : inv.getAccessibleSlotsFromSide(connectionDir.flag))
+            for (Integer i : inv.getAccessibleSlotsFromSide(connectionDir.ordinal()))
             {
-                if (inv.canInsertItem(i, inventory[hiddenSlot], connectionDir.flag))
+                if (inv.canInsertItem(i, inventory[hiddenSlot], connectionDir.ordinal()))
                 {
                     insertOneItem(inv, i);
                     return;
@@ -351,18 +351,26 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return connectionDir == null ? new int[]{} : new int[]{connectionDir.flag, connectionDir.getOpposite().flag};
+        ForgeDirection dir = getRawDir();
+        return new int[]{dir.ordinal(), dir.getOpposite().ordinal()};
     }
 
     @Override
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == hiddenSlot && connectionDir != null && var3 == connectionDir.getOpposite().flag && Utils.stacksEqual(inventory[cfgSlot], var2);
+        ForgeDirection dir = getRawDir();
+        return var1 == hiddenSlot && var3 == dir.getOpposite().ordinal() && Utils.stacksEqual(inventory[cfgSlot], var2);
     }
 
     @Override
     public boolean canExtractItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == hiddenSlot && connectionDir != null && var3 == connectionDir.flag;
+        ForgeDirection dir = getRawDir();
+        return var1 == hiddenSlot && var3 == dir.ordinal();
+    }
+    
+    private ForgeDirection getRawDir()
+    {
+        return ForgeDirection.getOrientation(getBlockMetadata());
     }
 }
