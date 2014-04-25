@@ -61,22 +61,12 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         if (worldObj.isRemote)
             return;
 
-        if (connectionDir == null || connection == null)
+        if (connectionDir == null)
         {
             connectionDir = ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-            TileEntity te = worldObj.getTileEntity(connectionDir.offsetX + xCoord, connectionDir.offsetY + yCoord, connectionDir.offsetZ + zCoord);
-            if (te != null && te instanceof IInventory)
-                connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
         }
-        else
-        {
-            checkConnection();
-        }
-
-        if (connection == null)
-        {
-            return;
-        }
+        
+        checkConnection();
 
         processNearbyItems();
 
@@ -84,9 +74,14 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         {
             searchForInventories();
         }
-
+        
         for (int i = 0; i < inventories.size(); i++)
             processInventory(inventories.get(i));
+        
+        if (connection == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < inventories.size(); i++)
             processConnection();
@@ -94,21 +89,29 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private void checkConnection()
     {
-        TileEntity te = worldObj.getTileEntity(connection.x, connection.y, connection.z);
-        if (te instanceof IInventory)
-        {
-            connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
-        }
-        else
-        {
-            connection = null;
-            connectionDir = null;
-        }
+    	if (connection == null)
+    	{
+    		TileEntity te = worldObj.getTileEntity(connectionDir.offsetX + xCoord, connectionDir.offsetY + yCoord, connectionDir.offsetZ + zCoord);
+    		if (te != null && te instanceof IInventory)
+    			connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+    	}
+    	else
+    	{
+    		TileEntity te = worldObj.getTileEntity(connection.x, connection.y, connection.z);
+    		if (te instanceof IInventory)
+    		{
+    			connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+    		}
+    		else
+    		{
+    			connection = null;
+    		}
+    	}
     }
 
     private void processConnection()
     {
-        if (inventory[hiddenSlot] == null)
+        if (inventory[hiddenSlot] == null || connection == null)
             return;
         
         if (connection.inv instanceof ISidedInventory)
@@ -294,9 +297,10 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         return true;
     }
 
-    private boolean teNotEquals(TileEntity te1, InventoryConnection te2)
+    private boolean teNotEquals(TileEntity inv, InventoryConnection connection)
     {
-        return te1.xCoord != te2.x || te1.yCoord != te2.y || te1.zCoord != te2.z;
+    	if (connection == null) return true;
+    	else return inv.xCoord != connection.x || inv.yCoord != connection.y || inv.zCoord != connection.z;
     }
 
     public void setConfig(ItemStack stack, EntityPlayer player)
