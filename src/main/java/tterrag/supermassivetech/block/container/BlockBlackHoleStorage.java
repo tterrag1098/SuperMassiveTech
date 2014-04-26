@@ -24,7 +24,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInv
 {
     public BlockBlackHoleStorage()
     {
-        super("tterrag.blackHoleStorage", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleStorage.class, SuperMassiveTech.renderIDStorage);
+        super("blackHoleStorage", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleStorage.class, SuperMassiveTech.renderIDStorage);
     }
 
     @Override

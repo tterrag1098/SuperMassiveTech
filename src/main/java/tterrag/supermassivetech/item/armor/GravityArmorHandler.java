@@ -30,13 +30,16 @@ public class GravityArmorHandler
 
     private double getArmorMult(EntityPlayer player, int drainAmount)
     {
+        // no power loss in creative, still get effects
+        if (player.capabilities.isCreativeMode && drainAmount != 0) return getArmorMult(player, 0);
+        
         double effect = 0;
         for (ItemStack i : player.inventory.armorInventory)
         {
             if (i != null && SuperMassiveTech.itemRegistry.armors.contains(i.getItem()))
             {
                 int drained = ((IEnergyContainerItem) i.getItem()).extractEnergy(i, drainAmount, false);
-                effect += drained > 0 ? .036d / 4d : 0;
+                effect += drained > 0  || drained == drainAmount ? .036d / 4d : 0;
             }
             else if (i != null && EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, i) != 0)
             {

@@ -14,7 +14,7 @@ public class BlockBlackHoleHopper extends BlockContainerSMT implements IKeepInve
 {
     public BlockBlackHoleHopper()
     {
-        super("tterrag.blackHoleHopper", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleHopper.class, SuperMassiveTech.renderIDHopper);
+        super("blackHoleHopper", Material.iron, soundTypeMetal, 30.0f, TileBlackHoleHopper.class, SuperMassiveTech.renderIDHopper);
     }
 
     @Override

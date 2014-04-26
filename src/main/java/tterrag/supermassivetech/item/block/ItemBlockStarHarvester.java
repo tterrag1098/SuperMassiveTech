@@ -14,9 +14,9 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
     }
 
     @Override
-    public String[] getHiddenLines(ItemStack stack)
+    public String getHiddenLines(ItemStack stack)
     {
-        return new String[] { "- Harvests the power of stars!", "- Outputs at the rate of the star inside.", "- Once the star is out of power\n   it will go critical. Better run!" };
+        return Utils.localize("tooltip.starHarvester", true);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
     }
 
     @Override
-    public String[] getStaticLines(ItemStack stack)
+    public String getStaticLines(ItemStack stack)
     {
         if (stack.stackTagCompound != null)
         {
@@ -46,8 +46,8 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
                 ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));
 
                 IStar type = Utils.getType(star);
-                return new String[] { String.format("Stored: %s", type.getTextColor() + type.toString()),
-                        String.format("Power Remaining: %s", Utils.getColorForPowerLeft(type.getPowerStored(star), type.getPowerStoredMax()) + Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false)) };
+                return String.format("%s: %s", Utils.localize("tooltip.stored", true), type.getTextColor() + type.toString()) + "~" + 
+                       String.format("%s: %s", Utils.localize("tooltip.powerRemaining", true), Utils.getColorForPowerLeft(type.getPowerStored(star), type.getPowerStoredMax()) + Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false));
             }
         }
 

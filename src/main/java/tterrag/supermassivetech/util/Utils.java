@@ -21,6 +21,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -33,6 +34,7 @@ import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.item.ItemStar;
+import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -58,7 +60,7 @@ public class Utils
         @Override
         public Item getTabIconItem()
         {
-            return SuperMassiveTech.blockRegistry.blackHoleStorage.getItem(null, 0, 0, 0);
+            return SuperMassiveTech.itemRegistry.heartOfStar;
         }
     };
 
@@ -429,9 +431,9 @@ public class Utils
         {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
             {
-                for (String s : item.getHiddenLines(stack))
+                for (String s : splitList(item.getHiddenLines(stack)))
                 {
-                    String[] ss = s.split("\n");
+                    String[] ss = s.split("~");
                     for (String line : ss)
                     {
                         list.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
@@ -442,7 +444,7 @@ public class Utils
             }
             else
             {
-                list.add(EnumChatFormatting.RED + "Hold" + EnumChatFormatting.YELLOW + " -Shift- " + EnumChatFormatting.RED + "for more info");
+                list.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED + localize("tooltip.moreInfo", true)));
             }
         }
 
@@ -451,7 +453,7 @@ public class Utils
             if (item.getHiddenLines(stack) != null)
                 list.add("");
 
-            for (String s : item.getStaticLines(stack))
+            for (String s : splitList(item.getStaticLines(stack), "~"))
                 list.add(EnumChatFormatting.WHITE + s);
         }
     }
@@ -491,7 +493,49 @@ public class Utils
      */
     public static void applyGravPotionEffects(EntityPlayer player, int level)
     {
-        player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, level, true));
-        player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, level, true));
+        if (!player.capabilities.isCreativeMode)
+        {
+            player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, level, true));
+            player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, level, true));
+        }
+    }
+    
+    public static String localize(String unloc, boolean appendModid)
+    {
+        if (appendModid)
+            return localize(Reference.LOCALIZING + "." + unloc);
+        else return localize(unloc);
+    }
+    
+    public static String localize(String unloc)
+    {
+        return StatCollector.translateToLocal(unloc);
+    }
+    
+    public static String[] localizeList(String unloc)
+    {
+        return splitList(localize(unloc, true));
+    }
+    
+    private static String[] splitList(String list, String splitRegex)
+    {
+        return list.split(splitRegex);
+    }
+    
+    public static String[] splitList(String list)
+    {
+        return splitList(list, "\\|");
+    }
+
+    public static String makeTooltipString(List<String> strs)
+    {
+        String toReturn = "";
+        for (String s : strs)
+        {
+            toReturn += s;
+            if (strs.indexOf(s) != strs.size() - 1)
+                toReturn += "~";
+        }
+        return toReturn;
     }
 }

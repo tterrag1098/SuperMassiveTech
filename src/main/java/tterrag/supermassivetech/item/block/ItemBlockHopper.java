@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
+import tterrag.supermassivetech.util.Utils;
 
 public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
 {
@@ -15,13 +16,13 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
     }
 
     @Override
-    public String[] getHiddenLines(ItemStack stack)
+    public String getHiddenLines(ItemStack stack)
     {
-        return new String[] { "- Right click with an item to configure", "- Right click with empty hand\n   to check configuration", "- Shift right click with an empty hand to clear" };
+        return Utils.localize("tooltip.blackHoleHopper", true);
     }
 
     @Override
-    public String[] getStaticLines(ItemStack stack)
+    public String getStaticLines(ItemStack stack)
     {
         if (stack.stackTagCompound == null)
             return null;
@@ -31,10 +32,10 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
         List<String> strs = new ArrayList<String>();
 
         if (stored != null)
-            strs.add(String.format("Stored: %d %s", stored.stackSize, stored.getDisplayName())); 
+            strs.add(String.format("%s: %d %s", Utils.localize("tooltip.stored", true), stored.stackSize, stored.getDisplayName())); 
         if (cfg != null)
-            strs.add(String.format("Configuration: %s", cfg.getDisplayName()));
-        
-        return strs.size() == 0 ? null : strs.toArray(new String[] {});
+            strs.add(String.format("%s: %s", Utils.localize("tooltip.configuration", true), cfg.getDisplayName()));
+
+        return Utils.makeTooltipString(strs);
     }
 }

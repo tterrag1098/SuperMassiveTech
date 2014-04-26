@@ -15,7 +15,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
 {
     public BlockStarHarvester()
     {
-        super("tterrag.starHarvester", Material.iron, soundTypeMetal, 5.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
+        super("starHarvester", Material.iron, soundTypeMetal, 5.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
     }
 
     @Override

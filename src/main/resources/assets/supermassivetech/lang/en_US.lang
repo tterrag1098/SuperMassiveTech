@@ -1,16 +1,71 @@
-tterrag.blackHoleStorage.name=Black Hole Storage
-tterrag.blackHoleHopper.name=Black Hole Hopper
-tterrag.starHarvester.name=Star Harvester
+## Names ##
 
+#Blocks
+tile.blackHoleStorage.name=Black Hole Storage
+tile.blackHoleHopper.name=Black Hole Hopper
+tile.starHarvester.name=Star Harvester
+
+#Items
 item.star.name=Star
+item.starSpecial.name=Special Star
+
 item.starHeart.name=Heart of Star
+
 item.starContainer.name=Star Container
 
+#Armor
 item.gravityHelmet.name=Gravity Helmet
 item.gravityChestplate.name=Gravity Chestplate
 item.gravityLeggings.name=Gravity Leggings
 item.gravityBoots.name=Gravity Boots
 
+#Creative Tab
 itemGroup.superMassiveTech=Super Massive Tech
 
+#Enchantmens
 enchantment.gravityResist=Gravity Resist
+
+
+
+## Tooltips ##
+
+#'|' character signifies a list, '~' character is a simple line break
+
+#Random tidbits
+SMT.tooltip.hold=Hold
+SMT.tooltip.shift=Shift
+SMT.tooltip.moreInfo=For more info
+
+SMT.tooltip.outputs=Outputs
+SMT.tooltip.at=at
+
+SMT.tooltip.warning=WARNING
+SMT.tooltip.warningText=Stacking this type of~star could have deadly sideffects!
+
+SMT.tooltip.powerRemaining=Power Remaining
+SMT.tooltip.stored=Stored
+SMT.tooltip.configuration=Configuration
+
+#Star Stuff
+SMT.tooltip.tier.low=Low
+SMT.tooltip.tier.normal=Normal
+SMT.tooltip.tier.high=High
+SMT.tooltip.tier.special=Special
+
+SMT.star.yellowDwarf=Yellow Dwarf
+SMT.star.redDwarf=Red Dwarf
+SMT.star.redGiant=Red Giant
+SMT.star.blueGiant=Blue Giant
+SMT.star.supergiant=Supergiant
+SMT.star.brownDwarf=Brown Dwarf
+SMT.star.whiteDwarf=White Dwarf
+SMT.star.neutron=Neutron
+SMT.star.pulsar=Pulsar
+
+#Items
+SMT.tooltip.starHeart=- Creates a star when ignited in-world.|- More fire in the vicinity causes~   a higher chance for better stars.
+
+#Blocks
+SMT.tooltip.blackHoleStorage=- Stores 2^40 items and fluids|- Accepts pipe input/output from any side
+SMT.tooltip.blackHoleHopper=- Right click with an item to configure|- Right click with empty hand~   to check configuration|- Shift right click with an empty hand to clear
+SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate of the star inside.|- Once the star is out of power~  it will go critical. Better run!

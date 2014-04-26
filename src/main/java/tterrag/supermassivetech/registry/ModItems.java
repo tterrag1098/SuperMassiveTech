@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.item.ItemSMT;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.item.ItemStarHeart;
+import tterrag.supermassivetech.item.ItemStarSpecial;
 import tterrag.supermassivetech.item.armor.ItemGravityArmor;
 import tterrag.supermassivetech.item.armor.ItemGravityArmor.ArmorType;
 import cofh.api.energy.IEnergyContainerItem;
@@ -19,7 +20,7 @@ public class ModItems
 {
     public static ModItems instance = new ModItems();
 
-    public Item star;
+    public Item star, starSpecial;
     public Item heartOfStar;
 
     public Item starContainer;
@@ -32,6 +33,7 @@ public class ModItems
     {
         heartOfStar = new ItemStarHeart("starHeart");
         star = new ItemStar("star");
+        starSpecial = new ItemStarSpecial("starSpecial");
         starContainer = new ItemSMT("starContainer", "starContainer");
 
         gravityHelm = new ItemGravityArmor(ArmorMaterial.DIAMOND, ArmorType.HELMET);
@@ -40,6 +42,7 @@ public class ModItems
         gravityBoots = new ItemGravityArmor(ArmorMaterial.DIAMOND, ArmorType.BOOTS);
 
         GameRegistry.registerItem(star, "star");
+        GameRegistry.registerItem(starSpecial, "starSpecial");
         GameRegistry.registerItem(heartOfStar, "starHeart");
         GameRegistry.registerItem(starContainer, "starContainer");
 

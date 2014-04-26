@@ -5,6 +5,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.entity.item.EntityItemStarHeart;
+import tterrag.supermassivetech.util.Utils;
 
 public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
 {
@@ -28,13 +29,13 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
     }
 
     @Override
-    public String[] getHiddenLines(ItemStack stack)
+    public String getHiddenLines(ItemStack stack)
     {
-        return new String[] { "- Creates a star when ignited in-world.", "- More fire in the vicinity causes\n   a higher chance for better stars." };
+        return Utils.localize("tooltip.starHeart", true);
     }
 
     @Override
-    public String[] getStaticLines(ItemStack stack)
+    public String getStaticLines(ItemStack stack)
     {
         return null;
     }

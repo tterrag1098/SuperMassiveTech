@@ -62,7 +62,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         setCreativeTab(SuperMassiveTech.tabSMT);
         setUnlocalizedName(unlocalized);
         setMaxStackSize(1);
-        setMaxDamage(99);
+        setMaxDamage(100);
         setNoRepair();
     }
     
@@ -220,16 +220,16 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     }
 
     @Override
-    public String[] getHiddenLines(ItemStack stack)
+    public String getHiddenLines(ItemStack stack)
     {
         return null;
     }
 
     @Override
-    public String[] getStaticLines(ItemStack stack)
+    public String getStaticLines(ItemStack stack)
     {
-        return new String[] { EnumChatFormatting.WHITE + "Energy Stored: " + Utils.getColorForPowerLeft(stack.getTagCompound().getInteger("energy"), CAPACITY)
-                + Utils.formatString("", " RF", stack.getTagCompound().getInteger("energy"), true, true) };
+        return EnumChatFormatting.WHITE + Utils.localize("tooltip.powerRemaining", true) + ": " + Utils.getColorForPowerLeft(stack.getTagCompound().getInteger("energy"), CAPACITY)
+                + Utils.formatString("", " RF", stack.getTagCompound().getInteger("energy"), true, true);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

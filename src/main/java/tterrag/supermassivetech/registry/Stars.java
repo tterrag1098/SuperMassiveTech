@@ -1,14 +1,13 @@
 package tterrag.supermassivetech.registry;
 
-import static tterrag.supermassivetech.registry.Stars.StarTier.HIGH;
-import static tterrag.supermassivetech.registry.Stars.StarTier.LOW;
-import static tterrag.supermassivetech.registry.Stars.StarTier.NORMAL;
+import static tterrag.supermassivetech.registry.Stars.StarTier.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import tterrag.supermassivetech.util.Utils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -19,7 +18,12 @@ public class Stars
 
     public enum StarTier
     {
-        LOW("Low"), NORMAL("Normal"), HIGH("High");
+        LOW("tooltip.tier.low"), NORMAL("tooltip.tier.normal"), HIGH("tooltip.tier.high"), 
+        
+        /**
+         * Will not be created by the normal means, nor will it have an ItemStar listed in the game, you must create it in your own class
+         */
+        SPECIAL("tooltip.tier.special");
 
         private String name;
 
@@ -31,7 +35,15 @@ public class Stars
         @Override
         public String toString()
         {
-            return name;
+            return Utils.localize(name, true);
+        }
+
+        public int getMassLevel()
+        {
+            if (this != SPECIAL)
+                return this.ordinal();
+            else
+                return 3;
         }
     }
 
@@ -45,6 +57,8 @@ public class Stars
             return EnumChatFormatting.GOLD;
         case HIGH:
             return EnumChatFormatting.GREEN;
+        case SPECIAL:
+            return EnumChatFormatting.AQUA;
         }
         return EnumChatFormatting.OBFUSCATED;
     }
@@ -66,7 +80,7 @@ public class Stars
         /**
          * Creates a new <code>StarType</code> object
          * 
-         * @param name - name of the star type
+         * @param name - full unlocalized name of the star type
          * @param tier - {@link StarTier} of this star, low &lt; normal &lt;
          *            high, in terms of value
          * @param color - hex color value
@@ -89,12 +103,12 @@ public class Stars
         }
 
         /**
-         * Simply returns the name of this star
+         * Simply returns the name of this star, localized
          */
         @Override
         public String toString()
         {
-            return name;
+            return Utils.localize(name);
         }
 
         /**
@@ -199,7 +213,7 @@ public class Stars
         return null;
     }
 
-    public StarTier getWeightedRandomTier(int offset)
+    public StarTier getWeightedCreationTier(int offset)
     {
         int tier = new Random().nextInt(1000) - (offset * 2);
         if (tier < 10)
@@ -221,26 +235,26 @@ public class Stars
         return list;
     }
 
-    public IStar getRandomTypeByTier(StarTier tier)
+    public IStar getRandomStarFromType(StarTier tier)
     {
-        List<IStar> list = getStarsOfTier(tier);
-        System.out.println(list.size());
+        List<IStar> list = getStarsOfTier(tier);        
         return list.get(new Random().nextInt(list.size()));
     }
 
     public void registerDefaultStars()
     {
+        String prefix = "SMT.star.";
+        
         // TODO balance
-        registerStarType(new StarType("Yellow Dwarf", LOW, 0xCCCCAA, EnumChatFormatting.YELLOW, 10000000, 80, 600));
-        registerStarType(new StarType("Red Dwarf", NORMAL, 0xCC5555, EnumChatFormatting.RED, 20000000, 40, 600));
-        registerStarType(new StarType("Red Giant", LOW, 0xBB2222, EnumChatFormatting.RED, 5000000, 40, 400));
-        registerStarType(new StarType("Blue Giant", NORMAL, 0x2222FF, EnumChatFormatting.DARK_BLUE, 40000000, 20, 400));
-        registerStarType(new StarType("Supergiant", HIGH, 0xFFFFFF, EnumChatFormatting.WHITE, 100000000, 160, 1200));
-        registerStarType(new StarType("Brown Dwarf", LOW, 0xAA5522, EnumChatFormatting.GRAY, 2500000, 20, 2400));
-        registerStarType(new StarType("White Dwarf", LOW, 0x999999, EnumChatFormatting.WHITE, 5000000, 160, 1200));
-        // TODO something awesome
-        // registerStarType(new StarType("Neutron", NORMAL, 0x555577, 0, 0));
-        // registerStarType(new StarType("Pulsar", HIGH, 0xFF00FF, 0, 0));
+        registerStarType(new StarType(prefix + "yellowDwarf", LOW, 0xCCCCAA, EnumChatFormatting.YELLOW, 10000000, 80, 600));
+        registerStarType(new StarType(prefix + "redDwarf", NORMAL, 0xCC5555, EnumChatFormatting.RED, 20000000, 40, 600));
+        registerStarType(new StarType(prefix + "redGiant", LOW, 0xBB2222, EnumChatFormatting.RED, 5000000, 40, 400));
+        registerStarType(new StarType(prefix + "blueGiant", NORMAL, 0x2222FF, EnumChatFormatting.DARK_BLUE, 40000000, 20, 400));
+        registerStarType(new StarType(prefix + "supergiant", HIGH, 0xFFFFFF, EnumChatFormatting.WHITE, 100000000, 160, 1200));
+        registerStarType(new StarType(prefix + "brownDwarf", LOW, 0xAA5522, EnumChatFormatting.GRAY, 2500000, 20, 2400));
+        registerStarType(new StarType(prefix + "whiteDwarf", LOW, 0x999999, EnumChatFormatting.WHITE, 5000000, 160, 1200));
+        registerStarType(new StarType(prefix + "neutron", SPECIAL, 0x555577, EnumChatFormatting.AQUA, Integer.MAX_VALUE, 15, 1));
+        registerStarType(new StarType(prefix + "pulsar", SPECIAL, 0xFF00FF, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, 20, 1));
 
         /*
          * - pulsars are neutron stars, neutrons are formed INSTEAD of black

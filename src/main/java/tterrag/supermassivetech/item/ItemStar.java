@@ -17,24 +17,30 @@ import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
+import tterrag.supermassivetech.registry.Stars.StarTier;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemStar extends ItemSMT implements IAdvancedTooltip
 {
-    private Stars stars = Stars.instance;
+    protected Stars stars = Stars.instance;
 
     public ItemStar(String unlocName)
     {
-        super(unlocName, unlocName);
+        this(unlocName, unlocName);
+    }
+
+    public ItemStar(String unlocName, String textureName)
+    {
+        super(unlocName, textureName);
     }
 
     @Override
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
     {
         if (!par2World.isRemote)
-            Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getTier().ordinal());
+            Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getTier().getMassLevel());
     }
 
     @Override
@@ -56,7 +62,8 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
     {
         for (IStar t : stars.types.values())
         {
-            list.add(Utils.setType(new ItemStack(this), t));
+            if (t.getTier() != StarTier.SPECIAL)
+                list.add(Utils.setType(new ItemStack(this), t));
         }
     }
 
@@ -93,18 +100,25 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip
     }
 
     @Override
-    public String[] getHiddenLines(ItemStack stack)
+    public String getHiddenLines(ItemStack stack)
     {
         IStar type = Utils.getType(stack);
         double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
 
-        return new String[] { type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-                Utils.formatString(EnumChatFormatting.YELLOW + "Outputs ", " RF", type.getPowerStoredMax(), false) + " at " + type.getPowerPerTick() + " RF/t",
-                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true) };
+        return String.format(
+                  "%s|"
+                + "%s|"
+                + "%s RF %s %d RF/t|"
+                + "%s|",
+                
+                type.getTextColor() + type.toString(), 
+                Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
+                Utils.formatString(EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false), Utils.localize("tooltip.at", true), type.getPowerPerTick(),
+                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true));
     }
 
     @Override
-    public String[] getStaticLines(ItemStack stack)
+    public String getStaticLines(ItemStack stack)
     {
         return null;
     }

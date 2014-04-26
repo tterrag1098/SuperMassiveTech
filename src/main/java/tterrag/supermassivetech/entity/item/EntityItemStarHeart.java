@@ -92,7 +92,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         ItemStack star = new ItemStack(itemRegistry.star, this.getEntityItem().stackSize);
 
         // Sets the type of the star to a random type
-        Utils.setType(star, starRegistry.getRandomTypeByTier(starRegistry.getWeightedRandomTier(powerLevel)));
+        Utils.setType(star, starRegistry.getRandomStarFromType(starRegistry.getWeightedCreationTier(powerLevel)));
 
         worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 

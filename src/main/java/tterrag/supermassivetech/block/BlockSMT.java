@@ -6,7 +6,6 @@ import tterrag.supermassivetech.SuperMassiveTech;
 
 public class BlockSMT extends Block
 {
-
     protected BlockSMT(Material mat, SoundType type, float hardness)
     {
         super(mat);
