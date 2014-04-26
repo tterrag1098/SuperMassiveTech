@@ -2,10 +2,6 @@ package tterrag.supermassivetech.item;
 
 import java.util.List;
 
-import tterrag.supermassivetech.entity.item.EntityItemSpecialStar;
-import tterrag.supermassivetech.registry.IStar;
-import tterrag.supermassivetech.registry.Stars.StarTier;
-import tterrag.supermassivetech.util.Utils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -14,8 +10,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.entity.item.EntityItemSpecialStar;
+import tterrag.supermassivetech.registry.IStar;
+import tterrag.supermassivetech.registry.Stars.StarTier;
+import tterrag.supermassivetech.util.Utils;
 
-public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip
+public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStarItem
 {
     public ItemStarSpecial(String unlocName)
     {

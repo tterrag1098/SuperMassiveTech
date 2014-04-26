@@ -22,7 +22,7 @@ import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemStar extends ItemSMT implements IAdvancedTooltip
+public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
 {
     protected Stars stars = Stars.instance;
 

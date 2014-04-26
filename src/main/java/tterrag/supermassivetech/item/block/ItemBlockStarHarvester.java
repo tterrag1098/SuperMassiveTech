@@ -2,8 +2,10 @@ package tterrag.supermassivetech.item.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.registry.IStar;
+import tterrag.supermassivetech.tile.TileStarHarvester;
 import tterrag.supermassivetech.util.Utils;
 
 public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedTooltip
@@ -41,14 +43,27 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
     {
         if (stack.stackTagCompound != null)
         {
-            if (stack.stackTagCompound.getTag("inventory") != null)
+            if (!stack.stackTagCompound.hasKey("inventory") || !stack.stackTagCompound.hasKey("energy")) return null;
+            
+            String toReturn = "";
+            NBTTagCompound tag = stack.stackTagCompound;
+
+            if (tag.getTag("inventory") != null)
             {
-                ItemStack star = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("inventory"));
+                ItemStack star = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory"));
 
                 IStar type = Utils.getType(star);
-                return String.format("%s: %s", Utils.localize("tooltip.stored", true), type.getTextColor() + type.toString()) + "~" + 
-                       String.format("%s: %s", Utils.localize("tooltip.powerRemaining", true), Utils.getColorForPowerLeft(type.getPowerStored(star), type.getPowerStoredMax()) + Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false));
+                toReturn += String.format("%s: %s", Utils.localize("tooltip.stored", true), type.getTextColor() + type.toString()) + "~" + 
+                                  String.format("%s: %s", Utils.localize("tooltip.powerRemaining", true), Utils.getColorForPowerLeft(type.getPowerStored(star), type.getPowerStoredMax()) + Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false)); 
             }
+            
+            int energy = tag.getInteger("energy");
+            if (energy != 0)
+            {
+                toReturn += String.format("%s: %s", Utils.localize("tooltip.bufferStorage", true), Utils.getColorForPowerLeft(energy, TileStarHarvester.STORAGE_CAP) + Utils.formatString("", " RF", energy, true, true));
+            }
+            
+            return toReturn;
         }
 
         return null;

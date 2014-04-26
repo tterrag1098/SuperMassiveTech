@@ -31,7 +31,7 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
         int meta = metaOverride ? 0 : tile.getBlockMetadata();
         Minecraft.getMinecraft().getTextureManager().bindTexture(textureMain);
 
-        switch (meta)
+        switch (meta % 6)
         {
         case 1:
             GL11.glRotatef(180f, 0, 0, 1);
@@ -82,7 +82,7 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
 
         GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
 
-        sphere.renderAll();
+        //sphere.renderAll();
 
         GL11.glPopMatrix();
     }

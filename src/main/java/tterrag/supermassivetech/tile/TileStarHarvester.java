@@ -11,7 +11,7 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
-import tterrag.supermassivetech.item.ItemStar;
+import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.network.packet.PacketStarHarvester;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.Utils;
@@ -23,7 +23,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 {
     private int slot = 0, perTick = 500;
     private EnergyStorage storage;
-    private final int STORAGE_CAP = 100000;
+    public static final int STORAGE_CAP = 100000;
     public double spinSpeed = 0;
     public float spinRot = 0;
     public int lastLightLev;
@@ -102,13 +102,18 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
     private void attemptOutputEnergy()
     {
-        ForgeDirection f = ForgeDirection.getOrientation(getBlockMetadata());
+        ForgeDirection f = ForgeDirection.getOrientation(getRotationMeta());
         TileEntity te = worldObj.getTileEntity(xCoord + f.offsetX, yCoord + f.offsetY, zCoord + f.offsetZ);
         if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
         {
             IEnergyHandler ieh = (IEnergyHandler) te;
             storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), storage.getEnergyStored() > perTick ? perTick : storage.getEnergyStored(), false), false);
         }
+    }
+    
+    public int getRotationMeta()
+    {
+        return getBlockMetadata() % 6;
     }
 
     @Override
@@ -120,7 +125,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public boolean isGravityWell()
     {
-        return inventory[slot] != null && inventory[slot].getItem() instanceof ItemStar;
+        return inventory[slot] != null && inventory[slot].getItem() instanceof IStarItem;
     }
 
     @Override
@@ -155,7 +160,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public boolean canInterface(ForgeDirection from)
     {
-        return from.ordinal() == getBlockMetadata();
+        return from.ordinal() == getRotationMeta();
     }
 
     @Override
@@ -197,44 +202,85 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public boolean handleRightClick(EntityPlayer player)
     {
         ItemStack stack = player.getCurrentEquippedItem();
-        if (stack != null && stack.getItem() instanceof ItemStar && inventory[slot] == null)
+        
+        if (player.isSneaking())
         {
-            ItemStack insert = stack.copy();
-            insert.stackSize = 1;
-            inventory[slot] = insert;
-            player.getCurrentEquippedItem().stackSize--;
-            return true;
+            return printInfo(player);
         }
-        else if (!player.isSneaking() && inventory[slot] != null)
+        else if (stack != null)
         {
-            if (!player.inventory.addItemStackToInventory(inventory[slot]))
-                player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
-
-            inventory[slot] = null;
-            return true;
-        }
-        else if (!player.worldObj.isRemote)
-        {
-            IStar star = Utils.getType(inventory[slot]);
-
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_GRAY + "------------------------------"));
-            if (star != null)
+            if (stack.getItem() == SuperMassiveTech.itemRegistry.starContainer)
             {
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current star is: " + star.getTextColor() + star.toString()));
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Energy remaining: " + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
-                        + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
+                if (getBlockMetadata() == getRotationMeta())
+                {
+                    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata() + 6, 3);
+                    player.getCurrentEquippedItem().stackSize--;
+                    return true;
+                }
             }
-            else
+            else if (stack.getItem() instanceof IStarItem)
             {
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No star in place!"));
+                if (inventory[slot] == null)
+                {
+                    insertStar(stack, player);
+                    return true;
+                }
             }
-
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Buffer Storage: " + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored())
-                    + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current Output Max: " + Utils.getColorForPowerLeft(perTick, 500) + Utils.formatString("", " RF/t", perTick, false)));
-
-            return false;
+            return inventory[slot] == null ? printInfo(player) : extractStar(player);
         }
+        else if (inventory[slot] != null)
+        {
+            return extractStar(player);
+        }
+        
+        return printInfo(player);
+    }
+    
+    private boolean insertStar(ItemStack stack, EntityPlayer player)
+    {
+        ItemStack insert = stack.copy();
+        insert.stackSize = 1;
+        inventory[slot] = insert;
+        player.getCurrentEquippedItem().stackSize--;
+        return true;
+    }
+    
+    private boolean extractStar(EntityPlayer player)
+    {
+        if (!player.inventory.addItemStackToInventory(inventory[slot]))
+            player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
+
+        inventory[slot] = null;
+        return true;
+    }
+    
+    private boolean printInfo(EntityPlayer player)
+    {
+        if (player.worldObj.isRemote) return true;
+        
+        IStar star = Utils.getType(inventory[slot]);
+
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_GRAY + "------------------------------"));
+        
+        if (getBlockMetadata() == getRotationMeta())
+        {
+            player.addChatComponentMessage(new ChatComponentText("No Container Installed!"));
+        }
+        else if (star != null)
+        {
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current star is: " + star.getTextColor() + star.toString()));
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Energy remaining: " + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
+                    + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
+        }
+        else
+        {
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No star in place!"));
+        }
+
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Buffer Storage: " + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored())
+                + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current Output Max: " + Utils.getColorForPowerLeft(perTick, 500) + Utils.formatString("", " RF/t", perTick, false)));
+        
         return true;
     }
 
@@ -247,19 +293,19 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == 0 && var3 == 1 && var2 != null ? var2.getItem() instanceof ItemStar : false;
+        return var1 == slot && var3 == ForgeDirection.OPPOSITES[getRotationMeta()] && var2 != null ? var2.getItem() instanceof IStarItem : false;
     }
 
     @Override
     public boolean canExtractItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == 0 && var3 == 1;
+        return var1 == slot && var3 == getRotationMeta();
     }
     
     @Override
     public boolean isItemValidForSlot(int var1, ItemStack var2)
     {
-        return var1 == slot && inventory[var1] == null && var2 != null && var2.getItem() instanceof ItemStar;
+        return var1 == slot && inventory[var1] == null && var2 != null && var2.getItem() instanceof IStarItem;
     }
 
     @Override

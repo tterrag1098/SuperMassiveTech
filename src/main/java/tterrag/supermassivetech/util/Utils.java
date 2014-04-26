@@ -33,6 +33,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
+import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.registry.IStar;
@@ -316,7 +317,7 @@ public class Utils
      */
     public static IStar getType(ItemStack stack)
     {
-        if (stack != null && stack.getItem() instanceof ItemStar && stack.stackTagCompound != null)
+        if (stack != null && stack.getItem() instanceof IStarItem && stack.stackTagCompound != null)
             return stars.getTypeByName(stack.stackTagCompound.getString("type"));
         else
             return null;
@@ -324,7 +325,7 @@ public class Utils
 
     public static int getStarPowerRemaining(ItemStack star)
     {
-        if (star != null && star.getItem() instanceof ItemStar && star.stackTagCompound != null)
+        if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
             return star.stackTagCompound.getInteger("energy");
         else
             return 0;
@@ -340,7 +341,7 @@ public class Utils
      */
     public static ItemStack setType(ItemStack stack, IStar type)
     {
-        if (stack != null && stack.getItem() instanceof ItemStar)
+        if (stack != null && stack.getItem() instanceof IStarItem)
         {
             if (stack.stackTagCompound == null)
                 stack.stackTagCompound = new NBTTagCompound();

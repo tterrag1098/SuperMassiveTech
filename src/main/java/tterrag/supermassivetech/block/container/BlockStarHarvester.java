@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.tile.TileStarHarvester;
+import tterrag.supermassivetech.util.Utils;
 
 public class BlockStarHarvester extends BlockContainerSMT implements IKeepInventoryAsItem
 {
@@ -63,6 +64,14 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
             harvester.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory")));
             harvester.setEnergyStored(tag.getInteger("energy"));
         }
+    }
+    
+    @Override
+    public void dropItem(World world, ItemStack item, int x, int y, int z)
+    {
+        super.dropItem(world, item, x, y, z);
+        if (world.getBlockMetadata(x, y, z) > 5)
+            Utils.spawnItemInWorldWithRandomMotion(world, new ItemStack(SuperMassiveTech.itemRegistry.starContainer), x, y, z);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.registry;
 
-import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -41,8 +40,8 @@ public class ModBlocks
 
     public void addRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(starHarvester), "iii", "bCb", "iii",
+        GameRegistry.addRecipe(new ItemStack(starHarvester), "iii", "b b", "iii",
 
-        'i', Items.iron_ingot, 'b', Blocks.iron_bars, 'C', itemRegistry.starContainer);
+        'i', Items.iron_ingot, 'b', Blocks.iron_bars);
     }
 }
