@@ -46,11 +46,13 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
         }
     }
     
+    /*
     @Override
     public String getItemStackDisplayName(ItemStack par1ItemStack)
     {
         return EnumChatFormatting.AQUA + super.getItemStackDisplayName(par1ItemStack) + EnumChatFormatting.RESET;
     }
+    */
 
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
@@ -63,5 +65,11 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
     public String getStaticLines(ItemStack stack)
     {
         return EnumChatFormatting.RED + Utils.localize("tooltip.warning", true) + ": " + EnumChatFormatting.WHITE + Utils.localize("tooltip.warningText", true);
+    }
+    
+    @Override
+    public boolean hasEffect(ItemStack par1ItemStack, int pass)
+    {
+        return true;
     }
 }
