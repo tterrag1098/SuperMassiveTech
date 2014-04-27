@@ -20,7 +20,7 @@ public class GravityArmorHandler
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
     {
-        if (!event.player.onGround && !event.player.capabilities.isFlying && (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || (event.player.motionY < -0.2 && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))))
+        if (!event.player.onGround && !event.player.capabilities.isFlying && (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || (event.player.motionY < -0.2 && !event.player.isSneaking())));
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
             event.player.motionY += effect;
