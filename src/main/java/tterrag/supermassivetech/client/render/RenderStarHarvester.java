@@ -64,40 +64,41 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
         main.renderAll();
 
         double speed = 0d;
-        float spinRot = 0f;
+        float[] spins = {0, 0, 0, 0};
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(textureRing1);
 
         if (tile != null)
         {
             speed = tile.spinSpeed;
-            spinRot = tile.spinRot;
+            spins = tile.spins;
         }
 
         GL11.glTranslatef(0f, 1f, 0f);
 
         if (meta > 5)
         {
-            GL11.glRotatef(spinRot, 1f, 1f, 0);
-            ring.renderAll();
-            GL11.glRotatef(-spinRot, 1f, 1f, 0);
-
             GL11.glRotatef(90f, 1f, 0, 0);
+
+            GL11.glRotatef(spins[1], 0, 0, 1f);
+            ring.renderAll();
+            GL11.glRotatef(-spins[1], 0, 0, 1f);
+
+            GL11.glRotatef(-90f, 1f, 0, 0);
             GL11.glScalef(0.95f, 0.95f, 0.95f);
 
-            GL11.glRotatef(spinRot, 0.9f, 0, 0.9f);
+            GL11.glRotatef(spins[2], 1f, 1f, 0);
             ring.renderAll();
-            GL11.glRotatef(-spinRot, 0.9f, 0, 0.9f);
+            GL11.glRotatef(-spins[2], 1f, 1f, 0);
 
             GL11.glRotatef(90f, 0, 0, 1f);
             GL11.glScalef(0.95f, 0.95f, 0.95f);
 
-            GL11.glRotatef(spinRot, 0, 0.8f, 0.8f);
+            GL11.glRotatef(spins[3], 0, 1f, 1f);
             ring.renderAll();
-            GL11.glRotatef(-spinRot, 0, 0.8f, 0.8f);
+            GL11.glRotatef(-spins[3], 0, 1f, 1f);
 
-            GL11.glRotatef(90f, 1f, 0, 0);
-            GL11.glRotatef(90f, 0, 1f, 0);
+            GL11.glRotatef(90f, 0, 0, 1f);
         }
 
         if (tile != null && tile.getStackInSlot(0) != null)
@@ -108,7 +109,7 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
 
             Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphereInactive);
 
-            GL11.glRotatef(spinRot, 0, 1f, 0);
+            GL11.glRotatef(-spins[0], 0, 1f, 0);
             GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
             GL11.glTranslatef(0f, -1f, 0f);
 

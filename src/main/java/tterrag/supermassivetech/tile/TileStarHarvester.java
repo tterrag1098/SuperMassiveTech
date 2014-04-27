@@ -25,7 +25,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     private EnergyStorage storage;
     public static final int STORAGE_CAP = 100000;
     public double spinSpeed = 0;
-    public float spinRot = 0;
+    public float[] spins = {0, 0, 0, 0};
     public int lastLightLev;
     private boolean hasItem = false;
     private boolean needsLightingUpdate = false;
@@ -87,17 +87,21 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         if (isGravityWell())
         {
-            spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.005;
+            spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.0005;
         }
         else
         {
-            spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.005;
+            spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.01;
         }
 
-        if (spinRot >= 360)
-            spinRot -= 360;
+        for (int i = 0; i < spins.length; i++)
+        {
+            if (spins[i] >= 360)
+                spins[i] -= 360;
+            
+            spins[i] += (float) (i == 0 ? spinSpeed * 15f : spinSpeed * (6f + i * 2));
+        }
 
-        spinRot += (float) (spinSpeed * 15f);
     }
 
     private void attemptOutputEnergy()
