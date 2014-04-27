@@ -109,11 +109,14 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
 
             Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphereInactive);
 
+            GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glRotatef(-spins[0], 0, 1f, 0);
             GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
             GL11.glTranslatef(0f, -1f, 0f);
-
+            
             sphere.renderAll();
+            
+            GL11.glEnable(GL11.GL_LIGHTING);
         }
         
         GL11.glPopMatrix();
