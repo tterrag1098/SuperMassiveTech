@@ -27,11 +27,12 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
     {
         super.onUpdate(stack, world, entity, slot, par5);
 
-        if (!world.isRemote && stack.stackSize > 1 && entity instanceof EntityPlayer)
+        if (stack.stackSize > 1 && entity instanceof EntityPlayer)
         {
             ((EntityPlayer)entity).inventory.setInventorySlotContents(slot, null);
-            world.newExplosion(entity, entity.posX, entity.posY, entity.posZ, 2.0f + (stack.stackSize - 1), true, true);
-        }
+            if (!world.isRemote)
+                world.newExplosion(entity, entity.posX, entity.posY, entity.posZ, 2.0f + (stack.stackSize - 1), true, true);
+        }   
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

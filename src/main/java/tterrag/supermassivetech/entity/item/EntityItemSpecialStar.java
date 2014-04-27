@@ -14,10 +14,11 @@ public class EntityItemSpecialStar extends EntityItemIndestructible
     public void onUpdate()
     {
        super.onUpdate();
-       if (!this.worldObj.isRemote && this.getEntityItem() != null && this.getEntityItem().stackSize > 1)
+       if (this.getEntityItem() != null && this.getEntityItem().stackSize > 1)
        {
            this.setDead();
-           worldObj.newExplosion(this, posX, posY, posZ, 2.0f + (this.getEntityItem().stackSize - 1), true, true);
+           if (!this.worldObj.isRemote)
+               worldObj.newExplosion(this, posX, posY, posZ, 2.0f + (this.getEntityItem().stackSize - 1), true, true);
        }
     }
 }
