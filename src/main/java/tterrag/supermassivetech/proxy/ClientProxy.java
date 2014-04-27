@@ -9,6 +9,7 @@ import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.ItemObjRenderer;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
+import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
@@ -17,15 +18,16 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-    public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation("supermassivetech", "textures/models/storage.png"));
+    public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/storage.png"));
     public static ItemObjRenderer storageItem;
 
-    public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation("supermassivetech", "models/hopper.obj"), new ResourceLocation("supermassivetech",
+    public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/hopper.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH,
             "textures/models/hopper.png"));
     public static ItemObjRenderer hopperItem;
 
-    public static final RenderStarHarvester starHarvester = new RenderStarHarvester(new ResourceLocation("supermassivetech", "models/starHarvesterMain" + ".obj"), new ResourceLocation(
-            "supermassivetech", "models/starHarvesterSphere.obj"));
+    public static final RenderStarHarvester starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), 
+                                                                                    new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"),
+                                                                                    new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/ring.obj"));
     public static ItemObjRenderer starHarvesterItem;
 
     @Override

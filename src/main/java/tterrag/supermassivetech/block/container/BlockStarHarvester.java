@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.block.container;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -42,13 +43,6 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
 
         stack.stackTagCompound = new NBTTagCompound();
 
-        if (te.getStackInSlot(0) != null)
-        {
-            NBTTagCompound invTag = new NBTTagCompound();
-            te.getStackInSlot(0).writeToNBT(invTag);
-            stack.stackTagCompound.setTag("inventory", invTag);
-        }
-
         stack.stackTagCompound.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
 
         return stack;
@@ -61,7 +55,6 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
         {
             TileStarHarvester harvester = (TileStarHarvester) te;
 
-            harvester.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory")));
             harvester.setEnergyStored(tag.getInteger("energy"));
         }
     }
@@ -73,12 +66,22 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
         if (world.getBlockMetadata(x, y, z) > 5)
             Utils.spawnItemInWorldWithRandomMotion(world, new ItemStack(SuperMassiveTech.itemRegistry.starContainer), x, y, z);
     }
+    
+    @Override
+    public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player)
+    {
+        super.onBlockHarvested(world, x, y, z, meta, player);
+        TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
+        if (te != null && te.isGravityWell())
+        {
+            Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(0), x, y, z);
+        }
+    }
 
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z)
     {
         TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
-        if (te != null) { return te.lastLightLev; }
-        return 0;
+        return te == null || te.getStackInSlot(0) == null ? 0 : 15;
     }
 }

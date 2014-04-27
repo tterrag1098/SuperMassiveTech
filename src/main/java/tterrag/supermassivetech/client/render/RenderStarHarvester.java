@@ -9,18 +9,23 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
+import tterrag.supermassivetech.lib.Reference;
+import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.tile.TileStarHarvester;
+import tterrag.supermassivetech.util.Utils;
 
 public class RenderStarHarvester extends TileEntitySpecialRenderer
 {
-    private IModelCustom main, sphere;
+    private IModelCustom main, sphere, ring;
     private ResourceLocation textureMain = new ResourceLocation("supermassivetech", "textures/models/starHarvesterMain.png");
     private ResourceLocation textureSphereInactive = new ResourceLocation("supermassivetech", "textures/models/starHarvesterSphereInactive.png");
+    private ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/ring1.png");
 
-    public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere)
+    public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere, ResourceLocation ring)
     {
         this.main = AdvancedModelLoader.loadModel(main);
         this.sphere = AdvancedModelLoader.loadModel(sphere);
+        this.ring = AdvancedModelLoader.loadModel(ring);
     }
 
     public void renderDirectionalTileEntityAt(TileStarHarvester tile, double x, double y, double z, boolean metaOverride)
@@ -61,7 +66,7 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
         double speed = 0d;
         float spinRot = 0f;
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphereInactive);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(textureRing1);
 
         if (tile != null)
         {
@@ -69,21 +74,47 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
             spinRot = tile.spinRot;
         }
 
-        GL11.glRotatef(spinRot, 0, 1f, 0);
+        GL11.glTranslatef(0f, 1f, 0f);
 
-        if (speed < 0.4f)
+        if (meta > 5)
         {
-            GL11.glColor4f(0.4f + ((float) speed * 1.5f), 0.4f - (float) speed, 0.4f - (float) speed, 1f);
+            GL11.glRotatef(spinRot, 1f, 1f, 0);
+            ring.renderAll();
+            GL11.glRotatef(-spinRot, 1f, 1f, 0);
+
+            GL11.glRotatef(90f, 1f, 0, 0);
+            GL11.glScalef(0.95f, 0.95f, 0.95f);
+
+            GL11.glRotatef(spinRot, 0.9f, 0, 0.9f);
+            ring.renderAll();
+            GL11.glRotatef(-spinRot, 0.9f, 0, 0.9f);
+
+            GL11.glRotatef(90f, 0, 0, 1f);
+            GL11.glScalef(0.95f, 0.95f, 0.95f);
+
+            GL11.glRotatef(spinRot, 0, 0.8f, 0.8f);
+            ring.renderAll();
+            GL11.glRotatef(-spinRot, 0, 0.8f, 0.8f);
+
+            GL11.glRotatef(90f, 1f, 0, 0);
+            GL11.glRotatef(90f, 0, 1f, 0);
         }
-        else
+
+        if (tile != null && tile.getStackInSlot(0) != null)
         {
-            GL11.glColor4f(1.0f, ((float) speed * 2 - 1.2f), 0, 1.0f);
+            IStar star = Utils.getType(tile.getStackInSlot(0));
+            
+            Utils.setGLColorFromInt(star.getColor());
+
+            Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphereInactive);
+
+            GL11.glRotatef(spinRot, 0, 1f, 0);
+            GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
+            GL11.glTranslatef(0f, -1f, 0f);
+
+            sphere.renderAll();
         }
-
-        GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
-
-        //sphere.renderAll();
-
+        
         GL11.glPopMatrix();
     }
 

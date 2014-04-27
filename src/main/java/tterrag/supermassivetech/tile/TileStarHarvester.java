@@ -28,6 +28,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public float spinRot = 0;
     public int lastLightLev;
     private boolean hasItem = false;
+    private boolean needsLightingUpdate = false;
 
     public TileStarHarvester()
     {
@@ -40,6 +41,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public void updateEntity()
     {
         super.updateEntity();
+     
+        if (needsLightingUpdate)
+        {
+            worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
+            needsLightingUpdate = false;
+        }
         
         if ((inventory[slot] != null) != hasItem)
         {
@@ -80,24 +87,17 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         if (isGravityWell())
         {
-            spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.0005;
+            spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.005;
         }
         else
         {
-            spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.0005;
+            spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.005;
         }
 
         if (spinRot >= 360)
             spinRot -= 360;
 
-        spinRot += (float) (spinSpeed * 30f);
-
-        int light = (int) (spinSpeed * 15);
-        if (light != lastLightLev)
-        {
-            lastLightLev = light;
-            worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
-        }
+        spinRot += (float) (spinSpeed * 15f);
     }
 
     private void attemptOutputEnergy()
@@ -220,7 +220,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             }
             else if (stack.getItem() instanceof IStarItem)
             {
-                if (inventory[slot] == null)
+                if (inventory[slot] == null && getBlockMetadata() != getRotationMeta())
                 {
                     insertStar(stack, player);
                     return true;
@@ -242,6 +242,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         insert.stackSize = 1;
         inventory[slot] = insert;
         player.getCurrentEquippedItem().stackSize--;
+        needsLightingUpdate = true;
         return true;
     }
     
@@ -251,6 +252,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
 
         inventory[slot] = null;
+        needsLightingUpdate = true;
         return true;
     }
     
