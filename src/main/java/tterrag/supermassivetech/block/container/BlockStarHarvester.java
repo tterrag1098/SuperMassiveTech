@@ -71,7 +71,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
     {
         super.onBlockHarvested(world, x, y, z, meta, player);
         TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
-        if (te != null && te.isGravityWell())
+        if (te != null && te.isGravityWell() && !player.capabilities.isCreativeMode)
         {
             Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(0), x, y, z);
         }
