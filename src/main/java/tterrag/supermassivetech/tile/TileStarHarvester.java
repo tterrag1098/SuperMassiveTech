@@ -207,11 +207,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         ItemStack stack = player.getCurrentEquippedItem();
         
-        if (player.isSneaking())
-        {
-            return printInfo(player);
-        }
-        else if (stack != null)
+        if (stack != null)
         {
             if (stack.getItem() == SuperMassiveTech.itemRegistry.starContainer)
             {
@@ -230,11 +226,10 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
                     return true;
                 }
             }
-            return inventory[slot] == null ? printInfo(player) : extractStar(player);
         }
         else if (inventory[slot] != null)
         {
-            return extractStar(player);
+            return player.isSneaking() ? extractStar(player) : printInfo(player);
         }
         
         return printInfo(player);
@@ -270,22 +265,22 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         
         if (getBlockMetadata() == getRotationMeta())
         {
-            player.addChatComponentMessage(new ChatComponentText("No Container Installed!"));
+            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.localize("tooltip.noContainerInPlace", true)));
         }
         else if (star != null)
         {
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current star is: " + star.getTextColor() + star.toString()));
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Energy remaining: " + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentStarIs", true) + ": " + star.getTextColor() + star.toString()));
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.powerRemaining", true) + ": " + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
                     + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
         }
         else
         {
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No star in place!"));
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.localize("tooltip.noStarInPlace", true)));
         }
 
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Buffer Storage: " + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored())
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.bufferStorage", true) + ": " + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored())
                 + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Current Output Max: " + Utils.getColorForPowerLeft(perTick, 500) + Utils.formatString("", " RF/t", perTick, false)));
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(perTick, 500) + Utils.formatString("", " RF/t", perTick, false)));
         
         return true;
     }

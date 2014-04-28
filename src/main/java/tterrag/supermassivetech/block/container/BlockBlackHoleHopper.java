@@ -11,6 +11,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
+import tterrag.supermassivetech.util.Utils;
 
 public class BlockBlackHoleHopper extends BlockContainerSMT implements IKeepInventoryAsItem
 {
@@ -34,7 +35,7 @@ public class BlockBlackHoleHopper extends BlockContainerSMT implements IKeepInve
             if (player.isSneaking())
                 te.clearConfig(player);
             else
-                player.addChatMessage(new ChatComponentText("Current Configuration: " + te.getConfig()));
+                player.addChatMessage(new ChatComponentText(Utils.localize("tooltip.currentConfig", true) + ": " + te.getConfig()));
         }
         else
         {

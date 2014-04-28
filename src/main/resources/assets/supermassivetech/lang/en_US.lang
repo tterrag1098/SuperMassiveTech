@@ -45,6 +45,15 @@ SMT.tooltip.warningText=Stacking this type of~star could have deadly sideffects!
 SMT.tooltip.powerRemaining=Power Remaining
 SMT.tooltip.stored=Stored
 SMT.tooltip.configuration=Configuration
+SMT.tooltip.currentStarIs=Current star is
+SMT.tooltip.noStarInPlace=No star in place!
+SMT.tooltip.noContainerInPlace=No container installed!
+SMT.tooltip.bufferStorage=Buffer storage
+SMT.tooltip.currentOutputMax=Current output max
+SMT.tooltip.noConfigSet=No configuration set!
+SMT.tooltip.clearedConfig=Cleared configuration
+SMT.tooltip.setConfig=Set configuration
+SMT.tooltip.currentConfig=Current configuration
 
 #Star Stuff
 SMT.tooltip.tier.low=Low
