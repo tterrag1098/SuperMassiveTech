@@ -48,9 +48,11 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
     {
         IStar type = Utils.getType(par1ItemStack);
-
+        
         if (type == null)
-            return 0;
+        {
+            return 0xFFFF00;
+        }
         else
             return type.getColor();
     }
@@ -103,18 +105,25 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     public String getHiddenLines(ItemStack stack)
     {
         IStar type = Utils.getType(stack);
+        
+        if (type == null)
+        {
+            return null;
+        }
+        
         double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
 
-        return String.format("%s|" + "%s|" + "%s RF %s %d RF/t|" + "%s|",
+        return String.format("%s|%s|%s RF %s %d RF/t|%s|",
 
         type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
                 Utils.formatString(EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false), Utils.localize("tooltip.at", true),
-                type.getPowerPerTick(), Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true));
+                type.getPowerPerTick(), Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + Utils.localize("tooltip.powerRemaining", true) + ": ", " RF", (long) powerLeft, true));
     }
 
     @Override
     public String getStaticLines(ItemStack stack)
     {
-        return null;
+        IStar type = Utils.getType(stack);
+        return type != null ? null : Utils.localize("tooltip.anyType", true);
     }
 }

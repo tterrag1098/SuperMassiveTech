@@ -243,13 +243,13 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
                     return insertStar(stack, player);
                 }
             }
-            else if (side == top && player.isSneaking()) return vent();
+            else if (isUpright(side) && player.isSneaking()) return vent();
         }
         else if (inventory[slot] != null) 
         {
             if (player.isSneaking())
             {
-                if (side == top)
+                if (isUpright(side))
                     return vent();
                 else
                     return extractStar(player);
@@ -257,6 +257,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         }
 
         return printInfo(player);
+    }
+    
+    private boolean isUpright(ForgeDirection side)
+    {
+        return getRotationMeta() == 0 && side == top;
     }
 
     private boolean vent()

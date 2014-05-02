@@ -45,14 +45,7 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
                 list.add(Utils.setType(new ItemStack(this), t));
         }
     }
-
-    /*
-     * @Override public String getItemStackDisplayName(ItemStack par1ItemStack)
-     * { return EnumChatFormatting.AQUA +
-     * super.getItemStackDisplayName(par1ItemStack) + EnumChatFormatting.RESET;
-     * }
-     */
-
+    
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {

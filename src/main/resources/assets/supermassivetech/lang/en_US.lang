@@ -56,6 +56,7 @@ SMT.tooltip.noConfigSet=No configuration set!
 SMT.tooltip.clearedConfig=Cleared configuration
 SMT.tooltip.setConfig=Set configuration
 SMT.tooltip.currentConfig=Current configuration
+SMT.tooltip.anyType=Any Type
 
 #Star Stuff
 SMT.tooltip.tier.low=Low

@@ -15,6 +15,8 @@ import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import cpw.mods.fml.common.registry.GameRegistry;
 
+import static tterrag.supermassivetech.SuperMassiveTech.*;
+
 public class ModBlocks
 {
     public static ModBlocks instance = new ModBlocks();
@@ -43,5 +45,49 @@ public class ModBlocks
         GameRegistry.addRecipe(new ItemStack(starHarvester), "iii", "b b", "iii",
 
         'i', Items.iron_ingot, 'b', Blocks.iron_bars);
+        
+        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), 
+                "iii",
+                "bsb",
+                "iii",
+                
+                'i', Blocks.iron_block,
+                'b', Blocks.iron_bars,
+                's', itemRegistry.star
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), 
+                "iii",
+                "bsb",
+                "iii",
+                
+                'i', Blocks.iron_block,
+                'b', Blocks.iron_bars,
+                's', itemRegistry.starSpecial
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), 
+                "i i",
+                "bsb",
+                "ghg",
+                
+                'i', Blocks.iron_block,
+                'b', Blocks.iron_bars,
+                's', itemRegistry.star,
+                'g', Items.iron_ingot,
+                'h', Blocks.hopper
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), 
+                "i i",
+                "bsb",
+                "ghg",
+                
+                'i', Blocks.iron_block,
+                'b', Blocks.iron_bars,
+                's', itemRegistry.starSpecial,
+                'g', Items.iron_ingot,
+                'h', Blocks.hopper
+        );
     }
 }
