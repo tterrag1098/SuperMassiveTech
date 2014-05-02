@@ -291,7 +291,6 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid)
     {
-        System.out.println(from);
         return tank.amountStored != 0;
     }
 

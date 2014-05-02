@@ -175,8 +175,6 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     @Override
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
     {
-        System.out.println(damage);
-
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && stack.getTagCompound().getInteger("energy") > 0)
         {
             NBTTagCompound tag = stack.getTagCompound();
