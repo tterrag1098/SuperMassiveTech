@@ -27,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnergyContainerItem, IAdvancedTooltip
 {
     private ArmorType type;
-    private final int CHARGE_SPEED = 1000, DAMAGE_BASE = 2000, DAMAGE_RAND = 200, CAPACITY = 1000000;
+    private final int CHARGE_SPEED = 1000, DAMAGE_BASE = 2000, DAMAGE_RAND = 200, CAPACITY = 1000000, PROT = 20;
 
     public static enum ArmorType
     {
@@ -132,8 +132,14 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     {
         if (armor.getTagCompound().getInteger("energy") <= 0)
             return new ArmorProperties(0, 0.25, 0);
+        
+        if (slot == 3 && source == DamageSource.fall)
+            return new ArmorProperties(0, 1, PROT);
+        
+        if (slot == 0 && source == DamageSource.fallingBlock)
+            return new ArmorProperties(0, 1, PROT);
 
-        return new ArmorProperties(0, 0.25, source.isUnblockable() ? 0 : 80);
+        return new ArmorProperties(0, 0.25, source.isUnblockable() && !source.isFireDamage() ? 0 : PROT);
     }
 
     @Override
@@ -162,6 +168,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     {
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && stack.getTagCompound().getInteger("energy") > 0)
         {
+            System.out.println(damage);
             NBTTagCompound tag = stack.getTagCompound();
 
             int decrement = tag.getInteger("energy") - (getDamage(damage));
@@ -174,7 +181,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 
     private int getDamage(int damageAmount)
     {
-        return (new Random().nextInt(DAMAGE_RAND) - (DAMAGE_RAND / 2) + (DAMAGE_BASE * damageAmount));
+        return (new Random().nextInt(DAMAGE_RAND) - (DAMAGE_RAND / 2)) + (DAMAGE_BASE * damageAmount);
     }
 
     private int getDamageFromEnergy(NBTTagCompound tag, int max)

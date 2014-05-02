@@ -40,7 +40,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
     {
         if (!par2World.isRemote)
-            Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getTier().getMassLevel());
+            Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getMassLevel());
     }
 
     @Override

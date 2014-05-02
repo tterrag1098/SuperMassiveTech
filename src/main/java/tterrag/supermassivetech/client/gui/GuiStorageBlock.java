@@ -72,7 +72,6 @@ public class GuiStorageBlock extends GuiContainer
         Fluid fluid = FluidRegistry.getFluid(fluidID);
         if (fluid != null && mouseX < j + 68 && mouseX > j + 43 && mouseY > k + 6 && mouseY < k + 76)
         {
-            System.out.println(mouseX + " : " + mouseY);
             ttLines.add(fluid.getLocalizedName());
             this.func_146283_a(ttLines, mouseX - j, mouseY - k);
         }

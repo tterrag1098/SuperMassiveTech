@@ -21,7 +21,7 @@ public class ClientProxy extends CommonProxy
     public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/storage.png"));
     public static ItemObjRenderer storageItem;
 
-    public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/hopper.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH,
+    public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH,
             "textures/models/hopper.png"));
     public static ItemObjRenderer hopperItem;
 

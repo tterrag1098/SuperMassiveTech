@@ -47,6 +47,7 @@ public class GravityArmorHandler
                 i.damageItem(new Random().nextInt(100) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
             }
         }
+        
         return effect;
     }
 }

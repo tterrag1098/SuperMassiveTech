@@ -40,14 +40,6 @@ public class Stars
         {
             return Utils.localize(name, true);
         }
-
-        public int getMassLevel()
-        {
-            if (this != SPECIAL)
-                return this.ordinal();
-            else
-                return 3;
-        }
     }
 
     public static EnumChatFormatting getEnumColor(StarTier tier)
@@ -76,7 +68,7 @@ public class Stars
     {
         private String name;
         private int id;
-        private int color, powerMax, powerPerTick, fuse;
+        private int color, powerMax, powerPerTick, fuse, mass;
         private EnumChatFormatting textColor;
         StarTier tier;
 
@@ -103,6 +95,7 @@ public class Stars
             this.powerMax = powerMax;
             this.powerPerTick = powerPerTick;
             this.fuse = fuse;
+            this.mass = tier.ordinal();
         }
 
         /**
@@ -164,6 +157,18 @@ public class Stars
         public StarTier getTier()
         {
             return this.tier;
+        }
+        
+        @Override
+        public int getMassLevel()
+        {
+            return mass;
+        }
+        
+        public StarType setMassLevel(int level)
+        {
+            this.mass = Math.max(0, level - 1);
+            return this;
         }
     }
 
@@ -249,15 +254,15 @@ public class Stars
         String prefix = "SMT.star.";
         
         // TODO balance
-        registerStarType(new StarType(prefix + "yellowDwarf", LOW, 0xCCCCAA, EnumChatFormatting.YELLOW, 10000000, 80, 600));
-        registerStarType(new StarType(prefix + "redDwarf", NORMAL, 0xCC5555, EnumChatFormatting.RED, 20000000, 40, 600));
-        registerStarType(new StarType(prefix + "redGiant", LOW, 0xBB2222, EnumChatFormatting.RED, 5000000, 40, 400));
-        registerStarType(new StarType(prefix + "blueGiant", NORMAL, 0x2222FF, EnumChatFormatting.DARK_BLUE, 40000000, 20, 400));
-        registerStarType(new StarType(prefix + "supergiant", HIGH, 0xFFFFFF, EnumChatFormatting.WHITE, 100000000, 160, 1200));
-        registerStarType(new StarType(prefix + "brownDwarf", LOW, 0xAA5522, EnumChatFormatting.GRAY, 2500000, 20, 2400));
-        registerStarType(new StarType(prefix + "whiteDwarf", LOW, 0x999999, EnumChatFormatting.WHITE, 5000000, 160, 1200));
-        registerStarType(new StarType(prefix + "neutron", SPECIAL, 0x555577, EnumChatFormatting.AQUA, Integer.MAX_VALUE, 15, 1));
-        registerStarType(new StarType(prefix + "pulsar", SPECIAL, 0xFF00FF, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, 20, 1));
+        registerStarType(new StarType(prefix + "yellowDwarf", LOW, 0xd2df00, EnumChatFormatting.YELLOW, 10000000, 80, 600));
+        registerStarType(new StarType(prefix + "redDwarf", NORMAL, 0xcf3702, EnumChatFormatting.RED, 20000000, 40, 600));
+        registerStarType(new StarType(prefix + "redGiant", LOW, 0xcf0202, EnumChatFormatting.RED, 5000000, 40, 400));
+        registerStarType(new StarType(prefix + "blueGiant", NORMAL, 0x314eff, EnumChatFormatting.DARK_BLUE, 40000000, 20, 400));
+        registerStarType(new StarType(prefix + "supergiant", HIGH, 0xffea59, EnumChatFormatting.WHITE, 100000000, 160, 1200));
+        registerStarType(new StarType(prefix + "brownDwarf", LOW, 0xb0752f, EnumChatFormatting.GRAY, 2500000, 20, 2400));
+        registerStarType(new StarType(prefix + "whiteDwarf", LOW, 0xf5f6c5, EnumChatFormatting.WHITE, 5000000, 160, 1200));
+        registerStarType(new StarType(prefix + "neutron", SPECIAL, 0x89fbff, EnumChatFormatting.AQUA, Integer.MAX_VALUE, 15, 1).setMassLevel(2));
+        registerStarType(new StarType(prefix + "pulsar", SPECIAL, 0xbd28cf, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, 20, 1).setMassLevel(2));
 
         /*
          * - pulsars are neutron stars, neutrons are formed INSTEAD of black

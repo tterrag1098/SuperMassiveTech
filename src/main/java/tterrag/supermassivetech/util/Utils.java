@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -30,7 +29,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.item.IStarItem;
@@ -40,9 +38,7 @@ import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 
 public class Utils
 {
@@ -257,10 +253,9 @@ public class Utils
         showParticles &= dist > 1;
 
         // shows smoke particles
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && showParticles && FMLClientHandler.instance().getClient().effectRenderer != null
-                && Minecraft.getMinecraft().thePlayer != null)
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ, xCoord + 0.5,
-                    yCoord + 0.5, zCoord + 0.5, 1 / range));
+       
+        if (showParticles || entity.worldObj.isRemote)
+            ClientUtils.spawnGravityEffectParticles(xCoord, yCoord, zCoord, entity, range);
     }
 
     /**
