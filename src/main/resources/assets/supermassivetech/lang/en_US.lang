@@ -80,4 +80,4 @@ SMT.tooltip.depletedNetherStar=- Created when a star is born.|- Can be rejuvenat
 #Blocks
 SMT.tooltip.blackHoleStorage=- Stores 2^40 items and fluids|- Accepts pipe input/output from any side
 SMT.tooltip.blackHoleHopper=- Right click with an item to configure|- Right click with empty hand~   to check configuration|- Shift right click with an empty hand to clear
-SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate of the star inside.|- Activate "venting" mode by shift right~   clicking the top face (must be upright).|- Once the star is out of power~  it will go critical. Better run!
+SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate of the star inside.|- Activate "venting" mode by shift right~   clicking the top face (must be upright).|- Once the star is out of power~   it will go critical. Better run!

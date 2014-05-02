@@ -27,7 +27,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnergyContainerItem, IAdvancedTooltip
 {
     private ArmorType type;
-    private final int CHARGE_SPEED = 1000, DAMAGE_BASE = 2000, DAMAGE_RAND = 200, CAPACITY = 1000000, PROT = 20;
+    private final int CHARGE_SPEED = 1000, DAMAGE_BASE = 2000, DAMAGE_RAND = 200, CAPACITY = 1000000, MAX = Integer.MAX_VALUE;
+    private final float PROT = 0.23f;
 
     public static enum ArmorType
     {
@@ -64,6 +65,14 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         setMaxStackSize(1);
         setMaxDamage(100);
         setNoRepair();
+    }
+    
+    public ItemStack create()
+    {
+        ItemStack i = new ItemStack(this, 1, this.getMaxDamage());
+        i.stackTagCompound = new NBTTagCompound();
+        i.stackTagCompound.setInteger("energy", 0);
+        return i;
     }
 
     @Override
@@ -131,15 +140,15 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot)
     {
         if (armor.getTagCompound().getInteger("energy") <= 0)
-            return new ArmorProperties(0, 0.25, 0);
+            return new ArmorProperties(0, PROT, 0);
 
-        if (slot == 3 && source == DamageSource.fall)
-            return new ArmorProperties(0, 1, PROT);
+        if (slot == 0 && source == DamageSource.fall)
+            return new ArmorProperties(0, PROT * 4, MAX);
 
-        if (slot == 0 && source == DamageSource.fallingBlock)
-            return new ArmorProperties(0, 1, PROT);
+        if (slot == 3 && source == DamageSource.fallingBlock)
+            return new ArmorProperties(0, PROT * 4, MAX);
 
-        return new ArmorProperties(0, 0.25, source.isUnblockable() && !source.isFireDamage() ? 0 : PROT);
+        return new ArmorProperties(0, PROT, source.isUnblockable() && !source.isFireDamage() ? 0 : MAX);
     }
 
     @Override
@@ -166,9 +175,10 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     @Override
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot)
     {
+        System.out.println(damage);
+
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && stack.getTagCompound().getInteger("energy") > 0)
         {
-            System.out.println(damage);
             NBTTagCompound tag = stack.getTagCompound();
 
             int decrement = tag.getInteger("energy") - (getDamage(damage));
@@ -217,12 +227,10 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     @Override
     public void getSubItems(Item stack, CreativeTabs tab, List list)
     {
-        ItemStack i = new ItemStack(this, 1, 1);
-        i.stackTagCompound = new NBTTagCompound();
-        i.stackTagCompound.setInteger("energy", CAPACITY);
+        ItemStack i = create();
         list.add(i.copy());
-        i.stackTagCompound.setInteger("energy", 0);
-        i.setItemDamage(i.getMaxDamage());
+        i.stackTagCompound.setInteger("energy", CAPACITY);
+        i.setItemDamage(1);
         list.add(i.copy());
     }
 

@@ -30,7 +30,7 @@ public class ModItems
 
     public Item starContainer;
 
-    public Item gravityHelm, gravityChest, gravityLegs, gravityBoots;
+    public ItemGravityArmor gravityHelm, gravityChest, gravityLegs, gravityBoots;
 
     public ArrayList<IEnergyContainerItem> armors = new ArrayList<IEnergyContainerItem>();
 
@@ -80,5 +80,39 @@ public class ModItems
         GameRegistry.addRecipe(new ItemStack(starContainer), "iOi", "d d", "iOi",
 
         'i', Items.iron_ingot, 'O', Blocks.obsidian, 'd', Items.diamond);
+        
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityHelm.create(), 
+                "InI",
+                "I I",
+                                
+                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
+        ));
+        
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityChest.create(), 
+                "I I",
+                "InI",
+                "III",
+                
+                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
+        ));
+        
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityLegs.create(), 
+                "InI",
+                "I I",
+                "I I",
+                
+                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
+        ));
+        
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityBoots.create(), 
+                "I I",
+                "InI",
+                
+                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
+        ));
     }
 }
