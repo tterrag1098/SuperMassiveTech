@@ -65,7 +65,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         {
             connectionDir = ForgeDirection.getOrientation(getBlockMetadata());
         }
-        
+
         checkConnection();
 
         processNearbyItems();
@@ -74,14 +74,11 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         {
             searchForInventories();
         }
-        
+
         for (int i = 0; i < inventories.size(); i++)
             processInventory(inventories.get(i));
-        
-        if (connection == null)
-        {
-            return;
-        }
+
+        if (connection == null) { return; }
 
         for (int i = 0; i < inventories.size(); i++)
             processConnection();
@@ -89,35 +86,35 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private void checkConnection()
     {
-    	if (connection == null)
-    	{
-    		TileEntity te = worldObj.getTileEntity(connectionDir.offsetX + xCoord, connectionDir.offsetY + yCoord, connectionDir.offsetZ + zCoord);
-    		if (te != null && te instanceof IInventory)
-    			connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
-    	}
-    	else
-    	{
-    		TileEntity te = worldObj.getTileEntity(connection.x, connection.y, connection.z);
-    		if (te instanceof IInventory)
-    		{
-    			connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
-    		}
-    		else
-    		{
-    			connection = null;
-    		}
-    	}
+        if (connection == null)
+        {
+            TileEntity te = worldObj.getTileEntity(connectionDir.offsetX + xCoord, connectionDir.offsetY + yCoord, connectionDir.offsetZ + zCoord);
+            if (te != null && te instanceof IInventory)
+                connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+        }
+        else
+        {
+            TileEntity te = worldObj.getTileEntity(connection.x, connection.y, connection.z);
+            if (te instanceof IInventory)
+            {
+                connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+            }
+            else
+            {
+                connection = null;
+            }
+        }
     }
 
     private void processConnection()
     {
         if (inventory[hiddenSlot] == null || connection == null)
             return;
-        
+
         if (connection.inv instanceof ISidedInventory)
         {
             ISidedInventory inv = (ISidedInventory) connection.inv;
-            
+
             for (Integer i : inv.getAccessibleSlotsFromSide(connectionDir.ordinal()))
             {
                 if (inv.canInsertItem(i, inventory[hiddenSlot], connectionDir.ordinal()))
@@ -139,13 +136,13 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
                     return;
                 }
             }
-        }       
+        }
     }
-    
+
     private void insertOneItem(IInventory inv, int idx)
     {
         ItemStack stack = inv.getStackInSlot(idx);
-        
+
         if (stack == null)
         {
             ItemStack newStack = inventory[hiddenSlot].copy();
@@ -158,7 +155,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
             stack.stackSize++;
             inventory[hiddenSlot].stackSize--;
         }
-        
+
         if (inventory[hiddenSlot].stackSize <= 0)
             inventory[hiddenSlot] = null;
     }
@@ -299,8 +296,10 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private boolean teNotEquals(TileEntity inv, InventoryConnection connection)
     {
-    	if (connection == null) return true;
-    	else return inv.xCoord != connection.x || inv.yCoord != connection.y || inv.zCoord != connection.z;
+        if (connection == null)
+            return true;
+        else
+            return inv.xCoord != connection.x || inv.yCoord != connection.y || inv.zCoord != connection.z;
     }
 
     public void setConfig(ItemStack stack, EntityPlayer player)
@@ -352,7 +351,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     public int[] getAccessibleSlotsFromSide(int var1)
     {
         ForgeDirection dir = getRawDir();
-        return new int[]{dir.ordinal(), dir.getOpposite().ordinal()};
+        return new int[] { dir.ordinal(), dir.getOpposite().ordinal() };
     }
 
     @Override
@@ -368,7 +367,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         ForgeDirection dir = getRawDir();
         return var1 == hiddenSlot && var3 == dir.ordinal();
     }
-    
+
     private ForgeDirection getRawDir()
     {
         return ForgeDirection.getOrientation(getBlockMetadata());

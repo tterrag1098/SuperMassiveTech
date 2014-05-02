@@ -9,16 +9,16 @@ public class EntityItemSpecialStar extends EntityItemIndestructible
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
     }
-    
+
     @Override
     public void onUpdate()
     {
-       super.onUpdate();
-       if (this.getEntityItem() != null && this.getEntityItem().stackSize > 1)
-       {
-           this.setDead();
-           if (!this.worldObj.isRemote)
-               worldObj.newExplosion(this, posX, posY, posZ, 2.0f + (this.getEntityItem().stackSize - 1), true, true);
-       }
+        super.onUpdate();
+        if (this.getEntityItem() != null && this.getEntityItem().stackSize > 1)
+        {
+            this.setDead();
+            if (!this.worldObj.isRemote)
+                worldObj.newExplosion(this, posX, posY, posZ, 2.0f + (this.getEntityItem().stackSize - 1), true, true);
+        }
     }
 }

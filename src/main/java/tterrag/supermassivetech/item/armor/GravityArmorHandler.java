@@ -15,18 +15,16 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class GravityArmorHandler
 {
-    public static boolean isJumpKeyDown, updated;
-    
+    public static boolean isJumpKeyDown;
+
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
-    {           
-        System.out.println(isJumpKeyDown + " in handler");
-
+    {
         if (event.player.worldObj.isRemote)
         {
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
         }
-        
+
         if (!event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
@@ -38,15 +36,16 @@ public class GravityArmorHandler
     private double getArmorMult(EntityPlayer player, int drainAmount)
     {
         // no power loss in creative, still get effects
-        if (player.capabilities.isCreativeMode && drainAmount != 0) return getArmorMult(player, 0);
-        
+        if (player.capabilities.isCreativeMode && drainAmount != 0)
+            return getArmorMult(player, 0);
+
         double effect = 0;
         for (ItemStack i : player.inventory.armorInventory)
         {
             if (i != null && SuperMassiveTech.itemRegistry.armors.contains(i.getItem()))
             {
                 int drained = ((IEnergyContainerItem) i.getItem()).extractEnergy(i, drainAmount, false);
-                effect += drained > 0  || drained == drainAmount ? .036d / 4d : 0;
+                effect += drained > 0 || drained == drainAmount ? .036d / 4d : 0;
             }
             else if (i != null && EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, i) != 0)
             {
@@ -54,7 +53,7 @@ public class GravityArmorHandler
                 i.damageItem(new Random().nextInt(100) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
             }
         }
-        
+
         return effect;
     }
 }

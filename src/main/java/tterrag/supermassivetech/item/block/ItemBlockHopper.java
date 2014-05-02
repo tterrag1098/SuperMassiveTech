@@ -32,7 +32,7 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
         List<String> strs = new ArrayList<String>();
 
         if (stored != null)
-            strs.add(String.format("%s: %d %s", Utils.localize("tooltip.stored", true), stored.stackSize, stored.getDisplayName())); 
+            strs.add(String.format("%s: %d %s", Utils.localize("tooltip.stored", true), stored.stackSize, stored.getDisplayName()));
         if (cfg != null)
             strs.add(String.format("%s: %s", Utils.localize("tooltip.configuration", true), cfg.getDisplayName()));
 

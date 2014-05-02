@@ -194,7 +194,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return new int[] { 1 , 2 };
+        return new int[] { 1, 2 };
     }
 
     @Override

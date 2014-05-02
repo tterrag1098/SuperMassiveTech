@@ -64,7 +64,7 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
         main.renderAll();
 
         double speed = 0d;
-        float[] spins = {0, 0, 0, 0};
+        float[] spins = { 0, 0, 0, 0 };
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(textureRing1);
 
@@ -104,7 +104,7 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
         if (tile != null && tile.getStackInSlot(0) != null)
         {
             IStar star = Utils.getType(tile.getStackInSlot(0));
-            
+
             Utils.setGLColorFromInt(star.getColor());
 
             Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphereInactive);
@@ -113,12 +113,12 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
             GL11.glRotatef(-spins[0], 0, 1f, 0);
             GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
             GL11.glTranslatef(0f, -1f, 0f);
-            
+
             sphere.renderAll();
-            
+
             GL11.glEnable(GL11.GL_LIGHTING);
         }
-        
+
         GL11.glPopMatrix();
     }
 

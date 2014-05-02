@@ -105,16 +105,11 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
         IStar type = Utils.getType(stack);
         double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
 
-        return String.format(
-                  "%s|"
-                + "%s|"
-                + "%s RF %s %d RF/t|"
-                + "%s|",
-                
-                type.getTextColor() + type.toString(), 
-                Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-                Utils.formatString(EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false), Utils.localize("tooltip.at", true), type.getPowerPerTick(),
-                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true));
+        return String.format("%s|" + "%s|" + "%s RF %s %d RF/t|" + "%s|",
+
+        type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
+                Utils.formatString(EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false), Utils.localize("tooltip.at", true),
+                type.getPowerPerTick(), Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + "Power Remaining: ", " RF", (long) powerLeft, true));
     }
 
     @Override

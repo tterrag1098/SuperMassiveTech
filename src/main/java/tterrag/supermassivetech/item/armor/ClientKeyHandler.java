@@ -14,7 +14,7 @@ public class ClientKeyHandler
     public void onClientTick(ClientTickEvent event)
     {
         Minecraft mc = Minecraft.getMinecraft();
-        
+
         if (mc.thePlayer != null)
         {
             boolean jumpState = mc.gameSettings.keyBindJump.getIsKeyPressed();

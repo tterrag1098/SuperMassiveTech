@@ -65,7 +65,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         setMaxDamage(100);
         setNoRepair();
     }
-    
+
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
@@ -132,10 +132,10 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     {
         if (armor.getTagCompound().getInteger("energy") <= 0)
             return new ArmorProperties(0, 0.25, 0);
-        
+
         if (slot == 3 && source == DamageSource.fall)
             return new ArmorProperties(0, 1, PROT);
-        
+
         if (slot == 0 && source == DamageSource.fallingBlock)
             return new ArmorProperties(0, 1, PROT);
 

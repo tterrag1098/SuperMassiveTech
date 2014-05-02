@@ -52,11 +52,13 @@ public interface IStar
      * The tier of this star, a {@link StarTier} type
      */
     public StarTier getTier();
-    
+
     /**
-     * The level (> 0 and usually < 5) of gravity potion effects to apply to the player when this tier of star is held
+     * The level (> 0 and usually < 5) of gravity potion effects to apply to the
+     * player when this tier of star is held
+     * 
      * @return
      */
     public int getMassLevel();
-    
+
 }

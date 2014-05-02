@@ -249,7 +249,7 @@ public class Utils
         showParticles &= dist > 1;
 
         // shows smoke particles
-       
+
         if (showParticles || entity.worldObj.isRemote)
             ClientUtils.spawnGravityEffectParticles(xCoord, yCoord, zCoord, entity, range);
     }
@@ -436,7 +436,8 @@ public class Utils
             }
             else
             {
-                list.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED + localize("tooltip.moreInfo", true)));
+                list.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED
+                        + localize("tooltip.moreInfo", true)));
             }
         }
 
@@ -491,29 +492,30 @@ public class Utils
             player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, level, true));
         }
     }
-    
+
     public static String localize(String unloc, boolean appendModid)
     {
         if (appendModid)
             return localize(Reference.LOCALIZING + "." + unloc);
-        else return localize(unloc);
+        else
+            return localize(unloc);
     }
-    
+
     public static String localize(String unloc)
     {
         return StatCollector.translateToLocal(unloc);
     }
-    
+
     public static String[] localizeList(String unloc)
     {
         return splitList(localize(unloc, true));
     }
-    
+
     private static String[] splitList(String list, String splitRegex)
     {
         return list.split(splitRegex);
     }
-    
+
     public static String[] splitList(String list)
     {
         return splitList(list, "\\|");

@@ -14,8 +14,10 @@ public class PacketStarHarvester extends SMTPacket
 {
     private NBTTagCompound data;
     private int x, y, z;
-    
-    public PacketStarHarvester(){}
+
+    public PacketStarHarvester()
+    {
+    }
 
     public PacketStarHarvester(NBTTagCompound tag, int x, int y, int z)
     {
@@ -69,10 +71,10 @@ public class PacketStarHarvester extends SMTPacket
                 e.printStackTrace();
             }
         }
-        
+
         setSlotContents();
     }
-    
+
     private void setSlotContents()
     {
         World world = Minecraft.getMinecraft().theWorld;

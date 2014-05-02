@@ -60,14 +60,14 @@ public class GuiStorageBlock extends GuiContainer
     {
         int j = (this.width - this.xSize) / 2;
         int k = (this.height - this.ySize) / 2;
-        
+
         this.fontRendererObj.drawString(formattedItemAmount, (int) ((this.xSize / 1.31) - (formattedItemAmount.length() * 2.5)), 54, 0xCCCCCC);
         this.fontRendererObj.drawString(formattedFluidAmount, (int) ((this.xSize / 4) - (formattedFluidAmount.length() * 2.5)), 80, 0xCCCCCC);
         this.fontRendererObj.drawString("Current", (int) (this.xSize / 3.2), 30, 0xCCCCCC);
         this.fontRendererObj.drawString("Scale Max: ", (int) (this.xSize / 3.4), 40, 0xCCCCCC);
         this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.6)) - Math.round(getScaledLiquidMaxAsString().length() * 2.5f), 50, 0xCCCCCC);
         this.fontRendererObj.drawString("Black Hole Storage", (int) (this.xSize / 3.2), 7, 0xCCCCCC);
-        
+
         List<String> ttLines = new ArrayList<String>();
         Fluid fluid = FluidRegistry.getFluid(fluidID);
         if (fluid != null && mouseX < j + 68 && mouseX > j + 43 && mouseY > k + 6 && mouseY < k + 76)

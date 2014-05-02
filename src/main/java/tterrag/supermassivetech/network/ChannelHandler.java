@@ -7,9 +7,9 @@ import java.util.EnumMap;
 
 import net.minecraft.entity.player.EntityPlayer;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.network.packet.PacketJumpUpdate;
 import tterrag.supermassivetech.network.packet.PacketBlackHoleStorage;
 import tterrag.supermassivetech.network.packet.PacketHopperParticle;
+import tterrag.supermassivetech.network.packet.PacketJumpUpdate;
 import tterrag.supermassivetech.network.packet.PacketStarHarvester;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec;
@@ -65,7 +65,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<SMTPacket>
         channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(dimension, x, y, z, range));
         channels.get(Side.SERVER).writeOutbound(packet);
     }
-    
+
     public void sendToServer(SMTPacket packet)
     {
         channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);

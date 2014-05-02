@@ -11,8 +11,10 @@ public class PacketBlackHoleStorage extends SMTPacket
     private long fluidValue;
     private int fluidID;
 
-    public PacketBlackHoleStorage(){}
-    
+    public PacketBlackHoleStorage()
+    {
+    }
+
     public PacketBlackHoleStorage(long value, long fluidValue, int fluidID)
     {
         this.value = value;

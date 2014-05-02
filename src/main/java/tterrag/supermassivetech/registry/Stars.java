@@ -21,10 +21,11 @@ public class Stars
 
     public enum StarTier
     {
-        LOW("tooltip.tier.low"), NORMAL("tooltip.tier.normal"), HIGH("tooltip.tier.high"), 
-        
+        LOW("tooltip.tier.low"), NORMAL("tooltip.tier.normal"), HIGH("tooltip.tier.high"),
+
         /**
-         * Will not be created by the normal means, nor will it have an ItemStar listed in the game, you must create it in your own class
+         * Will not be created by the normal means, nor will it have an ItemStar
+         * listed in the game, you must create it in your own class
          */
         SPECIAL("tooltip.tier.special");
 
@@ -158,13 +159,13 @@ public class Stars
         {
             return this.tier;
         }
-        
+
         @Override
         public int getMassLevel()
         {
             return mass;
         }
-        
+
         public StarType setMassLevel(int level)
         {
             this.mass = Math.max(0, level - 1);
@@ -245,14 +246,14 @@ public class Stars
 
     public IStar getRandomStarFromType(StarTier tier)
     {
-        List<IStar> list = getStarsOfTier(tier);        
+        List<IStar> list = getStarsOfTier(tier);
         return list.get(new Random().nextInt(list.size()));
     }
 
     public void registerDefaultStars()
     {
         String prefix = "SMT.star.";
-        
+
         // TODO balance
         registerStarType(new StarType(prefix + "yellowDwarf", LOW, 0xd2df00, EnumChatFormatting.YELLOW, 10000000, 80, 600));
         registerStarType(new StarType(prefix + "redDwarf", NORMAL, 0xcf3702, EnumChatFormatting.RED, 20000000, 40, 600));

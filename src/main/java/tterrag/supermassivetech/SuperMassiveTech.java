@@ -59,12 +59,12 @@ public class SuperMassiveTech
     public static void preInit(FMLPreInitializationEvent event)
     {
         ConfigHandler.init(event.getSuggestedConfigurationFile());
-        
+
         Constants.init();
         Utils.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-        
+
         proxy.registerRenderers();
 
         itemRegistry.register();
@@ -87,7 +87,7 @@ public class SuperMassiveTech
 
         Utils.registerEventHandlers(false, GravityArmorHandler.class);
         Utils.registerEventHandlers(true, EnchantTooltipHandler.class);
-        
+
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
             Utils.registerEventHandlers(false, ClientKeyHandler.class);
     }

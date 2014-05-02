@@ -7,14 +7,16 @@ import tterrag.supermassivetech.network.SMTPacket;
 public class PacketJumpUpdate extends SMTPacket
 {
     private boolean isJumpKeyDown;
-    
-    public PacketJumpUpdate(){}
-    
+
+    public PacketJumpUpdate()
+    {
+    }
+
     public PacketJumpUpdate(boolean jumped)
     {
         isJumpKeyDown = jumped;
     }
-    
+
     @Override
     public void encodeInto(ByteBuf buffer)
     {
@@ -26,7 +28,6 @@ public class PacketJumpUpdate extends SMTPacket
     {
         isJumpKeyDown = buffer.readBoolean();
         GravityArmorHandler.isJumpKeyDown = isJumpKeyDown;
-        GravityArmorHandler.updated = true;
         System.out.println(isJumpKeyDown);
     }
 }

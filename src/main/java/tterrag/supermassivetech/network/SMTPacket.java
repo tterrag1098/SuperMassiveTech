@@ -13,8 +13,10 @@ public abstract class SMTPacket
     /**
      * Default constructor for all your non-crashing needs!
      */
-    public SMTPacket(){}
-    
+    public SMTPacket()
+    {
+    }
+
     /**
      * Encode the packet data into the ByteBuf stream. Complex data sets may
      * need specific data handlers (See

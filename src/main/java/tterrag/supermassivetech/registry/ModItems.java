@@ -7,6 +7,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import tterrag.supermassivetech.item.ItemDepletedNetherStar;
 import tterrag.supermassivetech.item.ItemSMT;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.item.ItemStarHeart;
@@ -22,6 +23,8 @@ public class ModItems
 
     public Item star, starSpecial;
     public Item heartOfStar;
+    
+    public ItemDepletedNetherStar depletedNetherStar;
 
     public Item starContainer;
 
@@ -33,8 +36,9 @@ public class ModItems
     {
         heartOfStar = new ItemStarHeart("starHeart");
         star = new ItemStar("star");
-        starSpecial = new ItemStarSpecial("starSpecial");
+        starSpecial = new ItemStarSpecial("starSpecial");        
         starContainer = new ItemSMT("starContainer", "starContainer");
+        depletedNetherStar = new ItemDepletedNetherStar();
 
         gravityHelm = new ItemGravityArmor(ArmorMaterial.DIAMOND, ArmorType.HELMET);
         gravityChest = new ItemGravityArmor(ArmorMaterial.DIAMOND, ArmorType.CHESTPLATE);
@@ -45,6 +49,7 @@ public class ModItems
         GameRegistry.registerItem(starSpecial, "starSpecial");
         GameRegistry.registerItem(heartOfStar, "starHeart");
         GameRegistry.registerItem(starContainer, "starContainer");
+        GameRegistry.registerItem(depletedNetherStar, "depletedNetherStar");
 
         GameRegistry.registerItem(gravityHelm, "gravityHelmet");
         GameRegistry.registerItem(gravityChest, "gravityChestplate");

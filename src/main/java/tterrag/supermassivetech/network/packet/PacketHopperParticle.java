@@ -9,7 +9,9 @@ public class PacketHopperParticle extends SMTPacket
 {
     private int[] info = new int[6];
 
-    public PacketHopperParticle(){}
+    public PacketHopperParticle()
+    {
+    }
 
     public PacketHopperParticle(int... information)
     {

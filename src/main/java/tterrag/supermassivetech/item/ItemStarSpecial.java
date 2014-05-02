@@ -29,10 +29,10 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
 
         if (stack.stackSize > 1 && entity instanceof EntityPlayer)
         {
-            ((EntityPlayer)entity).inventory.setInventorySlotContents(slot, null);
+            ((EntityPlayer) entity).inventory.setInventorySlotContents(slot, null);
             if (!world.isRemote)
                 world.newExplosion(entity, entity.posX, entity.posY, entity.posZ, 2.0f + (stack.stackSize - 1), true, true);
-        }   
+        }
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -45,14 +45,13 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
                 list.add(Utils.setType(new ItemStack(this), t));
         }
     }
-    
+
     /*
-    @Override
-    public String getItemStackDisplayName(ItemStack par1ItemStack)
-    {
-        return EnumChatFormatting.AQUA + super.getItemStackDisplayName(par1ItemStack) + EnumChatFormatting.RESET;
-    }
-    */
+     * @Override public String getItemStackDisplayName(ItemStack par1ItemStack)
+     * { return EnumChatFormatting.AQUA +
+     * super.getItemStackDisplayName(par1ItemStack) + EnumChatFormatting.RESET;
+     * }
+     */
 
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
@@ -60,13 +59,13 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
         return new EntityItemSpecialStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
                 ((EntityItem) location).delayBeforeCanPickup);
     }
-    
+
     @Override
     public String getStaticLines(ItemStack stack)
     {
         return EnumChatFormatting.RED + Utils.localize("tooltip.warning", true) + ": " + EnumChatFormatting.WHITE + Utils.localize("tooltip.warningText", true);
     }
-    
+
     @Override
     public boolean hasEffect(ItemStack par1ItemStack, int pass)
     {

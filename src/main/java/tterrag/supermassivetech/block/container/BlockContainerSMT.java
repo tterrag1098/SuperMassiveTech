@@ -51,7 +51,7 @@ public abstract class BlockContainerSMT extends BlockContainer
     {
         this.blockIcon = register.registerIcon("supermassivetech:" + unlocName.substring(unlocName.indexOf(".") + 1, unlocName.length()));
     }
-    
+
     @Override
     public TileEntity createNewTileEntity(World var1, int var2)
     {

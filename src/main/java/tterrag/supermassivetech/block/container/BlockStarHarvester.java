@@ -26,7 +26,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
         boolean returnVal = false;
         if (te instanceof TileStarHarvester)
         {
-            returnVal = ((TileStarHarvester) te).handleRightClick(player);
+            returnVal = ((TileStarHarvester) te).handleRightClick(player, ForgeDirection.getOrientation(side));
         }
         return returnVal;
     }
@@ -57,7 +57,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
             harvester.setEnergyStored(tag.getInteger("energy"));
         }
     }
-    
+
     @Override
     public void dropItem(World world, ItemStack item, int x, int y, int z)
     {
@@ -65,7 +65,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements IKeepInvent
         if (world.getBlockMetadata(x, y, z) > 5)
             Utils.spawnItemInWorldWithRandomMotion(world, new ItemStack(SuperMassiveTech.itemRegistry.starContainer), x, y, z);
     }
-    
+
     @Override
     public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player)
     {
