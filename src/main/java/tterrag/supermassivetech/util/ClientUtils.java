@@ -2,13 +2,9 @@ package tterrag.supermassivetech.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-
-import org.lwjgl.input.Keyboard;
-
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.Side;
 
 public class ClientUtils
@@ -21,8 +17,8 @@ public class ClientUtils
                     yCoord + 0.5, zCoord + 0.5, 1 / range));
     }
 
-    public static boolean getGravityArmorState(PlayerTickEvent event)
+    public static boolean calculateClientJumpState()
     {
-        return Keyboard.isKeyDown(Keyboard.KEY_SPACE) || (event.player.motionY < -0.2 && !event.player.isSneaking());
+       return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
     }
 }

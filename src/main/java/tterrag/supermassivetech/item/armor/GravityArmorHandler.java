@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -18,13 +19,12 @@ public class GravityArmorHandler
     
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
-    {
+    {           
         System.out.println(isJumpKeyDown + " in handler");
-        
-        if (updated && isJumpKeyDown)
+
+        if (event.player.worldObj.isRemote)
         {
-           //event.player.motionY += 0.5;
-            updated = false;
+            isJumpKeyDown = ClientUtils.calculateClientJumpState();
         }
         
         if (!event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))

@@ -22,7 +22,7 @@ public class ClientKeyHandler
             if (jumpState != lastJumpState)
             {
                 lastJumpState = jumpState;
-                SuperMassiveTech.channelHandler.sendToAll(new PacketJumpUpdate(jumpState));
+                SuperMassiveTech.channelHandler.sendToServer(new PacketJumpUpdate(jumpState));
             }
         }
     }
