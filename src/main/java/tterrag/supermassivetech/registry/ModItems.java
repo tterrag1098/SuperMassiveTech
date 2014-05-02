@@ -7,6 +7,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import tterrag.supermassivetech.item.ItemDepletedNetherStar;
 import tterrag.supermassivetech.item.ItemSMT;
 import tterrag.supermassivetech.item.ItemStar;
@@ -23,7 +25,7 @@ public class ModItems
 
     public Item star, starSpecial;
     public Item heartOfStar;
-    
+
     public ItemDepletedNetherStar depletedNetherStar;
 
     public Item starContainer;
@@ -36,7 +38,7 @@ public class ModItems
     {
         heartOfStar = new ItemStarHeart("starHeart");
         star = new ItemStar("star");
-        starSpecial = new ItemStarSpecial("starSpecial");        
+        starSpecial = new ItemStarSpecial("starSpecial");
         starContainer = new ItemSMT("starContainer", "starContainer");
         depletedNetherStar = new ItemDepletedNetherStar();
 
@@ -64,9 +66,16 @@ public class ModItems
 
     public void addRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(heartOfStar), "GRG", "RSR", "GRG",
-
-        'G', Items.glowstone_dust, 'R', Items.redstone, 'S', Items.nether_star);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(heartOfStar), 
+                "RGR", 
+                "DSD", 
+                "RGR",
+                
+                'G', OreDictionary.getOres("dustGold").isEmpty() ? Items.glowstone_dust : "dustGold", 
+                'R', Items.redstone, 
+                'S', Items.nether_star,
+                'D', OreDictionary.getOres("dustDiamond").isEmpty() ? Items.diamond : "dustDiamond"
+        ));
 
         GameRegistry.addRecipe(new ItemStack(starContainer), "iOi", "d d", "iOi",
 

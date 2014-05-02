@@ -7,6 +7,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import tterrag.supermassivetech.SuperMassiveTech;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -32,6 +33,12 @@ public class EnchantTooltipHandler
                     }
                 }
             }
+        }
+        
+        int id = OreDictionary.getOreID(event.itemStack);
+        if (id != -1)
+        {
+            event.toolTip.add(OreDictionary.getOreName(id));
         }
     }
 }

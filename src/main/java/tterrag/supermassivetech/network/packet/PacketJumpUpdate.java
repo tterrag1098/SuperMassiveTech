@@ -28,6 +28,5 @@ public class PacketJumpUpdate extends SMTPacket
     {
         isJumpKeyDown = buffer.readBoolean();
         GravityArmorHandler.isJumpKeyDown = isJumpKeyDown;
-        System.out.println(isJumpKeyDown);
     }
 }

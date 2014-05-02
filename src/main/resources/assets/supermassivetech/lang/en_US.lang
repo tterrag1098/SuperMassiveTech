@@ -13,6 +13,8 @@ item.starHeart.name=Heart of Star
 
 item.starContainer.name=Star Container
 
+item.depletedNetherStar.name=Depleted Nether Star
+
 #Armor
 item.gravityHelmet.name=Gravity Helmet
 item.gravityChestplate.name=Gravity Chestplate
@@ -73,8 +75,9 @@ SMT.star.pulsar=Pulsar
 
 #Items
 SMT.tooltip.starHeart=- Creates a star when ignited in-world.|- More fire in the vicinity causes~   a higher chance for better stars.
+SMT.tooltip.depletedNetherStar=- Created when a star is born.|- Can be rejuvenated into a~   useable nether star.|- Place it into the plume of a~   venting Star Harvester and wait.
 
 #Blocks
 SMT.tooltip.blackHoleStorage=- Stores 2^40 items and fluids|- Accepts pipe input/output from any side
 SMT.tooltip.blackHoleHopper=- Right click with an item to configure|- Right click with empty hand~   to check configuration|- Shift right click with an empty hand to clear
-SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate of the star inside.|- Once the star is out of power~  it will go critical. Better run!
+SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate of the star inside.|- Activate "venting" mode by shift right~   clicking the top face (must be upright).|- Once the star is out of power~  it will go critical. Better run!

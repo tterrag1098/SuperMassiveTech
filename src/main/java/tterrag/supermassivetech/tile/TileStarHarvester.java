@@ -49,6 +49,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             top = ForgeDirection.getOrientation(getRotationMeta()).getOpposite();
         }
         
+        if (venting)
+        {
+            if (!worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord))
+                venting = false;
+        }
+        
         super.updateEntity();
 
         if (needsLightingUpdate)
@@ -69,7 +75,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             IStar type = Utils.getType(inventory[slot]);
             int energy = type.getPowerStored(inventory[slot]);
             int max = type.getPowerPerTick() * 2;
-            inventory[slot].getTagCompound().setInteger("energy", energy - storage.receiveEnergy(energy > max ? max : energy, false));
+            inventory[slot].getTagCompound().setInteger("energy", venting ? energy - max : energy - storage.receiveEnergy(energy > max ? max : energy, false));
         }
 
         attemptOutputEnergy();
@@ -234,25 +240,29 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             {
                 if (inventory[slot] == null && getBlockMetadata() != getRotationMeta())
                 {
-                    insertStar(stack, player);
-                    return true;
+                    return insertStar(stack, player);
                 }
             }
+            else if (side == top && player.isSneaking()) return vent();
         }
         else if (inventory[slot] != null) 
         {
             if (player.isSneaking())
             {
-                extractStar(player);
-            }
-            
-            if (side == top)
-            {
-                this.venting = !venting;
+                if (side == top)
+                    return vent();
+                else
+                    return extractStar(player);
             }
         }
 
         return printInfo(player);
+    }
+
+    private boolean vent()
+    {
+        this.venting = !venting;
+        return true;
     }
 
     private boolean insertStar(ItemStack stack, EntityPlayer player)

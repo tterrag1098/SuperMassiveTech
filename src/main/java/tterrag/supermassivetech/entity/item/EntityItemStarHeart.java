@@ -97,6 +97,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
+        worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(itemRegistry.depletedNetherStar)));
 
         this.setDead();
     }

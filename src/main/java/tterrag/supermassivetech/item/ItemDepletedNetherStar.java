@@ -1,22 +1,27 @@
 package tterrag.supermassivetech.item;
 
+import java.text.NumberFormat;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.entity.item.EntityItemDepletedNetherStar;
+import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
-public class ItemDepletedNetherStar extends ItemSMT
+public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
 {
     public final int maxDamage = 100;
     
     public ItemDepletedNetherStar()
     {
         super("depletedNetherStar", "depletedNetherStar");
+        hasSubtypes = true;
     }
     
     @Override
@@ -31,7 +36,6 @@ public class ItemDepletedNetherStar extends ItemSMT
         float percent = ((float) par1ItemStack.getItemDamage()) / ((float) maxDamage);
         int color = (int) (0xFF * percent);  
         
-        System.out.println(percent + " " + color);
         int hex = 0;
         hex = hex | ((int) (color) << 16);
         hex = hex | ((int) (color) << 8);
@@ -51,6 +55,18 @@ public class ItemDepletedNetherStar extends ItemSMT
     {
         return new EntityItemDepletedNetherStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
                 ((EntityItem) location).delayBeforeCanPickup);
+    }
+    
+    @Override
+    public String getHiddenLines(ItemStack stack)
+    {
+        return Utils.localize("tooltip.depletedNetherStar", true);
+    }
+
+    @Override
+    public String getStaticLines(ItemStack stack)
+    {
+        return "" + EnumChatFormatting.DARK_GRAY + EnumChatFormatting.ITALIC + NumberFormat.getPercentInstance().format( ((float) stack.getItemDamage()) / ((float) maxDamage)) + " Recharged";
     }
 }
 

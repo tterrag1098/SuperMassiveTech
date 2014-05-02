@@ -4,6 +4,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityItemDepletedNetherStar extends EntityItemIndestructible
@@ -21,14 +22,13 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
     {
         super.onUpdate();
 
-        int x = (int) this.posX, y = (int) this.posY - 1, z = (int) this.posZ;
+        int x = MathHelper.floor_double(this.posX), y = MathHelper.floor_double(this.posY) - 1, z = MathHelper.floor_double(this.posZ);
 
         if (this.getEntityItem() != null && this.getEntityItem().getItem() != Items.nether_star && worldObj.getBlock(x, y, z) == SuperMassiveTech.blockRegistry.starHarvester)
         {
             TileStarHarvester te = (TileStarHarvester) worldObj.getTileEntity(x, y, z);
             if (te.venting)
             {
-                System.out.println(x + " " + y + " " + z);
 
                 if (counter >= wait * this.getEntityItem().stackSize)
                 {

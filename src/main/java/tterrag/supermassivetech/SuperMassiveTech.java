@@ -68,12 +68,9 @@ public class SuperMassiveTech
         proxy.registerRenderers();
 
         itemRegistry.register();
-        itemRegistry.addRecipes();
+        blockRegistry.register();
 
         enchantRegistry.init();
-
-        blockRegistry.register();
-        blockRegistry.addRecipes();
 
         starRegistry.registerDefaultStars();
 
@@ -84,6 +81,9 @@ public class SuperMassiveTech
     public static void init(FMLInitializationEvent event)
     {
         proxy.init();
+        
+        itemRegistry.addRecipes();
+        blockRegistry.addRecipes();
 
         Utils.registerEventHandlers(false, GravityArmorHandler.class);
         Utils.registerEventHandlers(true, EnchantTooltipHandler.class);
