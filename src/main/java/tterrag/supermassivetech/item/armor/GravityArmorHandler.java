@@ -5,11 +5,9 @@ import java.util.Random;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-
-import org.lwjgl.input.Keyboard;
-
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -20,7 +18,7 @@ public class GravityArmorHandler
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
     {
-        if (!event.player.worldObj.isRemote && !event.player.onGround && !event.player.capabilities.isFlying && (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || (event.player.motionY < -0.2 && !event.player.isSneaking())))
+        if (!event.player.worldObj.isRemote && !event.player.onGround && !event.player.capabilities.isFlying && ClientUtils.getGravityArmorState(event))
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
             event.player.motionY += effect;
