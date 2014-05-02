@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import net.minecraft.creativetab.CreativeTabs;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.enchant.EnchantTooltipHandler;
+import tterrag.supermassivetech.item.armor.ClientKeyHandler;
 import tterrag.supermassivetech.item.armor.GravityArmorHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
@@ -17,6 +18,7 @@ import tterrag.supermassivetech.registry.ModItems;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -85,5 +87,8 @@ public class SuperMassiveTech
 
         Utils.registerEventHandlers(false, GravityArmorHandler.class);
         Utils.registerEventHandlers(true, EnchantTooltipHandler.class);
+        
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+            Utils.registerEventHandlers(false, ClientKeyHandler.class);
     }
 }

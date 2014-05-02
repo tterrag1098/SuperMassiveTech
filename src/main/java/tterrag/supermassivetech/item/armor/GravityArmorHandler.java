@@ -7,19 +7,27 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class GravityArmorHandler
 {
+    public static boolean isJumpKeyDown, updated;
+    
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
     {
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer() && !event.player.onGround && !event.player.capabilities.isFlying && ClientUtils.getGravityArmorState(event))
+        System.out.println(isJumpKeyDown + " in handler");
+        
+        if (updated && isJumpKeyDown)
+        {
+           //event.player.motionY += 0.5;
+            updated = false;
+        }
+        
+        if (!event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
             event.player.motionY += effect;
