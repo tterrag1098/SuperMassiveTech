@@ -1,5 +1,8 @@
 package tterrag.supermassivetech.tile;
 
+import java.util.List;
+
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -7,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.EnumSkyBlock;
@@ -53,6 +57,16 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         {
             if (!worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord))
                 venting = false;
+            
+            AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 7, zCoord + 1);
+            
+            @SuppressWarnings("unchecked")
+            List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
+
+            for (EntityLivingBase e : entities)
+            {
+                e.setFire(5);
+            }
         }
         
         super.updateEntity();
@@ -298,7 +312,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
         IStar star = Utils.getType(inventory[slot]);
 
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_GRAY + "------------------------------"));
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_GRAY + "-------------------------------------"));
 
         if (getBlockMetadata() == getRotationMeta())
         {
@@ -306,7 +320,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         }
         else if (star != null)
         {
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentStarIs", true) + ": " + star.getTextColor() + star.toString()));
+            player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE + " %s %d RF/t", Utils.localize("tooltip.currentStarIs", true), star.getTextColor() + star.toString(), Utils.localize("tooltip.at", true), star.getPowerPerTick())));
             player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.powerRemaining", true) + ": "
                     + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
                     + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));

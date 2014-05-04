@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -33,10 +34,17 @@ public class ClientUtils
     {
         if (top != ForgeDirection.UP) return;
         
-        for (int i = 0; i < 4; i++)
+        GameSettings settings = Minecraft.getMinecraft().gameSettings;
+        for (int i = 0; i < -((settings.particleSetting - 2) * 2); i++)
         {
             Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
             Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
+        }
+        if (settings.particleSetting == 2)
+        {
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
             Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
         }
     }

@@ -50,7 +50,7 @@ public class GravityArmorHandler
             else if (i != null && EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, i) != 0)
             {
                 effect += .036d / 5d;
-                i.damageItem(new Random().nextInt(100) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
+                i.damageItem(new Random().nextInt(1000) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
             }
         }
 

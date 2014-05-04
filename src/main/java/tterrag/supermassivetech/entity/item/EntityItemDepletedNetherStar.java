@@ -41,7 +41,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
                 }
             }
 
-            if (this.getEntityItem().getItemDamage() > SuperMassiveTech.itemRegistry.depletedNetherStar.maxDamage)
+            if (this.getEntityItem().getItemDamage() >= SuperMassiveTech.itemRegistry.depletedNetherStar.maxDamage)
                 this.setEntityItemStack(new ItemStack(Items.nether_star));
         }
     }
