@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.enchant;
+package tterrag.supermassivetech.item;
 
 import java.util.Map;
 
@@ -9,16 +9,46 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.enchant.IAdvancedEnchant;
+import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantTooltipHandler
+public class TooltipHandler
 {
-    @SuppressWarnings("unchecked")
     @SubscribeEvent
     public void handleTooltip(ItemTooltipEvent event)
     {
-        Map<Integer, Integer> enchantments;
-        enchantments = EnchantmentHelper.getEnchantments(event.itemStack);
+        if (event.itemStack == null)
+            return;
+
+        if (event.itemStack.stackTagCompound != null)
+        {
+            handleEnchantTooltip(event);
+        }
+
+        if (event.itemStack.getItem() instanceof IAdvancedTooltip)
+        {
+            IAdvancedTooltip item = (IAdvancedTooltip) event.itemStack.getItem();
+            Utils.formAdvancedTooltip(event.toolTip, event.itemStack, item);
+        }
+
+        if (ConfigHandler.showOredictTooltips)
+        {
+            int id = OreDictionary.getOreID(event.itemStack);
+
+            if (id != -1)
+            {
+                event.toolTip.add(OreDictionary.getOreName(id));
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void handleEnchantTooltip(ItemTooltipEvent event)
+    {
+        Map<Integer, Integer> enchantments = EnchantmentHelper.getEnchantments(event.itemStack);
+
         for (Integer integer : enchantments.keySet())
         {
             if (SuperMassiveTech.enchantRegistry.getEnchantByID(integer) instanceof IAdvancedEnchant)
@@ -33,12 +63,6 @@ public class EnchantTooltipHandler
                     }
                 }
             }
-        }
-        
-        int id = OreDictionary.getOreID(event.itemStack);
-        if (id != -1)
-        {
-            event.toolTip.add(OreDictionary.getOreName(id));
         }
     }
 }

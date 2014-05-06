@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.enchant.EnchantTooltipHandler;
+import tterrag.supermassivetech.item.TooltipHandler;
 import tterrag.supermassivetech.item.armor.ClientKeyHandler;
 import tterrag.supermassivetech.item.armor.GravityArmorHandler;
 import tterrag.supermassivetech.lib.Reference;
@@ -86,7 +86,7 @@ public class SuperMassiveTech
         blockRegistry.addRecipes();
 
         Utils.registerEventHandlers(false, GravityArmorHandler.class);
-        Utils.registerEventHandlers(true, EnchantTooltipHandler.class);
+        Utils.registerEventHandlers(true, TooltipHandler.class);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
             Utils.registerEventHandlers(false, ClientKeyHandler.class);

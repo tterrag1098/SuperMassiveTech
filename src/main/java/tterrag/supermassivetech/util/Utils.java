@@ -417,7 +417,7 @@ public class Utils
     /**
      * In-place adds to a list, forming an advanced tooltip from the passed item
      */
-    public static void formAdvancedTooltip(List<Object> list, ItemStack stack, IAdvancedTooltip item)
+    public static void formAdvancedTooltip(List<String> toolTip, ItemStack stack, IAdvancedTooltip item)
     {
         if (item.getHiddenLines(stack) != null)
         {
@@ -428,7 +428,7 @@ public class Utils
                     String[] ss = s.split("~");
                     for (String line : ss)
                     {
-                        list.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
+                        toolTip.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
                     }
                     green = green ? false : true;
                 }
@@ -436,7 +436,7 @@ public class Utils
             }
             else
             {
-                list.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED
+                toolTip.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED
                         + localize("tooltip.moreInfo", true)));
             }
         }
@@ -444,10 +444,10 @@ public class Utils
         if (item.getStaticLines(stack) != null)
         {
             if (item.getHiddenLines(stack) != null)
-                list.add("");
+                toolTip.add("");
 
             for (String s : splitList(item.getStaticLines(stack), "~"))
-                list.add(EnumChatFormatting.WHITE + s);
+                toolTip.add(EnumChatFormatting.WHITE + s);
         }
     }
 

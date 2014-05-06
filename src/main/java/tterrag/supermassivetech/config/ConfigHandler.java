@@ -11,6 +11,7 @@ public class ConfigHandler
     public static boolean doGravityWell;
     public static int gravArmorDrain;
     public static int gravEnchantID;
+    public static boolean showOredictTooltips;
 
     public static void init(File file)
     {
@@ -18,7 +19,7 @@ public class ConfigHandler
 
         config.load();
 
-        String section = "Configuration";
+        String section = "Gravity";
 
         config.addCustomCategoryComment(section, "All double values must be in float range (don't go crazy, your game would crash anyways)");
 
@@ -37,6 +38,11 @@ public class ConfigHandler
 
         gravEnchantID = config.get("enchants", "gravityResistID", 42, "The enchantment ID for Gravity Resist").getInt();
 
+        
+        // other
+        
+        showOredictTooltips = config.get("other", "showOredictionaryTooltip", false, "Shows the oredict registration in the tooltip for every item").getBoolean(true);
+        
         config.save();
     }
 }
