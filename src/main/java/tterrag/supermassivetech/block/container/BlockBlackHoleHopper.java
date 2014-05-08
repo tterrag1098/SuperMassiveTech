@@ -6,8 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
@@ -43,13 +41,6 @@ public class BlockBlackHoleHopper extends BlockContainerSMT implements IKeepInve
         }
 
         return true;
-    }
-
-    @Override
-    public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
-    {
-        // TODO Auto-generated method stub
-        return super.getIcon(p_149673_1_, p_149673_2_, p_149673_3_, p_149673_4_, p_149673_5_);
     }
 
     @Override

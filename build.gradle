@@ -52,6 +52,7 @@ if (System.getenv().ARTIFACT_VERSION != null) {
 }
 
 version = "MC${config.minecraft_version}-${artifact_version}-${System.getenv().BUILD_NUMBER}"
+archivesBaseName = "SuperMassiveTech"
 
 minecraft {
     version = "1.7.2-10.12.1.1060"
