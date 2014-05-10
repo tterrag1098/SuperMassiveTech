@@ -18,20 +18,23 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-    public static final DirectionalModelRenderer storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/storage.png"));
+    public static DirectionalModelRenderer storage;
     public static ItemObjRenderer storageItem;
 
-    public static final DirectionalModelRenderer hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(
-            Reference.MOD_TEXTUREPATH, "textures/models/hopper.png"));
+    public static DirectionalModelRenderer hopper;
     public static ItemObjRenderer hopperItem;
 
-    public static final RenderStarHarvester starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(
-            Reference.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/ring.obj"));
+    public static RenderStarHarvester starHarvester;
     public static ItemObjRenderer starHarvesterItem;
 
     @Override
     public void registerRenderers()
     {
+        storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/storage.png"));
+        hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/hopper.png"));
+        starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH,
+                "models/starHarvesterSphere.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/ring.obj"));
+        
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleStorage.class, storage);
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleHopper.class, hopper);
         ClientRegistry.bindTileEntitySpecialRenderer(TileStarHarvester.class, starHarvester);

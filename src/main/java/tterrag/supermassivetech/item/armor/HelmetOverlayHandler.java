@@ -2,6 +2,7 @@ package tterrag.supermassivetech.item.armor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -28,6 +29,7 @@ public class HelmetOverlayHandler
         {
             GL11.glColor3f(1f, 1f, 1f);
             GL11.glEnable(GL11.GL_BLEND);
+            OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             mc.getTextureManager().bindTexture(compass);
             int v = getCompassAngle(player);
             mc.ingameGUI.drawTexturedModalRect((width - 256) / 2, 20, v, 256, 256, 256);
