@@ -8,6 +8,7 @@ import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.TooltipHandler;
 import tterrag.supermassivetech.item.armor.ClientKeyHandler;
 import tterrag.supermassivetech.item.armor.GravityArmorHandler;
+import tterrag.supermassivetech.item.armor.HelmetOverlayHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.ChannelHandler;
 import tterrag.supermassivetech.network.GuiHandler;
@@ -89,6 +90,9 @@ public class SuperMassiveTech
         Utils.registerEventHandlers(true, TooltipHandler.class);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        {
             Utils.registerEventHandlers(false, ClientKeyHandler.class);
+            Utils.registerEventHandlers(true, HelmetOverlayHandler.class);
+        }
     }
 }
