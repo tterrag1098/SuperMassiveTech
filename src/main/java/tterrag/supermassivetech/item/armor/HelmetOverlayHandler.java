@@ -3,6 +3,7 @@ package tterrag.supermassivetech.item.armor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -17,7 +18,7 @@ public class HelmetOverlayHandler
     private static final ResourceLocation compass = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/overlay/compass.png");
     
     @SubscribeEvent
-    public void onClientOverlay(RenderGameOverlayEvent event)
+    public void onClientOverlay(RenderGameOverlayEvent.Text event)
     {
         Minecraft mc = Minecraft.getMinecraft();
         EntityClientPlayerMP player = mc.thePlayer;
@@ -32,7 +33,7 @@ public class HelmetOverlayHandler
             OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             mc.getTextureManager().bindTexture(compass);
             int v = getCompassAngle(player);
-            mc.ingameGUI.drawTexturedModalRect((width - 256) / 2, 20, v, 256, 256, 256);
+            mc.ingameGUI.drawTexturedModalRect((width - 120) / 2, BossStatus.bossName != null && BossStatus.statusBarTime > 0 ? 20 : 2, v, 256, 120, 16);
         }
     }
     
