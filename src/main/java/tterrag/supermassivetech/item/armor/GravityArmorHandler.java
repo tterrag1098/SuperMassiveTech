@@ -24,7 +24,7 @@ public class GravityArmorHandler
         {
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
         }
-
+        
         if (!event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
