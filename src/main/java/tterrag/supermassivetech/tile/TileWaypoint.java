@@ -24,8 +24,8 @@ public class TileWaypoint extends TileEntity
     {
         if (!worldObj.isRemote)
         {
-            System.out.println("update " + (waypoint == null ? "null" : waypoint.toString()));
-            System.out.println(Waypoint.waypoints.toString());
+//            System.out.println("update " + (waypoint == null ? "null" : waypoint.toString()));
+//            System.out.println(Waypoint.waypoints.toString());
 
             if (waypoint == null || waypoint.isNull())
                 return;
@@ -37,11 +37,6 @@ public class TileWaypoint extends TileEntity
     public void addPlayer(EntityPlayer player)
     {
         Waypoint.waypoints.remove(waypoint);
-
-        if (waypoint.isNull())
-        {
-            waypoint = new Waypoint(xCoord, yCoord, zCoord, player);
-        }
 
         waypoint.addPlayer(player);
 

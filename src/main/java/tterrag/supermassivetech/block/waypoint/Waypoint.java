@@ -14,7 +14,7 @@ public class Waypoint
 {
     public static Set<Waypoint> waypoints = new HashSet<Waypoint>();
     
-    private int x, y, z;
+    public int x, y, z;
     private LinkedList<UUID> players;
     private boolean isempty = true;
     
