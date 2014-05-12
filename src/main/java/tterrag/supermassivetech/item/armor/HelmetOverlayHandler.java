@@ -22,12 +22,12 @@ public class HelmetOverlayHandler
     {
         Minecraft mc = Minecraft.getMinecraft();
         EntityClientPlayerMP player = mc.thePlayer;
-
-        int width = event.resolution.getScaledWidth();
         
         ItemStack helm = player.inventory.armorInventory[3];
         if (helm != null && helm.getItem() instanceof ItemGravityArmor)
         {
+            int width = event.resolution.getScaledWidth();
+
             GL11.glColor3f(1f, 1f, 1f);
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
@@ -40,8 +40,8 @@ public class HelmetOverlayHandler
     private int getCompassAngle(EntityClientPlayerMP player)
     {
         int yaw = (int) player.rotationYawHead;
-        yaw = (yaw + 180) % 360;
+        yaw = (yaw - 90) % 360;
         yaw *= (256d / 360d);
-        return yaw;
+        return yaw + 3; // arbitrary number to get the texture to line up...can be changed if texture changes
     }
 }
