@@ -47,9 +47,14 @@ public class HelmetOverlayHandler
     {
         for (Waypoint wp : Waypoint.waypoints)
         {
+            double w = (double) width;
             Minecraft.getMinecraft().getTextureManager().bindTexture(test);
-            Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect((int) angleTo(player, wp.x + 0.5, wp.y + 0.5, wp.z + 0.5), 50, 16, 16, 16, 16);
-            System.out.println(angleTo(player, wp.x, wp.y, wp.z));
+            
+            double angle = angleTo(player, wp.x + 0.5, wp.y + 0.5, wp.z + 0.5);
+            angle *= (w - 16) / (double) 360;
+            angle += w / 2;
+            
+            Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(normalizeAngle(w, angle),  2, 16, 16, 2, 16);
         }
     }
 
@@ -72,7 +77,7 @@ public class HelmetOverlayHandler
         while (angleRaw < 0)
             angleRaw += 360;
         
-        return angleRaw % 360;
+        return (180 + angleRaw) % 360;
     }
 
     private int getCompassAngle(EntityClientPlayerMP player)
@@ -82,5 +87,17 @@ public class HelmetOverlayHandler
         yaw *= (256d / 360d);
         return yaw + 3; // arbitrary number to get the texture to line up...can
                         // be changed if texture changes
+    }
+    
+    private int normalizeAngle(double width, double angle)
+    {
+        double normal = width - angle;
+        if (normal > 0)
+            return (int) normal;
+        else
+        {
+            normal = (Math.abs(normal) + (Math.abs(normal) * (34d / width))); // I don't know why 34 don't ask me, probably int -> double inaccuracy
+            return (int) (width - normal);
+        }
     }
 }
