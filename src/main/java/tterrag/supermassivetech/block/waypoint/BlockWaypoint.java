@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.block.BlockSMT;
 import tterrag.supermassivetech.tile.TileWaypoint;
@@ -38,4 +39,24 @@ public class BlockWaypoint extends BlockSMT
             wp.init((EntityPlayer) player);
         }
     }
+    
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+    
+    @Override
+    public boolean isNormalCube()
+    {
+        return false;
+    }
+    
+    @Override
+    public boolean isBlockSolid(IBlockAccess p_149747_1_, int p_149747_2_, int p_149747_3_, int p_149747_4_, int p_149747_5_)
+    {
+        return false;
+    }
+    
+    
 }

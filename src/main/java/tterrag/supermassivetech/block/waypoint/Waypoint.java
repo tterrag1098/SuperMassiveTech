@@ -3,11 +3,14 @@ package tterrag.supermassivetech.block.waypoint;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+
+import org.lwjgl.util.Color;
 
 import com.google.common.collect.Sets;
 
@@ -18,6 +21,7 @@ public class Waypoint
     public int x, y, z;
     private LinkedList<UUID> players;
     private boolean isempty = true;
+    private Color color;
     
     public Waypoint(){}
     
@@ -33,6 +37,10 @@ public class Waypoint
         {
             this.players.add(e.getUniqueID());
         }
+        
+        Random rand = new Random();
+        
+        color = new Color(rand.nextInt(100), rand.nextInt(100), rand.nextInt(100));
         
         this.isempty = false;
     }
@@ -83,6 +91,11 @@ public class Waypoint
         return (x + "," + y + "," + z + " " + (isNull() ? "" : players.toString())).hashCode();
     }
     
+    public Color getColor()
+    {
+        return color;
+    }
+    
     public void writeToNBT(NBTTagCompound tag)
     {
         tag.setInteger("waypointx", x);
@@ -104,6 +117,8 @@ public class Waypoint
         }
         
         tag.setIntArray("playeruuids", uuidnums);
+        
+        tag.setByteArray("waypointcolor", new byte[]{color.getRedByte(), color.getGreenByte(), color.getBlueByte()});
     }
     
     public Waypoint readFromNBT(NBTTagCompound tag)
@@ -127,7 +142,12 @@ public class Waypoint
         
         this.players = new LinkedList<UUID>(Arrays.asList(uuids));
         
+        byte[] arr = tag.getByteArray("waypointcolor");
+
+        this.color = new Color(arr[0], arr[1], arr[3]);
+        
         this.isempty = false;
+        
         
         return this;
     }

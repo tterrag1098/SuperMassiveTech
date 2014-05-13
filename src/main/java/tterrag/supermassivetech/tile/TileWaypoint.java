@@ -3,6 +3,7 @@ package tterrag.supermassivetech.tile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import tterrag.supermassivetech.block.waypoint.Waypoint;
 
 public class TileWaypoint extends TileEntity
@@ -56,6 +57,23 @@ public class TileWaypoint extends TileEntity
     {
         Waypoint.waypoints.remove(waypoint);
         super.invalidate();
+    }
+    
+    @Override
+    public double getMaxRenderDistanceSquared()
+    {
+        return 65536.0D;
+    }
+    
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return TileEntity.INFINITE_EXTENT_AABB;
+    }
+    
+    public int[] getColorArr()
+    {
+        return waypoint.isNull() ? new int[]{0, 0, 0} : new int[]{waypoint.getColor().getRed(), waypoint.getColor().getGreen(), waypoint.getColor().getBlue()};
     }
 
     @Override
