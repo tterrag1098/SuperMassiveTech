@@ -2,6 +2,9 @@ package tterrag.supermassivetech.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import tterrag.supermassivetech.block.waypoint.Waypoint;
@@ -23,12 +26,9 @@ public class TileWaypoint extends TileEntity
     @Override
     public void updateEntity()
     {
-        if (!worldObj.isRemote)
+        if (worldObj.isRemote)
         {
-//            System.out.println("update " + (waypoint == null ? "null" : waypoint.toString()));
-//            System.out.println(Waypoint.waypoints.toString());
-
-            if (waypoint == null || waypoint.isNull())
+            if (waypoint == null || waypoint.isNull() || Waypoint.waypoints.contains(waypoint))
                 return;
 
             Waypoint.waypoints.add(waypoint);
@@ -73,9 +73,15 @@ public class TileWaypoint extends TileEntity
     
     public int[] getColorArr()
     {
-        return waypoint.isNull() ? new int[]{0, 0, 0} : new int[]{waypoint.getColor().getRed(), waypoint.getColor().getGreen(), waypoint.getColor().getBlue()};
+        return waypoint.isNull() ? new int[]{255, 255, 255} : new int[]{waypoint.getColor().getRed(), waypoint.getColor().getGreen(), waypoint.getColor().getBlue()};
     }
 
+    @Override
+    public boolean shouldRenderInPass(int pass)
+    {
+        return pass > 0;
+    }
+    
     @Override
     public void writeToNBT(NBTTagCompound tag)
     {
@@ -88,5 +94,19 @@ public class TileWaypoint extends TileEntity
     {
         super.readFromNBT(tag);
         waypoint = waypoint.readFromNBT(tag);
+    }
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        NBTTagCompound nbt = new NBTTagCompound();
+        this.writeToNBT(nbt);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+    {
+        this.readFromNBT(pkt.func_148857_g());
     }
 }

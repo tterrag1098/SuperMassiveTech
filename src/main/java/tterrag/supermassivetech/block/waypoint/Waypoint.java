@@ -1,7 +1,6 @@
 package tterrag.supermassivetech.block.waypoint;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
@@ -69,19 +68,9 @@ public class Waypoint
         {
             Waypoint wp = (Waypoint) obj;
             
-            return this.x == wp.x && this.y == wp.y && this.y == wp.z  && containsAny(wp.players);
+            return this.x == wp.x && this.y == wp.y && this.z == wp.z;
         }
         
-        return false;
-    }
-    
-    private boolean containsAny(Collection<UUID> list)
-    {
-        for (UUID uuid : list)
-        {
-            if (players.contains(uuid))
-                return true;
-        }
         return false;
     }
     
@@ -95,9 +84,11 @@ public class Waypoint
     {
         return color;
     }
-    
+   
     public void writeToNBT(NBTTagCompound tag)
     {
+        if (isNull()) return;
+        
         tag.setInteger("waypointx", x);
         tag.setInteger("waypointy", y);
         tag.setInteger("waypointz", z);
@@ -144,10 +135,11 @@ public class Waypoint
         
         byte[] arr = tag.getByteArray("waypointcolor");
 
-        this.color = new Color(arr[0], arr[1], arr[3]);
+        if (arr.length < 2) return this;
+        
+        this.color = new Color(arr[0], arr[1], arr[2]);
         
         this.isempty = false;
-        
         
         return this;
     }
