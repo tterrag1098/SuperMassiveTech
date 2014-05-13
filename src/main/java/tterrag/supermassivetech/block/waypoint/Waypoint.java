@@ -2,7 +2,6 @@ package tterrag.supermassivetech.block.waypoint;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.UUID;
@@ -10,9 +9,11 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.google.common.collect.Sets;
+
 public class Waypoint
 {
-    public static Set<Waypoint> waypoints = new HashSet<Waypoint>();
+    public static Set<Waypoint> waypoints = Sets.newConcurrentHashSet();
     
     public int x, y, z;
     private LinkedList<UUID> players;

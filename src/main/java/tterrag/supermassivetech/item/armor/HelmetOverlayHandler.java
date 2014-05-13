@@ -7,22 +7,19 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
-import net.minecraft.util.Vec3Pool;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.block.waypoint.Waypoint;
 import tterrag.supermassivetech.lib.Reference;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class HelmetOverlayHandler
 {
     private static final ResourceLocation compass = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/overlay/compass.png");
     private static final ResourceLocation test = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/overlay/test.png");
-
+    
     @SubscribeEvent
     public void onClientOverlay(RenderGameOverlayEvent.Text event)
     {
@@ -50,22 +47,32 @@ public class HelmetOverlayHandler
     {
         for (Waypoint wp : Waypoint.waypoints)
         {
-            Vec3 vec1 = Vec3.createVectorHelper(x, y, z);
-            Vec3 vec2 = Vec3.createVectorHelper(wp.x + 0.5, wp.y + 1, wp.z + 0.5);
-            Vec3 vec3 = player.getLookVec();
-            
             Minecraft.getMinecraft().getTextureManager().bindTexture(test);
-            Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect((int) angleTo(player, wp.x, wp.y, wp.z), 50, 16, 16, 16, 16);
+            Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect((int) angleTo(player, wp.x + 0.5, wp.y + 0.5, wp.z + 0.5), 50, 16, 16, 16, 16);
             System.out.println(angleTo(player, wp.x, wp.y, wp.z));
         }
     }
 
     public static double angleTo(EntityPlayer player, double x, double y, double z)
     {
-        double dx = Math.abs(player.posX - x);
-        double dz = Math.abs(player.posZ - z);
+        double dx = player.posX - x;
+        double dz = player.posZ - z;
              
-        return (player.rotationYaw + Math.toDegrees(Math.atan(dx / dz)) + 1) % 360; 
+        double angleRaw = player.rotationYawHead + Math.toDegrees(Math.atan(dx / dz));
+        
+        if (dx < 0 & dz < 0)
+        {
+            angleRaw = angleRaw - 180;
+        }
+        else if (dz < 0)
+        {
+            angleRaw = angleRaw + 180;
+        }
+                
+        while (angleRaw < 0)
+            angleRaw += 360;
+        
+        return angleRaw % 360;
     }
 
     private int getCompassAngle(EntityClientPlayerMP player)
