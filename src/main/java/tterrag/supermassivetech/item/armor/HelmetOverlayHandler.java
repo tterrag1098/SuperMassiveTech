@@ -38,11 +38,11 @@ public class HelmetOverlayHandler
             
             GL11.glColor3f(1f, 1f, 1f);
 
-            mc.ingameGUI.drawTexturedModalRect((width - 140) / 2 + getZOffset(mc), 2 + getXOffset(mc), v + 1, 256, 140, 16);
+            mc.ingameGUI.drawTexturedModalRect((width - 140) / 2 + getZOffset(mc), 2 + getXOffset(mc), v - 9, 256, 140, 16);
 
             GL11.glColor3f(1f, 0f, 0f);            
             
-            mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 4 + getXOffset(mc), 127, 0, 2, 9);
+            mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 4 + getXOffset(mc), 127, 0, 3, 9);
             renderWaypoints(mc, width, player, player.posX, player.posY, player.posZ);
         }
     }
