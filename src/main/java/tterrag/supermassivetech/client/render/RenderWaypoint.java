@@ -37,12 +37,11 @@ public class RenderWaypoint extends TileEntitySpecialRenderer
     
     private void renderWaypointAt(TileWaypoint tile, double x, double y, double z, float tickDelay)
     {
-        if (tile.waypoint == null || tile.waypoint.isNull() || tile.players == null || !tile.players.contains(Minecraft.getMinecraft().thePlayer.getUniqueID()))
+        if (tile.waypoint == null || tile.waypoint.isNull() || tile.players == null || !tile.players.contains(Minecraft.getMinecraft().thePlayer.getCommandSenderName()))
         {
-            System.out.println(tile.players != null && tile.players.size() >= 1 && !tile.waypoint.isNull() ? tile.players + " " + tile.waypoint.players : "");
+            System.out.println(tile.players != null && tile.players.size() >= 1 && !tile.waypoint.isNull() ? tile.players + " " + Minecraft.getMinecraft().thePlayer.getCommandSenderName() : "");
             return;
         }
-        
         
         glAlphaFunc(GL_GREATER, 0.1F);
         bindTexture(beam);
