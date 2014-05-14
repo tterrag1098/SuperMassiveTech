@@ -1,5 +1,10 @@
 package tterrag.supermassivetech.tile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -8,19 +13,28 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import tterrag.supermassivetech.block.waypoint.Waypoint;
+import tterrag.supermassivetech.util.Utils;
 
 public class TileWaypoint extends TileEntity
 {
-    private Waypoint waypoint;
+    public Waypoint waypoint;
+    public List<UUID> players;
 
     public TileWaypoint()
     {
         waypoint = new Waypoint();
+        players = new ArrayList<UUID>();
     }
 
     public void init(EntityPlayer... players)
     {
-        waypoint = new Waypoint(this.xCoord, this.yCoord, this.zCoord, players);
+        if (!worldObj.isRemote)
+            waypoint = new Waypoint(this.xCoord, this.yCoord, this.zCoord, players);
+        
+        for (EntityPlayer p : players)
+        {
+            this.players.add(p.getUniqueID());
+        }
     }
 
     @Override
@@ -42,6 +56,8 @@ public class TileWaypoint extends TileEntity
         waypoint.addPlayer(player);
 
         Waypoint.waypoints.add(waypoint);
+        
+        players.add(player.getUniqueID());
 
         this.markDirty();
     }
@@ -87,6 +103,7 @@ public class TileWaypoint extends TileEntity
     {
         super.writeToNBT(tag);
         waypoint.writeToNBT(tag);
+        Utils.writeUUIDsToNBT(players.toArray(new UUID[]{}), tag, "tileuuids");
     }
 
     @Override
@@ -94,6 +111,7 @@ public class TileWaypoint extends TileEntity
     {
         super.readFromNBT(tag);
         waypoint = waypoint.readFromNBT(tag);
+        players = Arrays.asList(Utils.readUUIDsFromNBT("tileuuids", tag));
     }
     
     @Override

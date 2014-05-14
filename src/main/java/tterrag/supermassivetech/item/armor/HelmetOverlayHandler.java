@@ -51,6 +51,9 @@ public class HelmetOverlayHandler
     {
         for (Waypoint wp : Waypoint.waypoints)
         {
+            if (!wp.players.contains(player.getUniqueID()))
+                continue;
+            
             double w = (double) width;
             
             double angle = angleTo(player, wp.x + 0.5, wp.y + 0.5, wp.z + 0.5);
@@ -65,7 +68,7 @@ public class HelmetOverlayHandler
         }
     }
 
-    public static double angleTo(EntityPlayer player, double x, double y, double z)
+    private double angleTo(EntityPlayer player, double x, double y, double z)
     {
         double dx = player.posX - x;
         double dz = player.posZ - z;
@@ -107,11 +110,11 @@ public class HelmetOverlayHandler
         
         if (normal < (width / 2))
         {
-            normal = Math.max((width / 2) - 62, normal);
+            normal = Math.max((width / 2) - 72, normal);
         }
         else
         {
-            normal = Math.min((width / 2) + 58, normal);
+            normal = Math.min((width / 2) + 68, normal);
         }
         
         return (int) normal;

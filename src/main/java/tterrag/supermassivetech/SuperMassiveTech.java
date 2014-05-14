@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
+import tterrag.supermassivetech.block.waypoint.BreakWaypointHandler;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.TooltipHandler;
 import tterrag.supermassivetech.item.armor.ClientKeyHandler;
@@ -87,7 +88,7 @@ public class SuperMassiveTech
         blockRegistry.addRecipes();
 
         Utils.registerEventHandlers(false, GravityArmorHandler.class);
-        Utils.registerEventHandlers(true, TooltipHandler.class);
+        Utils.registerEventHandlers(true, TooltipHandler.class, BreakWaypointHandler.class);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
         {

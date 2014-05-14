@@ -4,6 +4,7 @@ import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -531,5 +532,41 @@ public class Utils
                 toReturn += "~";
         }
         return toReturn;
+    }
+    
+    public static void writeUUIDsToNBT(UUID[] uuids, NBTTagCompound tag, String toName)
+    {
+        int[] uuidnums = new int[uuids.length * 4];
+        
+        for (int i = 0; i < uuids.length; i++)
+        {
+            long msd = uuids[i].getMostSignificantBits();
+            long lsd = uuids[i].getLeastSignificantBits();
+            
+            uuidnums[i * 4] = (int) (msd >> 32);
+            uuidnums[i * 4 + 1] = (int) msd;
+            uuidnums[i * 4 + 2] = (int) (lsd >> 32);
+            uuidnums[i * 4 + 3] = (int) lsd;
+        }
+        
+        tag.setIntArray(toName, uuidnums);
+    }
+    
+    public static UUID[] readUUIDsFromNBT(String name, NBTTagCompound tag)
+    {
+        int[] uuidnums = tag.getIntArray(name);
+        UUID[] uuids = new UUID[uuidnums.length / 4];
+        
+        for (int i = 0; i < uuidnums.length; i += 4)
+        {
+            long msd = ((long) uuidnums[i]) << 32;
+            msd += uuidnums[i + 1];
+            long lsd = ((long) uuidnums[i + 2]) << 32;
+            lsd += uuidnums[i + 3];
+            
+            uuids[i / 4] = new UUID(msd, lsd);
+        }
+        
+        return uuids;
     }
 }

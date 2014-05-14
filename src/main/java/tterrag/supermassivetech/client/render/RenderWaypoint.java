@@ -1,7 +1,24 @@
 package tterrag.supermassivetech.client.render;
 
-import org.lwjgl.opengl.GL11;
-
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
+import static org.lwjgl.opengl.GL11.GL_GREATER;
+import static org.lwjgl.opengl.GL11.GL_LIGHTING;
+import static org.lwjgl.opengl.GL11.GL_ONE;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_CONSTANT_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.GL_ZERO;
+import static org.lwjgl.opengl.GL11.glAlphaFunc;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glDepthMask;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glTexParameterf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -9,7 +26,9 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import static org.lwjgl.opengl.GL11.*;
+
+import org.lwjgl.opengl.GL11;
+
 import tterrag.supermassivetech.tile.TileWaypoint;
 
 public class RenderWaypoint extends TileEntitySpecialRenderer
@@ -18,6 +37,13 @@ public class RenderWaypoint extends TileEntitySpecialRenderer
     
     private void renderWaypointAt(TileWaypoint tile, double x, double y, double z, float tickDelay)
     {
+        if (tile.waypoint == null || tile.waypoint.isNull() || tile.players == null || !tile.players.contains(Minecraft.getMinecraft().thePlayer.getUniqueID()))
+        {
+            System.out.println(tile.players != null && tile.players.size() >= 1 && !tile.waypoint.isNull() ? tile.players + " " + tile.waypoint.players : "");
+            return;
+        }
+        
+        
         glAlphaFunc(GL_GREATER, 0.1F);
         bindTexture(beam);
         

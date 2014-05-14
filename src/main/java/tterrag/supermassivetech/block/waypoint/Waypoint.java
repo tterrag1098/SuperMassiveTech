@@ -11,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import org.lwjgl.util.Color;
 
+import tterrag.supermassivetech.util.Utils;
+
 import com.google.common.collect.Sets;
 
 public class Waypoint
@@ -18,7 +20,7 @@ public class Waypoint
     public static Set<Waypoint> waypoints = Sets.newConcurrentHashSet();
     
     public int x, y, z;
-    private LinkedList<UUID> players;
+    public LinkedList<UUID> players;
     private boolean isempty = true;
     private Color color;
     
@@ -94,20 +96,7 @@ public class Waypoint
         tag.setInteger("waypointz", z);
         
         UUID[] uuids = players.toArray(new UUID[]{});
-        int[] uuidnums = new int[uuids.length * 4];
-        
-        for (int i = 0; i < uuids.length; i++)
-        {
-            long msd = uuids[i].getMostSignificantBits();
-            long lsd = uuids[i].getLeastSignificantBits();
-            
-            uuidnums[i * 4] = (int) (msd >> 32);
-            uuidnums[i * 4 + 1] = (int) msd;
-            uuidnums[i * 4 + 2] = (int) (lsd >> 32);
-            uuidnums[i * 4 + 3] = (int) lsd;
-        }
-        
-        tag.setIntArray("playeruuids", uuidnums);
+        Utils.writeUUIDsToNBT(uuids, tag, "waypointuuids");
         
         tag.setByteArray("waypointcolor", new byte[]{color.getRedByte(), color.getGreenByte(), color.getBlueByte()});
     }
@@ -118,19 +107,7 @@ public class Waypoint
         this.y = tag.getInteger("waypointy");
         this.z = tag.getInteger("waypointz");
         
-        int[] uuidnums = tag.getIntArray("playeruuids");
-        UUID[] uuids = new UUID[uuidnums.length / 4];
-        
-        for (int i = 0; i < uuidnums.length; i += 4)
-        {
-            long msd = ((long) uuidnums[i]) << 32;
-            msd += uuidnums[i + 1];
-            long lsd = ((long) uuidnums[i + 2]) << 32;
-            lsd += uuidnums[i + 3];
-            
-            uuids[i / 4] = new UUID(msd, lsd);
-        }
-        
+        UUID[] uuids = Utils.readUUIDsFromNBT("waypointuuids", tag);
         this.players = new LinkedList<UUID>(Arrays.asList(uuids));
         
         byte[] arr = tag.getByteArray("waypointcolor");
