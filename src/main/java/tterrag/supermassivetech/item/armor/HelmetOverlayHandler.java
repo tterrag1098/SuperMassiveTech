@@ -42,6 +42,8 @@ public class HelmetOverlayHandler
 
             renderWaypoints(mc, width, player, player.posX, player.posY, player.posZ);
             
+            GL11.glDisable(GL11.GL_ALPHA_TEST);
+
             mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 8 + getXOffset(mc), 6, 16, 3, 9);
         }
     }
@@ -50,7 +52,7 @@ public class HelmetOverlayHandler
     {
         for (Waypoint wp : Waypoint.waypoints)
         {
-            if (!wp.players.contains(player.getUniqueID()))
+            if (!wp.players.contains(player.getCommandSenderName()))
                 continue;
             
             double w = (double) width;
@@ -63,7 +65,15 @@ public class HelmetOverlayHandler
             
             GL11.glColor3b(c.getRedByte(), c.getGreenByte(), c.getBlueByte());
             
-            Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(normalizeAngle(w, angle) + getZOffset(mc), 10 + getXOffset(mc), 0, 16, 5, 16);
+            int normal = normalizeAngle(w, angle);
+            
+            mc.ingameGUI.drawTexturedModalRect(normal + getZOffset(mc), 10 + getXOffset(mc), 0, 16, 5, 16);
+            
+            if (normal < ((width / 2 + 4) + getZOffset(mc)) && normal > ((width / 2 - 4) + getZOffset(mc))) 
+            {
+                mc.ingameGUI.drawCenteredString(mc.fontRenderer, wp.getName(), width / 2, 20, 0xFFFFFF);
+                mc.getTextureManager().bindTexture(compass);
+            }
         }
         GL11.glColor3f(1f, 1f, 1f);
     }

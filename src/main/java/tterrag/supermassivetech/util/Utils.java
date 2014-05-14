@@ -569,4 +569,13 @@ public class Utils
         
         return uuids;
     }
+    
+    public static int toHex(int r, int g, int b)
+    {
+        int hex = 0;
+        hex = hex | ((int) (r) << 16);
+        hex = hex | ((int) (g) << 8);
+        hex = hex | ((int) (b));
+        return hex;
+    }
 }

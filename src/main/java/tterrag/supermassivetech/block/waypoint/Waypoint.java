@@ -4,14 +4,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
-import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraftforge.common.util.Constants;
 
 import org.lwjgl.util.Color;
-
-import tterrag.supermassivetech.util.Utils;
 
 import com.google.common.collect.Sets;
 
@@ -20,23 +20,29 @@ public class Waypoint
     public static Set<Waypoint> waypoints = Sets.newConcurrentHashSet();
     
     public int x, y, z;
-    public LinkedList<UUID> players;
+    public LinkedList<String> players;
     private boolean isempty = true;
     private Color color;
+    private String name;
     
-    public Waypoint(){}
-    
-    public Waypoint(int x, int y, int z, EntityPlayer... players)
+    public Waypoint()
     {
+        name = "Unnamed";
+    }
+    
+    public Waypoint(String name, int x, int y, int z, EntityPlayer... players)
+    {
+        this.name = name;
+        
         this.x = x;
         this.y = y;
         this.z = z;
         
-        this.players = new LinkedList<UUID>();
+        this.players = new LinkedList<String>();
         
         for (EntityPlayer e : players)
         {
-            this.players.add(e.getUniqueID());
+            this.players.add(e.getCommandSenderName());
         }
         
         Random rand = new Random();
@@ -48,19 +54,19 @@ public class Waypoint
     
     public Waypoint addPlayer(EntityPlayer player)
     {
-        this.players.add(player.getUniqueID());
+        this.players.add(player.getCommandSenderName());
         return this;
     }
     
     public Waypoint removePlayer(EntityPlayer player)
     {
-        this.players.remove(player.getUniqueID());
+        this.players.remove(player.getCommandSenderName());
         return this;
     }
     
     public boolean viewableBy(EntityPlayer player)
     {
-        return players.contains(player.getUniqueID());
+        return players.contains(player.getCommandSenderName());
     }
     
     @Override
@@ -95,8 +101,12 @@ public class Waypoint
         tag.setInteger("waypointy", y);
         tag.setInteger("waypointz", z);
         
-        UUID[] uuids = players.toArray(new UUID[]{});
-        Utils.writeUUIDsToNBT(uuids, tag, "waypointuuids");
+        NBTTagList list = new NBTTagList();
+        for (String s : players)
+        {
+            list.appendTag(new NBTTagString(s));
+        }
+        tag.setTag("waypointplayers", list);
         
         tag.setByteArray("waypointcolor", new byte[]{color.getRedByte(), color.getGreenByte(), color.getBlueByte()});
     }
@@ -107,8 +117,12 @@ public class Waypoint
         this.y = tag.getInteger("waypointy");
         this.z = tag.getInteger("waypointz");
         
-        UUID[] uuids = Utils.readUUIDsFromNBT("waypointuuids", tag);
-        this.players = new LinkedList<UUID>(Arrays.asList(uuids));
+        players = new LinkedList<String>();
+        NBTTagList list = tag.getTagList("waypointplayers", Constants.NBT.TAG_STRING);
+        for (int i = 0; i < list.tagCount(); i++)
+        {
+            players.add(list.getStringTagAt(i));
+        }
         
         byte[] arr = tag.getByteArray("waypointcolor");
 
@@ -129,6 +143,16 @@ public class Waypoint
     @Override
     public String toString()
     {
-        return String.format("x: %d, y: %d, z: %d   %s", x, y, z, !isNull() ? Arrays.deepToString(players.toArray(new UUID[]{})) : "");
+        return String.format("x: %d, y: %d, z: %d   %s", x, y, z, !isNull() ? Arrays.deepToString(players.toArray(new String[]{})) : "");
+    }
+    
+    public String getName()
+    {
+        return name;
+    }
+    
+    public void setName(String newName)
+    {
+        this.name = newName;
     }
 }

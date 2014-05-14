@@ -28,8 +28,7 @@ public class TileWaypoint extends TileEntity
 
     public void init(EntityPlayer... players)
     {
-        if (!worldObj.isRemote)
-            waypoint = new Waypoint(this.xCoord, this.yCoord, this.zCoord, players);
+        waypoint = new Waypoint("Unnamed", this.xCoord, this.yCoord, this.zCoord, players);
         
         for (EntityPlayer p : players)
         {
@@ -90,6 +89,12 @@ public class TileWaypoint extends TileEntity
     public int[] getColorArr()
     {
         return waypoint.isNull() ? new int[]{255, 255, 255} : new int[]{waypoint.getColor().getRed(), waypoint.getColor().getGreen(), waypoint.getColor().getBlue()};
+    }
+    
+    public void setInternalWaypointName(String newName)
+    {
+        if (!waypoint.isNull())
+            waypoint.setName(newName);
     }
 
     @Override

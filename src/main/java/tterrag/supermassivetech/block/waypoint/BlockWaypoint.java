@@ -33,7 +33,7 @@ public class BlockWaypoint extends BlockSMT
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack)
     {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (te != null && te instanceof TileWaypoint)
+        if (!world.isRemote && te != null && te instanceof TileWaypoint)
         {
             TileWaypoint wp = (TileWaypoint) te;
             wp.init((EntityPlayer) player);

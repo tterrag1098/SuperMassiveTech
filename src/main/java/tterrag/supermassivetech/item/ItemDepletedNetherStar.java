@@ -36,12 +36,7 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
         float percent = .20f +  (((float) par1ItemStack.getItemDamage()) / ((float) maxDamage) * .80f);
         int color = (int) (0xFF * percent);  
         
-        int hex = 0;
-        hex = hex | ((int) (color) << 16);
-        hex = hex | ((int) (color) << 8);
-        hex = hex | ((int) (color));
-        
-        return hex;
+        return Utils.toHex(color, color, color);
     }
     
     @Override
