@@ -4,12 +4,15 @@ import static tterrag.supermassivetech.SuperMassiveTech.blockRegistry;
 import static tterrag.supermassivetech.SuperMassiveTech.renderIDHopper;
 import static tterrag.supermassivetech.SuperMassiveTech.renderIDStarHarvester;
 import static tterrag.supermassivetech.SuperMassiveTech.renderIDStorage;
+import static tterrag.supermassivetech.SuperMassiveTech.renderIDWaypoint;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.ItemObjRenderer;
+import tterrag.supermassivetech.client.render.RenderBeaconEffect;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
-import tterrag.supermassivetech.client.render.RenderWaypoint;
+import tterrag.supermassivetech.client.render.SimpleModelRenderer;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -29,7 +32,8 @@ public class ClientProxy extends CommonProxy
     public static RenderStarHarvester starHarvester;
     public static ItemObjRenderer starHarvesterItem;
     
-    public static RenderWaypoint waypoint;
+    public static RenderBeaconEffect beacon;
+    public static SimpleModelRenderer waypoint;
 
     @Override
     public void registerRenderers()
@@ -38,12 +42,12 @@ public class ClientProxy extends CommonProxy
         hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/hopper.png"));
         starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH,
                 "models/starHarvesterSphere.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/ring.obj"));
-        waypoint = new RenderWaypoint();
+        beacon = new RenderBeaconEffect();
         
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleStorage.class, storage);
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleHopper.class, hopper);
         ClientRegistry.bindTileEntitySpecialRenderer(TileStarHarvester.class, starHarvester);
-        ClientRegistry.bindTileEntitySpecialRenderer(TileWaypoint.class, waypoint);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileWaypoint.class, beacon);
 
         renderIDStorage = RenderingRegistry.getNextAvailableRenderId();
         storageItem = new ItemObjRenderer(renderIDStorage, storage);
@@ -56,6 +60,10 @@ public class ClientProxy extends CommonProxy
         renderIDStarHarvester = RenderingRegistry.getNextAvailableRenderId();
         starHarvesterItem = new ItemObjRenderer(renderIDStarHarvester, starHarvester);
         RenderingRegistry.registerBlockHandler(starHarvesterItem);
+        
+        waypoint = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/waypoint.obj")));
+        renderIDWaypoint = waypoint.getRenderId();
+        RenderingRegistry.registerBlockHandler(waypoint);
     }
 
     @Override

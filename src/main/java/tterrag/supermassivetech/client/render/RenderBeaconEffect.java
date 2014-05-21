@@ -31,7 +31,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.tile.TileWaypoint;
 
-public class RenderWaypoint extends TileEntitySpecialRenderer
+public class RenderBeaconEffect extends TileEntitySpecialRenderer
 {
     private ResourceLocation beam = new ResourceLocation("textures/entity/beacon_beam.png");
     
@@ -55,6 +55,7 @@ public class RenderWaypoint extends TileEntitySpecialRenderer
         glDisable(GL_CULL_FACE);
         glEnable(GL_BLEND);
         glDepthMask(false);
+        GL11.glTranslatef(0, 0.74f, 0);
         
         // make it glow
         OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
@@ -109,6 +110,7 @@ public class RenderWaypoint extends TileEntitySpecialRenderer
         glEnable(GL_TEXTURE_2D);
         glDepthMask(true);
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.5F);
+        GL11.glTranslatef(0, -0.74f, 0);
     }
 
     @Override

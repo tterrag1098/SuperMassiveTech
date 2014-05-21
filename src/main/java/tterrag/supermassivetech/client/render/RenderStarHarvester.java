@@ -18,8 +18,8 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
 {
     private IModelCustom main, sphere, ring;
     private ResourceLocation textureMain = new ResourceLocation("supermassivetech", "textures/models/starHarvesterMain.png");
-    private ResourceLocation textureSphereInactive = new ResourceLocation("supermassivetech", "textures/models/starHarvesterSphereInactive.png");
-    private ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/ring1.png");
+    private ResourceLocation textureSphere = new ResourceLocation("supermassivetech", "textures/models/starHarvesterSphere.png");
+    private ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
 
     public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere, ResourceLocation ring)
     {
@@ -107,7 +107,7 @@ public class RenderStarHarvester extends TileEntitySpecialRenderer
 
             Utils.setGLColorFromInt(star.getColor());
 
-            Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphereInactive);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphere);
 
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glRotatef(-spins[0], 0, 1f, 0);

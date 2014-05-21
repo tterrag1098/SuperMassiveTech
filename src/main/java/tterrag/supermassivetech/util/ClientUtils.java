@@ -5,9 +5,16 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.Face;
+import net.minecraftforge.client.model.obj.GroupObject;
+import net.minecraftforge.client.model.obj.TextureCoordinate;
+import net.minecraftforge.client.model.obj.Vertex;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -52,5 +59,24 @@ public class ClientUtils
     private static float getRandMotionXZ()
     {
         return rand.nextFloat() * 0.2f - 0.1f;
+    }
+    
+    public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes)
+    {
+        for(GroupObject go : model.groupObjects)
+        {
+            for(Face f : go.faces) {
+                Vertex n = f.faceNormal;
+                tes.setNormal(n.x, n.y, n.z);
+                for(int i = 0; i < f.vertices.length; i++) 
+                {
+                    Vertex v = f.vertices[i];
+                    TextureCoordinate t = f.textureCoordinates[i];
+                    tes.addVertexWithUV(v.x, v.y, v.z,
+                        icon.getInterpolatedU(t.u * 16),
+                        icon.getInterpolatedV(t.v * 16));
+                }
+            }
+        }
     }
 }

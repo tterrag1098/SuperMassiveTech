@@ -2,7 +2,8 @@ package tterrag.supermassivetech.block.container;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,17 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Facing;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.block.BlockSMT;
 import tterrag.supermassivetech.util.Utils;
 
-public abstract class BlockContainerSMT extends BlockContainer
+public abstract class BlockContainerSMT extends BlockSMT implements ITileEntityProvider
 {
-
     Class<? extends TileEntity> teClass;
-    private String unlocName;
-    private int renderID;
 
     protected BlockContainerSMT(String unlocName, Material mat, SoundType type, float hardness, Class<? extends TileEntity> te)
     {
@@ -29,21 +26,15 @@ public abstract class BlockContainerSMT extends BlockContainer
 
     protected BlockContainerSMT(String unlocName, Material mat, SoundType type, float hardness, Class<? extends TileEntity> te, int renderID)
     {
-        super(mat);
-        setStepSound(type);
-        setHardness(hardness);
-        setCreativeTab(SuperMassiveTech.tabSMT);
-
+        super(unlocName, mat, type, hardness, renderID);
         String toolLevel = Utils.getToolClassFromMaterial(mat);
 
         if (!toolLevel.equals("none"))
             setHarvestLevel("pickaxe", Utils.getToolLevelFromMaterial(mat));
 
-        this.unlocName = unlocName;
         setBlockName(unlocName);
         this.teClass = te;
-        this.unlocName = unlocName;
-        this.renderID = renderID;
+        this.isBlockContainer = true;
     }
 
     @Override
@@ -51,9 +42,21 @@ public abstract class BlockContainerSMT extends BlockContainer
     {
         this.blockIcon = register.registerIcon("supermassivetech:" + unlocName.substring(unlocName.indexOf(".") + 1, unlocName.length()));
     }
+    
+    @Override
+    public boolean hasTileEntity(int meta)
+    {
+        return true;
+    }
+    
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata)
+    {
+        return createTileEntity(world, metadata);
+    }
 
     @Override
-    public TileEntity createNewTileEntity(World var1, int var2)
+    public TileEntity createTileEntity(World world, int metadata)
     {
         try
         {
@@ -64,42 +67,6 @@ public abstract class BlockContainerSMT extends BlockContainer
             t.printStackTrace();
         }
         return null;
-    }
-
-    public boolean hasPlacementRotation()
-    {
-        return true;
-    }
-
-    public boolean hasCustomModel()
-    {
-        return true;
-    }
-
-    @Override
-    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitx, float hity, float hitz, int meta)
-    {
-        int opp = Facing.oppositeSide[side];
-
-        return hasPlacementRotation() ? opp : 0;
-    }
-
-    @Override
-    public int getRenderType()
-    {
-        return renderID;
-    }
-
-    @Override
-    public boolean renderAsNormalBlock()
-    {
-        return !hasCustomModel();
-    }
-
-    @Override
-    public boolean isOpaqueCube()
-    {
-        return !hasCustomModel();
     }
 
     @Override
@@ -131,6 +98,19 @@ public abstract class BlockContainerSMT extends BlockContainer
         {
             super.onBlockHarvested(world, x, y, z, p_149681_5_, player);
         }
+    }
+
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+    {
+        super.breakBlock(world, x, y, z, block, meta);
+        world.removeTileEntity(x, y, z);
+    }
+    
+    public boolean onBlockEventReceived(World world, int x, int y, int z, int side, int meta)
+    {
+        super.onBlockEventReceived(world, x, y, z, side, meta);
+        TileEntity tileentity = world.getTileEntity(x, y, z);
+        return tileentity != null ? tileentity.receiveClientEvent(side, meta) : false;
     }
 
     @Override
