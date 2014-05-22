@@ -57,6 +57,9 @@ SMT.tooltip.clearedConfig=Cleared configuration
 SMT.tooltip.setConfig=Set configuration
 SMT.tooltip.currentConfig=Current configuration
 SMT.tooltip.anyType=Any Type
+SMT.tooltip.on=ON
+SMT.tooltip.off=OFF
+SMT.tooltip.toolswitcher=Auto Tool-Switcher
 
 #Star Stuff
 SMT.tooltip.tier.low=Low
@@ -82,3 +85,9 @@ SMT.tooltip.depletedNetherStar=- Created when a star is born.|- Can be rejuvenat
 SMT.tooltip.blackHoleStorage=- Stores 2^40 items and fluids|- Accepts pipe input/output from any side
 SMT.tooltip.blackHoleHopper=- Right click with an item to configure|- Right click with empty hand~   to check configuration|- Shift right click with an empty hand to clear
 SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate of the star inside.|- Activate "venting" mode by shift right~   clicking the top face (must be upright).|- Once the star is out of power~   it will go critical. Better run!
+
+## Keybinds ##
+
+SMT.keybind.section.graviArmor=Gravity Armor
+
+SMT.keybind.toolpicker.info=Auto Tool-Switcher

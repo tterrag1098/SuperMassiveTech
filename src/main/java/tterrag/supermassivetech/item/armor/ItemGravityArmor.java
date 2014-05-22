@@ -22,7 +22,6 @@ import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnergyContainerItem, IAdvancedTooltip
 {
@@ -66,7 +65,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         setMaxDamage(100);
         setNoRepair();
     }
-    
+
     public ItemStack create()
     {
         ItemStack i = new ItemStack(this, 1, this.getMaxDamage());
@@ -235,7 +234,15 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     @Override
     public String getHiddenLines(ItemStack stack)
     {
-        return null;
+        ItemGravityArmor item = (ItemGravityArmor) stack.getItem();
+        switch (item.armorType)
+        {
+        case 1:
+            return Utils.localize("tooltip.toolswitcher", true) + ": "
+                    + (stack.stackTagCompound.getBoolean("toolpickeractive") ? Utils.localize("tooltip.on", true) : EnumChatFormatting.RED + Utils.localize("tooltip.off", true));
+        default:
+            return null;
+        }
     }
 
     @Override
@@ -243,18 +250,6 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     {
         return EnumChatFormatting.WHITE + Utils.localize("tooltip.powerRemaining", true) + ": " + Utils.getColorForPowerLeft(stack.getTagCompound().getInteger("energy"), CAPACITY)
                 + Utils.formatString("", " RF", stack.getTagCompound().getInteger("energy"), true, true);
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean held)
-    {
-        if (this instanceof IAdvancedTooltip)
-        {
-            IAdvancedTooltip item = this;
-            Utils.formAdvancedTooltip(list, stack, item);
-        }
     }
 
     @Override

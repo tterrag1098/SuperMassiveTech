@@ -204,8 +204,12 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private void spawnParticle(int fromX, int fromY, int fromZ)
     {
-        SuperMassiveTech.channelHandler.sendToAllInRange(20D, fromX, fromY, fromZ, FMLClientHandler.instance().getClient().thePlayer.dimension, new PacketHopperParticle(xCoord, yCoord, zCoord, fromX,
-                fromY, fromZ));
+        EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
+        if (player != null)
+        {
+            SuperMassiveTech.channelHandler.sendToAllInRange(20D, fromX, fromY, fromZ, player.dimension, new PacketHopperParticle(xCoord, yCoord, zCoord,
+                    fromX, fromY, fromZ));
+        }
     }
 
     @SuppressWarnings("unchecked")

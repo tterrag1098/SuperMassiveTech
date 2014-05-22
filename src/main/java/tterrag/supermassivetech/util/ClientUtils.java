@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.Face;
 import net.minecraftforge.client.model.obj.GroupObject;
@@ -78,5 +79,10 @@ public class ClientUtils
                 }
             }
         }
+    }
+
+    public static MovingObjectPosition getMouseOver()
+    {
+        return Minecraft.getMinecraft().objectMouseOver;
     }
 }

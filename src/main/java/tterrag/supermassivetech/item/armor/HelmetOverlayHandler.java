@@ -1,5 +1,8 @@
 package tterrag.supermassivetech.item.armor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -19,17 +22,20 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class HelmetOverlayHandler
 {
     private static final ResourceLocation compass = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/overlay/compass.png");
+    public static List<String> textToRender = new ArrayList<String>();
+    public static int time = 500, maxTime = 500;
     
     @SubscribeEvent
     public void onClientOverlay(RenderGameOverlayEvent.Text event)
     {
         Minecraft mc = Minecraft.getMinecraft();
         EntityClientPlayerMP player = mc.thePlayer;
-        
+
         ItemStack helm = player.inventory.armorInventory[3];
         if (helm != null && helm.getItem() instanceof ItemGravityArmor)
         {
             int width = event.resolution.getScaledWidth();
+            int height = event.resolution.getScaledHeight();
 
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
@@ -41,13 +47,14 @@ public class HelmetOverlayHandler
             mc.ingameGUI.drawTexturedModalRect((width - 140) / 2 + getZOffset(mc), 2 + getXOffset(mc), v - 10, 256, 140, 16);
 
             renderWaypoints(mc, width, player, player.posX, player.posY, player.posZ);
-            
+            renderOverlayText(mc, height, width);
+
             GL11.glDisable(GL11.GL_ALPHA_TEST);
 
             mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 8 + getXOffset(mc), 6, 16, 3, 9);
         }
     }
-
+    
     private void renderWaypoints(Minecraft mc, int width, EntityPlayer player, double x, double y, double z)
     {
         for (Waypoint wp : Waypoint.waypoints)
@@ -76,6 +83,31 @@ public class HelmetOverlayHandler
             }
         }
         GL11.glColor3f(1f, 1f, 1f);
+    }
+    
+
+    private void renderOverlayText(Minecraft mc, int height, int width)
+    {
+        if (textToRender.isEmpty()) 
+        {
+            time = maxTime;
+            return;
+        }
+        
+        for (int i = 0; i < textToRender.size(); i++)
+        {
+            mc.ingameGUI.drawString(mc.fontRenderer, textToRender.get(i), 5, height - 10 * i, 0xFFFFFF);
+        }      
+        
+        if (time > 0)
+        {
+            time -= 1 * textToRender.size();
+        }
+        else
+        {
+            textToRender.remove(0);
+            time = maxTime;
+        }
     }
 
     private double angleTo(EntityPlayer player, double x, double y, double z)

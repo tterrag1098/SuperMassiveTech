@@ -17,8 +17,8 @@ import tterrag.supermassivetech.util.Utils;
 public class RenderStarHarvester extends TileEntitySpecialRenderer
 {
     private IModelCustom main, sphere, ring;
-    private ResourceLocation textureMain = new ResourceLocation("supermassivetech", "textures/models/starHarvesterMain.png");
-    private ResourceLocation textureSphere = new ResourceLocation("supermassivetech", "textures/models/starHarvesterSphere.png");
+    private ResourceLocation textureMain = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
+    private ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterSphere.png");
     private ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
 
     public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere, ResourceLocation ring)

@@ -39,7 +39,6 @@ public class RenderBeaconEffect extends TileEntitySpecialRenderer
     {
         if (tile.waypoint == null || tile.waypoint.isNull() || tile.players == null || !tile.players.contains(Minecraft.getMinecraft().thePlayer.getCommandSenderName()))
         {
-            System.out.println(tile.players != null && tile.players.size() >= 1 && !tile.waypoint.isNull() ? tile.players + " " + Minecraft.getMinecraft().thePlayer.getCommandSenderName() : "");
             return;
         }
         

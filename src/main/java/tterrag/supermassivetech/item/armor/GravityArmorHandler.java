@@ -2,9 +2,11 @@ package tterrag.supermassivetech.item.armor;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.util.ClientUtils;
@@ -24,7 +26,7 @@ public class GravityArmorHandler
         {
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
         }
-        
+
         if (!event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
@@ -53,7 +55,37 @@ public class GravityArmorHandler
                 i.damageItem(new Random().nextInt(1000) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
             }
         }
-
         return effect;
+    }
+
+    @SubscribeEvent
+    public void pickCorrectTool(PlayerTickEvent event)
+    {
+        EntityPlayer player = event.player;
+        if (player != null && event.player.worldObj.isRemote && player.getCurrentEquippedItem() != null && player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ItemGravityArmor && player.inventory.armorInventory[2].stackTagCompound.getBoolean("toolpickeractive") && player.isSwingInProgress)
+        {
+            MovingObjectPosition pos = ClientUtils.getMouseOver();
+            Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+          
+            if (block.isAir(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
+                return;
+            
+            float speed = 0;
+            int select = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                ItemStack cur = player.inventory.mainInventory[i];
+                if (cur != null)
+                {
+                    float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
+                    if (newSpeed > speed)
+                    {
+                        speed = newSpeed;
+                        select = i;
+                    }
+                }
+            }
+            player.inventory.currentItem = select;
+        }
     }
 }
