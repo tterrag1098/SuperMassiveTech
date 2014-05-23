@@ -8,7 +8,6 @@ import tterrag.supermassivetech.tile.TileSMTInventory;
 
 public abstract class ContainerSMT extends Container
 {
-
     protected TileSMTInventory tileEnt;
 
     protected ContainerSMT(InventoryPlayer invPlayer, TileSMTInventory tile)
@@ -40,5 +39,4 @@ public abstract class ContainerSMT extends Container
     {
         return true;
     }
-
 }

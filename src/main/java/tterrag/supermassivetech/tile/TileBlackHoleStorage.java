@@ -103,7 +103,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
             else
             {
                 SuperMassiveTech.logger
-                        .severe(String.format("Input does not match storage, \"%s\" was not expected in this input! \"%s\" was expected!, X:%d, Y:%d, Z:%d",
+                        .error(String.format("Input does not match storage, \"%s\" was not expected in this input! \"%s\" was expected!, X:%d, Y:%d, Z:%d",
                                 StatCollector.translateToLocal(inventory[1].getUnlocalizedName() + ".name"), StatCollector.translateToLocal(storedItem.getUnlocalizedName() + ".name"), xCoord, yCoord,
                                 zCoord));
                 spitInputItem();

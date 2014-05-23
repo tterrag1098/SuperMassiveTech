@@ -343,11 +343,11 @@ public class Utils
         }
         else if (stack != null)
         {
-            SuperMassiveTech.logger.warning(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
+            SuperMassiveTech.logger.error(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
         }
         else
         {
-            SuperMassiveTech.logger.severe("A mod tried to set the type of a null itemstack");
+            SuperMassiveTech.logger.error("A mod tried to set the type of a null itemstack");
         }
 
         return stack;
@@ -475,7 +475,7 @@ public class Utils
             }
             catch (Throwable t)
             {
-                SuperMassiveTech.logger.severe(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
+                SuperMassiveTech.logger.fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
                 t.printStackTrace();
             }
         }

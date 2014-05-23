@@ -1,9 +1,12 @@
 package tterrag.supermassivetech;
 
 import java.util.EnumMap;
-import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import tterrag.supermassivetech.block.waypoint.BreakWaypointHandler;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.TooltipHandler;
@@ -43,7 +46,7 @@ public class SuperMassiveTech
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
     public static CommonProxy proxy;
 
-    public static Logger logger = Logger.getLogger("SuperMassiveTech");
+    public static Logger logger = LogManager.getLogger("SuperMassiveTech");
 
     public static ChannelHandler channelHandler = new ChannelHandler();
     public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("SMT", channelHandler);
