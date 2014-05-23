@@ -12,13 +12,3 @@
 *.project
 /.gradle
 /.settings
-/config
-!/src/main/resources
-/src/main/java/tterrag/supermassivetech/util/TestHandler.java
-/crash-reports
-/logs
-/mods
-/resourcepacks
-/saves
-/screenshots
-/options.txt
