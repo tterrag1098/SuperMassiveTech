@@ -4,6 +4,7 @@
 tile.blackHoleStorage.name=Black Hole Storage
 tile.blackHoleHopper.name=Black Hole Hopper
 tile.starHarvester.name=Star Harvester
+tile.waypoint.name=Waypoint
 
 #Items
 item.star.name=Star

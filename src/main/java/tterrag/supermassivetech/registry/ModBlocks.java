@@ -95,5 +95,16 @@ public class ModBlocks
                 'g', Items.iron_ingot,
                 'h', Blocks.hopper
         );
+        
+        GameRegistry.addRecipe(new ItemStack(waypoint), 
+                " g ",
+                "isi",
+                "iBi",
+                
+                'g', Blocks.glass,
+                'i', Items.iron_ingot,
+                's', itemRegistry.star,
+                'B', Blocks.iron_block
+        );
     }
 }

@@ -12,10 +12,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.util.BlockCoord;
+import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class EntityItemStarHeart extends EntityItemIndestructible
@@ -76,7 +75,8 @@ public class EntityItemStarHeart extends EntityItemIndestructible
                 }
                 else
                 {
-                    spawnInwardParticles(toRemove.x, toRemove.y, toRemove.z);
+                    if (worldObj.isRemote)
+                        ClientUtils.spawnStarHeartParticles(worldObj, toRemove.x, toRemove.y, toRemove.z, posX, posY, posZ);
                     particlesLeft--;
                 }
             }
@@ -154,15 +154,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
             }
         }
     }
-
-    private void spawnInwardParticles(int x, int y, int z)
-    {
-        if (FMLClientHandler.instance().getClient().effectRenderer != null)
-        {
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomFlameFX(worldObj, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
-        }
-    }
-
+    
     private boolean extinguish(BlockCoord coord)
     {
         if (worldObj.getBlock(toRemove.x, toRemove.y, toRemove.z) == Blocks.fire)

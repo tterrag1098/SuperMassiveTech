@@ -17,6 +17,7 @@ import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -84,5 +85,13 @@ public class ClientUtils
     public static MovingObjectPosition getMouseOver()
     {
         return Minecraft.getMinecraft().objectMouseOver;
+    }
+
+    public static void spawnStarHeartParticles(World world, int x, int y, int z, double posX, double posY, double posZ)
+    {
+        if (FMLClientHandler.instance().getClient().effectRenderer != null)
+        {
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomFlameFX(world, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
+        }
     }
 }
