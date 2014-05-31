@@ -87,11 +87,8 @@ public class ClientUtils
         return Minecraft.getMinecraft().objectMouseOver;
     }
 
-    public static void spawnStarHeartParticles(World world, int x, int y, int z, double posX, double posY, double posZ)
+    public static void spawnStarHeartParticles(int x, int y, int z, double posX, double posY, double posZ)
     {
-        if (FMLClientHandler.instance().getClient().effectRenderer != null)
-        {
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomFlameFX(world, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
-        }
+        Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomFlameFX(Minecraft.getMinecraft().theWorld, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
     }
 }

@@ -12,8 +12,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.network.packet.PacketStarHeartParticle;
 import tterrag.supermassivetech.util.BlockCoord;
-import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
@@ -75,8 +76,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
                 }
                 else
                 {
-                    if (worldObj.isRemote)
-                        ClientUtils.spawnStarHeartParticles(worldObj, toRemove.x, toRemove.y, toRemove.z, posX, posY, posZ);
+                    sendParticlePacket(toRemove.x, toRemove.y, toRemove.z);
                     particlesLeft--;
                 }
             }
@@ -85,6 +85,11 @@ public class EntityItemStarHeart extends EntityItemIndestructible
                 explodeTimer = 0;
             }
         }
+    }
+
+    private void sendParticlePacket(int x, int y, int z)
+    {
+        SuperMassiveTech.channelHandler.sendToAll(new PacketStarHeartParticle((int) posX, (int) posY, (int) posZ, x, y, z));
     }
 
     private void changeToStar()

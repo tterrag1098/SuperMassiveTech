@@ -11,6 +11,7 @@ import tterrag.supermassivetech.network.packet.PacketBlackHoleStorage;
 import tterrag.supermassivetech.network.packet.PacketHopperParticle;
 import tterrag.supermassivetech.network.packet.PacketJumpUpdate;
 import tterrag.supermassivetech.network.packet.PacketStarHarvester;
+import tterrag.supermassivetech.network.packet.PacketStarHeartParticle;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -27,6 +28,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<SMTPacket>
         addDiscriminator(1, PacketHopperParticle.class);
         addDiscriminator(2, PacketStarHarvester.class);
         addDiscriminator(3, PacketJumpUpdate.class);
+        addDiscriminator(4, PacketStarHeartParticle.class);
     }
 
     public static void init()

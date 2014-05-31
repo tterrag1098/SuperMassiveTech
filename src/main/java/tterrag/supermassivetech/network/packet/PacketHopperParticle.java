@@ -1,44 +1,20 @@
 package tterrag.supermassivetech.network.packet;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
-import tterrag.supermassivetech.network.SMTPacket;
 
-public class PacketHopperParticle extends SMTPacket
+public class PacketHopperParticle extends PacketParticle
 {
-    private int[] info = new int[6];
-
-    public PacketHopperParticle()
-    {
-    }
+    public PacketHopperParticle(){}
 
     public PacketHopperParticle(int... information)
     {
-        for (int i = 0; i < this.info.length; i++)
-        {
-            this.info[i] = information[i];
-        }
+        super(information);
     }
 
     @Override
-    public void encodeInto(ByteBuf buffer)
+    public void spawnParticle(int[] data)
     {
-        for (int i = 0; i < info.length; i++)
-        {
-            buffer.writeInt(info[i]);
-        }
-    }
-
-    @Override
-    public void decodeInto(ByteBuf buffer)
-    {
-        int[] data = new int[6];
-        for (int i = 0; i < data.length; i++)
-        {
-            data[i] = buffer.readInt();
-        }
-
         Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, data[3] + 0.5, data[4] + 0.5, data[5] + 0.5, data[0] + 0.5,
                 data[1] + 0.5, data[2] + 0.5, 0.1d));
     }

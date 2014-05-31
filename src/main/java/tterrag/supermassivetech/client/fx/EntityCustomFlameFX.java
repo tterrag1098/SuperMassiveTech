@@ -18,11 +18,11 @@ public class EntityCustomFlameFX extends EntityFlameFX
      */
     public EntityCustomFlameFX(World world, double x, double y, double z, double toX, double toY, double toZ, double movementFactor)
     {
-        super(world, x, y, z, (toX - x) * movementFactor, (toY - y) * movementFactor, (toZ - z) * movementFactor);
+        super(world, x, y, z, (toX + 0.5 - x) * movementFactor, (toY + 0.3 - y) * movementFactor, (toZ + 0.5 - z) * movementFactor);
 
-        this.toX = toX;
-        this.toY = toY;
-        this.toZ = toZ;
+        this.toX = toX + 0.5;
+        this.toY = toY + 0.3;
+        this.toZ = toZ + 0.5;
         this.noClip = true;
     }
 
