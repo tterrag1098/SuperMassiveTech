@@ -14,10 +14,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
-import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.network.packet.PacketHopperParticle;
+import tterrag.supermassivetech.network.PacketHandler;
+import tterrag.supermassivetech.network.packet.MessageHopperParticle;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInventory
 {
@@ -207,8 +208,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
         if (player != null)
         {
-            SuperMassiveTech.channelHandler.sendToAllInRange(20D, fromX, fromY, fromZ, player.dimension, new PacketHopperParticle(xCoord, yCoord, zCoord,
-                    fromX, fromY, fromZ));
+            PacketHandler.INSTANCE.sendToAllAround(new MessageHopperParticle(xCoord, yCoord, zCoord, fromX, fromY, fromZ), new TargetPoint(player.dimension, fromX, fromY, fromZ, 20D)); 
         }
     }
 

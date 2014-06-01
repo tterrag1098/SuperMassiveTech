@@ -1,7 +1,5 @@
 package tterrag.supermassivetech;
 
-import java.util.EnumMap;
-
 import net.minecraft.creativetab.CreativeTabs;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,8 +12,8 @@ import tterrag.supermassivetech.item.armor.ClientKeyHandler;
 import tterrag.supermassivetech.item.armor.GravityArmorHandler;
 import tterrag.supermassivetech.item.armor.HelmetOverlayHandler;
 import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.network.ChannelHandler;
 import tterrag.supermassivetech.network.GuiHandler;
+import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.proxy.CommonProxy;
 import tterrag.supermassivetech.registry.ModBlocks;
 import tterrag.supermassivetech.registry.ModEnchants;
@@ -30,9 +28,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 /**
  * @author Garrett Spicer-Davis
@@ -47,9 +43,6 @@ public class SuperMassiveTech
     public static CommonProxy proxy;
 
     public static Logger logger = LogManager.getLogger("SuperMassiveTech");
-
-    public static ChannelHandler channelHandler = new ChannelHandler();
-    public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("SMT", channelHandler);
 
     public static ModItems itemRegistry = ModItems.instance;
     public static ModEnchants enchantRegistry = ModEnchants.instance;
@@ -79,14 +72,14 @@ public class SuperMassiveTech
         enchantRegistry.init();
 
         starRegistry.registerDefaultStars();
-
-        ChannelHandler.init();
     }
 
     @EventHandler
     public static void init(FMLInitializationEvent event)
     {
         proxy.init();
+        
+        PacketHandler.init();
         
         itemRegistry.addRecipes();
         blockRegistry.addRecipes();

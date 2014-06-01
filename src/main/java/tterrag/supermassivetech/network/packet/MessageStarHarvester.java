@@ -7,19 +7,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.network.SMTPacket;
 import tterrag.supermassivetech.tile.TileStarHarvester;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketStarHarvester extends SMTPacket
+public class MessageStarHarvester implements IMessage, IMessageHandler<MessageStarHarvester, IMessage>
 {
     private NBTTagCompound data;
     private int x, y, z;
 
-    public PacketStarHarvester()
+    public MessageStarHarvester()
     {
     }
 
-    public PacketStarHarvester(NBTTagCompound tag, int x, int y, int z)
+    public MessageStarHarvester(NBTTagCompound tag, int x, int y, int z)
     {
         data = tag;
         this.x = x;
@@ -27,13 +29,13 @@ public class PacketStarHarvester extends SMTPacket
         this.z = z;
     }
 
-    public PacketStarHarvester(int x, int y, int z)
+    public MessageStarHarvester(int x, int y, int z)
     {
         this(null, x, y, z);
     }
 
     @Override
-    public void encodeInto(ByteBuf buffer)
+    public void toBytes(ByteBuf buffer)
     {
         buffer.writeInt(x);
         buffer.writeInt(y);
@@ -54,7 +56,7 @@ public class PacketStarHarvester extends SMTPacket
     }
 
     @Override
-    public void decodeInto(ByteBuf buffer)
+    public void fromBytes(ByteBuf buffer)
     {
         x = buffer.readInt();
         y = buffer.readInt();
@@ -73,6 +75,13 @@ public class PacketStarHarvester extends SMTPacket
         }
 
         setSlotContents();
+    }
+    
+    @Override
+    public IMessage onMessage(MessageStarHarvester message, MessageContext ctx)
+    {
+        setSlotContents();
+        return null;
     }
 
     private void setSlotContents()

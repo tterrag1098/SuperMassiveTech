@@ -89,6 +89,6 @@ public class ClientUtils
 
     public static void spawnStarHeartParticles(int x, int y, int z, double posX, double posY, double posZ)
     {
-        Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomFlameFX(Minecraft.getMinecraft().theWorld, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
+         FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomFlameFX(Minecraft.getMinecraft().theWorld, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
     }
 }

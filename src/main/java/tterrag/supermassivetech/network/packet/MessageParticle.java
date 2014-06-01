@@ -1,17 +1,17 @@
 package tterrag.supermassivetech.network.packet;
 
-import tterrag.supermassivetech.network.SMTPacket;
 import io.netty.buffer.ByteBuf;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
-public abstract class PacketParticle extends SMTPacket
+public abstract class MessageParticle implements IMessage
 {
     protected int[] info = new int[6];
 
-    public PacketParticle()
+    public MessageParticle()
     {
     }
 
-    public PacketParticle(int... information)
+    public MessageParticle(int... information)
     {
         for (int i = 0; i < this.info.length; i++)
         {
@@ -20,7 +20,7 @@ public abstract class PacketParticle extends SMTPacket
     }
 
     @Override
-    public void encodeInto(ByteBuf buffer)
+    public void toBytes(ByteBuf buffer)
     {
         for (int i = 0; i < info.length; i++)
         {
@@ -29,18 +29,12 @@ public abstract class PacketParticle extends SMTPacket
     }
 
     @Override
-    public void decodeInto(ByteBuf buffer)
+    public void fromBytes(ByteBuf buffer)
     {
         int[] data = new int[6];
         for (int i = 0; i < data.length; i++)
         {
             data[i] = buffer.readInt();
         }
-        spawnParticle(data);
-    }
-    
-    protected void spawnParticle(int[] data)
-    {
-        
     }
 }

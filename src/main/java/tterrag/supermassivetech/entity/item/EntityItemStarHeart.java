@@ -12,8 +12,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.network.packet.PacketStarHeartParticle;
+import tterrag.supermassivetech.network.PacketHandler;
+import tterrag.supermassivetech.network.packet.MessageStarHeartParticle;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -89,7 +89,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 
     private void sendParticlePacket(int x, int y, int z)
     {
-        SuperMassiveTech.channelHandler.sendToAll(new PacketStarHeartParticle((int) posX, (int) posY, (int) posZ, x, y, z));
+        PacketHandler.INSTANCE.sendToAll(new MessageStarHeartParticle((int) posX, (int) posY, (int) posZ, x, y, z));
     }
 
     private void changeToStar()

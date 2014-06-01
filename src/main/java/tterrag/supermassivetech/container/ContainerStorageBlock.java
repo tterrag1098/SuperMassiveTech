@@ -9,8 +9,8 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.network.packet.PacketBlackHoleStorage;
+import tterrag.supermassivetech.network.PacketHandler;
+import tterrag.supermassivetech.network.packet.MessageBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.util.Utils;
 
@@ -78,8 +78,8 @@ public class ContainerStorageBlock extends ContainerSMT
         for (ICrafting c : (List<ICrafting>) crafters)
         {
             FluidStack fluid = te.getTank().getFluid();
-            PacketBlackHoleStorage packet = new PacketBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
-            SuperMassiveTech.channelHandler.sendToPlayer((EntityPlayerMP) c, packet);
+            MessageBlackHoleStorage packet = new MessageBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
+            PacketHandler.INSTANCE.sendTo(packet, (EntityPlayerMP) c);
         }
         super.detectAndSendChanges();
     }

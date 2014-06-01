@@ -1,16 +1,17 @@
 package tterrag.supermassivetech.item.armor;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import tterrag.supermassivetech.SuperMassiveTech;
+
+import org.lwjgl.input.Keyboard;
+
 import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.network.packet.PacketJumpUpdate;
+import tterrag.supermassivetech.network.PacketHandler;
+import tterrag.supermassivetech.network.packet.MessageJumpUpdate;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -33,7 +34,7 @@ public class ClientKeyHandler
             if (jumpState != lastJumpState)
             {
                 lastJumpState = jumpState;
-                SuperMassiveTech.channelHandler.sendToServer(new PacketJumpUpdate(jumpState));
+                PacketHandler.INSTANCE.sendToServer(new MessageJumpUpdate(jumpState));
             }
 
             ItemStack chest = mc.thePlayer.inventory.armorInventory[2];

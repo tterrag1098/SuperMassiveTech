@@ -18,7 +18,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.IStarItem;
-import tterrag.supermassivetech.network.packet.PacketStarHarvester;
+import tterrag.supermassivetech.network.PacketHandler;
+import tterrag.supermassivetech.network.packet.MessageStarHarvester;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
@@ -107,11 +108,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         if (hasItem)
         {
             NBTTagCompound tag = new NBTTagCompound();
-            SuperMassiveTech.channelHandler.sendToAll(new PacketStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord));
+            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord));
         }
         else
         {
-            SuperMassiveTech.channelHandler.sendToAll(new PacketStarHarvester(xCoord, yCoord, zCoord));
+            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord));
         }
     }
 
