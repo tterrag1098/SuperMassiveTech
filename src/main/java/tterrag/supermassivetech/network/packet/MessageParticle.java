@@ -36,5 +36,6 @@ public abstract class MessageParticle implements IMessage
         {
             data[i] = buffer.readInt();
         }
+        this.info = data;
     }
 }
