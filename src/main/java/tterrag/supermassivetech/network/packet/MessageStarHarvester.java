@@ -1,13 +1,9 @@
 package tterrag.supermassivetech.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import tterrag.supermassivetech.tile.TileStarHarvester;
+import tterrag.supermassivetech.util.ClientUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -73,28 +69,12 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
                 e.printStackTrace();
             }
         }
-
-        setSlotContents();
     }
     
     @Override
     public IMessage onMessage(MessageStarHarvester message, MessageContext ctx)
     {
-        setSlotContents();
+        ClientUtils.setStarHarvetserSlotContents(message.data, message.x, message.y, message.z);
         return null;
-    }
-
-    private void setSlotContents()
-    {
-        World world = Minecraft.getMinecraft().theWorld;
-
-        if (world != null)
-        {
-            TileEntity t = world.getTileEntity(x, y, z);
-            if (t != null && t instanceof TileStarHarvester)
-            {
-                ((TileStarHarvester) t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
-            }
-        }
     }
 }
