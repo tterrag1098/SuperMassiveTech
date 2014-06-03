@@ -24,7 +24,7 @@ public class HelmetOverlayHandler
 {
     private static final ResourceLocation compass = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/overlay/compass.png");
     public static List<String> textToRender = new ArrayList<String>();
-    public static int time = 500, maxTime = 500;
+    public int time = 300, maxTime = 300;
     
     @SubscribeEvent
     public void onClientOverlay(RenderGameOverlayEvent.Text event)
@@ -57,6 +57,7 @@ public class HelmetOverlayHandler
         else
         {
             textToRender.clear();
+            time = maxTime;
         }
     }
     
@@ -101,12 +102,12 @@ public class HelmetOverlayHandler
         
         for (int i = 0; i < textToRender.size(); i++)
         {
-            mc.ingameGUI.drawString(mc.fontRenderer, textToRender.get(i), 5, height - 10 * i, 0xFFFFFF);
+            mc.ingameGUI.drawString(mc.fontRenderer, textToRender.get(i), 5, height - 10 - 10 * i, 0xFFFFFF);
         }      
         
         if (time > 0)
         {
-            time -= 1 * textToRender.size();
+            time -= textToRender.size();
         }
         else
         {

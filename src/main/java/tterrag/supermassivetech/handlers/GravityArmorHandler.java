@@ -13,6 +13,7 @@ import net.minecraft.util.MovingObjectPosition;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.ItemGravityArmor;
+import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;
@@ -90,7 +91,7 @@ public class GravityArmorHandler
         try
         {
             if (player != null && event.player.worldObj.isRemote && player.getCurrentEquippedItem() != null && player.inventory.armorInventory[2] != null
-                    && player.inventory.armorInventory[2].getItem() instanceof ItemGravityArmor && player.inventory.armorInventory[2].stackTagCompound.getBoolean("toolpickeractive")
+                    && player.inventory.armorInventory[2].getItem() instanceof ItemGravityArmor && player.inventory.armorInventory[2].stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString())
                     && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
             {
                 MovingObjectPosition pos = ClientUtils.getMouseOver();

@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.lib.Reference;
+import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -238,7 +239,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         {
         case 1:
             return Utils.localize("tooltip.toolswitcher", true) + ": "
-                    + (stack.stackTagCompound.getBoolean("toolpickeractive") ? Utils.localize("tooltip.on", true) : EnumChatFormatting.RED + Utils.localize("tooltip.off", true));
+                    + (stack.stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString()) ? Utils.localize("tooltip.on", true) : EnumChatFormatting.RED + Utils.localize("tooltip.off", true));
         default:
             return null;
         }
