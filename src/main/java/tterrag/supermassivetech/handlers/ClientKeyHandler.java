@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.item.armor;
+package tterrag.supermassivetech.handlers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
+import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageJumpUpdate;

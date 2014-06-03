@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.item.armor;
+package tterrag.supermassivetech.handlers;
 
 import java.util.Random;
 
@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;

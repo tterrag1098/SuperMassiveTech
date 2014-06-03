@@ -5,12 +5,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import tterrag.supermassivetech.block.waypoint.BreakWaypointHandler;
 import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.item.TooltipHandler;
-import tterrag.supermassivetech.item.armor.ClientKeyHandler;
-import tterrag.supermassivetech.item.armor.GravityArmorHandler;
-import tterrag.supermassivetech.item.armor.HelmetOverlayHandler;
+import tterrag.supermassivetech.handlers.BreakWaypointHandler;
+import tterrag.supermassivetech.handlers.ClientKeyHandler;
+import tterrag.supermassivetech.handlers.GravityArmorHandler;
+import tterrag.supermassivetech.handlers.HelmetOverlayHandler;
+import tterrag.supermassivetech.handlers.TooltipHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.network.PacketHandler;

@@ -13,7 +13,7 @@ import tterrag.supermassivetech.client.render.ItemObjRenderer;
 import tterrag.supermassivetech.client.render.RenderBeaconEffect;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
 import tterrag.supermassivetech.client.render.SimpleModelRenderer;
-import tterrag.supermassivetech.item.armor.ClientKeyHandler;
+import tterrag.supermassivetech.handlers.ClientKeyHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;

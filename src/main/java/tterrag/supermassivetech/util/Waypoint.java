@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.block.waypoint;
+package tterrag.supermassivetech.util;
 
 import java.awt.Color;
 import java.util.Arrays;

@@ -1,7 +1,8 @@
-package tterrag.supermassivetech.item;
+package tterrag.supermassivetech.handlers;
 
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.util.EnumChatFormatting;
@@ -11,6 +12,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.enchant.IAdvancedEnchant;
+import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -31,6 +33,12 @@ public class TooltipHandler
         {
             IAdvancedTooltip item = (IAdvancedTooltip) event.itemStack.getItem();
             Utils.formAdvancedTooltip(event.toolTip, event.itemStack, item);
+        }
+        
+        if (Block.getBlockFromItem(event.itemStack.getItem()) instanceof IAdvancedTooltip)
+        {
+            IAdvancedTooltip block = (IAdvancedTooltip) Block.getBlockFromItem(event.itemStack.getItem());
+            Utils.formAdvancedTooltip(event.toolTip, event.itemStack, block);
         }
 
         if (ConfigHandler.showOredictTooltips)

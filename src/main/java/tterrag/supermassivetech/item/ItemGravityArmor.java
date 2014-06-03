@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.item.armor;
+package tterrag.supermassivetech.item;
 
 import java.util.List;
 import java.util.Random;
@@ -16,7 +16,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;

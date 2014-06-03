@@ -1,7 +1,7 @@
 package tterrag.supermassivetech.network.message;
 
 import io.netty.buffer.ByteBuf;
-import tterrag.supermassivetech.item.armor.GravityArmorHandler;
+import tterrag.supermassivetech.handlers.GravityArmorHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

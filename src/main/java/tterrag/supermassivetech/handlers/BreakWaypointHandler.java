@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.block.waypoint;
+package tterrag.supermassivetech.handlers;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import tterrag.supermassivetech.tile.TileWaypoint;

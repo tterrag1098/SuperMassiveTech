@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.block.waypoint;
+package tterrag.supermassivetech.block;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -10,11 +10,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.block.BlockSMT;
-import tterrag.supermassivetech.block.ISaveToItem;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileWaypoint;
 import tterrag.supermassivetech.util.GuiHelper;
+import tterrag.supermassivetech.util.Waypoint;
 
 public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityProvider
 {

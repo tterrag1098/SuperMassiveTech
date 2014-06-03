@@ -13,7 +13,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
-import tterrag.supermassivetech.block.waypoint.Waypoint;
+import tterrag.supermassivetech.util.Waypoint;
 
 public class TileWaypoint extends TileEntity
 {

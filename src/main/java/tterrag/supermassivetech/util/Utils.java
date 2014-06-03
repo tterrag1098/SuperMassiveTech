@@ -425,18 +425,18 @@ public class Utils
     /**
      * In-place adds to a list, forming an advanced tooltip from the passed item
      */
-    public static void formAdvancedTooltip(List<String> toolTip, ItemStack stack, IAdvancedTooltip item)
+    public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip)
     {
-        if (item.getHiddenLines(stack) != null)
+        if (tooltip.getHiddenLines(stack) != null)
         {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
             {
-                for (String s : splitList(item.getHiddenLines(stack)))
+                for (String s : splitList(tooltip.getHiddenLines(stack)))
                 {
                     String[] ss = s.split("~");
                     for (String line : ss)
                     {
-                        toolTip.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
+                        lines.add(green ? EnumChatFormatting.GREEN.toString() + line : EnumChatFormatting.WHITE + line);
                     }
                     green = green ? false : true;
                 }
@@ -444,18 +444,18 @@ public class Utils
             }
             else
             {
-                toolTip.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED
+                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED
                         + localize("tooltip.moreInfo", true)));
             }
         }
 
-        if (item.getStaticLines(stack) != null)
+        if (tooltip.getStaticLines(stack) != null)
         {
-            if (item.getHiddenLines(stack) != null)
-                toolTip.add("");
+            if (tooltip.getHiddenLines(stack) != null)
+                lines.add("");
 
-            for (String s : splitList(item.getStaticLines(stack), "~"))
-                toolTip.add(EnumChatFormatting.WHITE + s);
+            for (String s : splitList(tooltip.getStaticLines(stack), "~"))
+                lines.add(EnumChatFormatting.WHITE + s);
         }
     }
 

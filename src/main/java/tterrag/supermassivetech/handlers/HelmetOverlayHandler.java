@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.item.armor;
+package tterrag.supermassivetech.handlers;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -15,8 +15,9 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.supermassivetech.block.waypoint.Waypoint;
+import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.lib.Reference;
+import tterrag.supermassivetech.util.Waypoint;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class HelmetOverlayHandler
