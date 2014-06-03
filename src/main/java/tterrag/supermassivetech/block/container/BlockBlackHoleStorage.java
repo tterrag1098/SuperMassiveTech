@@ -14,13 +14,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.block.ISaveToItem;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 
 /**
  * @author Garrett Spicer-Davis
  * 
  */
-public class BlockBlackHoleStorage extends BlockContainerSMT implements IKeepInventoryAsItem
+public class BlockBlackHoleStorage extends BlockContainerSMT implements ISaveToItem
 {
     public BlockBlackHoleStorage()
     {

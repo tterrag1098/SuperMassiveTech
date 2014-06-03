@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.block.waypoint;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
@@ -10,8 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.common.util.Constants;
-
-import org.lwjgl.util.Color;
 
 import com.google.common.collect.Sets;
 
@@ -118,7 +117,9 @@ public class Waypoint
         }
         tag.setTag("waypointplayers", list);
         
-        tag.setByteArray("waypointcolor", new byte[]{color.getRedByte(), color.getGreenByte(), color.getBlueByte()});
+        tag.setIntArray("waypointcolor", new int[]{color.getRed(), color.getGreen(), color.getBlue()});
+        
+        tag.setString("waypointname", name);
     }
     
     public Waypoint readFromNBT(NBTTagCompound tag)
@@ -134,11 +135,13 @@ public class Waypoint
             players.add(list.getStringTagAt(i));
         }
         
-        byte[] arr = tag.getByteArray("waypointcolor");
+        int[] arr = tag.getIntArray("waypointcolor");
 
         if (arr.length < 2) return this;
         
         this.color = new Color(arr[0], arr[1], arr[2]);
+        
+        this.name = tag.getString("waypointname");
         
         this.isempty = false;
         

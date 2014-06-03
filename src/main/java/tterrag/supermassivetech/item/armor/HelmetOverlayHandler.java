@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.item.armor;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Color;
 
 import tterrag.supermassivetech.block.waypoint.Waypoint;
 import tterrag.supermassivetech.lib.Reference;

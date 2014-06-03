@@ -9,10 +9,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.block.ISaveToItem;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import tterrag.supermassivetech.util.Utils;
 
-public class BlockStarHarvester extends BlockContainerSMT implements IKeepInventoryAsItem
+public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
 {
     public BlockStarHarvester()
     {

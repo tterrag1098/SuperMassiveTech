@@ -1,11 +1,10 @@
 package tterrag.supermassivetech.client.gui;
 
+import java.awt.Color;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-
-import org.lwjgl.util.Color;
-
 import tterrag.supermassivetech.client.gui.button.ButtonSlider;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageWaypointUpdate;

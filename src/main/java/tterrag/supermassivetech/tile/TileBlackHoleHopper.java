@@ -17,8 +17,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageHopperParticle;
 import tterrag.supermassivetech.util.Utils;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInventory
 {
@@ -205,11 +203,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private void spawnParticle(int fromX, int fromY, int fromZ)
     {
-        EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
-        if (player != null)
-        {
-            PacketHandler.INSTANCE.sendToAllAround(new MessageHopperParticle(xCoord, yCoord, zCoord, fromX, fromY, fromZ), new TargetPoint(player.dimension, fromX, fromY, fromZ, 20D)); 
-        }
+        PacketHandler.INSTANCE.sendToAll(new MessageHopperParticle(xCoord, yCoord, zCoord, fromX, fromY, fromZ)); 
     }
 
     @SuppressWarnings("unchecked")

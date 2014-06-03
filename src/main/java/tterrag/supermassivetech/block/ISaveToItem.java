@@ -1,11 +1,11 @@
-package tterrag.supermassivetech.block.container;
+package tterrag.supermassivetech.block;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public interface IKeepInventoryAsItem
+public interface ISaveToItem
 {
     /**
      * Gets an itemstack with the relevant NBT data that represents all the data

@@ -174,6 +174,8 @@ public class Utils
         // distance forumla
         double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
+        System.out.println(entity.worldObj.isRemote);
+
         if (dist > range)
             return;
 
@@ -245,7 +247,7 @@ public class Utils
         if (Math.abs(vecZ) < minGrav)
             vecZ = 0;
 
-        entity.setVelocity(entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
+        setEntityVelocity(entity, entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 
         showParticles &= dist > 1;
 
@@ -253,6 +255,13 @@ public class Utils
 
         if (showParticles || entity.worldObj.isRemote)
             ClientUtils.spawnGravityEffectParticles(xCoord, yCoord, zCoord, entity, range);
+    }
+
+    public static void setEntityVelocity(Entity entity, double velX, double velY, double velZ)
+    {
+        entity.motionX = velX;
+        entity.motionY = velY;
+        entity.motionZ = velZ;
     }
 
     /**
@@ -533,43 +542,43 @@ public class Utils
         }
         return toReturn;
     }
-    
+
     public static void writeUUIDsToNBT(UUID[] uuids, NBTTagCompound tag, String toName)
     {
         int[] uuidnums = new int[uuids.length * 4];
-        
+
         for (int i = 0; i < uuids.length; i++)
         {
             long msd = uuids[i].getMostSignificantBits();
             long lsd = uuids[i].getLeastSignificantBits();
-            
+
             uuidnums[i * 4] = (int) (msd >> 32);
             uuidnums[i * 4 + 1] = (int) msd;
             uuidnums[i * 4 + 2] = (int) (lsd >> 32);
             uuidnums[i * 4 + 3] = (int) lsd;
         }
-        
+
         tag.setIntArray(toName, uuidnums);
     }
-    
+
     public static UUID[] readUUIDsFromNBT(String name, NBTTagCompound tag)
     {
         int[] uuidnums = tag.getIntArray(name);
         UUID[] uuids = new UUID[uuidnums.length / 4];
-        
+
         for (int i = 0; i < uuidnums.length; i += 4)
         {
             long msd = ((long) uuidnums[i]) << 32;
             msd += uuidnums[i + 1];
             long lsd = ((long) uuidnums[i + 2]) << 32;
             lsd += uuidnums[i + 3];
-            
+
             uuids[i / 4] = new UUID(msd, lsd);
         }
-        
+
         return uuids;
     }
-    
+
     public static int toHex(int r, int g, int b)
     {
         int hex = 0;

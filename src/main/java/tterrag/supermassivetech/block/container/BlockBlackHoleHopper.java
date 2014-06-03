@@ -8,10 +8,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.block.ISaveToItem;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.util.Utils;
 
-public class BlockBlackHoleHopper extends BlockContainerSMT implements IKeepInventoryAsItem
+public class BlockBlackHoleHopper extends BlockContainerSMT implements ISaveToItem
 {
     public BlockBlackHoleHopper()
     {

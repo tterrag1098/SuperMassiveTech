@@ -11,6 +11,7 @@ import tterrag.supermassivetech.block.waypoint.BlockWaypoint;
 import tterrag.supermassivetech.item.block.ItemBlockHopper;
 import tterrag.supermassivetech.item.block.ItemBlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockStorage;
+import tterrag.supermassivetech.item.block.ItemBlockWaypoint;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
@@ -42,7 +43,7 @@ public class ModBlocks
         GameRegistry.registerTileEntity(TileStarHarvester.class, "tileStarHarvester");
         
         waypoint = new BlockWaypoint();
-        GameRegistry.registerBlock(waypoint, "waypoint");
+        GameRegistry.registerBlock(waypoint, ItemBlockWaypoint.class, "waypoint");
         GameRegistry.registerTileEntity(TileWaypoint.class, "tileWaypoint");
     }
 
