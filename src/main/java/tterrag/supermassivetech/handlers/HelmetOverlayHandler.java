@@ -102,7 +102,7 @@ public class HelmetOverlayHandler
         
         for (int i = 0; i < textToRender.size(); i++)
         {
-            mc.ingameGUI.drawString(mc.fontRenderer, textToRender.get(i), 5, height - 10 - 10 * i, 0xFFFFFF);
+            mc.ingameGUI.drawString(mc.fontRenderer, textToRender.get(i), 5, height - 10 * (i + 1), 0xFFFFFF);
         }      
         
         if (time > 0)

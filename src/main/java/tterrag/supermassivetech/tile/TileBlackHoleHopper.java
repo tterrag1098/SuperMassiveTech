@@ -140,18 +140,18 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private void insertOneItem(IInventory inv, int idx)
     {
-        ItemStack stack = inv.getStackInSlot(idx);
+        ItemStack inSlot = inv.getStackInSlot(idx);
 
-        if (stack == null && inv.isItemValidForSlot(idx, inventory[hiddenSlot]))
+        if (inSlot == null && inv.isItemValidForSlot(idx, inventory[hiddenSlot]))
         {
             ItemStack newStack = inventory[hiddenSlot].copy();
             newStack.stackSize = 1;
             connection.inv.setInventorySlotContents(idx, newStack);
             inventory[hiddenSlot].stackSize--;
         }
-        else if (stack.stackSize < inv.getInventoryStackLimit())
+        else if (inSlot != null && inSlot.stackSize < inv.getInventoryStackLimit())
         {
-            stack.stackSize++;
+            inSlot.stackSize++;
             inventory[hiddenSlot].stackSize--;
         }
 
