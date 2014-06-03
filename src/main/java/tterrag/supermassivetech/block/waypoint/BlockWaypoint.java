@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.block.BlockSMT;
 import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.tile.TileWaypoint;
+import tterrag.supermassivetech.util.GuiHelper;
 
 public class BlockWaypoint extends BlockSMT
 {
@@ -55,7 +55,7 @@ public class BlockWaypoint extends BlockSMT
     {
         if (world.isRemote)
         {
-            GuiHandler.openWaypointGui(world, x, y, z);
+            GuiHelper.openWaypointGui(world, x, y, z);
         }
         return true;
     }
