@@ -1,23 +1,33 @@
 package tterrag.supermassivetech.item.block;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import tterrag.supermassivetech.item.IAdvancedTooltip;
 
-public class ItemBlockWaypoint extends ItemBlockSMT
+public class ItemBlockWaypoint extends ItemBlockSMT implements IAdvancedTooltip
 {
     public ItemBlockWaypoint(Block block)
     {
         super(block);
     }
     
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
+    public String getStaticLines(ItemStack stack)
     {
-        list.add(stack.getTagCompound().getCompoundTag("waypoint").getString("waypointname"));
+        NBTTagCompound tag = stack.getTagCompound() == null ? null : stack.getTagCompound().getCompoundTag("waypoint");
+        
+        if (tag != null)
+        {
+            return tag.getString("waypointname");
+        }
+        else return null;
+    }
+
+    @Override
+    public String getHiddenLines(ItemStack stack)
+    {
+        return null;
     }
     
     @Override

@@ -174,8 +174,6 @@ public class Utils
         // distance forumla
         double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
-        System.out.println(entity.worldObj.isRemote);
-
         if (dist > range)
             return;
 
@@ -253,7 +251,7 @@ public class Utils
 
         // shows smoke particles
 
-        if (showParticles || entity.worldObj.isRemote)
+        if (showParticles && entity.worldObj.isRemote)
             ClientUtils.spawnGravityEffectParticles(xCoord, yCoord, zCoord, entity, range);
     }
 

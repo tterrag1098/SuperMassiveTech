@@ -8,6 +8,7 @@ import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -24,8 +25,6 @@ import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 
 /**
  * Random utils for spawning particles and other client-only things. Mostly used
@@ -37,9 +36,15 @@ public class ClientUtils
 
     public static void spawnGravityEffectParticles(int xCoord, int yCoord, int zCoord, Entity entity, float range)
     {
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && FMLClientHandler.instance().getClient().effectRenderer != null && Minecraft.getMinecraft().thePlayer != null)
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, entity.posX, entity.posY, entity.posZ, xCoord + 0.5,
-                    yCoord + 0.5, zCoord + 0.5, 1 / range));
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.effectRenderer == null || mc.thePlayer == null)
+            return;
+
+        double x = entity.posX, y = entity.posY + (entity instanceof EntityPlayer ? -0.6 : (entity.height / 2)), z = entity.posZ;
+
+        System.out.println(entity.posX + " " + entity.posY + " " + entity.posZ);
+        mc.effectRenderer.addEffect(new EntityCustomSmokeFX(mc.thePlayer.worldObj, x, y, z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1 / range / 2));
     }
 
     public static boolean calculateClientJumpState()
@@ -125,8 +130,8 @@ public class ClientUtils
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.effectRenderer != null && mc.thePlayer != null)
         {
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5
-                    + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.05));
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z,
+                    xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.05));
         }
     }
 }
