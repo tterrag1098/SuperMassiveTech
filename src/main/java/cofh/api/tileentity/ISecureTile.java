@@ -1,51 +1,56 @@
 package cofh.api.tileentity;
 
-public interface ISecureTile
-{
+/**
+ * Implement this interface on Tile Entities which have access restrictions.
+ * 
+ * @author King Lemming
+ * 
+ */
+public interface ISecureTile {
 
-    public static enum AccessMode
-    {
-        PUBLIC, RESTRICTED, PRIVATE;
+	/**
+	 * Enum for Access Modes - Restricted is Friends Only, Private is Owner only.
+	 * 
+	 * @author King Lemming
+	 * 
+	 */
+	public static enum AccessMode {
+		PUBLIC, RESTRICTED, PRIVATE;
 
-        public boolean isPublic()
-        {
+		public boolean isPublic() {
 
-            return this == PUBLIC;
-        }
+			return this == PUBLIC;
+		}
 
-        public boolean isRestricted()
-        {
+		public boolean isRestricted() {
 
-            return this == RESTRICTED;
-        }
+			return this == RESTRICTED;
+		}
 
-        public boolean isPrivate()
-        {
+		public boolean isPrivate() {
 
-            return this == PRIVATE;
-        }
+			return this == PRIVATE;
+		}
 
-        public static AccessMode stepForward(AccessMode curAccess)
-        {
+		public static AccessMode stepForward(AccessMode curAccess) {
 
-            return curAccess == AccessMode.PUBLIC ? AccessMode.RESTRICTED : curAccess == AccessMode.PRIVATE ? AccessMode.PUBLIC : AccessMode.PRIVATE;
-        }
+			return curAccess == PUBLIC ? RESTRICTED : curAccess == PRIVATE ? PUBLIC : PRIVATE;
+		}
 
-        public static AccessMode stepBackward(AccessMode curAccess)
-        {
+		public static AccessMode stepBackward(AccessMode curAccess) {
 
-            return curAccess == AccessMode.PUBLIC ? AccessMode.PRIVATE : curAccess == AccessMode.PRIVATE ? AccessMode.RESTRICTED : AccessMode.PUBLIC;
-        }
-    }
+			return curAccess == PUBLIC ? PRIVATE : curAccess == PRIVATE ? RESTRICTED : PUBLIC;
+		}
+	}
 
-    public boolean setAccess(AccessMode access);
+	public boolean setAccess(AccessMode access);
 
-    public AccessMode getAccess();
+	public boolean setOwnerName(String name);
 
-    public boolean setOwnerName(String name);
+	public AccessMode getAccess();
 
-    public String getOwnerName();
+	public String getOwnerName();
 
-    public boolean canPlayerAccess(String name);
+	public boolean canPlayerAccess(String name);
 
 }

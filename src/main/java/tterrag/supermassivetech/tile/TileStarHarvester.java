@@ -187,17 +187,17 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         storage.setEnergyStored(energy);
     }
+    
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from)
+    {
+        return from.ordinal() == getRotationMeta();
+    }
 
     @Override
     public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate)
     {
         return storage.extractEnergy(maxExtract, simulate);
-    }
-
-    @Override
-    public boolean canInterface(ForgeDirection from)
-    {
-        return from.ordinal() == getRotationMeta();
     }
 
     @Override
@@ -213,25 +213,25 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     }
 
     @Override
-    public int getEnergyPerTick()
+    public int getInfoEnergyPerTick()
     {
-        return getMaxEnergyPerTick();
+        return getInfoMaxEnergyPerTick();
     }
 
     @Override
-    public int getMaxEnergyPerTick()
+    public int getInfoMaxEnergyPerTick()
     {
         return ((IStar) inventory[slot].getItem()).getPowerPerTick();
     }
 
     @Override
-    public int getEnergy()
+    public int getInfoEnergy()
     {
         return storage.getEnergyStored();
     }
 
     @Override
-    public int getMaxEnergy()
+    public int getInfoMaxEnergy()
     {
         return STORAGE_CAP;
     }

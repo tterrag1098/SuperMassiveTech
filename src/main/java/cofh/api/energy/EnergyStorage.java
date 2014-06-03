@@ -3,179 +3,156 @@ package cofh.api.energy;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
- * Reference implementation of {@link IEnergyStorage}. Use/extend this or
- * implement your own.
+ * Reference implementation of {@link IEnergyStorage}. Use/extend this or implement your own.
  * 
  * @author King Lemming
  * 
  */
-public class EnergyStorage implements IEnergyStorage
-{
+public class EnergyStorage implements IEnergyStorage {
 
-    protected int energy;
-    protected int capacity;
-    protected int maxReceive;
-    protected int maxExtract;
+	protected int energy;
+	protected int capacity;
+	protected int maxReceive;
+	protected int maxExtract;
 
-    public EnergyStorage(int capacity)
-    {
+	public EnergyStorage(int capacity) {
 
-        this(capacity, capacity, capacity);
-    }
+		this(capacity, capacity, capacity);
+	}
 
-    public EnergyStorage(int capacity, int maxTransfer)
-    {
+	public EnergyStorage(int capacity, int maxTransfer) {
 
-        this(capacity, maxTransfer, maxTransfer);
-    }
+		this(capacity, maxTransfer, maxTransfer);
+	}
 
-    public EnergyStorage(int capacity, int maxReceive, int maxExtract)
-    {
+	public EnergyStorage(int capacity, int maxReceive, int maxExtract) {
 
-        this.capacity = capacity;
-        this.maxReceive = maxReceive;
-        this.maxExtract = maxExtract;
-    }
+		this.capacity = capacity;
+		this.maxReceive = maxReceive;
+		this.maxExtract = maxExtract;
+	}
 
-    public EnergyStorage readFromNBT(NBTTagCompound nbt)
-    {
+	public EnergyStorage readFromNBT(NBTTagCompound nbt) {
 
-        this.energy = nbt.getInteger("Energy");
-        return this;
-    }
+		this.energy = nbt.getInteger("Energy");
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt)
-    {
+		if (energy > capacity) {
+			energy = capacity;
+		}
+		return this;
+	}
 
-        nbt.setInteger("Energy", energy);
-        return nbt;
-    }
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 
-    public void setCapacity(int capacity)
-    {
+		if (energy < 0) {
+			energy = 0;
+		}
+		nbt.setInteger("Energy", energy);
+		return nbt;
+	}
 
-        this.capacity = capacity;
+	public void setCapacity(int capacity) {
 
-        if (energy > capacity)
-        {
-            energy = capacity;
-        }
-    }
+		this.capacity = capacity;
 
-    public void setMaxTransfer(int maxTransfer)
-    {
+		if (energy > capacity) {
+			energy = capacity;
+		}
+	}
 
-        setMaxReceive(maxTransfer);
-        setMaxExtract(maxTransfer);
-    }
+	public void setMaxTransfer(int maxTransfer) {
 
-    public void setMaxReceive(int maxReceive)
-    {
+		setMaxReceive(maxTransfer);
+		setMaxExtract(maxTransfer);
+	}
 
-        this.maxReceive = maxReceive;
-    }
+	public void setMaxReceive(int maxReceive) {
 
-    public void setMaxExtract(int maxExtract)
-    {
+		this.maxReceive = maxReceive;
+	}
 
-        this.maxExtract = maxExtract;
-    }
+	public void setMaxExtract(int maxExtract) {
 
-    public int getMaxReceive()
-    {
+		this.maxExtract = maxExtract;
+	}
 
-        return maxReceive;
-    }
+	public int getMaxReceive() {
 
-    public int getMaxExtract()
-    {
+		return maxReceive;
+	}
 
-        return maxExtract;
-    }
+	public int getMaxExtract() {
 
-    /**
-     * This function is included to allow for server -> client sync. Do not call
-     * this externally to the containing Tile Entity, as not all IEnergyHandlers
-     * are guaranteed to have it.
-     * 
-     * @param energy
-     */
-    public void setEnergyStored(int energy)
-    {
+		return maxExtract;
+	}
 
-        this.energy = energy;
+	/**
+	 * This function is included to allow for server -> client sync. Do not call this externally to the containing Tile Entity, as not all IEnergyHandlers are
+	 * guaranteed to have it.
+	 * 
+	 * @param energy
+	 */
+	public void setEnergyStored(int energy) {
 
-        if (this.energy > capacity)
-        {
-            this.energy = capacity;
-        }
-        else if (this.energy < 0)
-        {
-            this.energy = 0;
-        }
-    }
+		this.energy = energy;
 
-    /**
-     * This function is included to allow the containing tile to directly and
-     * efficiently modify the energy contained in the EnergyStorage. Do not rely
-     * on this externally, as not all IEnergyHandlers are guaranteed to have it.
-     * 
-     * @param energy
-     */
-    public void modifyEnergyStored(int energy)
-    {
+		if (this.energy > capacity) {
+			this.energy = capacity;
+		} else if (this.energy < 0) {
+			this.energy = 0;
+		}
+	}
 
-        this.energy += energy;
+	/**
+	 * This function is included to allow the containing tile to directly and efficiently modify the energy contained in the EnergyStorage. Do not rely on this
+	 * externally, as not all IEnergyHandlers are guaranteed to have it.
+	 * 
+	 * @param energy
+	 */
+	public void modifyEnergyStored(int energy) {
 
-        if (this.energy > capacity)
-        {
-            this.energy = capacity;
-        }
-        else if (this.energy < 0)
-        {
-            this.energy = 0;
-        }
-    }
+		this.energy += energy;
 
-    /* IEnergyStorage */
-    @Override
-    public int receiveEnergy(int maxReceive, boolean simulate)
-    {
+		if (this.energy > capacity) {
+			this.energy = capacity;
+		} else if (this.energy < 0) {
+			this.energy = 0;
+		}
+	}
 
-        int energyReceived = Math.min(capacity - energy, Math.min(this.maxReceive, maxReceive));
+	/* IEnergyStorage */
+	@Override
+	public int receiveEnergy(int maxReceive, boolean simulate) {
 
-        if (!simulate)
-        {
-            energy += energyReceived;
-        }
-        return energyReceived;
-    }
+		int energyReceived = Math.min(capacity - energy, Math.min(this.maxReceive, maxReceive));
 
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate)
-    {
+		if (!simulate) {
+			energy += energyReceived;
+		}
+		return energyReceived;
+	}
 
-        int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
+	@Override
+	public int extractEnergy(int maxExtract, boolean simulate) {
 
-        if (!simulate)
-        {
-            energy -= energyExtracted;
-        }
-        return energyExtracted;
-    }
+		int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
 
-    @Override
-    public int getEnergyStored()
-    {
+		if (!simulate) {
+			energy -= energyExtracted;
+		}
+		return energyExtracted;
+	}
 
-        return energy;
-    }
+	@Override
+	public int getEnergyStored() {
 
-    @Override
-    public int getMaxEnergyStored()
-    {
+		return energy;
+	}
 
-        return capacity;
-    }
+	@Override
+	public int getMaxEnergyStored() {
+
+		return capacity;
+	}
 
 }
