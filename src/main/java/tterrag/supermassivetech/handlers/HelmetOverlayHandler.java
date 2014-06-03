@@ -54,6 +54,10 @@ public class HelmetOverlayHandler
 
             mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 8 + getXOffset(mc), 6, 16, 3, 9);
         }
+        else
+        {
+            textToRender.clear();
+        }
     }
     
     private void renderWaypoints(Minecraft mc, int width, EntityPlayer player, double x, double y, double z)

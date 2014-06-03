@@ -13,6 +13,8 @@ import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageJumpUpdate;
+import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor;
+import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -41,10 +43,11 @@ public class ClientKeyHandler
             ItemStack chest = mc.thePlayer.inventory.armorInventory[2];
             if (toolPicker.isPressed() && chest != null && chest.getItem() instanceof ItemGravityArmor)
             {
-                boolean cur = chest.stackTagCompound.getBoolean("toolpickeractive");
-                chest.stackTagCompound.setBoolean("toolpickeractive", !cur);
+                boolean to = !chest.stackTagCompound.getBoolean("toolpickeractive");
+                chest.stackTagCompound.setBoolean(PowerUps.TOOLPICKER.toString(), to);
                 Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-                HelmetOverlayHandler.textToRender.add(Utils.localize("keybind.toolpicker.info", true) + ": " + (!cur ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF"));
+                HelmetOverlayHandler.textToRender.add(Utils.localize("keybind.toolpicker.info", true) + ": " + (!to ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF"));
+                PacketHandler.INSTANCE.sendToServer(new MessageUpdateGravityArmor(PowerUps.TOOLPICKER, to, (byte) 2));
             }
         }
     }

@@ -1,8 +1,11 @@
 package tterrag.supermassivetech.handlers;
 
+import java.lang.reflect.Field;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,6 +22,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 public class GravityArmorHandler
 {
     public static boolean isJumpKeyDown;
+    private Field isHittingBlock;
 
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
@@ -62,31 +66,60 @@ public class GravityArmorHandler
     @SubscribeEvent
     public void pickCorrectTool(PlayerTickEvent event)
     {
-        EntityPlayer player = event.player;
-        if (player != null && event.player.worldObj.isRemote && player.getCurrentEquippedItem() != null && player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ItemGravityArmor && player.inventory.armorInventory[2].stackTagCompound.getBoolean("toolpickeractive") && player.isSwingInProgress)
+        if (isHittingBlock == null)
         {
-            MovingObjectPosition pos = ClientUtils.getMouseOver();
-            Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
-          
-            if (block.isAir(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
-                return;
-            
-            float speed = 0;
-            int select = 0;
-            for (int i = 0; i < 9; i++)
+            try
             {
-                ItemStack cur = player.inventory.mainInventory[i];
-                if (cur != null)
+                try
                 {
-                    float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
-                    if (newSpeed > speed)
+                    isHittingBlock = PlayerControllerMP.class.getDeclaredField("isHittingBlock");
+                }
+                catch (Throwable t)
+                {
+                    isHittingBlock = PlayerControllerMP.class.getDeclaredField("field_78778_j");
+                }
+                isHittingBlock.setAccessible(true);
+            }
+            catch (Throwable t)
+            {
+                SuperMassiveTech.logger.error("Could not get player field, this could be laggy");
+            }
+        }
+
+        EntityPlayer player = event.player;
+        try
+        {
+            if (player != null && event.player.worldObj.isRemote && player.getCurrentEquippedItem() != null && player.inventory.armorInventory[2] != null
+                    && player.inventory.armorInventory[2].getItem() instanceof ItemGravityArmor && player.inventory.armorInventory[2].stackTagCompound.getBoolean("toolpickeractive")
+                    && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
+            {
+                MovingObjectPosition pos = ClientUtils.getMouseOver();
+                Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+
+                if (block.isAir(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
+                    return;
+
+                float speed = 0;
+                int select = 0;
+                for (int i = 0; i < 9; i++)
+                {
+                    ItemStack cur = player.inventory.mainInventory[i];
+                    if (cur != null)
                     {
-                        speed = newSpeed;
-                        select = i;
+                        float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
+                        if (newSpeed > speed)
+                        {
+                            speed = newSpeed;
+                            select = i;
+                        }
                     }
                 }
+                player.inventory.currentItem = select;
             }
-            player.inventory.currentItem = select;
+        }
+        catch (Throwable t)
+        {
+            SuperMassiveTech.logger.error("Reflection failure " + t.getMessage());
         }
     }
 }
