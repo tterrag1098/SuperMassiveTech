@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.block.BlockSMT;
 import tterrag.supermassivetech.lib.Reference;
+import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.tile.TileWaypoint;
 
 public class BlockWaypoint extends BlockSMT
@@ -47,5 +48,15 @@ public class BlockWaypoint extends BlockSMT
             TileWaypoint wp = (TileWaypoint) te;
             wp.init((EntityPlayer) player);
         }
+    }
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        if (world.isRemote)
+        {
+            GuiHandler.openWaypointGui(world, x, y, z);
+        }
+        return true;
     }
 }

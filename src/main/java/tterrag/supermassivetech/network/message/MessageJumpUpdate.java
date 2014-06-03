@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.network.packet;
+package tterrag.supermassivetech.network.message;
 
 import io.netty.buffer.ByteBuf;
 import tterrag.supermassivetech.item.armor.GravityArmorHandler;

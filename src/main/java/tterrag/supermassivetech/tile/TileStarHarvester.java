@@ -19,7 +19,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.network.PacketHandler;
-import tterrag.supermassivetech.network.packet.MessageStarHarvester;
+import tterrag.supermassivetech.network.message.MessageStarHarvester;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;

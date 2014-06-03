@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.network.packet;
+package tterrag.supermassivetech.network.message;
 
 import tterrag.supermassivetech.util.ClientUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

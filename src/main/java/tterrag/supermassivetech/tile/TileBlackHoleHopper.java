@@ -15,7 +15,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.network.PacketHandler;
-import tterrag.supermassivetech.network.packet.MessageHopperParticle;
+import tterrag.supermassivetech.network.message.MessageHopperParticle;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

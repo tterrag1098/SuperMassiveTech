@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.tile;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -12,10 +11,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
+import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
-import cpw.mods.fml.client.FMLClientHandler;
 
 public abstract class TileSMTInventory extends TileEntity implements IInventory
 {
@@ -72,13 +70,11 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
                 Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this, showParticles());
             }
 
-            if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 && showParticles() && FMLClientHandler.instance().getClient().effectRenderer != null
-                    && Minecraft.getMinecraft().thePlayer != null)
+            if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 && showParticles())
             {
                 double x = getRand(), y = getRand(), z = getRand();
 
-                FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5
-                        + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.05));
+                ClientUtils.spawnGravityParticle(xCoord, yCoord, zCoord, x, y, z);
                 ticksSinceLastParticle = 0;
             }
             else if (ticksSinceLastParticle < 4)

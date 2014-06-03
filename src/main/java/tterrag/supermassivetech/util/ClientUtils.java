@@ -28,7 +28,8 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
 /**
- * Random utils for spawning particles and other client-only things. Mostly used in packet handling.
+ * Random utils for spawning particles and other client-only things. Mostly used
+ * in packet handling.
  */
 public class ClientUtils
 {
@@ -116,6 +117,16 @@ public class ClientUtils
             {
                 ((TileStarHarvester) t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
             }
+        }
+    }
+
+    public static void spawnGravityParticle(int xCoord, int yCoord, int zCoord, double x, double y, double z)
+    {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.effectRenderer != null && mc.thePlayer != null)
+        {
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5
+                    + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.05));
         }
     }
 }

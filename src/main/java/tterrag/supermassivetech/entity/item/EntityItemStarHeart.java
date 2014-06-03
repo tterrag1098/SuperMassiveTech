@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.network.PacketHandler;
-import tterrag.supermassivetech.network.packet.MessageStarHeartParticle;
+import tterrag.supermassivetech.network.message.MessageStarHeartParticle;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;

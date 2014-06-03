@@ -92,6 +92,16 @@ public class Waypoint
     {
         return color;
     }
+    
+    public void setColor(Color c)
+    {
+        this.color = c;
+    }
+    
+    public void setColor(int r, int g, int b)
+    {
+        this.color = new Color(r, g, b);
+    }
    
     public void writeToNBT(NBTTagCompound tag)
     {

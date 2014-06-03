@@ -11,7 +11,7 @@ import org.lwjgl.input.Keyboard;
 
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.PacketHandler;
-import tterrag.supermassivetech.network.packet.MessageJumpUpdate;
+import tterrag.supermassivetech.network.message.MessageJumpUpdate;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;

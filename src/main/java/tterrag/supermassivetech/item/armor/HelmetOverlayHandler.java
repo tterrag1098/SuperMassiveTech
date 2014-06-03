@@ -70,7 +70,7 @@ public class HelmetOverlayHandler
             
             Color c = wp.getColor();
             
-            GL11.glColor3b(c.getRedByte(), c.getGreenByte(), c.getBlueByte());
+            GL11.glColor3f((float) c.getRed() / 255, (float) c.getGreen() / 255, (float) c.getBlue() / 255);
             
             int normal = normalizeAngle(w, angle);
             

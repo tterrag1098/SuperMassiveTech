@@ -10,7 +10,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.network.PacketHandler;
-import tterrag.supermassivetech.network.packet.MessageBlackHoleStorage;
+import tterrag.supermassivetech.network.message.MessageBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.util.Utils;
 
