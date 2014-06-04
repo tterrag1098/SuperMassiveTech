@@ -151,7 +151,7 @@ public class ClientKeyHandler
                 {
                     boolean to = !armor.stackTagCompound.getBoolean(ap.getPowerType().toString());
                     Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-                    HelmetOverlayHandler.textToRender.add(ap.getBinding().getKeyDescription() + ": " + (to ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF"));
+                    HelmetOverlayHandler.textToRender.add(ap.getBinding().getKeyDescription() + ": " + (to ? EnumChatFormatting.GREEN + Utils.localize("tooltip.on", true) : EnumChatFormatting.RED + Utils.localize("tooltip.off", true)));
                     PacketHandler.INSTANCE.sendToServer(new MessageUpdateGravityArmor(ap.getPowerType(), to, ap.getArmorSlots()));
                 }
             }

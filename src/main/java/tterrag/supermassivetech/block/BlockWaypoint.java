@@ -28,13 +28,13 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
         super("waypoint", Material.iron, soundTypeMetal, 5f, SuperMassiveTech.renderIDWaypoint, TileWaypoint.class);
         setBlockBounds(.05f, 0f, .05f, .95f, 0.775f, .95f);
     }
-    
+
     @Override
     public void registerBlockIcons(IIconRegister register)
     {
         this.blockIcon = register.registerIcon(Reference.MOD_TEXTUREPATH + ":" + "waypoint");
     }
-    
+
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack)
     {
@@ -46,7 +46,7 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
         }
         super.onBlockPlacedBy(world, x, y, z, player, stack);
     }
-    
+
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
@@ -61,49 +61,53 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     public ItemStack getNBTItem(World world, int x, int y, int z)
     {
         ItemStack stack = new ItemStack(this);
-        
+
         stack.stackTagCompound = new NBTTagCompound();
-        
+
         NBTTagCompound waypointTag = new NBTTagCompound();
         ((TileWaypoint) world.getTileEntity(x, y, z)).waypoint.writeToNBT(waypointTag);
-        
+
         stack.stackTagCompound.setTag("waypoint", waypointTag);
-        
+
         return stack;
     }
 
     @Override
     public void processBlockPlace(NBTTagCompound tag, TileEntity te)
     {
-        ((TileWaypoint)te).waypoint = new Waypoint().readFromNBT(tag.getCompoundTag("waypoint"));
+        Waypoint w = new Waypoint().readFromNBT(tag.getCompoundTag("waypoint"));
+        w.x = te.xCoord;
+        w.y = te.yCoord;
+        w.z = te.zCoord;
+        
+        ((TileWaypoint)te).waypoint = w;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
-        NBTTagCompound tag = stack.getTagCompound() == null ? null : stack.getTagCompound().getCompoundTag("waypoint");
-        
-        if (tag != null)
-        {
-            String name = tag.getString("waypointname");
-            int[] color = tag.getIntArray("waypointcolor");
-            String ret = String.format("%s: %s~%s: %d~%s: %d~%s: %d",
-                    EnumChatFormatting.YELLOW + Utils.localize("tooltip.name", true), EnumChatFormatting.WHITE + name,
-                    EnumChatFormatting.RED + Utils.localize("tooltip.red", true), color[0],
-                    EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true), color[1],
-                    EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true), color[2]);
-            
-            return ret;
-        }
-        else return null;
+        return null;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
-        return null;
+        NBTTagCompound tag = stack.getTagCompound() == null ? null : stack.getTagCompound().getCompoundTag("waypoint");
+
+        if (tag != null)
+        {
+            String name = tag.getString("waypointname");
+            int[] color = tag.getIntArray("waypointcolor");
+            String ret = String.format("%s: %s~%s: %d~%s: %d~%s: %d", EnumChatFormatting.YELLOW + Utils.localize("tooltip.name", true), EnumChatFormatting.WHITE + name,
+                    EnumChatFormatting.RED + Utils.localize("tooltip.red", true), color[0], EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true), color[1],
+                    EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true), color[2]);
+
+            return ret;
+        }
+        else
+            return null;
     }
 
     @Override
@@ -111,7 +115,7 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     {
         return new TileWaypoint();
     }
-    
+
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z)
     {
