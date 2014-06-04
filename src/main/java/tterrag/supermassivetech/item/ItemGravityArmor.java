@@ -11,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -29,6 +31,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     public final ArmorType type;
     private final int CHARGE_SPEED = 1000, DAMAGE_BASE = 2000, DAMAGE_RAND = 200, CAPACITY = 1000000, MAX = Integer.MAX_VALUE;
     private final float PROT = 0.23f;
+    private static long lastMessageTime = 0;
 
     public static enum ArmorType
     {
@@ -67,11 +70,13 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         setNoRepair();
     }
 
+    @SideOnly(Side.CLIENT)
     public ItemStack create()
     {
         ItemStack i = new ItemStack(this, 1, this.getMaxDamage());
         i.stackTagCompound = new NBTTagCompound();
         i.stackTagCompound.setInteger("energy", 0);
+        ClientUtils.addAllArmorPowersTrue(i.stackTagCompound, this.type);
         return i;
     }
 
@@ -208,6 +213,12 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         initTag(par1ItemStack);
+        
+        if (par2World.isRemote && System.currentTimeMillis() > lastMessageTime + 1000)
+        {
+            par3EntityPlayer.addChatMessage(new ChatComponentText(Utils.localize("tooltip.onArmorCrafted", true)).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+            lastMessageTime = System.currentTimeMillis();
+        }
     }
 
     private void initTag(ItemStack stack)
@@ -223,6 +234,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
+    @SideOnly(Side.CLIENT)
     public void getSubItems(Item stack, CreativeTabs tab, List list)
     {
         ItemStack i = create();

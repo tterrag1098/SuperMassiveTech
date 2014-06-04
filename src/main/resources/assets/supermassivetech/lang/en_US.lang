@@ -61,6 +61,7 @@ SMT.tooltip.anyType=Any Type
 SMT.tooltip.on=ON
 SMT.tooltip.off=OFF
 SMT.tooltip.toolswitcher=Auto Tool-Switcher
+SMT.tooltip.onArmorCrafted=Remember, you need to activate the powers before using them! You can check the keybinds in the controls menu.
 
 #Star Stuff
 SMT.tooltip.tier.low=Low

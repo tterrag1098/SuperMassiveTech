@@ -37,7 +37,7 @@ public class GravityArmorHandler
                     return;
             }
         }
-        
+
         if (event.player.worldObj.isRemote)
         {
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
@@ -80,60 +80,65 @@ public class GravityArmorHandler
     @SubscribeEvent
     public void pickCorrectTool(PlayerTickEvent event) throws Exception
     {
-        if (isHittingBlock == null)
+        if (event.player.worldObj.isRemote)
         {
-            try
+            if (isHittingBlock == null)
             {
                 try
                 {
-                    isHittingBlock = PlayerControllerMP.class.getDeclaredField("isHittingBlock");
+                    try
+                    {
+                        isHittingBlock = PlayerControllerMP.class.getDeclaredField("isHittingBlock");
+                    }
+                    catch (Throwable t)
+                    {
+                        isHittingBlock = PlayerControllerMP.class.getDeclaredField("field_78778_j");
+                    }
+                    isHittingBlock.setAccessible(true);
                 }
                 catch (Throwable t)
                 {
-                    isHittingBlock = PlayerControllerMP.class.getDeclaredField("field_78778_j");
+                    SuperMassiveTech.logger.error("Could not get player field, this could be laggy");
                 }
-                isHittingBlock.setAccessible(true);
             }
-            catch (Throwable t)
-            {
-                SuperMassiveTech.logger.error("Could not get player field, this could be laggy");
-            }
-        }
 
-        EntityPlayer player = event.player;
-        World world = player.worldObj;
-        
-        if (player == null || world == null) return;
-        
-        ItemStack[] armor = player.inventory.armorInventory;
-        
-        if (world.isRemote && player.getCurrentEquippedItem() != null && checkArmor(armor[2]) && armor[2].stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString()) && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
-        {
-            MovingObjectPosition pos = ClientUtils.getMouseOver();
-            Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+            EntityPlayer player = event.player;
+            World world = player.worldObj;
 
-            if (block.isAir(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
+            if (player == null || world == null)
                 return;
 
-            float speed = 0;
-            int select = 0;
-            for (int i = 0; i < 9; i++)
+            ItemStack[] armor = player.inventory.armorInventory;
+
+            if (player.getCurrentEquippedItem() != null && checkArmor(armor[2]) && armor[2].stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString())
+                    && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
             {
-                ItemStack cur = player.inventory.mainInventory[i];
-                if (cur != null)
+                MovingObjectPosition pos = ClientUtils.getMouseOver();
+                Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+
+                if (block.isAir(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
+                    return;
+
+                float speed = 0;
+                int select = 0;
+                for (int i = 0; i < 9; i++)
                 {
-                    float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
-                    if (newSpeed > speed)
+                    ItemStack cur = player.inventory.mainInventory[i];
+                    if (cur != null)
                     {
-                        speed = newSpeed;
-                        select = i;
+                        float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
+                        if (newSpeed > speed)
+                        {
+                            speed = newSpeed;
+                            select = i;
+                        }
                     }
                 }
+                player.inventory.currentItem = select;
             }
-            player.inventory.currentItem = select;
         }
     }
-    
+
     private boolean checkArmor(ItemStack stack)
     {
         return stack != null && stack.getItem() instanceof ItemGravityArmor;

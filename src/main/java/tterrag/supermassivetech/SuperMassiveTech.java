@@ -65,6 +65,15 @@ public class SuperMassiveTech
 
         proxy.registerRenderers();
 
+        Utils.registerEventHandlers(false, GravityArmorHandler.class);
+        Utils.registerEventHandlers(true, TooltipHandler.class, BreakWaypointHandler.class);
+
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        {
+            Utils.registerEventHandlers(false, ClientKeyHandler.class);
+            Utils.registerEventHandlers(true, HelmetOverlayHandler.class);
+        }
+        
         itemRegistry.register();
         blockRegistry.register();
 
@@ -82,14 +91,5 @@ public class SuperMassiveTech
         
         itemRegistry.addRecipes();
         blockRegistry.addRecipes();
-
-        Utils.registerEventHandlers(false, GravityArmorHandler.class);
-        Utils.registerEventHandlers(true, TooltipHandler.class, BreakWaypointHandler.class);
-
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
-            Utils.registerEventHandlers(false, ClientKeyHandler.class);
-            Utils.registerEventHandlers(true, HelmetOverlayHandler.class);
-        }
     }
 }

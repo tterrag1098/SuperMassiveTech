@@ -30,6 +30,7 @@ import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.handlers.ClientKeyHandler;
 import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPower;
 import tterrag.supermassivetech.item.ItemGravityArmor;
+import tterrag.supermassivetech.item.ItemGravityArmor.ArmorType;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -153,5 +154,16 @@ public class ClientUtils
             }
         }
         return ret == "" ? null : ret;
+    }
+
+    public static void addAllArmorPowersTrue(NBTTagCompound stackTagCompound, ArmorType type)
+    {
+        for (ArmorPower ap : ClientKeyHandler.powers)
+        {
+            if (ArrayUtils.contains(ap.getArmorSlots(), (byte) type.ordinal()))
+            {
+                stackTagCompound.setBoolean(ap.getPowerType().toString(), true);
+            }
+        }
     }
 }
