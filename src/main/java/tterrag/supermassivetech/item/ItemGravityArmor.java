@@ -70,13 +70,13 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         setNoRepair();
     }
 
-    @SideOnly(Side.CLIENT)
     public ItemStack create()
     {
         ItemStack i = new ItemStack(this, 1, this.getMaxDamage());
         i.stackTagCompound = new NBTTagCompound();
         i.stackTagCompound.setInteger("energy", 0);
-        ClientUtils.addAllArmorPowersTrue(i.stackTagCompound, this.type);
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+            ClientUtils.addAllArmorPowersTrue(i.stackTagCompound, this.type);
         return i;
     }
 

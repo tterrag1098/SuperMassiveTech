@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.registry;
 
+import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -11,13 +12,11 @@ import tterrag.supermassivetech.block.container.BlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockHopper;
 import tterrag.supermassivetech.item.block.ItemBlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockStorage;
-import tterrag.supermassivetech.item.block.ItemBlockWaypoint;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import tterrag.supermassivetech.tile.TileWaypoint;
 import cpw.mods.fml.common.registry.GameRegistry;
-import static tterrag.supermassivetech.SuperMassiveTech.*;
 
 public class ModBlocks
 {
@@ -43,7 +42,7 @@ public class ModBlocks
         GameRegistry.registerTileEntity(TileStarHarvester.class, "tileStarHarvester");
         
         waypoint = new BlockWaypoint();
-        GameRegistry.registerBlock(waypoint, ItemBlockWaypoint.class, "waypoint");
+        GameRegistry.registerBlock(waypoint, "waypoint");
         GameRegistry.registerTileEntity(TileWaypoint.class, "tileWaypoint");
     }
 

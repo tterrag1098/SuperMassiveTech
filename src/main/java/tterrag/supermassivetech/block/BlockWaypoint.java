@@ -8,14 +8,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileWaypoint;
 import tterrag.supermassivetech.util.GuiHelper;
+import tterrag.supermassivetech.util.Utils;
 import tterrag.supermassivetech.util.Waypoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityProvider
+public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityProvider, IAdvancedTooltip
 {
     public BlockWaypoint()
     {
@@ -71,10 +77,44 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     {
         ((TileWaypoint)te).waypoint = new Waypoint().readFromNBT(tag.getCompoundTag("waypoint"));
     }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getStaticLines(ItemStack stack)
+    {
+        NBTTagCompound tag = stack.getTagCompound() == null ? null : stack.getTagCompound().getCompoundTag("waypoint");
+        
+        if (tag != null)
+        {
+            String name = tag.getString("waypointname");
+            int[] color = tag.getIntArray("waypointcolor");
+            String ret = String.format("%s: %s~%s: %d~%s: %d~%s: %d",
+                    EnumChatFormatting.YELLOW + Utils.localize("tooltip.name", true), EnumChatFormatting.WHITE + name,
+                    EnumChatFormatting.RED + Utils.localize("tooltip.red", true), color[0],
+                    EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true), color[1],
+                    EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true), color[2]);
+            
+            return ret;
+        }
+        else return null;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getHiddenLines(ItemStack stack)
+    {
+        return null;
+    }
 
     @Override
     public TileEntity createNewTileEntity(World var1, int var2)
     {
         return new TileWaypoint();
+    }
+    
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z)
+    {
+        return 13;
     }
 }
