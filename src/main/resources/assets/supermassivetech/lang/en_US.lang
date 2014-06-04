@@ -89,6 +89,8 @@ SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate o
 
 ## Keybinds ##
 
-SMT.keybind.section.graviArmor=Gravity Armor
+SMT.keybind.section.graviArmor=SMT: Gravity Armor
 
-SMT.keybind.toolpicker.info=Auto Tool-Switcher
+SMT.keybind.toolpicker=Tool-Switcher
+SMT.keybind.hud=Helmet HUD
+SMT.keybind.gravResist=Gravity Resist

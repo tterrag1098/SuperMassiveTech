@@ -64,7 +64,6 @@ public class SuperMassiveTech
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
         proxy.registerRenderers();
-        proxy.registerKeybinds();
 
         itemRegistry.register();
         blockRegistry.register();

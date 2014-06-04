@@ -13,7 +13,6 @@ import tterrag.supermassivetech.client.render.ItemObjRenderer;
 import tterrag.supermassivetech.client.render.RenderBeaconEffect;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
 import tterrag.supermassivetech.client.render.SimpleModelRenderer;
-import tterrag.supermassivetech.handlers.ClientKeyHandler;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -73,11 +72,5 @@ public class ClientProxy extends CommonProxy
         storageItem.init(blockRegistry.blackHoleStorage);
         hopperItem.init(blockRegistry.blackHoleHopper);
         starHarvesterItem.init(blockRegistry.starHarvester);
-    }
-    
-    @Override
-    public void registerKeybinds()
-    {
-        ClientRegistry.registerKeyBinding(ClientKeyHandler.toolPicker);
     }
 }

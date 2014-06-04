@@ -11,9 +11,4 @@ public class CommonProxy
     {
         // Overriden
     }
-
-    public void registerKeybinds()
-    {
-        // Overriden
-    }
 }
