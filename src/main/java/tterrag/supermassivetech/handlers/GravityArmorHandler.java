@@ -10,6 +10,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.ItemGravityArmor;
@@ -28,6 +29,15 @@ public class GravityArmorHandler
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
     {
+        for (ItemStack i : event.player.inventory.armorInventory)
+        {
+            if (i != null && i.getItem() instanceof ItemGravityArmor)
+            {
+                if (!i.stackTagCompound.getBoolean(PowerUps.GRAV_RESIST.toString()))
+                    return;
+            }
+        }
+        
         if (event.player.worldObj.isRemote)
         {
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
@@ -64,8 +74,11 @@ public class GravityArmorHandler
         return effect;
     }
 
+    /**
+     * Handles the Tool-Picker powerup
+     */
     @SubscribeEvent
-    public void pickCorrectTool(PlayerTickEvent event)
+    public void pickCorrectTool(PlayerTickEvent event) throws Exception
     {
         if (isHittingBlock == null)
         {
@@ -88,39 +101,41 @@ public class GravityArmorHandler
         }
 
         EntityPlayer player = event.player;
-        try
+        World world = player.worldObj;
+        
+        if (player == null || world == null) return;
+        
+        ItemStack[] armor = player.inventory.armorInventory;
+        
+        if (world.isRemote && player.getCurrentEquippedItem() != null && checkArmor(armor[2]) && armor[2].stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString()) && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
         {
-            if (player != null && event.player.worldObj.isRemote && player.getCurrentEquippedItem() != null && player.inventory.armorInventory[2] != null
-                    && player.inventory.armorInventory[2].getItem() instanceof ItemGravityArmor && player.inventory.armorInventory[2].stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString())
-                    && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
+            MovingObjectPosition pos = ClientUtils.getMouseOver();
+            Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+
+            if (block.isAir(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
+                return;
+
+            float speed = 0;
+            int select = 0;
+            for (int i = 0; i < 9; i++)
             {
-                MovingObjectPosition pos = ClientUtils.getMouseOver();
-                Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
-
-                if (block.isAir(player.worldObj, pos.blockX, pos.blockY, pos.blockZ))
-                    return;
-
-                float speed = 0;
-                int select = 0;
-                for (int i = 0; i < 9; i++)
+                ItemStack cur = player.inventory.mainInventory[i];
+                if (cur != null)
                 {
-                    ItemStack cur = player.inventory.mainInventory[i];
-                    if (cur != null)
+                    float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
+                    if (newSpeed > speed)
                     {
-                        float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
-                        if (newSpeed > speed)
-                        {
-                            speed = newSpeed;
-                            select = i;
-                        }
+                        speed = newSpeed;
+                        select = i;
                     }
                 }
-                player.inventory.currentItem = select;
             }
+            player.inventory.currentItem = select;
         }
-        catch (Throwable t)
-        {
-            SuperMassiveTech.logger.error("Reflection failure " + t.getMessage());
-        }
+    }
+    
+    private boolean checkArmor(ItemStack stack)
+    {
+        return stack != null && stack.getItem() instanceof ItemGravityArmor;
     }
 }

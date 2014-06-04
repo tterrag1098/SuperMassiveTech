@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 import tterrag.supermassivetech.entity.item.EntityItemDepletedNetherStar;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
 {
@@ -53,12 +55,14 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
         return Utils.localize("tooltip.depletedNetherStar", true);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         return "" + EnumChatFormatting.DARK_GRAY + EnumChatFormatting.ITALIC + NumberFormat.getPercentInstance().format( ((float) stack.getItemDamage()) / ((float) maxDamage)) + " Recharged";

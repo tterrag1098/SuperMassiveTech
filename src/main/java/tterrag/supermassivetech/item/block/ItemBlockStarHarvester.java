@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.item.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,6 +41,7 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         if (stack.stackTagCompound != null)

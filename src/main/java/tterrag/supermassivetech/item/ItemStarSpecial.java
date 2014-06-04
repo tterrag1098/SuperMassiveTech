@@ -2,6 +2,8 @@ package tterrag.supermassivetech.item;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -54,6 +56,7 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         return EnumChatFormatting.RED + Utils.localize("tooltip.warning", true) + ": " + EnumChatFormatting.WHITE + Utils.localize("tooltip.warningText", true);

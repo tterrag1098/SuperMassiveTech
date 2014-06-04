@@ -17,26 +17,27 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
+import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnergyContainerItem, IAdvancedTooltip
 {
-    private ArmorType type;
+    public final ArmorType type;
     private final int CHARGE_SPEED = 1000, DAMAGE_BASE = 2000, DAMAGE_RAND = 200, CAPACITY = 1000000, MAX = Integer.MAX_VALUE;
     private final float PROT = 0.23f;
 
     public static enum ArmorType
     {
-        HELMET, CHESTPLATE, LEGS, BOOTS;
+        BOOTS, LEGS, CHESTPLATE, HELMET;
     }
 
     public ItemGravityArmor(ArmorMaterial mat, ArmorType type)
     {
-        super(mat, 0, type.ordinal());
+        super(mat, 0, -(type.ordinal() - 3));
         String texture = "", unlocalized = "";
         this.type = type;
         switch (type)
@@ -161,9 +162,9 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         case 0:
             return 3;
         case 1:
-            return 8;
-        case 2:
             return 6;
+        case 2:
+            return 8;
         case 3:
             return 3;
         default:
@@ -232,20 +233,16 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
         ItemGravityArmor item = (ItemGravityArmor) stack.getItem();
-        switch (item.armorType)
-        {
-        case 1:
-            return Utils.localize("tooltip.toolswitcher", true) + ": "
-                    + (stack.stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString()) ? Utils.localize("tooltip.on", true) : EnumChatFormatting.RED + Utils.localize("tooltip.off", true));
-        default:
-            return null;
-        }
+        
+        return ClientUtils.getLinesForArmor(stack, item);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         return EnumChatFormatting.WHITE + Utils.localize("tooltip.powerRemaining", true) + ": " + Utils.getColorForPowerLeft(stack.getTagCompound().getInteger("energy"), CAPACITY)

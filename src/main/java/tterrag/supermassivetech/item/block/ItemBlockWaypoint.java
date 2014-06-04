@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.item.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,6 +15,7 @@ public class ItemBlockWaypoint extends ItemBlockSMT implements IAdvancedTooltip
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         NBTTagCompound tag = stack.getTagCompound() == null ? null : stack.getTagCompound().getCompoundTag("waypoint");
@@ -25,6 +28,7 @@ public class ItemBlockWaypoint extends ItemBlockSMT implements IAdvancedTooltip
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
         return null;

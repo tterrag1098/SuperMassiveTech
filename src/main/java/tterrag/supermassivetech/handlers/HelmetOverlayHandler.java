@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.lib.Reference;
+import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.util.Waypoint;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -35,6 +36,10 @@ public class HelmetOverlayHandler
         ItemStack helm = player.inventory.armorInventory[3];
         if (helm != null && helm.getItem() instanceof ItemGravityArmor)
         {
+            // HUD is off
+            if (!helm.stackTagCompound.getBoolean(PowerUps.HUD.toString()))
+                return;
+            
             int width = event.resolution.getScaledWidth();
             int height = event.resolution.getScaledHeight();
 

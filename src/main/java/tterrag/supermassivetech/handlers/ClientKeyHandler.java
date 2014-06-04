@@ -23,12 +23,12 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
 public class ClientKeyHandler
 {
-    private static class ArmorPower
+    public static class ArmorPower
     {
         private KeyBinding binding;
         private PowerUps powerEnum;
         private byte[] applicableArmorSlots;
-        
+
         private boolean pressed;
         private int pressCount;
 
@@ -49,14 +49,14 @@ public class ClientKeyHandler
 
             KeyBinding bind = new KeyBinding(Utils.localize(unloc, true), key, Utils.localize("keybind.section.graviArmor", true));
             ClientRegistry.registerKeyBinding(bind);
-            
+
             byte[] info = new byte[applicable.length];
-            
+
             for (int i = 0; i < applicable.length; i++)
             {
                 info[i] = (byte) applicable[i];
             }
-            
+
             return new ArmorPower(bind, power, info);
         }
 
@@ -74,7 +74,7 @@ public class ClientKeyHandler
         {
             return applicableArmorSlots;
         }
-        
+
         public void press()
         {
             pressed = true;
@@ -103,15 +103,13 @@ public class ClientKeyHandler
 
     private boolean lastJumpState;
     public static ArmorPower[] powers;
-    
+
     public ClientKeyHandler()
     {
         powers = new ArmorPower[] {
 
-                ArmorPower.create(Keyboard.KEY_C, PowerUps.TOOLPICKER, "keybind.toolpicker", 2), 
-                ArmorPower.create(Keyboard.KEY_F, PowerUps.GRAV_RESIST, "keybind.gravResist", 0, 1, 2, 3),
-                ArmorPower.create(Keyboard.KEY_O, PowerUps.HUD, "keybind.hud", 3) 
-        };
+        ArmorPower.create(Keyboard.KEY_F, PowerUps.GRAV_RESIST, "keybind.gravResist", 0, 1, 2, 3), ArmorPower.create(Keyboard.KEY_C, PowerUps.TOOLPICKER, "keybind.toolpicker", 2),
+                ArmorPower.create(Keyboard.KEY_O, PowerUps.HUD, "keybind.hud", 3) };
     }
 
     @SubscribeEvent
@@ -125,7 +123,7 @@ public class ClientKeyHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
@@ -148,16 +146,13 @@ public class ClientKeyHandler
 
             for (ArmorPower ap : powers)
             {
-                for (int i : ap.getArmorSlots())
+                ItemStack armor = armors[ap.getArmorSlots()[0]];
+                if (ap.isPressed() && armor != null && armor.getItem() instanceof ItemGravityArmor)
                 {
-                    ItemStack armor = armors[i];
-                    if (ap.isPressed() && armor != null && armor.getItem() instanceof ItemGravityArmor)
-                    {
-                        boolean to = !armor.stackTagCompound.getBoolean(ap.getPowerType().toString());
-                        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-                        HelmetOverlayHandler.textToRender.add(ap.getBinding().getKeyDescription() + ": " + (to ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF"));
-                        PacketHandler.INSTANCE.sendToServer(new MessageUpdateGravityArmor(ap.getPowerType(), to, ap.getArmorSlots()));
-                    }
+                    boolean to = !armor.stackTagCompound.getBoolean(ap.getPowerType().toString());
+                    Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+                    HelmetOverlayHandler.textToRender.add(ap.getBinding().getKeyDescription() + ": " + (to ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF"));
+                    PacketHandler.INSTANCE.sendToServer(new MessageUpdateGravityArmor(ap.getPowerType(), to, ap.getArmorSlots()));
                 }
             }
         }

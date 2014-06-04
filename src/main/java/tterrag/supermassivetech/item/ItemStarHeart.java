@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -29,12 +31,14 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
         return Utils.localize("tooltip.starHeart", true);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         return null;

@@ -1,10 +1,11 @@
 package tterrag.supermassivetech.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 
 public interface IAdvancedTooltip
 {
-
     /**
      * Lines that show when shift is held. <br>
      * <br>
@@ -14,6 +15,7 @@ public interface IAdvancedTooltip
      * 
      * @param stack - {@link ItemStack} the tooltip is being applied to
      */
+    @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack);
 
     /**
@@ -21,5 +23,6 @@ public interface IAdvancedTooltip
      * 
      * @param stack - {@link ItemStack} the tooltip is being applied to
      */
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack);
 }

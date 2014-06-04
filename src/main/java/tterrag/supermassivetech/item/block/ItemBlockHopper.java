@@ -3,6 +3,8 @@ package tterrag.supermassivetech.item.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
@@ -16,12 +18,14 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
         return Utils.localize("tooltip.blackHoleHopper", true);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         if (stack.stackTagCompound == null)

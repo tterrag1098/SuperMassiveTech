@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -21,8 +22,14 @@ import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
+import tterrag.supermassivetech.handlers.ClientKeyHandler;
+import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPower;
+import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -133,5 +140,18 @@ public class ClientUtils
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z,
                     xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.05));
         }
+    }
+
+    public static String getLinesForArmor(ItemStack stack, ItemGravityArmor item)
+    {
+        String ret = "";
+        for (ArmorPower ap : ClientKeyHandler.powers)
+        {
+            if (ArrayUtils.contains(ap.getArmorSlots(), (byte) item.type.ordinal()))
+            {
+                ret += EnumChatFormatting.WHITE + ap.getBinding().getKeyDescription() + ": " + (stack.stackTagCompound.getBoolean(ap.getPowerType().toString()) ? EnumChatFormatting.GREEN + Utils.localize("tooltip.on", true) : EnumChatFormatting.RED + Utils.localize("tooltip.off", true)) + "~";
+            }
+        }
+        return ret == "" ? null : ret;
     }
 }

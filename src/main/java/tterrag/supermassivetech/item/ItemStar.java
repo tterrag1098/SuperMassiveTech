@@ -102,6 +102,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
         IStar type = Utils.getType(stack);
@@ -121,6 +122,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
         IStar type = Utils.getType(stack);
