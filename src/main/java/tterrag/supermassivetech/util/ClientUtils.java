@@ -42,7 +42,7 @@ public class ClientUtils
 {
     private static Random rand = new Random();
 
-    public static void spawnGravityEffectParticles(int xCoord, int yCoord, int zCoord, Entity entity, float range)
+    public static void spawnGravityEffectParticles(int xCoord, int yCoord, int zCoord, Entity entity, float dist)
     {
         Minecraft mc = Minecraft.getMinecraft();
 
@@ -51,8 +51,7 @@ public class ClientUtils
 
         double x = entity.posX, y = entity.posY + (entity instanceof EntityPlayer ? -0.6 : (entity.height / 2)), z = entity.posZ;
 
-        System.out.println(entity.posX + " " + entity.posY + " " + entity.posZ);
-        mc.effectRenderer.addEffect(new EntityCustomSmokeFX(mc.thePlayer.worldObj, x, y, z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 1 / range / 2));
+        mc.effectRenderer.addEffect(new EntityCustomSmokeFX(mc.thePlayer.worldObj, x, y, z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, dist / 35));
     }
 
     public static boolean calculateClientJumpState()
