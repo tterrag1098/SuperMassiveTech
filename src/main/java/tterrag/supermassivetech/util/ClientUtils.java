@@ -119,7 +119,7 @@ public class ClientUtils
                 data[1] + 0.5, data[2] + 0.5, 0.1d));
     }
 
-    public static void setStarHarvetserSlotContents(NBTTagCompound data, int x, int y, int z)
+    public static void setStarHarvetserSlotContents(NBTTagCompound data, int x, int y, int z, boolean venting)
     {
         World world = Minecraft.getMinecraft().theWorld;
 
@@ -129,6 +129,7 @@ public class ClientUtils
             if (t != null && t instanceof TileStarHarvester)
             {
                 ((TileStarHarvester) t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
+                ((TileStarHarvester) t).venting = true;
             }
         }
     }

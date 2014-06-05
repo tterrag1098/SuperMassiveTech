@@ -108,11 +108,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         if (hasItem)
         {
             NBTTagCompound tag = new NBTTagCompound();
-            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord));
+            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord, venting));
         }
         else
         {
-            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord));
+            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord, venting));
         }
     }
 
@@ -282,7 +282,16 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     private boolean vent()
     {
         this.venting = !venting;
+        
+        if (!worldObj.isRemote)
+            updateClientVenting(venting);
+        
         return true;
+    }
+    
+    private void updateClientVenting(boolean is)
+    {
+        PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord, is));
     }
 
     private boolean insertStar(ItemStack stack, EntityPlayer player)
