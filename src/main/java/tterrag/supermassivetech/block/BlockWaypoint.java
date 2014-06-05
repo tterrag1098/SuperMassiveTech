@@ -38,19 +38,22 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack)
     {
+        super.onBlockPlacedBy(world, x, y, z, player, stack);
+
         TileEntity te = world.getTileEntity(x, y, z);
         if (!world.isRemote && te != null && te instanceof TileWaypoint)
         {
             TileWaypoint wp = (TileWaypoint) te;
-            wp.init((EntityPlayer) player);
+            
+            if (wp.waypoint.isNull())
+                wp.init((EntityPlayer) player);
         }
-        super.onBlockPlacedBy(world, x, y, z, player, stack);
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-        if (world.isRemote)
+        if (world.isRemote && ((TileWaypoint) world.getTileEntity(x, y, z)).waypoint.players.contains(player.getCommandSenderName()) || player.capabilities.isCreativeMode)
         {
             GuiHelper.openWaypointGui(world, x, y, z);
         }
