@@ -11,6 +11,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
@@ -62,7 +63,7 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
     @Override
     public void updateEntity()
     {
-        if (isGravityWell())
+        if (isGravityWell() && ConfigHandler.doGravityWell)
         {
             for (Object o : worldObj.getEntitiesWithinAABB(Entity.class,
                     AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))

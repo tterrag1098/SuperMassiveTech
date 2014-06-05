@@ -20,6 +20,7 @@ import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageStarHarvester;
+import tterrag.supermassivetech.network.message.MessageUpdateVenting;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
@@ -108,11 +109,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         if (hasItem)
         {
             NBTTagCompound tag = new NBTTagCompound();
-            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord, venting));
+            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord));
         }
         else
         {
-            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord, venting));
+            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord));
         }
     }
 
@@ -291,7 +292,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     
     private void updateClientVenting(boolean is)
     {
-        PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord, is));
+        PacketHandler.INSTANCE.sendToAll(new MessageUpdateVenting(xCoord, yCoord, zCoord, is));
     }
 
     private boolean insertStar(ItemStack stack, EntityPlayer player)

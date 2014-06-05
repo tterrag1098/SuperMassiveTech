@@ -118,7 +118,7 @@ public class ClientUtils
                 data[1] + 0.5, data[2] + 0.5, 0.1d));
     }
 
-    public static void setStarHarvetserSlotContents(NBTTagCompound data, int x, int y, int z, boolean venting)
+    public static void setStarHarvetserSlotContents(NBTTagCompound data, int x, int y, int z)
     {
         World world = Minecraft.getMinecraft().theWorld;
 
@@ -128,9 +128,13 @@ public class ClientUtils
             if (t != null && t instanceof TileStarHarvester)
             {
                 ((TileStarHarvester) t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
-                ((TileStarHarvester) t).venting = true;
             }
         }
+    }
+    
+    public static void setStarHarvesterVenting(int x, int y, int z, boolean venting)
+    {
+        ((TileStarHarvester) Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z)).venting = venting;
     }
 
     public static void spawnGravityParticle(int xCoord, int yCoord, int zCoord, double x, double y, double z)

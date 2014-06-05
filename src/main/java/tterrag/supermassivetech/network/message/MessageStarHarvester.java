@@ -12,13 +12,12 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
 {
     private NBTTagCompound data;
     private int x, y, z;
-    private boolean venting;
 
     public MessageStarHarvester()
     {
     }
 
-    public MessageStarHarvester(NBTTagCompound tag, int x, int y, int z, boolean venting)
+    public MessageStarHarvester(NBTTagCompound tag, int x, int y, int z)
     {
         data = tag;
         this.x = x;
@@ -26,9 +25,9 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
         this.z = z;
     }
 
-    public MessageStarHarvester(int x, int y, int z, boolean venting)
+    public MessageStarHarvester(int x, int y, int z)
     {
-        this(null, x, y, z, venting);
+        this(null, x, y, z);
     }
 
     @Override
@@ -50,8 +49,6 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
                 e.printStackTrace();
             }
         }
-        
-        buffer.writeBoolean(venting);
     }
 
     @Override
@@ -72,14 +69,12 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
                 e.printStackTrace();
             }
         }
-        
-        venting = buffer.readBoolean();
     }
     
     @Override
     public IMessage onMessage(MessageStarHarvester message, MessageContext ctx)
     {
-        ClientUtils.setStarHarvetserSlotContents(message.data, message.x, message.y, message.z, message.venting);
+        ClientUtils.setStarHarvetserSlotContents(message.data, message.x, message.y, message.z);
         return null;
     }
 }

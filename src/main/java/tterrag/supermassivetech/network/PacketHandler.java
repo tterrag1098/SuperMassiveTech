@@ -6,6 +6,7 @@ import tterrag.supermassivetech.network.message.MessageJumpUpdate;
 import tterrag.supermassivetech.network.message.MessageStarHarvester;
 import tterrag.supermassivetech.network.message.MessageStarHeartParticle;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor;
+import tterrag.supermassivetech.network.message.MessageUpdateVenting;
 import tterrag.supermassivetech.network.message.MessageWaypointUpdate;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -24,5 +25,6 @@ public class PacketHandler
         INSTANCE.registerMessage(MessageStarHeartParticle.class, MessageStarHeartParticle.class, 4, Side.CLIENT);
         INSTANCE.registerMessage(MessageWaypointUpdate.class, MessageWaypointUpdate.class, 5, Side.SERVER);
         INSTANCE.registerMessage(MessageUpdateGravityArmor.class, MessageUpdateGravityArmor.class, 6, Side.SERVER);
+        INSTANCE.registerMessage(MessageUpdateVenting.class, MessageUpdateVenting.class, 7, Side.CLIENT);
     }
 }

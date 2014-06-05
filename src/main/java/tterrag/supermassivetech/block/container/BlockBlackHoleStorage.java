@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.block.ISaveToItem;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
+import tterrag.supermassivetech.util.Utils;
 
 /**
  * @author Garrett Spicer-Davis
@@ -67,6 +68,12 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements ISaveToI
             return stack;
 
         NBTTagCompound tag = new NBTTagCompound();
+        
+        if (te.getStackInSlot(2) != null && !Utils.stacksEqual(te.getStackInSlot(2), te.getStoredItem()))
+        {
+            Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(2), x, y, z);
+            te.setInventorySlotContents(2, null);
+        }
 
         long itemAmount = te.storedAmount + (te.getStackInSlot(2) == null ? 0 : te.getStackInSlot(2).stackSize);
         tag.setLong("itemsStored", itemAmount);
