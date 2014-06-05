@@ -1,39 +1,26 @@
 package tterrag.supermassivetech.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants;
 import tterrag.supermassivetech.util.Waypoint;
 
 public class TileWaypoint extends TileEntity
 {
     public Waypoint waypoint;
-    public List<String> players;
 
     public TileWaypoint()
     {
         waypoint = new Waypoint();
-        players = new ArrayList<String>();
     }
 
     public void init(EntityPlayer... players)
     {
         waypoint = new Waypoint("Unnamed", this.xCoord, this.yCoord, this.zCoord, players);
-        
-        for (EntityPlayer p : players)
-        {
-            this.players.add(p.getCommandSenderName());
-        }
     }
 
     @Override
@@ -56,8 +43,6 @@ public class TileWaypoint extends TileEntity
 
         Waypoint.waypoints.add(waypoint);
         
-        players.add(player.getCommandSenderName());
-
         this.markDirty();
     }
 
@@ -108,13 +93,6 @@ public class TileWaypoint extends TileEntity
     {
         super.writeToNBT(tag);
         waypoint.writeToNBT(tag);
-        
-        NBTTagList list = new NBTTagList();
-        for (String s : players)
-        {
-            list.appendTag(new NBTTagString(s));
-        }
-        tag.setTag("players", list);
     }
 
     @Override
@@ -122,12 +100,6 @@ public class TileWaypoint extends TileEntity
     {
         super.readFromNBT(tag);
         waypoint = waypoint.readFromNBT(tag);
-        players = new ArrayList<String>();
-        NBTTagList list = tag.getTagList("players", Constants.NBT.TAG_STRING);
-        for (int i = 0; i < list.tagCount(); i++)
-        {
-            players.add(list.getStringTagAt(i));
-        }
     }
     
     @Override

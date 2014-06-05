@@ -53,7 +53,7 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-        if (world.isRemote && ((TileWaypoint) world.getTileEntity(x, y, z)).waypoint.players.contains(player.getCommandSenderName()) || player.capabilities.isCreativeMode)
+        if (world.isRemote && (((TileWaypoint) world.getTileEntity(x, y, z)).waypoint.players.contains(player.getCommandSenderName()) || player.capabilities.isCreativeMode))
         {
             GuiHelper.openWaypointGui(world, x, y, z);
         }

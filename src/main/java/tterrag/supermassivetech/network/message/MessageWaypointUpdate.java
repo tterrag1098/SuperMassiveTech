@@ -1,6 +1,7 @@
 package tterrag.supermassivetech.network.message;
 
 import tterrag.supermassivetech.tile.TileWaypoint;
+import tterrag.supermassivetech.util.Waypoint;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -64,8 +65,10 @@ public class MessageWaypointUpdate implements IMessage, IMessageHandler<MessageW
         if (te != null && te instanceof TileWaypoint)
         {
             TileWaypoint tewp = (TileWaypoint) te;
+            Waypoint.waypoints.remove(tewp.waypoint);
             tewp.waypoint.setColor(message.r, message.g, message.b);
             tewp.waypoint.setName(message.name);
+            Waypoint.waypoints.add(tewp.waypoint);
         }
         
         return null;

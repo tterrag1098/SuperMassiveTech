@@ -14,7 +14,7 @@ public class BreakWaypointHandler
         TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
         if (te != null && te instanceof TileWaypoint)
         {
-            if (((TileWaypoint) te).players.contains(event.getPlayer().getCommandSenderName()) || (event.getPlayer().capabilities.isCreativeMode
+            if (((TileWaypoint) te).waypoint.players.contains(event.getPlayer().getCommandSenderName()) || (event.getPlayer().capabilities.isCreativeMode
                     && MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(event.getPlayer().getCommandSenderName())))
                 return;
         }
