@@ -1,8 +1,9 @@
 package tterrag.supermassivetech.util;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class BlockCoord
 {
-
     public int x, y, z;
 
     public BlockCoord(int x, int y, int z)
@@ -23,5 +24,21 @@ public class BlockCoord
         }
 
         return false;
+    }
+    
+    public void writeToNBT(NBTTagCompound tag)
+    {
+        tag.setInteger("blockCoordx", x);
+        tag.setInteger("blockCoordy", y);
+        tag.setInteger("blockCoordz", z);
+    }
+    
+    public static BlockCoord readFromNBT(NBTTagCompound tag)
+    {
+        int x = tag.getInteger("blockCoordx");
+        int y = tag.getInteger("blockCoordy");
+        int z = tag.getInteger("blockCoordz");
+        
+        return new BlockCoord(x, y, z);
     }
 }

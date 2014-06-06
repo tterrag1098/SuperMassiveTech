@@ -21,7 +21,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems
 {
-    public static ModItems instance = new ModItems();
+    public static final ModItems instance = new ModItems();
 
     public Item star, starSpecial;
     public Item heartOfStar;

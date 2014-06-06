@@ -35,10 +35,12 @@ public class MessageWaypointUpdate implements IMessage, IMessageHandler<MessageW
         buf.writeInt(r);
         buf.writeInt(g);
         buf.writeInt(b);
-        ByteBufUtils.writeUTF8String(buf, name);
+        
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
+        
+        ByteBufUtils.writeUTF8String(buf, name);
     }
     
     @Override
@@ -48,11 +50,11 @@ public class MessageWaypointUpdate implements IMessage, IMessageHandler<MessageW
         g = buf.readInt();
         b = buf.readInt();
         
-        name = ByteBufUtils.readUTF8String(buf);
-        
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
+        
+        name = ByteBufUtils.readUTF8String(buf);
     }
     
     @Override

@@ -20,7 +20,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks
 {
-    public static ModBlocks instance = new ModBlocks();
+    public static final ModBlocks instance = new ModBlocks();
 
     public Block blackHoleStorage;
     public Block blackHoleHopper;

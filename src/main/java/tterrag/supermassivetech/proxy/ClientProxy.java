@@ -13,6 +13,8 @@ import tterrag.supermassivetech.client.render.ItemObjRenderer;
 import tterrag.supermassivetech.client.render.RenderBeaconEffect;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
 import tterrag.supermassivetech.client.render.SimpleModelRenderer;
+import tterrag.supermassivetech.client.render.entity.RenderFormingStar;
+import tterrag.supermassivetech.entity.EntityFormingStar;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -64,6 +66,8 @@ public class ClientProxy extends CommonProxy
         waypoint = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/waypoint.obj")));
         renderIDWaypoint = waypoint.getRenderId();
         RenderingRegistry.registerBlockHandler(waypoint);
+        
+        RenderingRegistry.registerEntityRenderingHandler(EntityFormingStar.class, new RenderFormingStar());
     }
 
     @Override

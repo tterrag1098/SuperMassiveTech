@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class PacketHandler
 {
-    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("smt");
+    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("SMTech");
 
     public static void init()
     {

@@ -17,6 +17,7 @@ import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.proxy.CommonProxy;
 import tterrag.supermassivetech.registry.ModBlocks;
 import tterrag.supermassivetech.registry.ModEnchants;
+import tterrag.supermassivetech.registry.ModEntities;
 import tterrag.supermassivetech.registry.ModItems;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.util.Constants;
@@ -47,6 +48,7 @@ public class SuperMassiveTech
     public static ModItems itemRegistry = ModItems.instance;
     public static ModEnchants enchantRegistry = ModEnchants.instance;
     public static ModBlocks blockRegistry = ModBlocks.instance;
+    public static ModEntities entityRegistry = ModEntities.instance;
     public static Stars starRegistry = Stars.instance;
 
     public static CreativeTabs tabSMT = Utils.tab;
@@ -76,6 +78,7 @@ public class SuperMassiveTech
         
         itemRegistry.register();
         blockRegistry.register();
+        entityRegistry.init();
 
         enchantRegistry.init();
 

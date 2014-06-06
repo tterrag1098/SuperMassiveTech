@@ -8,7 +8,7 @@ import tterrag.supermassivetech.enchant.EnchantGravity;
 
 public class ModEnchants
 {
-    public static ModEnchants instance = new ModEnchants();
+    public static final ModEnchants instance = new ModEnchants();
 
     public Enchantment gravity;
 
