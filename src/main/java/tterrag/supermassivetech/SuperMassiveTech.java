@@ -5,6 +5,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import tterrag.supermassivetech.compat.WailaCompat;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.handlers.BreakWaypointHandler;
 import tterrag.supermassivetech.handlers.ClientKeyHandler;
@@ -23,6 +24,7 @@ import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -34,7 +36,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "after:Waila")
 public class SuperMassiveTech
 {
     @Instance
@@ -83,6 +85,9 @@ public class SuperMassiveTech
         enchantRegistry.init();
 
         starRegistry.registerDefaultStars();
+        
+        if (Loader.isModLoaded("Waila"))
+            WailaCompat.load();
     }
 
     @EventHandler

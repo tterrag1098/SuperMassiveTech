@@ -279,6 +279,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         return getRotationMeta() == 0 && side == top;
     }
+    
+    public int getCurrentOutputMax()
+    {
+        return perTick;
+    }
 
     private boolean vent()
     {

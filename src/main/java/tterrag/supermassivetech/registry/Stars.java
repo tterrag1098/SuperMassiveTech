@@ -1,9 +1,6 @@
 package tterrag.supermassivetech.registry;
 
-import static tterrag.supermassivetech.registry.Stars.StarTier.HIGH;
-import static tterrag.supermassivetech.registry.Stars.StarTier.LOW;
-import static tterrag.supermassivetech.registry.Stars.StarTier.NORMAL;
-import static tterrag.supermassivetech.registry.Stars.StarTier.SPECIAL;
+import static tterrag.supermassivetech.registry.Stars.StarTier.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

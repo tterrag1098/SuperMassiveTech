@@ -1,10 +1,10 @@
 package tterrag.supermassivetech.network.message;
 
-import tterrag.supermassivetech.tile.TileWaypoint;
-import tterrag.supermassivetech.util.Waypoint;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.tile.TileWaypoint;
+import tterrag.supermassivetech.util.Waypoint;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

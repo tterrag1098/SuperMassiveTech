@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.block;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -9,12 +10,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Facing;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.compat.IWailaAdditionalInfo;
+import tterrag.supermassivetech.tile.TileSMTInventory;
 import tterrag.supermassivetech.util.Utils;
 
-public abstract class BlockSMT extends Block
+public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
 {
     private int renderID;
     protected String unlocName;
@@ -136,5 +140,16 @@ public abstract class BlockSMT extends Block
     public void dropItem(World world, ItemStack item, int x, int y, int z)
     {
         Utils.spawnItemInWorldWithRandomMotion(world, item, x, y, z);
+    }
+    
+    @Override
+    public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
+    {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te != null && te instanceof TileSMTInventory)
+        {
+            TileSMTInventory inv = (TileSMTInventory) te;
+            tooltip.add("Gravity well? " + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+        }
     }
 }

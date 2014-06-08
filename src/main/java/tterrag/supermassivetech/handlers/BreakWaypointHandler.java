@@ -1,10 +1,10 @@
 package tterrag.supermassivetech.handlers;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import tterrag.supermassivetech.tile.TileWaypoint;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.world.BlockEvent;
+import tterrag.supermassivetech.tile.TileWaypoint;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BreakWaypointHandler
 {

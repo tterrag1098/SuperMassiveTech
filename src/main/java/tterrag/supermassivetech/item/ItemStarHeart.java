@@ -1,15 +1,10 @@
 package tterrag.supermassivetech.item;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import tterrag.supermassivetech.entity.EntityFormingStar;
 import tterrag.supermassivetech.entity.item.EntityItemStarHeart;
-import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

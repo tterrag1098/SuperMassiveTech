@@ -1,6 +1,6 @@
 package tterrag.supermassivetech.registry;
 
-import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

@@ -1,6 +1,6 @@
 package tterrag.supermassivetech.util;
 
-import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 
 import java.util.List;
 import java.util.Random;

@@ -1,8 +1,8 @@
 package tterrag.supermassivetech.item;
 
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.item.ItemStack;
 
 public interface IAdvancedTooltip
 {

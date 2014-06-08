@@ -3,12 +3,12 @@ package tterrag.supermassivetech.item.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.util.Utils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
 {

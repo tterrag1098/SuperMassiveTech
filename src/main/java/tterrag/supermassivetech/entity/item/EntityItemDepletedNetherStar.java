@@ -1,11 +1,11 @@
 package tterrag.supermassivetech.entity.item;
 
-import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.tile.TileStarHarvester;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.tile.TileStarHarvester;
 
 public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 {

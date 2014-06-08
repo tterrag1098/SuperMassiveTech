@@ -1,10 +1,9 @@
 package cofh.api.block;
 
-import cofh.api.tileentity.ITileDebug;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
+import cofh.api.tileentity.ITileDebug;
 
 /**
  * Implement this interface on blocks which have some debug method which can be activated via a tool or other means. If the block contains Tile Entities, then

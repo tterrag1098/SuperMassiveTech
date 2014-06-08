@@ -1,7 +1,5 @@
 package tterrag.supermassivetech.item.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,6 +7,8 @@ import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import tterrag.supermassivetech.util.Utils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedTooltip
 {

@@ -1,10 +1,6 @@
 package tterrag.supermassivetech.proxy;
 
-import static tterrag.supermassivetech.SuperMassiveTech.blockRegistry;
-import static tterrag.supermassivetech.SuperMassiveTech.renderIDHopper;
-import static tterrag.supermassivetech.SuperMassiveTech.renderIDStarHarvester;
-import static tterrag.supermassivetech.SuperMassiveTech.renderIDStorage;
-import static tterrag.supermassivetech.SuperMassiveTech.renderIDWaypoint;
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;

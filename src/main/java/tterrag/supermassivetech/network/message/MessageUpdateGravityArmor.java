@@ -1,8 +1,8 @@
 package tterrag.supermassivetech.network.message;
 
-import tterrag.supermassivetech.item.ItemGravityArmor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
+import tterrag.supermassivetech.item.ItemGravityArmor;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

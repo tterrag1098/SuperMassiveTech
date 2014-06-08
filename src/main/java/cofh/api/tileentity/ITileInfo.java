@@ -1,11 +1,10 @@
 package cofh.api.tileentity;
 
-import cofh.api.block.IBlockInfo;
-
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.util.ForgeDirection;
+import cofh.api.block.IBlockInfo;
 
 /**
  * Implement this interface on Tile Entities which can provide information about themselves. The containing block should be an instance of {@link IBlockInfo}

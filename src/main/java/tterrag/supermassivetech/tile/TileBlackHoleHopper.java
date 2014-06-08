@@ -169,7 +169,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     {
         List<Integer> list = new ArrayList<Integer>();
 
-        if (i.isStillValid())
+        if (i.isStillValid() && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
         {
             loop: for (int idx = 0; idx < i.inv.getSizeInventory(); idx++)
             {

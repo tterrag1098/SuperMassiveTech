@@ -1,19 +1,20 @@
 package tterrag.supermassivetech.client.render.entity;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL14.*;
+import static org.lwjgl.opengl.GL20.*;
 
 import java.nio.FloatBuffer;
 import java.util.Random;
-
-import org.lwjgl.BufferUtils;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.BufferUtils;
+
 import tterrag.supermassivetech.lib.Reference;
 
 public class RenderFormingStar extends Render

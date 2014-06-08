@@ -2,8 +2,6 @@ package tterrag.supermassivetech.item;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -16,6 +14,8 @@ import tterrag.supermassivetech.entity.item.EntityItemSpecialStar;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars.StarTier;
 import tterrag.supermassivetech.util.Utils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStarItem
 {

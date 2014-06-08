@@ -59,6 +59,21 @@ minecraft {
     assetDir = "eclipse/assets"
 }
 
+repositories {
+    maven {
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven {
+        name 'CB Repo'
+        url "http://chickenbones.net/maven/"
+    }
+}
+ 
+dependencies {
+    compile "mcp.mobius.waila:Waila:1.5.2a"
+}
+
 processResources
 {
     // replace stuff in mcmod.info, nothing else

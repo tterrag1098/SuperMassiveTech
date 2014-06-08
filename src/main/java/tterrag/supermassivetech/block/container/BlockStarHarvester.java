@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.block.container;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -83,5 +85,15 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
     {
         TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
         return te == null || te.getStackInSlot(0) == null ? 0 : 15;
+    }
+    
+    @Override
+    public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
+    {
+        super.getWailaInfo(tooltip, x, y, z, world);
+        
+        TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
+        tooltip.add("Power stored: " + te.getEnergyStored(ForgeDirection.UNKNOWN) + " RF");
+        tooltip.add("Output max: " + te.getCurrentOutputMax() + " RF");
     }
 }
