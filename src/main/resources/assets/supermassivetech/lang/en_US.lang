@@ -37,6 +37,8 @@ enchantment.gravityResist=Gravity Resist
 #Random tidbits
 SMT.tooltip.hold=Hold
 SMT.tooltip.shift=Shift
+SMT.tooltip.control=Ctrl
+SMT.tooltip.alt=Alt
 SMT.tooltip.moreInfo=For more info
 
 SMT.tooltip.outputs=Outputs

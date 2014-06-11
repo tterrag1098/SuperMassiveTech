@@ -427,9 +427,19 @@ public class Utils
      */
     public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip)
     {
+        formAdvancedTooltip(lines, stack, tooltip, Keyboard.KEY_LSHIFT, Keyboard.KEY_RSHIFT);
+    }
+    
+    public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip, int key)
+    {
+        formAdvancedTooltip(lines, stack, tooltip, key, key);
+    }
+    
+    public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip, int key, int alternateKey)
+    {
         if (tooltip.getHiddenLines(stack) != null)
         {
-            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+            if (Keyboard.isKeyDown(key) || Keyboard.isKeyDown(alternateKey))
             {
                 for (String s : splitList(tooltip.getHiddenLines(stack)))
                 {
@@ -444,7 +454,7 @@ public class Utils
             }
             else
             {
-                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, localize("tooltip.shift", true), EnumChatFormatting.RED
+                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, getNameForKey(key), EnumChatFormatting.RED
                         + localize("tooltip.moreInfo", true)));
             }
         }
@@ -457,6 +467,24 @@ public class Utils
             for (String s : splitList(tooltip.getStaticLines(stack), "~"))
                 lines.add(EnumChatFormatting.WHITE + s);
         }
+    }
+
+    private static String getNameForKey(int key)
+    {
+        switch (key)
+        {
+        case Keyboard.KEY_LSHIFT:
+        case Keyboard.KEY_RSHIFT:
+            return localize("tooltip.shift", true);
+        case Keyboard.KEY_LCONTROL:
+        case Keyboard.KEY_RCONTROL:
+            return localize("tooltip.control", true);
+        case Keyboard.KEY_LMENU:
+        case Keyboard.KEY_RMENU:
+            return localize("tooltip.alt", true);
+        }
+        
+        return Keyboard.getKeyName(key);
     }
 
     public static EnumChatFormatting getColorForPowerLeft(double power, double powerMax)

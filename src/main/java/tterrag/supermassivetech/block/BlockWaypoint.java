@@ -120,10 +120,14 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
         Waypoint wp = ((TileWaypoint)world.getTileEntity(x, y, z)).waypoint;
+        tooltip.add("");
+        
         tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.name", true) + ": " + wp.getName());
         tooltip.add(EnumChatFormatting.RED + Utils.localize("tooltip.red", true) + ": " + wp.getColor().getRed());
         tooltip.add(EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true) + ": " + wp.getColor().getGreen());
         tooltip.add(EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true) + ": " + wp.getColor().getBlue());
+        
+        tooltip.add("");
     }
 
     @Override

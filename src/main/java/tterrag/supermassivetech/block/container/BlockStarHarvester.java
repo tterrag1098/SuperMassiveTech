@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -86,14 +87,28 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
         TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
         return te == null || te.getStackInSlot(0) == null ? 0 : 15;
     }
-    
+
     @Override
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
         super.getWailaInfo(tooltip, x, y, z, world);
-        
+
         TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
-        tooltip.add("Power stored: " + te.getEnergyStored(ForgeDirection.UNKNOWN) + " RF");
-        tooltip.add("Output max: " + te.getCurrentOutputMax() + " RF");
+
+        if (te.getBlockMetadata() < 5)
+        {
+            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noContainerInPlace", true));
+        }
+        else if (!te.isGravityWell())
+        {
+            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noStarInPlace", true));
+        }
+        
+        int energyStored = te.getEnergyStored(ForgeDirection.UNKNOWN), maxEnergyStored = te.getMaxEnergyStored(ForgeDirection.UNKNOWN);
+        int output = te.getCurrentOutputMax(), maxOutput = te.maxPerTick;
+
+        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.bufferStorage", true) + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored + " RF");
+        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(output, maxOutput) + output + " RF");
+
     }
 }

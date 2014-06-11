@@ -30,7 +30,10 @@ import cofh.api.tileentity.IEnergyInfo;
 
 public class TileStarHarvester extends TileSMTInventory implements ISidedInventory, IEnergyHandler, IEnergyInfo
 {
-    private int slot = 0, perTick = 500;
+    private int slot = 0;
+    
+    public final int maxPerTick = 500;
+    private int perTick = maxPerTick;
     private EnergyStorage storage;
     public static final int STORAGE_CAP = 100000;
     public double spinSpeed = 0;
@@ -84,7 +87,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             sendPacket();
         }
 
-        perTick = (int) (500 * spinSpeed);
+        perTick = (int) (maxPerTick * spinSpeed);
 
         if (inventory[slot] != null && inventory[slot].stackTagCompound != null)
         {
@@ -348,7 +351,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.bufferStorage", true) + ": "
                 + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(perTick, 500)
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(perTick, maxPerTick)
                 + Utils.formatString("", " RF/t", perTick, false)));
 
         return true;

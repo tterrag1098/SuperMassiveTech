@@ -149,7 +149,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
         if (te != null && te instanceof TileSMTInventory)
         {
             TileSMTInventory inv = (TileSMTInventory) te;
-            tooltip.add("Gravity well? " + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+            tooltip.add(EnumChatFormatting.WHITE + "Gravity well? " + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
         }
     }
 }

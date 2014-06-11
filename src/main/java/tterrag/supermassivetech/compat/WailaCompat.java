@@ -2,6 +2,8 @@ package tterrag.supermassivetech.compat;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -52,12 +54,11 @@ public class WailaCompat implements IWailaDataProvider
         
         if (block instanceof IAdvancedTooltip)
         {
-            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) block);
+            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) block, Keyboard.KEY_LCONTROL, Keyboard.KEY_RCONTROL);
         }
-        
-        if (item instanceof IAdvancedTooltip)
+        else if (item instanceof IAdvancedTooltip)
         {
-            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) item);
+            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) item, Keyboard.KEY_LCONTROL, Keyboard.KEY_RCONTROL);
         }
         
         if (block instanceof IWailaAdditionalInfo)
