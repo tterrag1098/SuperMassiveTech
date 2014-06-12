@@ -385,6 +385,9 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
+        
+        storage.readFromNBT(nbt.getCompoundTag("energyStorage"));
+        
         spinSpeed = nbt.getDouble("spin");
         
         NBTTagList list = nbt.getTagList("spins", 5);
@@ -400,6 +403,11 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
+        
+        NBTTagCompound tag = new NBTTagCompound();
+        storage.writeToNBT(tag);
+        nbt.setTag("energyStorage", tag);
+        
         nbt.setDouble("spin", spinSpeed);
         
         NBTTagList spinAngles = new NBTTagList();
