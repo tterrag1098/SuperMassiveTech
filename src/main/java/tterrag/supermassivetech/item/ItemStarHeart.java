@@ -2,8 +2,10 @@ package tterrag.supermassivetech.item;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.entity.EntityFormingStar;
 import tterrag.supermassivetech.entity.item.EntityItemStarHeart;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
@@ -44,15 +46,15 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
         return null;
     }
 
-//    @Override
-//    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
-//    {
-//        if (!par3World.isRemote)
-//        {
-//            EntityFormingStar entity = new EntityFormingStar(par3World);
-//            entity.setPosition(x + 0.5, y + 1.5, z + 0.5);
-//            par3World.spawnEntityInWorld(entity);
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
+    {
+        if (!par3World.isRemote)
+        {
+            EntityFormingStar entity = new EntityFormingStar(par3World);
+            entity.setPosition(x + 0.5, y + 1.5, z + 0.5);
+            par3World.spawnEntityInWorld(entity);
+        }
+        return true;
+    }
 }
