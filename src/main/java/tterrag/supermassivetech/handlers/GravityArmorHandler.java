@@ -29,15 +29,6 @@ public class GravityArmorHandler
     @SubscribeEvent
     public void doAntiGrav(PlayerTickEvent event)
     {
-        for (ItemStack i : event.player.inventory.armorInventory)
-        {
-            if (i != null && i.getItem() instanceof ItemGravityArmor)
-            {
-                if (!i.stackTagCompound.getBoolean(PowerUps.GRAV_RESIST.toString()))
-                    return;
-            }
-        }
-
         if (event.player.worldObj.isRemote)
         {
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
@@ -60,7 +51,7 @@ public class GravityArmorHandler
         double effect = 0;
         for (ItemStack i : player.inventory.armorInventory)
         {
-            if (i != null && SuperMassiveTech.itemRegistry.armors.contains(i.getItem()))
+            if (i != null && SuperMassiveTech.itemRegistry.armors.contains(i.getItem()) && i.stackTagCompound.getBoolean(PowerUps.GRAV_RESIST.toString()))
             {
                 int drained = ((IEnergyContainerItem) i.getItem()).extractEnergy(i, drainAmount, false);
                 effect += drained > 0 || drained == drainAmount ? .036d / 4d : 0;
