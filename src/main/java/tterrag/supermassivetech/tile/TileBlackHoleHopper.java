@@ -248,7 +248,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private boolean onTime()
     {
-        return worldObj.getWorldTime() % 20 == 0;
+        return worldObj.getTotalWorldTime() % 20 == 0;
     }
 
     private void searchForInventories()
