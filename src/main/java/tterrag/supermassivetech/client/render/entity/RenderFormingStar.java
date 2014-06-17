@@ -4,6 +4,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.util.Random;
 
+import org.lwjgl.opengl.GL12;
+
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -38,16 +40,13 @@ public class RenderFormingStar extends Render
 
         Tessellator tessellator = Tessellator.instance;
 
-        this.bindTexture(texture);
-
         bindTexture(TextureMap.locationItemsTexture);
         IIcon icon = stack.getItem().getIcon(stack, 0);
-
+        
+        glDepthMask(true);
         glRotatef(rot % 360, 0, 1, 0);
         ItemRenderer.renderItemIn2D(tessellator, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 1 / 16f);
         glRotatef(-(rot % 360), 0, 1, 0);
-
-        glScalef(2f, 2f, 2f);
 
         glDisable(GL_TEXTURE_2D);
         glShadeModel(GL_SMOOTH);
@@ -55,7 +54,7 @@ public class RenderFormingStar extends Render
         glBlendFunc(GL_SRC_ALPHA, GL_ONE);
         glDisable(GL_ALPHA_TEST);
         glDisable(GL_CULL_FACE);
-
+        
         rand.setSeed(2983457L);
 
         for (int i = 0; i < 50; i++)
