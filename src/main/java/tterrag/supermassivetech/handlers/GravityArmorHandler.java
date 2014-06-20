@@ -1,14 +1,17 @@
 package tterrag.supermassivetech.handlers;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
@@ -126,6 +129,40 @@ public class GravityArmorHandler
                     }
                 }
                 player.inventory.currentItem = select;
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @SubscribeEvent
+    public void doAntiGravField(PlayerTickEvent event)
+    {
+        EntityPlayer player = event.player;
+        ItemStack chest = player.inventory.armorInventory[2];
+        if (chest != null && chest.getItem() instanceof ItemGravityArmor && chest.stackTagCompound.getBoolean(PowerUps.FIELD.toString()))
+        {
+            IEnergyContainerItem chestEnergy = (IEnergyContainerItem) chest.getItem();
+            World world = player.worldObj;
+
+            double x = player.posX, y = player.posY, z = player.posZ;
+            int range = 7;
+            int powerUse = 10;
+            
+            if (chestEnergy.extractEnergy(chest, powerUse, true) < powerUse)
+                return;
+            
+            AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range);
+            List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, bb);
+            for (Entity e : entities)
+            {
+                if (e != player)
+                {
+                    e.motionY += 0.045;
+                    e.fallDistance = 0;
+                    powerUse *= Math.max(1, e.width + e.height);
+                    chestEnergy.extractEnergy(chest, powerUse, false);
+                    System.out.println(powerUse);
+                }
             }
         }
     }

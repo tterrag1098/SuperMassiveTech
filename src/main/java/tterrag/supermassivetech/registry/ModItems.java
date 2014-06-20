@@ -77,15 +77,24 @@ public class ModItems
                 'D', OreDictionary.getOres("dustDiamond").isEmpty() ? Items.diamond : "dustDiamond"
         ));
 
-        GameRegistry.addRecipe(new ItemStack(starContainer), "iOi", "d d", "iOi",
+        GameRegistry.addRecipe(new ItemStack(starContainer), 
+                "iOi", 
+                "d d", 
+                "iOi",
 
-        'i', Items.iron_ingot, 'O', Blocks.obsidian, 'd', Items.diamond);
+                'i', Items.iron_ingot, 
+                'O', Blocks.obsidian, 
+                'd', Items.diamond
+        );
         
+        
+        String armorMat = OreDictionary.getOres("ingotSteel").isEmpty() ? "ingotIron" : "ingotSteel";
+                
         GameRegistry.addRecipe(new ShapedOreRecipe(gravityHelm.create(), 
                 "InI",
                 "I I",
                                 
-                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'I', armorMat,
                 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
         ));
         
@@ -94,7 +103,7 @@ public class ModItems
                 "InI",
                 "III",
                 
-                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'I', armorMat,
                 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
         ));
         
@@ -103,7 +112,7 @@ public class ModItems
                 "I I",
                 "I I",
                 
-                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'I', armorMat,
                 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
         ));
         
@@ -111,7 +120,7 @@ public class ModItems
                 "I I",
                 "InI",
                 
-                'I', OreDictionary.getOres("ingotSteel").isEmpty() ? OreDictionary.getOres("ingotIron").isEmpty() ? Items.iron_ingot : "ingotIron" : "ingotSteel",
+                'I', armorMat,
                 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
         ));
     }

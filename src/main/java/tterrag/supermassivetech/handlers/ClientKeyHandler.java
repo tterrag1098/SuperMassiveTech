@@ -107,9 +107,11 @@ public class ClientKeyHandler
     public ClientKeyHandler()
     {
         powers = new ArmorPower[] {
-
-        ArmorPower.create(Keyboard.KEY_F, PowerUps.GRAV_RESIST, "keybind.gravResist", 0, 1, 2, 3), ArmorPower.create(Keyboard.KEY_C, PowerUps.TOOLPICKER, "keybind.toolpicker", 2),
-                ArmorPower.create(Keyboard.KEY_O, PowerUps.HUD, "keybind.hud", 3) };
+                ArmorPower.create(Keyboard.KEY_NUMPAD0, PowerUps.GRAV_RESIST, "keybind.gravResist", 0, 1, 2, 3), 
+                ArmorPower.create(Keyboard.KEY_NUMPAD1, PowerUps.TOOLPICKER, "keybind.toolpicker", 2),
+                ArmorPower.create(Keyboard.KEY_NUMPAD0, PowerUps.HUD, "keybind.hud", 3),
+                ArmorPower.create(Keyboard.KEY_NUMPAD1, PowerUps.FIELD, "keybind.antiGravField", 2)
+        };
     }
 
     @SubscribeEvent

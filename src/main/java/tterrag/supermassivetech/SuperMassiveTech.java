@@ -5,6 +5,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import tterrag.supermassivetech.compat.OreDictRegistrations;
 import tterrag.supermassivetech.compat.WailaCompat;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.handlers.BreakWaypointHandler;
@@ -77,6 +78,8 @@ public class SuperMassiveTech
             Utils.registerEventHandlers(false, ClientKeyHandler.class);
             Utils.registerEventHandlers(true, HelmetOverlayHandler.class);
         }
+        
+        OreDictRegistrations.load();
         
         itemRegistry.register();
         blockRegistry.register();

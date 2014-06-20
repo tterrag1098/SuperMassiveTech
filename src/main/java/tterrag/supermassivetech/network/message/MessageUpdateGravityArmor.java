@@ -11,7 +11,7 @@ public class MessageUpdateGravityArmor implements IMessage, IMessageHandler<Mess
 {
     public enum PowerUps
     {
-        HUD, TOOLPICKER, GRAV_RESIST
+        HUD, TOOLPICKER, GRAV_RESIST, FIELD
     }
 
     private PowerUps powerup;
