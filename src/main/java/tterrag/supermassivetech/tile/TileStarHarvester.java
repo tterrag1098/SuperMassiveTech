@@ -26,9 +26,8 @@ import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
-import cofh.api.tileentity.IEnergyInfo;
 
-public class TileStarHarvester extends TileSMTInventory implements ISidedInventory, IEnergyHandler, IEnergyInfo
+public class TileStarHarvester extends TileSMTInventory implements ISidedInventory, IEnergyHandler
 {
     private int slot = 0;
     
@@ -212,30 +211,6 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
     @Override
     public int getMaxEnergyStored(ForgeDirection from)
-    {
-        return STORAGE_CAP;
-    }
-
-    @Override
-    public int getInfoEnergyPerTick()
-    {
-        return getInfoMaxEnergyPerTick();
-    }
-
-    @Override
-    public int getInfoMaxEnergyPerTick()
-    {
-        return ((IStar) inventory[slot].getItem()).getPowerPerTick();
-    }
-
-    @Override
-    public int getInfoEnergy()
-    {
-        return storage.getEnergyStored();
-    }
-
-    @Override
-    public int getInfoMaxEnergy()
     {
         return STORAGE_CAP;
     }
