@@ -67,21 +67,26 @@ public class ClientUtils
         GameSettings settings = Minecraft.getMinecraft().gameSettings;
         for (int i = 0; i < -((settings.particleSetting - 2) * 2); i++)
         {
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotion(), 0.5f, getRandMotion()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotion(), 0.5f, getRandMotion()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotion(), 0.5f, getRandMotion()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotion(), 0.5f, getRandMotion()));
         }
         if (settings.particleSetting == 2)
         {
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotionXZ(), 0.5f, getRandMotionXZ()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotion(), 0.5f, getRandMotion()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotion(), 0.5f, getRandMotion()));
         }
     }
 
-    private static float getRandMotionXZ()
+    private static float getRandMotion()
     {
-        return rand.nextFloat() * 0.2f - 0.1f;
+        return getRandMotion(1);
+    }
+    
+    private static float getRandMotion(float mult)
+    {
+        return (rand.nextFloat() * 0.2f - 0.1f) * mult;
     }
 
     public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes)
@@ -112,7 +117,7 @@ public class ClientUtils
         Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomFlameFX(Minecraft.getMinecraft().theWorld, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ, (double) 1 / 13));
     }
 
-    public static void spawnHopperParticle(int[] data)
+    public static void spawnHopperParticle(int... data)
     {
         Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, data[3] + 0.5, data[4] + 0.5, data[5] + 0.5, data[0] + 0.5,
                 data[1] + 0.5, data[2] + 0.5, 0.1d));
@@ -168,6 +173,23 @@ public class ClientUtils
             {
                 stackTagCompound.setBoolean(ap.getPowerType().toString(), true);
             }
+        }
+    }
+
+    public static void spawnConflictParticles(Entity e1, Entity e2)
+    {
+        double distX = e1.posX - e2.posX;
+        double distY = e1.posY - e2.posY;
+        double distZ = e1.posZ - e2.posZ;
+        
+        for (int i = 0; i < 25; i++)
+        {
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(e1.worldObj, e1.posX - distX / 2, e1.posY - distY / 2 , e1.posZ - distZ / 2, getRandMotion(3), getRandMotion(3), getRandMotion(3)));
+            
+            if (i % 2 == 0)
+                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, e1.posX, e1.posY, e1.posZ, e2.posX, e2.posY, e2.posZ, 0.1));
+            else
+                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, e2.posX, e2.posY, e2.posZ, e1.posX, e1.posY, e1.posZ, 0.1));
         }
     }
 }

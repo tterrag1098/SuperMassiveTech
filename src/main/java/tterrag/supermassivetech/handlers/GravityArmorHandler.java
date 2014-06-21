@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
@@ -29,14 +30,14 @@ public class GravityArmorHandler
 {
     public static boolean isJumpKeyDown;
     private Field isHittingBlock;
-    
+
     private final int antiGravRange = ConfigHandler.antiGravRange;
     private final int antiGravUsageBase = ConfigHandler.antiGravUsageBase;
-    
+
     private static class NoPlayersSelector implements IEntitySelector
     {
         private static final NoPlayersSelector instance = new NoPlayersSelector();
-        
+
         @Override
         public boolean isEntityApplicable(Entity entity)
         {
@@ -154,23 +155,26 @@ public class GravityArmorHandler
     {
         EntityPlayer player = event.player;
         ItemStack chest = player.inventory.armorInventory[2];
-        if (chest != null && chest.getItem() instanceof ItemGravityArmor && chest.stackTagCompound.getBoolean(PowerUps.FIELD.toString()))
+        if (checkArmor(chest) && chest.stackTagCompound.getBoolean(PowerUps.FIELD.toString()))
         {
             IEnergyContainerItem chestEnergy = (IEnergyContainerItem) chest.getItem();
             World world = player.worldObj;
 
             double x = player.posX, y = player.posY, z = player.posZ;
             int powerScale = antiGravUsageBase;
-            
+
             if (chestEnergy.extractEnergy(chest, powerScale, true) < powerScale)
                 return;
-            
+
             int r = antiGravRange;
-            
+
             AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - r, y - r, z - r, x + r, y + r, z + r);
-            
+
             List<Entity> entities = null;
-            
+
+            final double defaultEffect = 0.045;
+            double effect = defaultEffect;
+
             if (ConfigHandler.antiGravIgnorePlayers)
             {
                 entities = world.getEntitiesWithinAABBExcludingEntity(player, bb, NoPlayersSelector.instance);
@@ -179,15 +183,51 @@ public class GravityArmorHandler
             {
                 entities = world.getEntitiesWithinAABBExcludingEntity(player, bb);
             }
-            
+
             for (Entity e : entities)
             {
-                    e.motionY += 0.045;
-                    e.fallDistance = 0;
-                    int powerUse = (int) Math.pow(powerScale, e.width + e.height);
-                    chestEnergy.extractEnergy(chest, powerUse, false);
+                if (!ConfigHandler.antiGravIgnorePlayers && e instanceof EntityPlayer)
+                {
+                    if (hasPowerUpOn((EntityPlayer) e, PowerUps.FIELD, 2))
+                    {
+                        e.motionY = 0.5;
+
+                        double distX = e.posX - player.posX;
+                        double distZ = e.posZ - player.posZ;
+
+                        e.motionX += MathHelper.clamp_double(1 / distX, -2, 2);
+                        e.motionZ += MathHelper.clamp_double(1 / distZ, -2, 2);
+                        
+                        if (world.isRemote)
+                            ClientUtils.spawnConflictParticles(e, player);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            ItemStack stack = player.inventory.armorInventory[i];
+                            if (checkArmor(stack) && ((IEnergyContainerItem) stack.getItem()).getEnergyStored(stack) > 0 && hasPowerUpOn((EntityPlayer) e, PowerUps.GRAV_RESIST, i))
+                            {
+                                effect -= defaultEffect * 0.05;
+                                System.out.println(effect);
+                            }
+                        }
+                    }
+                }
+
+                e.motionY += effect;
+                e.fallDistance = 0;
+
+                int powerUse = (int) Math.max(1, Math.pow(e.width + e.height, powerScale));
+                chestEnergy.extractEnergy(chest, powerUse, false);
             }
         }
+    }
+
+    private boolean hasPowerUpOn(EntityPlayer e, PowerUps power, int slot)
+    {
+        ItemStack armor = e.inventory.armorInventory[slot];
+        return checkArmor(armor) && armor.stackTagCompound.getBoolean(power.toString());
     }
 
     private boolean checkArmor(ItemStack stack)
