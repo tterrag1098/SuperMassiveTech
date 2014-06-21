@@ -7,6 +7,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,9 +29,23 @@ public class GravityArmorHandler
 {
     public static boolean isJumpKeyDown;
     private Field isHittingBlock;
+    
+    private final int antiGravRange = ConfigHandler.antiGravRange;
+    private final int antiGravUsageBase = ConfigHandler.antiGravUsageBase;
+    
+    private static class NoPlayersSelector implements IEntitySelector
+    {
+        private static final NoPlayersSelector instance = new NoPlayersSelector();
+        
+        @Override
+        public boolean isEntityApplicable(Entity entity)
+        {
+            return !(entity instanceof EntityPlayer);
+        }
+    }
 
     @SubscribeEvent
-    public void doAntiGrav(PlayerTickEvent event)
+    public void doGravResist(PlayerTickEvent event)
     {
         if (event.player.worldObj.isRemote)
         {
@@ -145,23 +160,34 @@ public class GravityArmorHandler
             World world = player.worldObj;
 
             double x = player.posX, y = player.posY, z = player.posZ;
-            int range = 7;
-            int powerUse = 10;
+            int powerScale = antiGravUsageBase;
             
-            if (chestEnergy.extractEnergy(chest, powerUse, true) < powerUse)
+            if (chestEnergy.extractEnergy(chest, powerScale, true) < powerScale)
                 return;
             
-            AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range);
-            List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, bb);
+            int r = antiGravRange;
+            
+            AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - r, y - r, z - r, x + r, y + r, z + r);
+            
+            List<Entity> entities = null;
+            
+            if (ConfigHandler.antiGravIgnorePlayers)
+            {
+                entities = world.getEntitiesWithinAABBExcludingEntity(player, bb, NoPlayersSelector.instance);
+            }
+            else
+            {
+                entities = world.getEntitiesWithinAABBExcludingEntity(player, bb);
+            }
+            
             for (Entity e : entities)
             {
                 if (e != player)
                 {
                     e.motionY += 0.045;
                     e.fallDistance = 0;
-                    powerUse *= Math.max(1, e.width + e.height);
+                    int powerUse = (int) Math.pow(powerScale, e.width + e.height);
                     chestEnergy.extractEnergy(chest, powerUse, false);
-                    System.out.println(powerUse);
                 }
             }
         }

@@ -12,6 +12,10 @@ public class ConfigHandler
     public static int gravArmorDrain;
     public static int gravEnchantID;
     public static boolean showOredictTooltips;
+    
+    public static int antiGravRange = 7;
+    public static int antiGravUsageBase = 3;
+    public static boolean antiGravIgnorePlayers = false;
 
     public static void init(File file)
     {
@@ -43,6 +47,10 @@ public class ConfigHandler
         
         showOredictTooltips = config.get("other", "showOredictionaryTooltip", false, "Shows the oredict registration in the tooltip for every item").getBoolean(true);
         
+        antiGravRange = config.get("armor", "antiGravRange", antiGravRange, "The range of the anti-grav field on the gravity armor.").getInt();
+        antiGravRange = config.get("armor", "antiGravUsageBase", antiGravUsageBase, "Base value of the power usage for the field. 3 -> cubic scaling, 2 -> quadratic scaling").getInt();
+        antiGravIgnorePlayers = config.get("armor", "antiGravIgnorePlayers", antiGravIgnorePlayers, "Whether or not the anti-grav field ignores players.").getBoolean(antiGravIgnorePlayers);
+                
         config.save();
     }
 }

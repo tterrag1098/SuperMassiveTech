@@ -115,15 +115,19 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         int removed;
         if (maxExtract < available)
         {
-            container.stackTagCompound.setInteger("energy", available - maxExtract);
+            if (!simulate)
+                container.stackTagCompound.setInteger("energy", available - maxExtract);
             removed = maxExtract;
         }
         else
         {
-            container.stackTagCompound.setInteger("energy", 0);
+            if (!simulate)
+                container.stackTagCompound.setInteger("energy", 0);
             removed = available;
         }
-        container.setItemDamage(getDamageFromEnergy(container.stackTagCompound, container.getMaxDamage()));
+        if (!simulate)
+            container.setItemDamage(getDamageFromEnergy(container.stackTagCompound, container.getMaxDamage()));
+        
         return removed;
     }
 
