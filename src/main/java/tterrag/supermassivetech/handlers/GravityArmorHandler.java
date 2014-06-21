@@ -182,13 +182,10 @@ public class GravityArmorHandler
             
             for (Entity e : entities)
             {
-                if (e != player)
-                {
                     e.motionY += 0.045;
                     e.fallDistance = 0;
                     int powerUse = (int) Math.pow(powerScale, e.width + e.height);
                     chestEnergy.extractEnergy(chest, powerUse, false);
-                }
             }
         }
     }

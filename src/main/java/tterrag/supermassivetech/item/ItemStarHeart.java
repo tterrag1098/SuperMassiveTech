@@ -46,7 +46,7 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
         return null;
     }
 
-    @Override
+    /*@Override
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
     {
         if (!par3World.isRemote)
@@ -56,5 +56,5 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
             par3World.spawnEntityInWorld(entity);
         }
         return true;
-    }
+    }*/
 }
