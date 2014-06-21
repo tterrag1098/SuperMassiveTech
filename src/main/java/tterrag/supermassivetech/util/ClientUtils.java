@@ -139,7 +139,11 @@ public class ClientUtils
     
     public static void setStarHarvesterVenting(int x, int y, int z, boolean venting)
     {
-        ((TileStarHarvester) Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z)).venting = venting;
+        TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
+        if (te != null && te instanceof TileStarHarvester)
+        {
+            ((TileStarHarvester)te).venting = venting;
+        }
     }
 
     public static void spawnGravityParticle(int xCoord, int yCoord, int zCoord, double x, double y, double z)
