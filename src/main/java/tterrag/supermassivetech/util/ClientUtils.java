@@ -185,15 +185,18 @@ public class ClientUtils
         double distX = e1.posX - e2.posX;
         double distY = e1.posY - e2.posY;
         double distZ = e1.posZ - e2.posZ;
+        double centerX = e1.posX - distX / 2;
+        double centerY = e1.posY - distY / 2;
+        double centerZ = e1.posZ - distZ / 2;
         
         for (int i = 0; i < 25; i++)
         {
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(e1.worldObj, e1.posX - distX / 2, e1.posY - distY / 2 , e1.posZ - distZ / 2, getRandMotion(3), getRandMotion(3), getRandMotion(3)));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(e1.worldObj, centerX, centerY, centerZ, getRandMotion(3), getRandMotion(3), getRandMotion(3)));
             
-            if (i % 2 == 0)
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, e1.posX, e1.posY, e1.posZ, e2.posX, e2.posY, e2.posZ, 0.1));
-            else
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, e2.posX, e2.posY, e2.posZ, e1.posX, e1.posY, e1.posZ, 0.1));
+            if (i % 4 == 0)
+                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e2.posX, e2.posY + 1, e2.posZ, 0.1));
+            else if (i % 4 == 1)
+                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e1.posX, e1.posY + 1, e1.posZ, 0.1));
         }
     }
 }

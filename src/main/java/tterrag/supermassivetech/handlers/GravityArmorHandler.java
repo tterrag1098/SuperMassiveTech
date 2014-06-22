@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFalling;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -20,10 +22,12 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
+import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class GravityArmorHandler
@@ -53,11 +57,19 @@ public class GravityArmorHandler
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
         }
 
-        if (!event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
+        if (event.phase == Phase.END && !event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
-            event.player.motionY += effect;
-            event.player.fallDistance *= 1 - effect * 2;
+            if (event.player.ridingEntity != null && event.player.posY <= 256)
+            {
+                event.player.ridingEntity.motionY += effect;
+                event.player.ridingEntity.fallDistance *= 1 - effect * 2;
+            }
+            else
+            {
+                event.player.motionY += effect;
+                event.player.fallDistance *= 1 - effect * 2;
+            }
         }
     }
 
@@ -68,17 +80,18 @@ public class GravityArmorHandler
             return getArmorMult(player, 0);
 
         double effect = 0;
-        for (ItemStack i : player.inventory.armorInventory)
+        for (int i = 0; i < 4; i++)
         {
-            if (i != null && SuperMassiveTech.itemRegistry.armors.contains(i.getItem()) && i.stackTagCompound.getBoolean(PowerUps.GRAV_RESIST.toString()))
+            ItemStack stack = player.inventory.armorInventory[i];
+            if (stack != null && SuperMassiveTech.itemRegistry.armors.contains(stack.getItem()) && hasPowerUpOn(player, PowerUps.GRAV_RESIST, i))
             {
-                int drained = ((IEnergyContainerItem) i.getItem()).extractEnergy(i, drainAmount, false);
-                effect += drained > 0 || drained == drainAmount ? .036d / 4d : 0;
+                int drained = ((IEnergyContainerItem) stack.getItem()).extractEnergy(stack, drainAmount, false);
+                effect += drained > 0 || drained == drainAmount ? .072d / 4d : 0;
             }
-            else if (i != null && EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, i) != 0)
+            else if (stack != null && EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, stack) != 0)
             {
-                effect += .036d / 5d;
-                i.damageItem(new Random().nextInt(1000) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
+                effect += .072d / 5d;
+                stack.damageItem(new Random().nextInt(1000) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
             }
         }
         return effect;
@@ -90,7 +103,7 @@ public class GravityArmorHandler
     @SubscribeEvent
     public void pickCorrectTool(PlayerTickEvent event) throws Exception
     {
-        if (event.player.worldObj.isRemote)
+        if (event.player.worldObj.isRemote && event.phase == Phase.END)
         {
             if (isHittingBlock == null)
             {
@@ -152,7 +165,10 @@ public class GravityArmorHandler
     @SuppressWarnings("unchecked")
     @SubscribeEvent
     public void doAntiGravField(PlayerTickEvent event)
-    {
+    {        
+        if (event.phase != Phase.END)
+            return;
+        
         EntityPlayer player = event.player;
         ItemStack chest = player.inventory.armorInventory[2];
         if (checkArmor(chest) && chest.stackTagCompound.getBoolean(PowerUps.FIELD.toString()))
@@ -170,9 +186,12 @@ public class GravityArmorHandler
 
             AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - r, y - r, z - r, x + r, y + r, z + r);
 
+            BlockCoord baseBlock = new BlockCoord((int) player.posX, (int) player.posY, (int) player.posZ);
+            processBlocks(baseBlock, world);
+
             List<Entity> entities = null;
 
-            final double defaultEffect = 0.045;
+            final double defaultEffect = 0.09;
             double effect = defaultEffect;
 
             if (ConfigHandler.antiGravIgnorePlayers)
@@ -186,6 +205,9 @@ public class GravityArmorHandler
 
             for (Entity e : entities)
             {
+                if (e.posY > 256)
+                    continue;
+
                 if (!ConfigHandler.antiGravIgnorePlayers && e instanceof EntityPlayer)
                 {
                     if (hasPowerUpOn((EntityPlayer) e, PowerUps.FIELD, 2))
@@ -197,7 +219,7 @@ public class GravityArmorHandler
 
                         e.motionX += MathHelper.clamp_double(1 / distX, -2, 2);
                         e.motionZ += MathHelper.clamp_double(1 / distZ, -2, 2);
-                        
+
                         if (world.isRemote)
                             ClientUtils.spawnConflictParticles(e, player);
                     }
@@ -209,18 +231,52 @@ public class GravityArmorHandler
                             if (checkArmor(stack) && ((IEnergyContainerItem) stack.getItem()).getEnergyStored(stack) > 0 && hasPowerUpOn((EntityPlayer) e, PowerUps.GRAV_RESIST, i))
                             {
                                 effect -= defaultEffect * 0.05;
-                                System.out.println(effect);
                             }
                         }
                     }
                 }
 
                 e.motionY += effect;
+                e.motionY = Math.min(0.75, e.motionY);
                 e.fallDistance = 0;
 
-                int powerUse = (int) Math.max(1, Math.pow(e.width + e.height, powerScale));
-                chestEnergy.extractEnergy(chest, powerUse, false);
+                if (!world.isRemote)
+                {
+                    int powerUse = (int) Math.max(1, Math.pow(e.width + e.height, powerScale));
+                    chestEnergy.extractEnergy(chest, powerUse, false);
+                }
             }
+        }
+    }
+
+    private void processBlocks(BlockCoord baseBlock, World world)
+    {
+        int bx = baseBlock.x - antiGravRange;
+        for (; bx < baseBlock.x + antiGravRange; bx++)
+        {
+            int by = baseBlock.y - antiGravRange;
+            for (; by < baseBlock.y + antiGravRange; by++)
+            {
+                int bz = baseBlock.z - antiGravRange;
+                for (; bz < baseBlock.z + antiGravRange; bz++)
+                {
+                    BlockCoord b = new BlockCoord(bx, by, bz);
+                    Block block = b.getBlock(world);
+                    if (block instanceof BlockFalling)
+                    {
+                        createFallingSandChance(world, b, (BlockFalling) block);
+                    }
+                }
+            }
+        }
+    }
+
+    private void createFallingSandChance(World world, BlockCoord b, BlockFalling block)
+    {
+        if (!world.isRemote && world.rand.nextInt(100) == 99)
+        {
+            EntityFallingBlock entity = new EntityFallingBlock(world, b.x + 0.5, b.y + 0.5, b.z + 0.5, block);
+            world.spawnEntityInWorld(entity);
         }
     }
 

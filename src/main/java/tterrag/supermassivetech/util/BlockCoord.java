@@ -1,6 +1,8 @@
 package tterrag.supermassivetech.util;
 
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class BlockCoord
 {
@@ -24,6 +26,11 @@ public class BlockCoord
         }
 
         return false;
+    }
+    
+    public Block getBlock(World world)
+    {
+        return world.getBlock(x, y, z);
     }
     
     public void writeToNBT(NBTTagCompound tag)
