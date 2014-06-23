@@ -29,6 +29,7 @@ import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.handlers.ClientKeyHandler;
 import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPower;
+import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.item.ItemGravityArmor.ArmorType;
 import tterrag.supermassivetech.tile.TileStarHarvester;
@@ -163,7 +164,8 @@ public class ClientUtils
         {
             if (ArrayUtils.contains(ap.getArmorSlots(), (byte) item.type.ordinal()))
             {
-                ret += EnumChatFormatting.WHITE + ap.getBinding().getKeyDescription() + ": " + (stack.stackTagCompound.getBoolean(ap.getPowerType().toString()) ? EnumChatFormatting.GREEN + Utils.localize("tooltip.on", true) : EnumChatFormatting.RED + Utils.localize("tooltip.off", true)) + "~";
+                ArmorPowerState state = ap.getState(stack.stackTagCompound.getString(ap.getPowerType().toString()));
+                ret += EnumChatFormatting.WHITE + ap.getBinding().getKeyDescription() + ": " + state.color + state.name + "~";
             }
         }
         return ret == "" ? null : ret;
@@ -175,7 +177,7 @@ public class ClientUtils
         {
             if (ArrayUtils.contains(ap.getArmorSlots(), (byte) type.ordinal()))
             {
-                stackTagCompound.setBoolean(ap.getPowerType().toString(), true);
+                stackTagCompound.setString(ap.getPowerType().toString(), ap.getDefaultState().name);
             }
         }
     }

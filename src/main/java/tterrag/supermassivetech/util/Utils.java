@@ -32,8 +32,10 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.item.IStarItem;
+import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.item.ItemStar;
 import tterrag.supermassivetech.lib.Reference;
+import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
@@ -612,5 +614,16 @@ public class Utils
         hex = hex | ((int) (g) << 8);
         hex = hex | ((int) (b));
         return hex;
+    }
+    
+    public static boolean doStatesMatch(EntityPlayer e, PowerUps power, int slot, String state)
+    {
+        ItemStack armor = e.inventory.armorInventory[slot];
+        return armorIsGravityArmor(armor) && armor.stackTagCompound.getString(power.toString()).equals(state);
+    }
+
+    public static boolean armorIsGravityArmor(ItemStack stack)
+    {
+        return stack != null && stack.getItem() instanceof ItemGravityArmor;
     }
 }

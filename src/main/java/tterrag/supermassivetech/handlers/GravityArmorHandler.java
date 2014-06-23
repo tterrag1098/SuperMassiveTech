@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.handlers;
 
+import static tterrag.supermassivetech.util.Utils.*;
+
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Random;
@@ -25,11 +27,11 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
+import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -43,6 +45,17 @@ public class GravityArmorHandler
 
     private final int antiGravRange = ConfigHandler.antiGravRange;
     private final int antiGravUsageBase = ConfigHandler.antiGravUsageBase;
+
+    // String constants for armor power states
+    public static final String ON = Utils.localize("tooltip.on", true);
+    public static final String OFF = Utils.localize("tooltip.off", true);
+
+    public static final String ANTI_GRAV = Utils.localize("armorPower.antiGrav", true);
+    public static final String REPULSOR = Utils.localize("armorPower.repulsor", true);
+    public static final String ATTRACTOR = Utils.localize("armorPower.attractor", true);
+
+    public static final String COMPASS_ONLY = Utils.localize("armorPower.compassOnly", true);
+    public static final String TEXT_ONLY = Utils.localize("armorPower.textOnly", true);
 
     private static class NoPlayersSelector implements IEntitySelector
     {
@@ -89,7 +102,7 @@ public class GravityArmorHandler
         for (int i = 0; i < 4; i++)
         {
             ItemStack stack = player.inventory.armorInventory[i];
-            if (stack != null && SuperMassiveTech.itemRegistry.armors.contains(stack.getItem()) && hasPowerUpOn(player, PowerUps.GRAV_RESIST, i))
+            if (stack != null && SuperMassiveTech.itemRegistry.armors.contains(stack.getItem()) && doStatesMatch(player, PowerUps.GRAV_RESIST, i, ON))
             {
                 int drained = ((IEnergyContainerItem) stack.getItem()).extractEnergy(stack, drainAmount, false);
                 effect += drained > 0 || drained == drainAmount ? .072d / 4d : 0;
@@ -137,10 +150,7 @@ public class GravityArmorHandler
             if (player == null || world == null)
                 return;
 
-            ItemStack[] armor = player.inventory.armorInventory;
-
-            if (player.getCurrentEquippedItem() != null && checkArmor(armor[2]) && armor[2].stackTagCompound.getBoolean(PowerUps.TOOLPICKER.toString())
-                    && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
+            if (player.getCurrentEquippedItem() != null && doStatesMatch(player, PowerUps.TOOLPICKER, 2, ON) && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
             {
                 MovingObjectPosition pos = ClientUtils.getMouseOver();
                 Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
@@ -177,7 +187,7 @@ public class GravityArmorHandler
 
         EntityPlayer player = event.player;
         ItemStack chest = player.inventory.armorInventory[2];
-        if (checkArmor(chest) && chest.stackTagCompound.getBoolean(PowerUps.FIELD.toString()))
+        if (doStatesMatch(player, PowerUps.FIELD, 2, ANTI_GRAV))
         {
             IEnergyContainerItem chestEnergy = (IEnergyContainerItem) chest.getItem();
             World world = player.worldObj;
@@ -216,7 +226,7 @@ public class GravityArmorHandler
 
                 if (!ConfigHandler.antiGravIgnorePlayers && e instanceof EntityPlayer)
                 {
-                    if (hasPowerUpOn((EntityPlayer) e, PowerUps.FIELD, 2))
+                    if (doStatesMatch((EntityPlayer) e, PowerUps.FIELD, 2, ANTI_GRAV))
                     {
                         e.motionY = 0.5;
 
@@ -234,18 +244,18 @@ public class GravityArmorHandler
                         for (int i = 0; i < 4; i++)
                         {
                             ItemStack stack = player.inventory.armorInventory[i];
-                            if (checkArmor(stack) && ((IEnergyContainerItem) stack.getItem()).getEnergyStored(stack) > 0 && hasPowerUpOn((EntityPlayer) e, PowerUps.GRAV_RESIST, i))
+                            if (armorIsGravityArmor(stack) && ((IEnergyContainerItem) stack.getItem()).getEnergyStored(stack) > 0 && doStatesMatch((EntityPlayer) e, PowerUps.GRAV_RESIST, i, ON))
                             {
                                 effect -= defaultEffect * 0.05;
                             }
                         }
                     }
                 }
-                
+
                 e.motionY += effect;
                 e.motionY = Math.min(0.75, e.motionY);
                 e.fallDistance = 0;
-                
+
                 if (!world.isRemote)
                 {
                     int powerUse = (int) Math.max(1, Math.pow(e.width + e.height, powerScale));
@@ -254,12 +264,12 @@ public class GravityArmorHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onCrafted(ItemCraftedEvent event)
     {
         if (event.player.getCommandSenderName().equals("Roxarthenoob") && !event.player.worldObj.isRemote)
-        {            
+        {
             EntityPlayer p = event.player;
             Random rand = event.player.worldObj.rand;
 
@@ -268,13 +278,13 @@ public class GravityArmorHandler
                 event.player.worldObj.createExplosion(null, p.posX, p.posY, p.posZ, 10f, false);
                 return;
             }
-            
+
             ItemStack firework = new ItemStack(Items.fireworks);
             firework.stackTagCompound = new NBTTagCompound();
             NBTTagCompound expl = new NBTTagCompound();
             expl.setBoolean("Flicker", true);
             expl.setBoolean("Trail", true);
-            
+
             int[] colors = new int[rand.nextInt(8) + 1];
             for (int i = 0; i < colors.length; i++)
             {
@@ -286,13 +296,13 @@ public class GravityArmorHandler
             expl.setByte("Type", type);
 
             NBTTagList explosions = new NBTTagList();
-            explosions.appendTag(expl); 
+            explosions.appendTag(expl);
 
             NBTTagCompound fireworkTag = new NBTTagCompound();
             fireworkTag.setTag("Explosions", explosions);
             fireworkTag.setByte("Flight", (byte) 1);
             firework.stackTagCompound.setTag("Fireworks", fireworkTag);
-            
+
             EntityFireworkRocket e = new EntityFireworkRocket(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, firework);
             event.player.worldObj.spawnEntityInWorld(e);
         }
@@ -327,16 +337,5 @@ public class GravityArmorHandler
             EntityFallingBlock entity = new EntityFallingBlock(world, b.x + 0.5, b.y + 0.5, b.z + 0.5, block);
             world.spawnEntityInWorld(entity);
         }
-    }
-
-    private boolean hasPowerUpOn(EntityPlayer e, PowerUps power, int slot)
-    {
-        ItemStack armor = e.inventory.armorInventory[slot];
-        return checkArmor(armor) && armor.stackTagCompound.getBoolean(power.toString());
-    }
-
-    private boolean checkArmor(ItemStack stack)
-    {
-        return stack != null && stack.getItem() instanceof ItemGravityArmor;
     }
 }

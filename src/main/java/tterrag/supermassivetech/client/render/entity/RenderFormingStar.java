@@ -4,27 +4,24 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.lib.Reference;
 
 public class RenderFormingStar extends Render
 {
-    private final ResourceLocation texture = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/items/starHeart.png");
-
     private float rot;
 
     private ItemStack stack;

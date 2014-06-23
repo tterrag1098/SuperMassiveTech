@@ -2,7 +2,9 @@ package tterrag.supermassivetech.network.message;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
+import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.item.ItemGravityArmor;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -15,17 +17,17 @@ public class MessageUpdateGravityArmor implements IMessage, IMessageHandler<Mess
     }
 
     private PowerUps powerup;
-    private boolean value;
+    private ArmorPowerState state;
     private byte[] indeces;
 
     public MessageUpdateGravityArmor()
     {
     }
 
-    public MessageUpdateGravityArmor(PowerUps powerup, boolean value, byte... indeces)
+    public MessageUpdateGravityArmor(PowerUps powerup, ArmorPowerState state, byte... indeces)
     {
         this.powerup = powerup;
-        this.value = value;
+        this.state = state;
         this.indeces = indeces;
     }
 
@@ -33,7 +35,8 @@ public class MessageUpdateGravityArmor implements IMessage, IMessageHandler<Mess
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(powerup.ordinal());
-        buf.writeBoolean(value);
+        ByteBufUtils.writeUTF8String(buf, state.name);
+        buf.writeInt(state.color.ordinal());
         buf.writeByte(indeces.length);
         buf.writeBytes(indeces);
     }
@@ -42,7 +45,7 @@ public class MessageUpdateGravityArmor implements IMessage, IMessageHandler<Mess
     public void fromBytes(ByteBuf buf)
     {
         this.powerup = PowerUps.values()[buf.readInt()];
-        this.value = buf.readBoolean();
+        this.state = new ArmorPowerState(ByteBufUtils.readUTF8String(buf), buf.readInt());
         byte num = buf.readByte();
         indeces = new byte[num];
         for (int i = 0; i < num; i++)
@@ -59,7 +62,7 @@ public class MessageUpdateGravityArmor implements IMessage, IMessageHandler<Mess
         {
             if (i <= 3 && i >= 0 && armor[i] != null && armor[i].getItem() instanceof ItemGravityArmor)
             {
-                armor[i].stackTagCompound.setBoolean(message.powerup.toString(), message.value);
+                armor[i].stackTagCompound.setString(message.powerup.toString(), message.state.name);
             }
         }
         return null;

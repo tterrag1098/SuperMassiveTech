@@ -18,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
+import tterrag.supermassivetech.util.Utils;
 import tterrag.supermassivetech.util.Waypoint;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -37,7 +38,7 @@ public class HelmetOverlayHandler
         if (helm != null && helm.getItem() instanceof ItemGravityArmor)
         {
             // HUD is off
-            if (!helm.stackTagCompound.getBoolean(PowerUps.HUD.toString()))
+            if (Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.OFF))
                 return;
             
             int width = event.resolution.getScaledWidth();
@@ -50,14 +51,26 @@ public class HelmetOverlayHandler
             
             GL11.glColor3f(1f, 1f, 1f);
 
-            mc.ingameGUI.drawTexturedModalRect((width - 140) / 2 + getZOffset(mc), 2 + getXOffset(mc), v - 10, 256, 140, 16);
-
-            renderWaypoints(mc, width, player, player.posX, player.posY, player.posZ);
-            renderOverlayText(mc, height, width);
-
+            if (Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.ON) || Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.COMPASS_ONLY))
+            {
+                mc.ingameGUI.drawTexturedModalRect((width - 140) / 2 + getZOffset(mc), 2 + getXOffset(mc), v - 10, 256, 140, 16);
+                renderWaypoints(mc, width, player, player.posX, player.posY, player.posZ);
+                mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 8 + getXOffset(mc), 6, 16, 3, 9);
+            }
+            
+            if (Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.ON) || Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.TEXT_ONLY))
+            {
+                renderOverlayText(mc, height, width);
+            }
+            else if (time <= 0)
+            {
+                textToRender.clear();
+            }
+            
+            updateTime();
+            
             GL11.glDisable(GL11.GL_ALPHA_TEST);
 
-            mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 8 + getXOffset(mc), 6, 16, 3, 9);
         }
         else
         {
@@ -99,16 +112,19 @@ public class HelmetOverlayHandler
 
     private void renderOverlayText(Minecraft mc, int height, int width)
     {
+        for (int i = 0; i < textToRender.size(); i++)
+        {
+            mc.ingameGUI.drawString(mc.fontRenderer, textToRender.get(i), 5, height - 10 * (i + 1), 0xFFFFFF);
+        }
+    }
+    
+    private void updateTime()
+    {
         if (textToRender.isEmpty()) 
         {
             time = maxTime;
             return;
         }
-        
-        for (int i = 0; i < textToRender.size(); i++)
-        {
-            mc.ingameGUI.drawString(mc.fontRenderer, textToRender.get(i), 5, height - 10 * (i + 1), 0xFFFFFF);
-        }      
         
         if (time > 0)
         {

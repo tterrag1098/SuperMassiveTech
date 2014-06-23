@@ -102,3 +102,12 @@ SMT.keybind.toolpicker=Tool-Switcher
 SMT.keybind.hud=Helmet HUD
 SMT.keybind.gravResist=Gravity Resist
 SMT.keybind.antiGravField=Anti-Grav Field
+
+## Armor Modes ##
+
+SMT.armorPower.antiGrav=Anti-Grav
+SMT.armorPower.repulsor=Repulsor
+SMT.armorPower.attractor=Attractor
+
+SMT.armorPower.compassOnly=Compass Only
+SMT.armorPower.textOnly=Text Only
