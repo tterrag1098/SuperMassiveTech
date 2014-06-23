@@ -7,7 +7,7 @@ public class CommonProxy
         // Overriden
     }
 
-    public void init()
+    public void preInit()
     {
         // Overriden
     }

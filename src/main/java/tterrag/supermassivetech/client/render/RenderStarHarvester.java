@@ -1,7 +1,6 @@
 package tterrag.supermassivetech.client.render;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
@@ -11,25 +10,31 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.registry.IStar;
+import tterrag.supermassivetech.tile.TileSMTInventory;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import tterrag.supermassivetech.util.Utils;
 
-public class RenderStarHarvester extends TileEntitySpecialRenderer
+public class RenderStarHarvester extends DirectionalModelRenderer
 {
     private IModelCustom main, sphere, ring;
-    private ResourceLocation textureMain = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
-    private ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterSphere.png");
-    private ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
+    private static ResourceLocation textureMain = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
+    private static ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterSphere.png");
+    private static ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
 
     public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere, ResourceLocation ring)
     {
+        super();
+        
         this.main = AdvancedModelLoader.loadModel(main);
         this.sphere = AdvancedModelLoader.loadModel(sphere);
         this.ring = AdvancedModelLoader.loadModel(ring);
     }
 
-    public void renderDirectionalTileEntityAt(TileStarHarvester tile, double x, double y, double z, boolean metaOverride)
+    @Override
+    public void renderDirectionalTileEntityAt(TileSMTInventory te, double x, double y, double z, boolean metaOverride)
     {
+        TileStarHarvester tile = (TileStarHarvester) te;
+        
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.1f : 0), (float) z + 0.5f);
 

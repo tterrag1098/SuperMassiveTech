@@ -8,7 +8,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import tterrag.supermassivetech.util.ClientUtils;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
  
 public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
 {
@@ -16,9 +15,9 @@ public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
     private final Tessellator tes = Tessellator.instance;
     private final WavefrontObject model;
     
-    public SimpleModelRenderer(WavefrontObject model)
+    public SimpleModelRenderer(WavefrontObject model, int renderId)
     {
-        renderId = RenderingRegistry.getNextAvailableRenderId();
+        this.renderId = renderId;
         this.model = model;
     }
     
@@ -32,7 +31,7 @@ public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
         tes.draw();
         RenderHelper.enableStandardItemLighting();
     }
- 
+    
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
     {

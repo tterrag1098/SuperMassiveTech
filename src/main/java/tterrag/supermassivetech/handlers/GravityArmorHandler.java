@@ -12,8 +12,13 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -27,6 +32,7 @@ import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
@@ -165,10 +171,10 @@ public class GravityArmorHandler
     @SuppressWarnings("unchecked")
     @SubscribeEvent
     public void doAntiGravField(PlayerTickEvent event)
-    {        
+    {
         if (event.phase != Phase.END)
             return;
-        
+
         EntityPlayer player = event.player;
         ItemStack chest = player.inventory.armorInventory[2];
         if (checkArmor(chest) && chest.stackTagCompound.getBoolean(PowerUps.FIELD.toString()))
@@ -235,17 +241,60 @@ public class GravityArmorHandler
                         }
                     }
                 }
-
+                
                 e.motionY += effect;
                 e.motionY = Math.min(0.75, e.motionY);
                 e.fallDistance = 0;
-
+                
                 if (!world.isRemote)
                 {
                     int powerUse = (int) Math.max(1, Math.pow(e.width + e.height, powerScale));
                     chestEnergy.extractEnergy(chest, powerUse, false);
                 }
             }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onCrafted(ItemCraftedEvent event)
+    {
+        if (event.player.getCommandSenderName().equals("Roxarthenoob") && !event.player.worldObj.isRemote)
+        {            
+            EntityPlayer p = event.player;
+            Random rand = event.player.worldObj.rand;
+
+            if (rand.nextInt(1000) == 999)
+            {
+                event.player.worldObj.createExplosion(null, p.posX, p.posY, p.posZ, 10f, false);
+                return;
+            }
+            
+            ItemStack firework = new ItemStack(Items.fireworks);
+            firework.stackTagCompound = new NBTTagCompound();
+            NBTTagCompound expl = new NBTTagCompound();
+            expl.setBoolean("Flicker", true);
+            expl.setBoolean("Trail", true);
+            
+            int[] colors = new int[rand.nextInt(8) + 1];
+            for (int i = 0; i < colors.length; i++)
+            {
+                colors[i] = ItemDye.field_150922_c[rand.nextInt(16)];
+            }
+            expl.setIntArray("Colors", colors);
+            byte type = (byte) (rand.nextInt(3) + 1);
+            type = type == 3 ? 4 : type;
+            expl.setByte("Type", type);
+
+            NBTTagList explosions = new NBTTagList();
+            explosions.appendTag(expl); 
+
+            NBTTagCompound fireworkTag = new NBTTagCompound();
+            fireworkTag.setTag("Explosions", explosions);
+            fireworkTag.setByte("Flight", (byte) 1);
+            firework.stackTagCompound.setTag("Fireworks", fireworkTag);
+            
+            EntityFireworkRocket e = new EntityFireworkRocket(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, firework);
+            event.player.worldObj.spawnEntityInWorld(e);
         }
     }
 

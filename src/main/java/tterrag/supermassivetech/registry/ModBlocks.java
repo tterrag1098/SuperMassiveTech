@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import tterrag.supermassivetech.block.BlockBlackHole;
 import tterrag.supermassivetech.block.BlockWaypoint;
 import tterrag.supermassivetech.block.container.BlockBlackHoleHopper;
 import tterrag.supermassivetech.block.container.BlockBlackHoleStorage;
@@ -12,6 +13,7 @@ import tterrag.supermassivetech.block.container.BlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockHopper;
 import tterrag.supermassivetech.item.block.ItemBlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockStorage;
+import tterrag.supermassivetech.tile.TileBlackHole;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileStarHarvester;
@@ -26,6 +28,7 @@ public class ModBlocks
     public Block blackHoleHopper;
     public Block starHarvester;
     public Block waypoint;
+    public Block blackHole;
 
     public void register()
     {
@@ -44,6 +47,10 @@ public class ModBlocks
         waypoint = new BlockWaypoint();
         GameRegistry.registerBlock(waypoint, "waypoint");
         GameRegistry.registerTileEntity(TileWaypoint.class, "tileWaypoint");
+        
+        blackHole = new BlockBlackHole();
+        GameRegistry.registerBlock(blackHole, "blackHole");
+        GameRegistry.registerTileEntity(TileBlackHole.class, "tileBlackHole");
     }
 
     public void addRecipes()

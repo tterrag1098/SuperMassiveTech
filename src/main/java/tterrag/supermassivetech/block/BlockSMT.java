@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Facing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.compat.IWailaAdditionalInfo;
@@ -46,11 +47,17 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
         this(unlocName, mat, type, hardness, 0, null);
     }
     
+    /**
+     * Default: true
+     */
     public boolean hasPlacementRotation()
     {
         return true;
     }
 
+    /**
+     * Default: true
+     */
     public boolean hasCustomModel()
     {
         return true;
@@ -84,6 +91,12 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     
     @Override
     public boolean isNormalCube()
+    {
+        return !hasCustomModel();
+    }
+    
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
     {
         return !hasCustomModel();
     }

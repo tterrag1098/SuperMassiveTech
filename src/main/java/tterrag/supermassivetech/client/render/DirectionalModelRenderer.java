@@ -2,8 +2,10 @@ package tterrag.supermassivetech.client.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
@@ -17,12 +19,14 @@ import tterrag.supermassivetech.tile.TileSMTInventory;
  * 
  * @author Garrett Spicer-Davis
  */
-public class DirectionalModelRenderer extends TileEntitySpecialRenderer
+public class DirectionalModelRenderer extends TileEntitySpecialRenderer implements IItemRenderer
 {
     private IModelCustom model;
     private ResourceLocation texture;
     private ModelSMT modelSMT;
 
+    public DirectionalModelRenderer(){}
+    
     public DirectionalModelRenderer(ResourceLocation model, ResourceLocation texture)
     {
         this.model = AdvancedModelLoader.loadModel(model);
@@ -85,5 +89,49 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float yaw)
     {
         renderDirectionalTileEntityAt((TileSMTInventory) tile, x, y, z, false);
+    }
+
+    @Override
+    public boolean handleRenderType(ItemStack item, ItemRenderType type)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
+    {
+        return helper == ItemRendererHelper.INVENTORY_BLOCK || helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION;
+    }
+
+    @Override
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
+    {
+        GL11.glPushMatrix();
+        
+        switch(type)
+        {
+        case ENTITY:
+            GL11.glTranslatef(-0.4f, 0.1f, -0.4f);
+            GL11.glScalef(0.75f, 0.75f, 0.75f);
+            break;
+        case EQUIPPED:
+            GL11.glScalef(0.75f, 0.75f, 0.75f);
+            GL11.glTranslatef(-0.1f, 0.2f, 0.5f);
+            GL11.glRotatef(-40, 1, 0, 0);
+            GL11.glRotatef(45, 0, 1, 0);
+            GL11.glRotatef(20, 0, 0, 1);
+            break;
+        case EQUIPPED_FIRST_PERSON:
+            GL11.glScalef(0.75f, 0.75f, 0.75f);
+            break;
+        case FIRST_PERSON_MAP:
+            break;
+        case INVENTORY:
+            break;
+        }
+
+        renderDirectionalTileEntityAt(null, 0, 0, 0, true);
+        
+        GL11.glPopMatrix();
     }
 }

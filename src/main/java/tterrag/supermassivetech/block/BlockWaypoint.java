@@ -141,4 +141,10 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     {
         return 13;
     }
+    
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return true;
+    }
 }

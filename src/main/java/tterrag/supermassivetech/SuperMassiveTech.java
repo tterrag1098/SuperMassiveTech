@@ -56,7 +56,7 @@ public class SuperMassiveTech
 
     public static CreativeTabs tabSMT = Utils.tab;
 
-    public static int renderIDStorage, renderIDHopper, renderIDStarHarvester, renderIDWaypoint;
+    public static int renderIDStorage, renderIDHopper, renderIDStarHarvester, renderIDWaypoint, renderIDBlackHole;
     
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event)
@@ -67,8 +67,6 @@ public class SuperMassiveTech
         Utils.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
-        proxy.registerRenderers();
 
         Utils.registerEventHandlers(false, GravityArmorHandler.class);
         Utils.registerEventHandlers(true, TooltipHandler.class, BreakWaypointHandler.class);
@@ -81,9 +79,13 @@ public class SuperMassiveTech
         
         OreDictRegistrations.load();
         
+        proxy.preInit();
+        
         itemRegistry.register();
         blockRegistry.register();
         entityRegistry.init();
+        
+        proxy.registerRenderers();
 
         enchantRegistry.init();
 
@@ -95,9 +97,7 @@ public class SuperMassiveTech
 
     @EventHandler
     public static void init(FMLInitializationEvent event)
-    {
-        proxy.init();
-        
+    {        
         PacketHandler.init();
         
         itemRegistry.addRecipes();
