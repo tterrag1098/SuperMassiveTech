@@ -25,8 +25,10 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
     private ResourceLocation texture;
     private ModelSMT modelSMT;
 
-    public DirectionalModelRenderer(){}
-    
+    public DirectionalModelRenderer()
+    {
+    }
+
     public DirectionalModelRenderer(ResourceLocation model, ResourceLocation texture)
     {
         this.model = AdvancedModelLoader.loadModel(model);
@@ -100,15 +102,16 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
-        return helper == ItemRendererHelper.INVENTORY_BLOCK || helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION;
+        return helper == ItemRendererHelper.INVENTORY_BLOCK || helper == ItemRendererHelper.ENTITY_BOBBING
+                || helper == ItemRendererHelper.ENTITY_ROTATION;
     }
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
         GL11.glPushMatrix();
-        
-        switch(type)
+
+        switch (type)
         {
         case ENTITY:
             GL11.glTranslatef(-0.4f, 0.1f, -0.4f);
@@ -131,7 +134,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
         }
 
         renderDirectionalTileEntityAt(null, 0, 0, 0, true);
-        
+
         GL11.glPopMatrix();
     }
 }

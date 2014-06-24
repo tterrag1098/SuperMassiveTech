@@ -35,12 +35,18 @@ public class ItemBlockStorage extends ItemBlockSMT implements IAdvancedTooltip
             List<String> strs = new ArrayList<String>();
 
             if (stack.stackTagCompound.getTag("itemStack") != null)
-                strs.add(Utils.formatString(Utils.localize("tooltip.stored", true) + ": ", "", stack.stackTagCompound.getLong("itemsStored"), true, true) + " "
-                        + StatCollector.translateToLocal(ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("itemStack")).getUnlocalizedName() + ".name"));
+                strs.add(Utils.formatString(Utils.localize("tooltip.stored", true) + ": ", "",
+                        stack.stackTagCompound.getLong("itemsStored"), true, true)
+                        + " "
+                        + StatCollector.translateToLocal(ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("itemStack"))
+                                .getUnlocalizedName() + ".name"));
 
             if (stack.stackTagCompound.getTag("fluidStack") != null)
-                strs.add(Utils.formatString(Utils.localize("tooltip.stored", true) + ": ", " mB", stack.stackTagCompound.getLong("fluidStored"), true, true) + " "
-                        + StatCollector.translateToLocal(FluidStack.loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack")).getFluid().getLocalizedName()));
+                strs.add(Utils.formatString(Utils.localize("tooltip.stored", true) + ": ", " mB",
+                        stack.stackTagCompound.getLong("fluidStored"), true, true)
+                        + " "
+                        + StatCollector.translateToLocal(FluidStack
+                                .loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack")).getFluid().getLocalizedName()));
 
             return Utils.makeTooltipString(strs);
         }

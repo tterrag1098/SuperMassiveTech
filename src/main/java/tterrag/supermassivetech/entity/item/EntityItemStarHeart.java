@@ -19,7 +19,8 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class EntityItemStarHeart extends EntityItemIndestructible
 {
-    public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
+    public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY,
+            double motionZ, int delay)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
     }
@@ -158,7 +159,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
             }
         }
     }
-    
+
     private boolean extinguish(BlockCoord coord)
     {
         if (worldObj.getBlock(toRemove.x, toRemove.y, toRemove.z) == Blocks.fire)

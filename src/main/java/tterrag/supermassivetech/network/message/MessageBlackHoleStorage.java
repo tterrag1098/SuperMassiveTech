@@ -45,16 +45,16 @@ public class MessageBlackHoleStorage implements IMessage, IMessageHandler<Messag
     public IMessage onMessage(MessageBlackHoleStorage message, MessageContext ctx)
     {
         GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-        
+
         if (gui != null && gui instanceof GuiStorageBlock)
         {
             GuiStorageBlock storage = (GuiStorageBlock) gui;
-            
+
             storage.itemsStored = message.value;
             storage.fluidStored = message.fluidValue;
             storage.fluidID = message.fluidID;
         }
-        
+
         return null;
     }
 }

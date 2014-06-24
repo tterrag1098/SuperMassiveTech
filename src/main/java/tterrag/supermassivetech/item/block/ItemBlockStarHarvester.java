@@ -59,15 +59,21 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
                 IStar type = Utils.getType(star);
                 toReturn += String.format("%s: %s", Utils.localize("tooltip.stored", true), type.getTextColor() + type.toString())
                         + "~"
-                        + String.format("%s: %s", Utils.localize("tooltip.powerRemaining", true),
-                                Utils.getColorForPowerLeft(type.getPowerStored(star), type.getPowerStoredMax()) + Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false));
+                        + String.format(
+                                "%s: %s",
+                                Utils.localize("tooltip.powerRemaining", true),
+                                Utils.getColorForPowerLeft(type.getPowerStored(star), type.getPowerStoredMax())
+                                        + Utils.formatString("", " RF", Utils.getStarPowerRemaining(star), false));
             }
 
             int energy = tag.getInteger("energy");
             if (energy != 0)
             {
-                toReturn += String.format("%s: %s", Utils.localize("tooltip.bufferStorage", true),
-                        Utils.getColorForPowerLeft(energy, TileStarHarvester.STORAGE_CAP) + Utils.formatString("", " RF", energy, true, true));
+                toReturn += String.format(
+                        "%s: %s",
+                        Utils.localize("tooltip.bufferStorage", true),
+                        Utils.getColorForPowerLeft(energy, TileStarHarvester.STORAGE_CAP)
+                                + Utils.formatString("", " RF", energy, true, true));
             }
 
             return toReturn;

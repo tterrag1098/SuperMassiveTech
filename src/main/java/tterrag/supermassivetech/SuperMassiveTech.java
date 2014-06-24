@@ -57,7 +57,7 @@ public class SuperMassiveTech
     public static CreativeTabs tabSMT = Utils.tab;
 
     public static int renderIDStorage, renderIDHopper, renderIDStarHarvester, renderIDWaypoint, renderIDBlackHole;
-    
+
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event)
     {
@@ -76,30 +76,30 @@ public class SuperMassiveTech
             Utils.registerEventHandlers(false, ClientKeyHandler.class);
             Utils.registerEventHandlers(true, HelmetOverlayHandler.class);
         }
-        
+
         OreDictRegistrations.load();
-        
+
         proxy.preInit();
-        
+
         itemRegistry.register();
         blockRegistry.register();
         entityRegistry.init();
-        
+
         proxy.registerRenderers();
 
         enchantRegistry.init();
 
         starRegistry.registerDefaultStars();
-        
+
         if (Loader.isModLoaded("Waila"))
             WailaCompat.load();
     }
 
     @EventHandler
     public static void init(FMLInitializationEvent event)
-    {        
+    {
         PacketHandler.init();
-        
+
         itemRegistry.addRecipes();
         blockRegistry.addRecipes();
     }

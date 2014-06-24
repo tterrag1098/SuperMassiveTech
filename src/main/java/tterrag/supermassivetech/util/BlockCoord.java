@@ -27,25 +27,25 @@ public class BlockCoord
 
         return false;
     }
-    
+
     public Block getBlock(World world)
     {
         return world.getBlock(x, y, z);
     }
-    
+
     public void writeToNBT(NBTTagCompound tag)
     {
         tag.setInteger("blockCoordx", x);
         tag.setInteger("blockCoordy", y);
         tag.setInteger("blockCoordz", z);
     }
-    
+
     public static BlockCoord readFromNBT(NBTTagCompound tag)
     {
         int x = tag.getInteger("blockCoordx");
         int y = tag.getInteger("blockCoordy");
         int z = tag.getInteger("blockCoordz");
-        
+
         return new BlockCoord(x, y, z);
     }
 }

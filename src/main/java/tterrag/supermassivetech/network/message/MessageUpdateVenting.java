@@ -8,11 +8,13 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageUpdateVenting implements IMessage, IMessageHandler<MessageUpdateVenting, IMessage>
 {
-    public MessageUpdateVenting(){}
-    
+    public MessageUpdateVenting()
+    {
+    }
+
     private int x, y, z;
     private boolean venting;
-    
+
     public MessageUpdateVenting(int x, int y, int z, boolean venting)
     {
         this.x = x;
@@ -20,7 +22,7 @@ public class MessageUpdateVenting implements IMessage, IMessageHandler<MessageUp
         this.z = z;
         this.venting = venting;
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -29,7 +31,7 @@ public class MessageUpdateVenting implements IMessage, IMessageHandler<MessageUp
         buf.writeInt(z);
         buf.writeBoolean(venting);
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -38,7 +40,7 @@ public class MessageUpdateVenting implements IMessage, IMessageHandler<MessageUp
         z = buf.readInt();
         venting = buf.readBoolean();
     }
-    
+
     @Override
     public IMessage onMessage(MessageUpdateVenting message, MessageContext ctx)
     {

@@ -65,10 +65,11 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
     {
         if (isGravityWell() && ConfigHandler.doGravityWell)
         {
-            for (Object o : worldObj.getEntitiesWithinAABB(Entity.class,
-                    AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
+            for (Object o : worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5
+                    - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5 + RANGE)))
             {
-                Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this, showParticles());
+                Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this,
+                        showParticles());
             }
 
             if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 && showParticles())

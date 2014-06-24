@@ -70,7 +70,7 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
             }
         }
     }
-    
+
     @Override
     public IMessage onMessage(MessageStarHarvester message, MessageContext ctx)
     {

@@ -48,10 +48,13 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderers()
     {
-        storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/storage.png"));
-        hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/hopper.png"));
-        starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH,
-                "models/starHarvesterSphere.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/ring.obj"));
+        storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(Reference.MOD_TEXTUREPATH,
+                "textures/models/storage.png"));
+        hopper = new DirectionalModelRenderer(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/newHopper.obj"),
+                new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/hopper.png"));
+        starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"),
+                new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"), new ResourceLocation(
+                        Reference.MOD_TEXTUREPATH, "models/ring.obj"));
         beacon = new RenderBeaconEffect();
         blackHole = new RenderBlackHole();
 
@@ -69,7 +72,8 @@ public class ClientProxy extends CommonProxy
 
         // Waypoint
         ClientRegistry.bindTileEntitySpecialRenderer(TileWaypoint.class, beacon);
-        waypoint = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/waypoint.obj")), renderIDWaypoint);
+        waypoint = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/waypoint.obj")),
+                renderIDWaypoint);
         RenderingRegistry.registerBlockHandler(waypoint);
 
         // Black Hole

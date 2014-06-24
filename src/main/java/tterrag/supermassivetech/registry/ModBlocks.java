@@ -43,11 +43,11 @@ public class ModBlocks
         starHarvester = new BlockStarHarvester();
         GameRegistry.registerBlock(starHarvester, ItemBlockStarHarvester.class, "starHarvester");
         GameRegistry.registerTileEntity(TileStarHarvester.class, "tileStarHarvester");
-        
+
         waypoint = new BlockWaypoint();
         GameRegistry.registerBlock(waypoint, "waypoint");
         GameRegistry.registerTileEntity(TileWaypoint.class, "tileWaypoint");
-        
+
         blackHole = new BlockBlackHole();
         GameRegistry.registerBlock(blackHole, "blackHole");
         GameRegistry.registerTileEntity(TileBlackHole.class, "tileBlackHole");
@@ -55,9 +55,15 @@ public class ModBlocks
 
     public void addRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(starHarvester), "iii", "b b", "iii",
+        /* @formatter:off */
+        GameRegistry.addRecipe(new ItemStack(starHarvester), 
+                "iii", 
+                "b b", 
+                "iii",
 
-        'i', Items.iron_ingot, 'b', Blocks.iron_bars);
+                'i', Items.iron_ingot, 
+                'b', Blocks.iron_bars
+        );
         
         GameRegistry.addRecipe(new ItemStack(blackHoleStorage), 
                 "iii",
@@ -113,5 +119,6 @@ public class ModBlocks
                 's', itemRegistry.star,
                 'B', Blocks.iron_block
         );
+        /* @formatter:on */
     }
 }

@@ -51,8 +51,12 @@ public class Utils
 {
     private static Constants c;
     private static Stars stars = Stars.instance;
-    private static Material[] pickMats = { Material.rock, Material.iron, Material.anvil };
-    private static Material[] shovelMats = { Material.clay, Material.snow, Material.ground };
+    private static Material[] pickMats = {
+            Material.rock, Material.iron, Material.anvil
+    };
+    private static Material[] shovelMats = {
+            Material.clay, Material.snow, Material.ground
+    };
 
     public static final Random rand = new Random();
 
@@ -101,7 +105,8 @@ public class Utils
             return prefix;
         }
 
-        if (formatK && Long.toString(amnt).length() < 7 && Long.toString(amnt).length() > 3) { return formatSmallerNumber(prefix, suffix, amnt, useDecimals); }
+        if (formatK && Long.toString(amnt).length() < 7 && Long.toString(amnt).length() > 3) { return formatSmallerNumber(prefix, suffix,
+                amnt, useDecimals); }
 
         switch (Long.toString(amnt).length())
         {
@@ -178,10 +183,12 @@ public class Utils
      * @param yCoord - Y coord of the center of gravity
      * @param zCoord - Z coord of the center of gravity
      */
-    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord, boolean showParticles)
+    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity,
+            int xCoord, int yCoord, int zCoord, boolean showParticles)
     {
         // distance forumla
-        double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
+        double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2)
+                + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
         if (dist > range)
             return;
@@ -285,7 +292,8 @@ public class Utils
      * @param entity - Entity to effect
      * @param te - {@link TileEntity} to use as the center of gravity
      */
-    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te, boolean showParticles)
+    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity,
+            TileEntity te, boolean showParticles)
     {
         applyGravity(gravStrength, maxGravXZ, maxGravY, minGrav, range, entity, te.xCoord, te.yCoord, te.zCoord, showParticles);
     }
@@ -359,7 +367,8 @@ public class Utils
         }
         else if (stack != null)
         {
-            SuperMassiveTech.logger.error(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
+            SuperMassiveTech.logger.error(String.format("A mod tried to set the type of an item that was not a star, item was %s",
+                    stack.getUnlocalizedName()));
         }
         else
         {
@@ -431,7 +440,6 @@ public class Utils
 
     private static boolean green = true;
 
-
     /**
      * In-place adds to a list, forming an advanced tooltip from the passed item
      */
@@ -439,12 +447,12 @@ public class Utils
     {
         formAdvancedTooltip(lines, stack, tooltip, Keyboard.KEY_LSHIFT, Keyboard.KEY_RSHIFT);
     }
-    
+
     public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip, int key)
     {
         formAdvancedTooltip(lines, stack, tooltip, key, key);
     }
-    
+
     public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip, int key, int alternateKey)
     {
         if (tooltip.getHiddenLines(stack) != null)
@@ -464,8 +472,8 @@ public class Utils
             }
             else
             {
-                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, getNameForKey(key), EnumChatFormatting.RED
-                        + localize("tooltip.moreInfo", true)));
+                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW,
+                        getNameForKey(key), EnumChatFormatting.RED + localize("tooltip.moreInfo", true)));
             }
         }
 
@@ -493,7 +501,7 @@ public class Utils
         case Keyboard.KEY_RMENU:
             return localize("tooltip.alt", true);
         }
-        
+
         return Keyboard.getKeyName(key);
     }
 
@@ -520,7 +528,8 @@ public class Utils
             }
             catch (Throwable t)
             {
-                SuperMassiveTech.logger.fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
+                SuperMassiveTech.logger.fatal(String.format(
+                        "Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
                 t.printStackTrace();
             }
         }
@@ -618,12 +627,12 @@ public class Utils
     public static int toHex(int r, int g, int b)
     {
         int hex = 0;
-        hex = hex | ((int) (r) << 16);
-        hex = hex | ((int) (g) << 8);
-        hex = hex | ((int) (b));
+        hex = hex | ((r) << 16);
+        hex = hex | ((g) << 8);
+        hex = hex | ((b));
         return hex;
     }
-    
+
     public static void spawnRandomFirework(EntityPlayer player)
     {
         ItemStack firework = new ItemStack(Items.fireworks);
@@ -653,7 +662,7 @@ public class Utils
         EntityFireworkRocket e = new EntityFireworkRocket(player.worldObj, player.posX, player.posY, player.posZ, firework);
         player.worldObj.spawnEntityInWorld(e);
     }
-    
+
     public static boolean doStatesMatch(EntityPlayer e, PowerUps power, int slot, String state)
     {
         ItemStack armor = e.inventory.armorInventory[slot];
@@ -664,7 +673,7 @@ public class Utils
     {
         return stack != null && stack.getItem() instanceof ItemGravityArmor;
     }
-    
+
     public static double getGravResist(EntityPlayer player, double mult)
     {
         double percent = 0.0;

@@ -14,7 +14,7 @@ public class EntityFormingStar extends Entity
 {
     private List<BlockCoord> fire;
     private int life;
-    
+
     public EntityFormingStar(World world)
     {
         super(world);
@@ -26,7 +26,7 @@ public class EntityFormingStar extends Entity
     protected void entityInit()
     {
     }
-    
+
     @Override
     public void onUpdate()
     {
@@ -34,7 +34,7 @@ public class EntityFormingStar extends Entity
             life++;
         else
             this.setDead();
-        
+
         super.onUpdate();
     }
 
@@ -45,9 +45,9 @@ public class EntityFormingStar extends Entity
             fire.clear();
         else
             fire = new ArrayList<BlockCoord>();
-        
+
         NBTTagList fires = tag.getTagList("blockCoords", Constants.NBT.TAG_COMPOUND);
-        
+
         for (int i = 0; i < fires.tagCount(); i++)
         {
             fire.add(BlockCoord.readFromNBT(fires.getCompoundTagAt(i)));
@@ -58,22 +58,21 @@ public class EntityFormingStar extends Entity
     protected void writeEntityToNBT(NBTTagCompound tag)
     {
         NBTTagList fires = new NBTTagList();
-        
+
         for (BlockCoord b : fire)
         {
             NBTTagCompound block = new NBTTagCompound();
             b.writeToNBT(block);
             fires.appendTag(block);
         }
-        
+
         tag.setTag("blockCoords", fires);
     }
-    
+
     @Override
     public boolean shouldRenderInPass(int pass)
     {
         return pass > 0;
     }
-    
-    
+
 }

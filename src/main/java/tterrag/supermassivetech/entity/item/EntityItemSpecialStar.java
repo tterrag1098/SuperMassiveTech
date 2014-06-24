@@ -5,7 +5,8 @@ import net.minecraft.world.World;
 
 public class EntityItemSpecialStar extends EntityItemIndestructible
 {
-    public EntityItemSpecialStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
+    public EntityItemSpecialStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY,
+            double motionZ, int delay)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
     }

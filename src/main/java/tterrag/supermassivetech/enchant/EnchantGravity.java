@@ -33,6 +33,8 @@ public class EnchantGravity extends Enchantment implements IAdvancedEnchant
     @Override
     public String[] getTooltipDetails(ItemStack stack)
     {
-        return new String[] { "Reduces all gravity effects" };
+        return new String[] {
+            "Reduces all gravity effects"
+        };
     }
 }

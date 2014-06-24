@@ -81,7 +81,7 @@ public class BlockBlackHoleHopper extends BlockContainerSMT implements ISaveToIt
             hopper.setInventorySlotContents(1, ItemStack.loadItemStackFromNBT(tag.getCompoundTag("inventory1")));
         }
     }
-    
+
     @Override
     public boolean canPlaceTorchOnTop(World world, int x, int y, int z)
     {

@@ -52,7 +52,8 @@ public class GuiStorageBlock extends GuiContainer
         int k = (this.height - this.ySize) / 2;
 
         this.drawTexturedModalRect(j + 13, k, 0, 0, this.xSize - 16, this.ySize);
-        this.displayGauge(j, k, 12, 44, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 68) + 0.5), new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
+        this.displayGauge(j, k, 12, 44, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 68) + 0.5), new FluidStack(
+                FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
     }
 
     @Override
@@ -61,11 +62,14 @@ public class GuiStorageBlock extends GuiContainer
         int j = (this.width - this.xSize) / 2;
         int k = (this.height - this.ySize) / 2;
 
-        this.fontRendererObj.drawString(formattedItemAmount, (int) ((this.xSize / 1.31) - (formattedItemAmount.length() * 2.5)), 54, 0xCCCCCC);
-        this.fontRendererObj.drawString(formattedFluidAmount, (int) ((this.xSize / 4) - (formattedFluidAmount.length() * 2.5)), 80, 0xCCCCCC);
+        this.fontRendererObj.drawString(formattedItemAmount, (int) ((this.xSize / 1.31) - (formattedItemAmount.length() * 2.5)), 54,
+                0xCCCCCC);
+        this.fontRendererObj.drawString(formattedFluidAmount, (int) ((this.xSize / 4) - (formattedFluidAmount.length() * 2.5)), 80,
+                0xCCCCCC);
         this.fontRendererObj.drawString("Current", (int) (this.xSize / 3.2), 30, 0xCCCCCC);
         this.fontRendererObj.drawString("Scale Max: ", (int) (this.xSize / 3.4), 40, 0xCCCCCC);
-        this.fontRendererObj.drawString(getScaledLiquidMaxAsString(), ((int) (this.xSize / 2.6)) - Math.round(getScaledLiquidMaxAsString().length() * 2.5f), 50, 0xCCCCCC);
+        this.fontRendererObj.drawString(getScaledLiquidMaxAsString(),
+                ((int) (this.xSize / 2.6)) - Math.round(getScaledLiquidMaxAsString().length() * 2.5f), 50, 0xCCCCCC);
         this.fontRendererObj.drawString("Black Hole Storage", (int) (this.xSize / 3.2), 7, 0xCCCCCC);
 
         List<String> ttLines = new ArrayList<String>();

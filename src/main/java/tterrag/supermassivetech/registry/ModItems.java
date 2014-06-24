@@ -58,14 +58,15 @@ public class ModItems
         GameRegistry.registerItem(gravityLegs, "gravityLeggings");
         GameRegistry.registerItem(gravityBoots, "gravityBoots");
 
-        armors.add((IEnergyContainerItem) gravityHelm);
-        armors.add((IEnergyContainerItem) gravityChest);
-        armors.add((IEnergyContainerItem) gravityLegs);
-        armors.add((IEnergyContainerItem) gravityBoots);
+        armors.add(gravityHelm);
+        armors.add(gravityChest);
+        armors.add(gravityLegs);
+        armors.add(gravityBoots);
     }
 
     public void addRecipes()
     {
+        /* @formatter:off */
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(heartOfStar), 
                 "RGR", 
                 "DSD", 
@@ -123,5 +124,6 @@ public class ModItems
                 'I', armorMat,
                 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
         ));
+        /* @formatter:on */
     }
 }

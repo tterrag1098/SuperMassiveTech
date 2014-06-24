@@ -33,7 +33,7 @@ public abstract class BlockContainerSMT extends BlockSMT implements ITileEntityP
     {
         this.blockIcon = register.registerIcon("supermassivetech:" + unlocName.substring(unlocName.indexOf(".") + 1, unlocName.length()));
     }
-    
+
     @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
@@ -48,19 +48,21 @@ public abstract class BlockContainerSMT extends BlockSMT implements ITileEntityP
         return null;
     }
 
+    @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
         super.breakBlock(world, x, y, z, block, meta);
         world.removeTileEntity(x, y, z);
     }
-    
+
+    @Override
     public boolean onBlockEventReceived(World world, int x, int y, int z, int side, int meta)
     {
         super.onBlockEventReceived(world, x, y, z, side, meta);
         TileEntity tileentity = world.getTileEntity(x, y, z);
         return tileentity != null ? tileentity.receiveClientEvent(side, meta) : false;
     }
-    
+
     @Override
     public boolean canPlaceTorchOnTop(World world, int x, int y, int z)
     {

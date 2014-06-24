@@ -12,12 +12,14 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageWaypointUpdate implements IMessage, IMessageHandler<MessageWaypointUpdate, IMessage>
 {
-    public MessageWaypointUpdate(){}
-    
+    public MessageWaypointUpdate()
+    {
+    }
+
     private int r, g, b;
     private String name;
     private int x, y, z;
-    
+
     public MessageWaypointUpdate(int r, int g, int b, String name, int x, int y, int z)
     {
         this.r = r;
@@ -28,42 +30,42 @@ public class MessageWaypointUpdate implements IMessage, IMessageHandler<MessageW
         this.y = y;
         this.z = z;
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(r);
         buf.writeInt(g);
         buf.writeInt(b);
-        
+
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
-        
+
         ByteBufUtils.writeUTF8String(buf, name);
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
         r = buf.readInt();
         g = buf.readInt();
         b = buf.readInt();
-        
+
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
-        
+
         name = ByteBufUtils.readUTF8String(buf);
     }
-    
+
     @Override
     public IMessage onMessage(MessageWaypointUpdate message, MessageContext ctx)
     {
         World world = ctx.getServerHandler().playerEntity.worldObj;
-        
+
         TileEntity te = world.getTileEntity(message.x, message.y, message.z);
-        
+
         if (te != null && te instanceof TileWaypoint)
         {
             TileWaypoint tewp = (TileWaypoint) te;
@@ -72,8 +74,7 @@ public class MessageWaypointUpdate implements IMessage, IMessageHandler<MessageW
             tewp.waypoint.setName(message.name);
             Waypoint.waypoints.add(tewp.waypoint);
         }
-        
+
         return null;
     }
 }
-

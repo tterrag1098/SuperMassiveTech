@@ -54,6 +54,7 @@ public class MessageUpdateGravityArmor implements IMessage, IMessageHandler<Mess
         }
     }
 
+    @Override
     public IMessage onMessage(MessageUpdateGravityArmor message, MessageContext ctx)
     {
         ItemStack[] armor = ctx.getServerHandler().playerEntity.inventory.armorInventory;

@@ -68,7 +68,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements ISaveToI
             return stack;
 
         NBTTagCompound tag = new NBTTagCompound();
-        
+
         if (te.getStackInSlot(2) != null && !Utils.stacksEqual(te.getStackInSlot(2), te.getStoredItem()))
         {
             Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(2), x, y, z);

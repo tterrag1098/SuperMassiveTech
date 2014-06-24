@@ -34,7 +34,7 @@ public class TooltipHandler
             IAdvancedTooltip item = (IAdvancedTooltip) event.itemStack.getItem();
             Utils.formAdvancedTooltip(event.toolTip, event.itemStack, item);
         }
-        
+
         if (Block.getBlockFromItem(event.itemStack.getItem()) instanceof IAdvancedTooltip)
         {
             IAdvancedTooltip block = (IAdvancedTooltip) Block.getBlockFromItem(event.itemStack.getItem());

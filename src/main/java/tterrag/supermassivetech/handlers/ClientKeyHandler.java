@@ -177,15 +177,18 @@ public class ClientKeyHandler
 
     public ClientKeyHandler()
     {
+        /* @formatter:off */
         powers = new ArmorPower[] {
                 ArmorPower.create(Keyboard.KEY_NUMPAD0, PowerUps.GRAV_RESIST, "keybind.gravResist", 0, 1, 2, 3).addDefaultStates(),
                 ArmorPower.create(Keyboard.KEY_NUMPAD1, PowerUps.TOOLPICKER, "keybind.toolpicker", 2).addDefaultStates(),
 
-                ArmorPower.create(Keyboard.KEY_NUMPAD0, PowerUps.HUD, "keybind.hud", 3)
-                .addDefaultStates().addState(COMPASS_ONLY, LIGHT_PURPLE).addState(TEXT_ONLY, YELLOW),
+                ArmorPower.create(Keyboard.KEY_NUMPAD0, PowerUps.HUD, "keybind.hud", 3).addDefaultStates()
+                        .addState(COMPASS_ONLY, LIGHT_PURPLE).addState(TEXT_ONLY, YELLOW),
 
-                ArmorPower.create(Keyboard.KEY_NUMPAD1, PowerUps.FIELD, "keybind.field", 2)
-                .addState(OFF, RED).addState(ANTI_GRAV, DARK_PURPLE).addState(REPULSOR, BLUE).addState(ATTRACTOR, GREEN) };
+                ArmorPower.create(Keyboard.KEY_NUMPAD1, PowerUps.FIELD, "keybind.field", 2).addState(OFF, RED)
+                        .addState(ANTI_GRAV, DARK_PURPLE).addState(REPULSOR, BLUE).addState(ATTRACTOR, GREEN)
+        };
+        /* @formatter: on */
     }
 
     @SubscribeEvent
@@ -228,10 +231,11 @@ public class ClientKeyHandler
                     if (Utils.armorIsGravityArmor(armor) && ap.isPressed())
                     {
                         ArmorPowerState to = ap.nextState();
-                        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+                        Minecraft.getMinecraft().getSoundHandler()
+                                .playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
                         HelmetOverlayHandler.textToRender.add(ap.getBinding().getKeyDescription() + ": " + to.color + to.name);
                         PacketHandler.INSTANCE.sendToServer(new MessageUpdateGravityArmor(ap.getPowerType(), to, ap.getArmorSlots()));
-                       
+
                         break;
                     }
                 }

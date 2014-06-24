@@ -37,7 +37,7 @@ public class RenderFormingStar extends Render
             stack = new ItemStack(SuperMassiveTech.itemRegistry.heartOfStar);
             item = new EntityItem(Minecraft.getMinecraft().theWorld, x, y, z, stack);
         }
-        
+
         rot = rot > 1000 ? 0 : rot;
 
         item.setPosition(entity.posX, entity.posY, entity.posZ);
@@ -51,13 +51,13 @@ public class RenderFormingStar extends Render
         GL11.glPushMatrix();
 
         glScalef(0.75f, 0.75f, 0.75f);
-        glTranslatef(0, -1f/5f, 0);
+        glTranslatef(0, -1f / 5f, 0);
         glDepthMask(true);
         glTranslated(0, Math.sin(rot / 100) / 10, 0);
         glRotatef(rot % 360, 0, 1, 0);
         render3DItem(item, icon, tessellator);
         glRotatef(-(rot % 360), 0, 1, 0);
-        glTranslatef(0, 1f/5f, 0);
+        glTranslatef(0, 1f / 5f, 0);
 
         glDisable(GL_TEXTURE_2D);
         glShadeModel(GL_SMOOTH);

@@ -72,7 +72,8 @@ public class GravityArmorHandler
             isJumpKeyDown = ClientUtils.calculateClientJumpState();
         }
 
-        if (event.phase == Phase.END && !event.player.onGround && !event.player.capabilities.isFlying && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
+        if (event.phase == Phase.END && !event.player.onGround && !event.player.capabilities.isFlying
+                && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
             double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
             if (event.player.ridingEntity != null && event.player.posY <= 256)
@@ -98,7 +99,8 @@ public class GravityArmorHandler
         for (int i = 0; i < 4; i++)
         {
             ItemStack stack = player.inventory.armorInventory[i];
-            if (stack != null && SuperMassiveTech.itemRegistry.armors.contains(stack.getItem()) && doStatesMatch(player, PowerUps.GRAV_RESIST, i, ON))
+            if (stack != null && SuperMassiveTech.itemRegistry.armors.contains(stack.getItem())
+                    && doStatesMatch(player, PowerUps.GRAV_RESIST, i, ON))
             {
                 int drained = ((IEnergyContainerItem) stack.getItem()).extractEnergy(stack, drainAmount, false);
                 effect += drained > 0 || drained == drainAmount ? .072d / 4d : 0;
@@ -146,7 +148,8 @@ public class GravityArmorHandler
             if (player == null || world == null)
                 return;
 
-            if (player.getCurrentEquippedItem() != null && doStatesMatch(player, PowerUps.TOOLPICKER, 2, ON) && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
+            if (player.getCurrentEquippedItem() != null && doStatesMatch(player, PowerUps.TOOLPICKER, 2, ON)
+                    && isHittingBlock.getBoolean(Minecraft.getMinecraft().playerController))
             {
                 MovingObjectPosition pos = ClientUtils.getMouseOver();
                 Block block = player.worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
@@ -161,7 +164,8 @@ public class GravityArmorHandler
                     ItemStack cur = player.inventory.mainInventory[i];
                     if (cur != null)
                     {
-                        float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
+                        float newSpeed = cur.getItem().getDigSpeed(cur, block,
+                                player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
                         if (newSpeed > speed)
                         {
                             speed = newSpeed;
@@ -276,7 +280,7 @@ public class GravityArmorHandler
                         {
                             e.onCollideWithPlayer(player);
                         }
-                        
+
                         e.motionX += x / dist * speed;
                         e.motionY += y / dist * speed;
                         e.motionZ += z / dist * speed;
@@ -289,7 +293,7 @@ public class GravityArmorHandler
                                 e.motionY = 0.15;
                             }
                         }
-                        
+
                         if (!world.isRemote)
                         {
                             int powerUse = (int) (Math.max(1, Math.pow(e.width + e.height, powerScale)) / ((fieldRange - dist) * 2));
@@ -301,7 +305,7 @@ public class GravityArmorHandler
                         e.motionX -= x / dist * speed;
                         e.motionY -= y / dist * speed;
                         e.motionZ -= z / dist * speed;
-                        
+
                         if (!world.isRemote)
                         {
                             int powerUse = (int) (Math.max(1, Math.pow(e.width + e.height, powerScale)) / (dist * 2));
@@ -320,7 +324,7 @@ public class GravityArmorHandler
         {
             EntityPlayer p = event.player;
 
-            if (Utils.rand.nextInt(1000) < 999)
+            if (Utils.rand.nextInt(1000) == 999)
             {
                 event.player.worldObj.newExplosion(null, p.posX, p.posY, p.posZ, 20f, false, false);
 

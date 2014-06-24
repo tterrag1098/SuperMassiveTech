@@ -36,17 +36,17 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
         this.unlocName = unlocName;
         this.teClass = teClass;
     }
-    
+
     protected BlockSMT(String unlocName, Material mat, SoundType type, float hardness, int renderID)
     {
         this(unlocName, mat, type, hardness, renderID, null);
     }
-    
+
     protected BlockSMT(String unlocName, Material mat, SoundType type, float hardness)
     {
         this(unlocName, mat, type, hardness, 0, null);
     }
-    
+
     /**
      * Default: true
      */
@@ -88,19 +88,19 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     {
         return !hasCustomModel();
     }
-    
+
     @Override
     public boolean isNormalCube()
     {
         return !hasCustomModel();
     }
-    
+
     @Override
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
     {
         return !hasCustomModel();
     }
-    
+
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack)
     {
@@ -122,7 +122,8 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     @Override
     public void onBlockHarvested(World world, int x, int y, int z, int p_149681_5_, EntityPlayer player)
     {
-        if (this.saveToItem() && canHarvestBlock(player, world.getBlockMetadata(x, y, z)) && !player.capabilities.isCreativeMode && !world.isRemote)
+        if (this.saveToItem() && canHarvestBlock(player, world.getBlockMetadata(x, y, z)) && !player.capabilities.isCreativeMode
+                && !world.isRemote)
         {
             ((ISaveToItem) this).dropItem(world, ((ISaveToItem) this).getNBTItem(world, x, y, z), x, y, z);
         }
@@ -131,7 +132,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
             super.onBlockHarvested(world, x, y, z, p_149681_5_, player);
         }
     }
-    
+
     @Override
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
@@ -154,7 +155,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     {
         Utils.spawnItemInWorldWithRandomMotion(world, item, x, y, z);
     }
-    
+
     @Override
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
@@ -162,7 +163,8 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
         if (te != null && te instanceof TileSMTInventory)
         {
             TileSMTInventory inv = (TileSMTInventory) te;
-            tooltip.add(EnumChatFormatting.WHITE + "Gravity well? " + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+            tooltip.add(EnumChatFormatting.WHITE + "Gravity well? "
+                    + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
         }
     }
 }

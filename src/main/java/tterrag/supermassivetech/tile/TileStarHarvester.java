@@ -30,13 +30,15 @@ import cofh.api.energy.IEnergyHandler;
 public class TileStarHarvester extends TileSMTInventory implements ISidedInventory, IEnergyHandler
 {
     private int slot = 0;
-    
+
     public final int maxPerTick = 500;
     private int perTick = maxPerTick;
     private EnergyStorage storage;
     public static final int STORAGE_CAP = 100000;
     public double spinSpeed = 0;
-    public float[] spins = { 0, 0, 0, 0 };
+    public float[] spins = {
+            0, 0, 0, 0
+    };
     private boolean hasItem = false;
     private boolean needsLightingUpdate = false;
     public boolean venting = false;
@@ -56,14 +58,14 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         {
             top = ForgeDirection.getOrientation(getRotationMeta()).getOpposite();
         }
-        
+
         if (venting)
         {
             if (!worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord))
                 venting = false;
-            
+
             AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 7, zCoord + 1);
-            
+
             @SuppressWarnings("unchecked")
             List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
 
@@ -72,7 +74,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
                 e.setFire(5);
             }
         }
-        
+
         super.updateEntity();
 
         if (needsLightingUpdate)
@@ -93,12 +95,13 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             IStar type = Utils.getType(inventory[slot]);
             int energy = type.getPowerStored(inventory[slot]);
             int max = type.getPowerPerTick() * 2;
-            inventory[slot].getTagCompound().setInteger("energy", venting ? energy - max : energy - storage.receiveEnergy(energy > max ? max : energy, false));
+            inventory[slot].getTagCompound().setInteger("energy",
+                    venting ? energy - max : energy - storage.receiveEnergy(energy > max ? max : energy, false));
         }
 
         attemptOutputEnergy();
         attemptOutputEnergy();
-        
+
         if (venting && worldObj.isRemote)
             ClientUtils.spawnVentParticles(worldObj, xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f, top);
 
@@ -147,7 +150,9 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
         {
             IEnergyHandler ieh = (IEnergyHandler) te;
-            storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), storage.getEnergyStored() > perTick ? perTick : storage.getEnergyStored(), false), false);
+            storage.extractEnergy(
+                    ieh.receiveEnergy(f.getOpposite(), storage.getEnergyStored() > perTick ? perTick : storage.getEnergyStored(), false),
+                    false);
         }
     }
 
@@ -190,7 +195,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         storage.setEnergyStored(energy);
     }
-    
+
     @Override
     public boolean canConnectEnergy(ForgeDirection from)
     {
@@ -232,14 +237,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             }
             else if (stack.getItem() instanceof IStarItem)
             {
-                if (inventory[slot] == null && getBlockMetadata() != getRotationMeta())
-                {
-                    return insertStar(stack, player);
-                }
+                if (inventory[slot] == null && getBlockMetadata() != getRotationMeta()) { return insertStar(stack, player); }
             }
-            else if (isUpright(side) && player.isSneaking()) return vent();
+            else if (isUpright(side) && player.isSneaking())
+                return vent();
         }
-        else if (inventory[slot] != null) 
+        else if (inventory[slot] != null)
         {
             if (player.isSneaking())
             {
@@ -252,12 +255,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
         return printInfo(player);
     }
-    
+
     private boolean isUpright(ForgeDirection side)
     {
         return getRotationMeta() == 0 && side == top;
     }
-    
+
     public int getCurrentOutputMax()
     {
         return perTick;
@@ -266,13 +269,13 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     private boolean vent()
     {
         this.venting = !venting;
-        
+
         if (!worldObj.isRemote)
             updateClientVenting(venting);
-        
+
         return true;
     }
-    
+
     private void updateClientVenting(boolean is)
     {
         PacketHandler.INSTANCE.sendToAll(new MessageUpdateVenting(xCoord, yCoord, zCoord, is));
@@ -291,7 +294,8 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     private boolean extractStar(EntityPlayer player)
     {
         if (!player.inventory.addItemStackToInventory(inventory[slot]))
-            player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
+            player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ,
+                    inventory[slot], 0, 0, 0, 0));
 
         inventory[slot] = null;
         needsLightingUpdate = true;
@@ -310,11 +314,14 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
         if (getBlockMetadata() == getRotationMeta())
         {
-            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.localize("tooltip.noContainerInPlace", true)));
+            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED
+                    + Utils.localize("tooltip.noContainerInPlace", true)));
         }
         else if (star != null)
         {
-            player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE + " %s %d RF/t", Utils.localize("tooltip.currentStarIs", true), star.getTextColor() + star.toString(), Utils.localize("tooltip.at", true), star.getPowerPerTick())));
+            player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE
+                    + " %s %d RF/t", Utils.localize("tooltip.currentStarIs", true), star.getTextColor() + star.toString(),
+                    Utils.localize("tooltip.at", true), star.getPowerPerTick())));
             player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.powerRemaining", true) + ": "
                     + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
                     + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
@@ -325,9 +332,10 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         }
 
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.bufferStorage", true) + ": "
-                + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(perTick, maxPerTick)
-                + Utils.formatString("", " RF/t", perTick, false)));
+                + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored())
+                + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": "
+                + Utils.getColorForPowerLeft(perTick, maxPerTick) + Utils.formatString("", " RF/t", perTick, false)));
 
         return true;
     }
@@ -335,13 +343,16 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return var1 == 1 && inventory[slot] == null ? new int[] { slot } : new int[] {};
+        return var1 == 1 && inventory[slot] == null ? new int[] {
+            slot
+        } : new int[] {};
     }
 
     @Override
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == slot && var3 == ForgeDirection.OPPOSITES[getRotationMeta()] && var2 != null ? var2.getItem() instanceof IStarItem : false;
+        return var1 == slot && var3 == ForgeDirection.OPPOSITES[getRotationMeta()] && var2 != null ? var2.getItem() instanceof IStarItem
+                : false;
     }
 
     @Override
@@ -360,17 +371,17 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        
+
         storage.readFromNBT(nbt.getCompoundTag("energyStorage"));
-        
+
         spinSpeed = nbt.getDouble("spin");
-        
+
         NBTTagList list = nbt.getTagList("spins", 5);
         for (int i = 0; i < list.tagCount(); i++)
         {
             spins[i] = list.func_150308_e(i);
         }
-        
+
         venting = nbt.getBoolean("venting");
     }
 
@@ -378,21 +389,21 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        
+
         NBTTagCompound tag = new NBTTagCompound();
         storage.writeToNBT(tag);
         nbt.setTag("energyStorage", tag);
-        
+
         nbt.setDouble("spin", spinSpeed);
-        
+
         NBTTagList spinAngles = new NBTTagList();
         for (Float f : spins)
         {
             spinAngles.appendTag(new NBTTagFloat(f));
         }
-        
+
         nbt.setTag("spins", spinAngles);
-        
+
         nbt.setBoolean("venting", venting);
     }
 }

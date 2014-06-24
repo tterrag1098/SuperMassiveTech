@@ -31,7 +31,7 @@ public class MessageJumpUpdate implements IMessage, IMessageHandler<MessageJumpU
         isJumpKeyDown = buffer.readBoolean();
         GravityArmorHandler.isJumpKeyDown = isJumpKeyDown;
     }
-    
+
     @Override
     public IMessage onMessage(MessageJumpUpdate message, MessageContext ctx)
     {

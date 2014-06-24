@@ -37,7 +37,9 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({
+            "unchecked", "rawtypes"
+    })
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
@@ -47,19 +49,20 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
                 list.add(Utils.setType(new ItemStack(this), t));
         }
     }
-    
+
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
-        return new EntityItemSpecialStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
-                ((EntityItem) location).delayBeforeCanPickup);
+        return new EntityItemSpecialStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY,
+                location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
-        return EnumChatFormatting.RED + Utils.localize("tooltip.warning", true) + ": " + EnumChatFormatting.WHITE + Utils.localize("tooltip.warningText", true);
+        return EnumChatFormatting.RED + Utils.localize("tooltip.warning", true) + ": " + EnumChatFormatting.WHITE
+                + Utils.localize("tooltip.warningText", true);
     }
 
     @Override

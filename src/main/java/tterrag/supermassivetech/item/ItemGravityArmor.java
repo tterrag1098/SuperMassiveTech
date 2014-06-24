@@ -127,7 +127,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         }
         if (!simulate)
             container.setItemDamage(getDamageFromEnergy(container.stackTagCompound, container.getMaxDamage()));
-        
+
         return removed;
     }
 
@@ -217,10 +217,11 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
         initTag(par1ItemStack);
-        
+
         if (par2World.isRemote && System.currentTimeMillis() > lastMessageTime + 1000)
         {
-            par3EntityPlayer.addChatMessage(new ChatComponentText(Utils.localize("tooltip.onArmorCrafted", true)).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+            par3EntityPlayer.addChatMessage(new ChatComponentText(Utils.localize("tooltip.onArmorCrafted", true))
+                    .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
             lastMessageTime = System.currentTimeMillis();
         }
     }
@@ -236,7 +237,9 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         stack.setTagCompound(tag);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({
+            "unchecked", "rawtypes"
+    })
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item stack, CreativeTabs tab, List list)
@@ -253,7 +256,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     public String getHiddenLines(ItemStack stack)
     {
         ItemGravityArmor item = (ItemGravityArmor) stack.getItem();
-        
+
         return ClientUtils.getLinesForArmor(stack, item);
     }
 
@@ -261,7 +264,8 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
-        return EnumChatFormatting.WHITE + Utils.localize("tooltip.powerRemaining", true) + ": " + Utils.getColorForPowerLeft(stack.getTagCompound().getInteger("energy"), CAPACITY)
+        return EnumChatFormatting.WHITE + Utils.localize("tooltip.powerRemaining", true) + ": "
+                + Utils.getColorForPowerLeft(stack.getTagCompound().getInteger("energy"), CAPACITY)
                 + Utils.formatString("", " RF", stack.getTagCompound().getInteger("energy"), true, true);
     }
 

@@ -12,7 +12,8 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
     private int counter = 0;
     private final int wait = 5;
 
-    public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
+    public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX,
+            double motionY, double motionZ, int delay)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
         this.lifespan = Integer.MAX_VALUE;
@@ -22,10 +23,11 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
     public void onUpdate()
     {
         super.onUpdate();
-        
+
         int x = MathHelper.floor_double(this.posX), y = MathHelper.floor_double(this.posY) - 1, z = MathHelper.floor_double(this.posZ);
 
-        if (this.getEntityItem() != null && this.getEntityItem().getItem() != Items.nether_star && worldObj.getBlock(x, y, z) == SuperMassiveTech.blockRegistry.starHarvester)
+        if (this.getEntityItem() != null && this.getEntityItem().getItem() != Items.nether_star
+                && worldObj.getBlock(x, y, z) == SuperMassiveTech.blockRegistry.starHarvester)
         {
             TileStarHarvester te = (TileStarHarvester) worldObj.getTileEntity(x, y, z);
             if (te.venting)

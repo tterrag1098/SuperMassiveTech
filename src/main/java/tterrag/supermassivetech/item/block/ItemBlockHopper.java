@@ -42,6 +42,5 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
 
         return Utils.makeTooltipString(strs);
     }
-    
-    
+
 }

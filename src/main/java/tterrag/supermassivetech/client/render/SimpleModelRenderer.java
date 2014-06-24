@@ -8,19 +8,19 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import tterrag.supermassivetech.util.ClientUtils;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
- 
+
 public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
 {
     private final int renderId;
     private final Tessellator tes = Tessellator.instance;
     private final WavefrontObject model;
-    
+
     public SimpleModelRenderer(WavefrontObject model, int renderId)
     {
         this.renderId = renderId;
         this.model = model;
     }
-    
+
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
     {
@@ -31,7 +31,7 @@ public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
         tes.draw();
         RenderHelper.enableStandardItemLighting();
     }
-    
+
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
     {
@@ -42,13 +42,13 @@ public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
         tes.addTranslation(-x - .5F, -y - .5F, -z - .5F);
         return true;
     }
- 
+
     @Override
     public boolean shouldRender3DInInventory(int modelId)
     {
         return true;
     }
- 
+
     @Override
     public int getRenderId()
     {

@@ -42,7 +42,7 @@ public class TileWaypoint extends TileEntity
         waypoint.addPlayer(player);
 
         Waypoint.waypoints.add(waypoint);
-        
+
         this.markDirty();
     }
 
@@ -58,24 +58,28 @@ public class TileWaypoint extends TileEntity
         Waypoint.waypoints.remove(waypoint);
         super.invalidate();
     }
-    
+
     @Override
     public double getMaxRenderDistanceSquared()
     {
         return 65536.0D;
     }
-    
+
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
         return TileEntity.INFINITE_EXTENT_AABB;
     }
-    
+
     public int[] getColorArr()
     {
-        return waypoint.isNull() ? new int[]{255, 255, 255} : new int[]{waypoint.getColor().getRed(), waypoint.getColor().getGreen(), waypoint.getColor().getBlue()};
+        return waypoint.isNull() ? new int[] {
+                255, 255, 255
+        } : new int[] {
+                waypoint.getColor().getRed(), waypoint.getColor().getGreen(), waypoint.getColor().getBlue()
+        };
     }
-    
+
     public void setInternalWaypointName(String newName)
     {
         if (!waypoint.isNull())
@@ -87,7 +91,7 @@ public class TileWaypoint extends TileEntity
     {
         return pass > 0;
     }
-    
+
     @Override
     public void writeToNBT(NBTTagCompound tag)
     {
@@ -101,7 +105,7 @@ public class TileWaypoint extends TileEntity
         super.readFromNBT(tag);
         waypoint = waypoint.readFromNBT(tag);
     }
-    
+
     @Override
     public Packet getDescriptionPacket()
     {

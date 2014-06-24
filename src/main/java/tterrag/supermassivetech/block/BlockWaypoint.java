@@ -47,7 +47,7 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
         if (!world.isRemote && te != null && te instanceof TileWaypoint)
         {
             TileWaypoint wp = (TileWaypoint) te;
-            
+
             if (wp.waypoint.isNull())
                 wp.init((EntityPlayer) player);
         }
@@ -56,7 +56,8 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-        if (world.isRemote && (((TileWaypoint) world.getTileEntity(x, y, z)).waypoint.players.contains(player.getCommandSenderName()) || player.capabilities.isCreativeMode))
+        if (world.isRemote
+                && (((TileWaypoint) world.getTileEntity(x, y, z)).waypoint.players.contains(player.getCommandSenderName()) || player.capabilities.isCreativeMode))
         {
             GuiHelper.openWaypointGui(world, x, y, z);
         }
@@ -85,8 +86,8 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
         w.x = te.xCoord;
         w.y = te.yCoord;
         w.z = te.zCoord;
-        
-        ((TileWaypoint)te).waypoint = w;
+
+        ((TileWaypoint) te).waypoint = w;
     }
 
     @Override
@@ -106,8 +107,9 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
         {
             String name = tag.getString("waypointname");
             int[] color = tag.getIntArray("waypointcolor");
-            String ret = String.format("%s: %s~%s: %d~%s: %d~%s: %d", EnumChatFormatting.YELLOW + Utils.localize("tooltip.name", true), EnumChatFormatting.WHITE + name,
-                    EnumChatFormatting.RED + Utils.localize("tooltip.red", true), color[0], EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true), color[1],
+            String ret = String.format("%s: %s~%s: %d~%s: %d~%s: %d", EnumChatFormatting.YELLOW + Utils.localize("tooltip.name", true),
+                    EnumChatFormatting.WHITE + name, EnumChatFormatting.RED + Utils.localize("tooltip.red", true), color[0],
+                    EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true), color[1],
                     EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true), color[2]);
 
             return ret;
@@ -115,18 +117,18 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
         else
             return null;
     }
-    
+
     @Override
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
-        Waypoint wp = ((TileWaypoint)world.getTileEntity(x, y, z)).waypoint;
+        Waypoint wp = ((TileWaypoint) world.getTileEntity(x, y, z)).waypoint;
         tooltip.add("");
-        
+
         tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.name", true) + ": " + wp.getName());
         tooltip.add(EnumChatFormatting.RED + Utils.localize("tooltip.red", true) + ": " + wp.getColor().getRed());
         tooltip.add(EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true) + ": " + wp.getColor().getGreen());
         tooltip.add(EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true) + ": " + wp.getColor().getBlue());
-        
+
         tooltip.add("");
     }
 
@@ -141,7 +143,7 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     {
         return 13;
     }
-    
+
     @Override
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
     {

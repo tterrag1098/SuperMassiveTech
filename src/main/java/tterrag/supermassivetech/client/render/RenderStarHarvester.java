@@ -18,13 +18,14 @@ public class RenderStarHarvester extends DirectionalModelRenderer
 {
     private IModelCustom main, sphere, ring;
     private static ResourceLocation textureMain = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
-    private static ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterSphere.png");
+    private static ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH,
+            "textures/models/starHarvesterSphere.png");
     private static ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
 
     public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere, ResourceLocation ring)
     {
         super();
-        
+
         this.main = AdvancedModelLoader.loadModel(main);
         this.sphere = AdvancedModelLoader.loadModel(sphere);
         this.ring = AdvancedModelLoader.loadModel(ring);
@@ -34,7 +35,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer
     public void renderDirectionalTileEntityAt(TileSMTInventory te, double x, double y, double z, boolean metaOverride)
     {
         TileStarHarvester tile = (TileStarHarvester) te;
-        
+
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.1f : 0), (float) z + 0.5f);
 
@@ -69,7 +70,9 @@ public class RenderStarHarvester extends DirectionalModelRenderer
         main.renderAll();
 
         double speed = 0d;
-        float[] spins = { 0, 0, 0, 0 };
+        float[] spins = {
+                0, 0, 0, 0
+        };
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(textureRing1);
 

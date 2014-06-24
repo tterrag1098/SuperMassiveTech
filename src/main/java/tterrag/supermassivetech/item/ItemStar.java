@@ -48,7 +48,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
     {
         IStar type = Utils.getType(par1ItemStack);
-        
+
         if (type == null)
         {
             return 0xFFFF00;
@@ -57,7 +57,9 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
             return type.getColor();
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({
+            "rawtypes", "unchecked"
+    })
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list)
@@ -72,8 +74,8 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
-        return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
-                ((EntityItem) location).delayBeforeCanPickup);
+        return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX,
+                location.motionY, location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
     }
 
     @Override
@@ -106,19 +108,17 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     public String getHiddenLines(ItemStack stack)
     {
         IStar type = Utils.getType(stack);
-        
-        if (type == null)
-        {
-            return null;
-        }
-        
+
+        if (type == null) { return null; }
+
         double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
 
         return String.format("%s|%s|%s RF %s %d RF/t|%s|",
 
-        type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-                Utils.formatString(EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false), Utils.localize("tooltip.at", true),
-                type.getPowerPerTick(), Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + Utils.localize("tooltip.powerRemaining", true) + ": ", " RF", (long) powerLeft, true));
+        type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(), Utils.formatString(
+                EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false), Utils
+                .localize("tooltip.at", true), type.getPowerPerTick(), Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower)
+                + Utils.localize("tooltip.powerRemaining", true) + ": ", " RF", (long) powerLeft, true));
     }
 
     @Override

@@ -10,7 +10,7 @@ public class ButtonSlider extends GuiButton
     private boolean dragging;
 
     public float value;
-        
+
     public ButtonSlider(int id, int x, int y, String text)
     {
         this(id, x, y, 150, 20, text);
@@ -20,7 +20,7 @@ public class ButtonSlider extends GuiButton
     {
         super(id, x, y, width, height, text);
     }
-    
+
     public ButtonSlider setValue(float def)
     {
         this.value = def;
@@ -38,8 +38,8 @@ public class ButtonSlider extends GuiButton
             }
 
             GL11.glColor3f(1, 1, 1);
-            this.drawTexturedModalRect(xPosition + (int) (value * (float) (width - 8)), yPosition, 0, 66, 4, 20);
-            this.drawTexturedModalRect(xPosition + (int) (value * (float) (width - 8)) + 4, yPosition, 196, 66, 4, 20);
+            this.drawTexturedModalRect(xPosition + (int) (value * (width - 8)), yPosition, 0, 66, 4, 20);
+            this.drawTexturedModalRect(xPosition + (int) (value * (width - 8)) + 4, yPosition, 196, 66, 4, 20);
         }
     }
 
@@ -62,7 +62,7 @@ public class ButtonSlider extends GuiButton
     private void updateValue(int mouseX)
     {
         value = (float) (mouseX - (xPosition + 4)) / (width - 8);
-        
+
         if (value < 0)
         {
             value = 0;
