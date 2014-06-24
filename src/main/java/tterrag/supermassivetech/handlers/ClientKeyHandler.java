@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
@@ -48,11 +47,6 @@ public class ClientKeyHandler
         public ArmorPowerState(String name, int colorIndex)
         {
             this(name, EnumChatFormatting.values()[colorIndex]);
-        }
-
-        public void writeToNBT(NBTTagCompound tag)
-        {
-            tag.setString("armorState", name + splitStr + color.ordinal());
         }
     }
 
@@ -190,7 +184,7 @@ public class ClientKeyHandler
                 ArmorPower.create(Keyboard.KEY_NUMPAD0, PowerUps.HUD, "keybind.hud", 3)
                 .addDefaultStates().addState(COMPASS_ONLY, LIGHT_PURPLE).addState(TEXT_ONLY, YELLOW),
 
-                ArmorPower.create(Keyboard.KEY_NUMPAD1, PowerUps.FIELD, "keybind.antiGravField", 2)
+                ArmorPower.create(Keyboard.KEY_NUMPAD1, PowerUps.FIELD, "keybind.field", 2)
                 .addState(OFF, RED).addState(ANTI_GRAV, DARK_PURPLE).addState(REPULSOR, BLUE).addState(ATTRACTOR, GREEN) };
     }
 

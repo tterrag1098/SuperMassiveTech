@@ -14,13 +14,9 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.item.EntityFireworkRocket;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -43,8 +39,8 @@ public class GravityArmorHandler
     public static boolean isJumpKeyDown;
     private Field isHittingBlock;
 
-    private final int antiGravRange = ConfigHandler.antiGravRange;
-    private final int antiGravUsageBase = ConfigHandler.antiGravUsageBase;
+    private final int fieldRange = ConfigHandler.fieldRange;
+    private final double fieldScalingPower = ConfigHandler.fieldUsageBase;
 
     // String constants for armor power states
     public static final String ON = Utils.localize("tooltip.on", true);
@@ -180,37 +176,36 @@ public class GravityArmorHandler
 
     @SuppressWarnings("unchecked")
     @SubscribeEvent
-    public void doAntiGravField(PlayerTickEvent event)
+    public void doField(PlayerTickEvent event)
     {
         if (event.phase != Phase.END)
             return;
 
         EntityPlayer player = event.player;
         ItemStack chest = player.inventory.armorInventory[2];
-        if (doStatesMatch(player, PowerUps.FIELD, 2, ANTI_GRAV))
+        if (!doStatesMatch(player, PowerUps.FIELD, 2, OFF) && Utils.armorIsGravityArmor(chest))
         {
             IEnergyContainerItem chestEnergy = (IEnergyContainerItem) chest.getItem();
             World world = player.worldObj;
 
-            double x = player.posX, y = player.posY, z = player.posZ;
-            int powerScale = antiGravUsageBase;
+            double pX = player.posX, pY = player.posY, pZ = player.posZ;
+            double powerScale = fieldScalingPower;
 
-            if (chestEnergy.extractEnergy(chest, powerScale, true) < powerScale)
+            if (chestEnergy.extractEnergy(chest, (int) powerScale + 1, true) < powerScale)
                 return;
 
-            int r = antiGravRange;
+            int r = fieldRange;
 
-            AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - r, y - r, z - r, x + r, y + r, z + r);
+            AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(pX - r, pY - r, pZ - r, pX + r, pY + r, pZ + r);
 
             BlockCoord baseBlock = new BlockCoord((int) player.posX, (int) player.posY, (int) player.posZ);
-            processBlocks(baseBlock, world);
 
             List<Entity> entities = null;
 
             final double defaultEffect = 0.09;
             double effect = defaultEffect;
 
-            if (ConfigHandler.antiGravIgnorePlayers)
+            if (ConfigHandler.fieldIgnorePlayers)
             {
                 entities = world.getEntitiesWithinAABBExcludingEntity(player, bb, NoPlayersSelector.instance);
             }
@@ -219,47 +214,100 @@ public class GravityArmorHandler
                 entities = world.getEntitiesWithinAABBExcludingEntity(player, bb);
             }
 
-            for (Entity e : entities)
+            if (doStatesMatch(player, PowerUps.FIELD, 2, ANTI_GRAV))
             {
-                if (e.posY > 256)
-                    continue;
+                processBlocks(baseBlock, world);
 
-                if (!ConfigHandler.antiGravIgnorePlayers && e instanceof EntityPlayer)
+                for (Entity e : entities)
                 {
-                    if (doStatesMatch((EntityPlayer) e, PowerUps.FIELD, 2, ANTI_GRAV))
+                    if (e.posY > 256)
+                        continue;
+
+                    if (!ConfigHandler.fieldIgnorePlayers && e instanceof EntityPlayer)
                     {
-                        e.motionY = 0.5;
+                        if (doStatesMatch((EntityPlayer) e, PowerUps.FIELD, 2, ANTI_GRAV))
+                        {
+                            e.motionY = 0.5;
 
-                        double distX = e.posX - player.posX;
-                        double distZ = e.posZ - player.posZ;
+                            double distX = e.posX - player.posX;
+                            double distZ = e.posZ - player.posZ;
 
-                        e.motionX += MathHelper.clamp_double(1 / distX, -2, 2);
-                        e.motionZ += MathHelper.clamp_double(1 / distZ, -2, 2);
+                            e.motionX += MathHelper.clamp_double(1 / distX, -2, 2);
+                            e.motionZ += MathHelper.clamp_double(1 / distZ, -2, 2);
 
-                        if (world.isRemote)
-                            ClientUtils.spawnConflictParticles(e, player);
+                            if (world.isRemote)
+                                ClientUtils.spawnConflictParticles(e, player);
+                        }
+                        else
+                        {
+                            effect -= Utils.getGravResist(player, 4) * (defaultEffect * 0.05);
+                        }
+                    }
+
+                    e.motionY += effect;
+                    e.motionY = Math.min(0.75, e.motionY);
+                    e.fallDistance = 0;
+
+                    if (!world.isRemote)
+                    {
+                        int powerUse = (int) Math.max(1, Math.pow(e.width + e.height, powerScale));
+                        chestEnergy.extractEnergy(chest, powerUse, false);
+                    }
+                }
+            }
+            else
+            {
+                for (Entity e : entities)
+                {
+                    double x = pX - e.posX;
+                    double y = pY - e.posY;
+                    double z = pZ - e.posZ;
+                    double dist = Math.sqrt(x * x + y * y + z * z);
+                    double speed = 0.1;
+
+                    if (e instanceof EntityPlayer)
+                    {
+                        speed *= 1 - Utils.getGravResist((EntityPlayer) e);
+                    }
+
+                    if (doStatesMatch(player, PowerUps.FIELD, 2, ATTRACTOR))
+                    {
+                        if (dist < 1.25)
+                        {
+                            e.onCollideWithPlayer(player);
+                        }
+                        
+                        e.motionX += x / dist * speed;
+                        e.motionY += y / dist * speed;
+                        e.motionZ += z / dist * speed;
+
+                        if (e instanceof EntityItem)
+                        {
+                            ((EntityItem) e).delayBeforeCanPickup = 0;
+                            if (y > 0)
+                            {
+                                e.motionY = 0.15;
+                            }
+                        }
+                        
+                        if (!world.isRemote)
+                        {
+                            int powerUse = (int) (Math.max(1, Math.pow(e.width + e.height, powerScale)) / ((fieldRange - dist) * 2));
+                            chestEnergy.extractEnergy(chest, powerUse, false);
+                        }
                     }
                     else
                     {
-                        for (int i = 0; i < 4; i++)
+                        e.motionX -= x / dist * speed;
+                        e.motionY -= y / dist * speed;
+                        e.motionZ -= z / dist * speed;
+                        
+                        if (!world.isRemote)
                         {
-                            ItemStack stack = player.inventory.armorInventory[i];
-                            if (armorIsGravityArmor(stack) && ((IEnergyContainerItem) stack.getItem()).getEnergyStored(stack) > 0 && doStatesMatch((EntityPlayer) e, PowerUps.GRAV_RESIST, i, ON))
-                            {
-                                effect -= defaultEffect * 0.05;
-                            }
+                            int powerUse = (int) (Math.max(1, Math.pow(e.width + e.height, powerScale)) / (dist * 2));
+                            chestEnergy.extractEnergy(chest, powerUse, false);
                         }
                     }
-                }
-
-                e.motionY += effect;
-                e.motionY = Math.min(0.75, e.motionY);
-                e.fallDistance = 0;
-
-                if (!world.isRemote)
-                {
-                    int powerUse = (int) Math.max(1, Math.pow(e.width + e.height, powerScale));
-                    chestEnergy.extractEnergy(chest, powerUse, false);
                 }
             }
         }
@@ -271,53 +319,33 @@ public class GravityArmorHandler
         if (event.player.getCommandSenderName().equals("Roxarthenoob") && !event.player.worldObj.isRemote)
         {
             EntityPlayer p = event.player;
-            Random rand = event.player.worldObj.rand;
 
-            if (rand.nextInt(1000) == 999)
+            if (Utils.rand.nextInt(1000) < 999)
             {
-                event.player.worldObj.createExplosion(null, p.posX, p.posY, p.posZ, 10f, false);
+                event.player.worldObj.newExplosion(null, p.posX, p.posY, p.posZ, 20f, false, false);
+
+                for (int i = 0; i < 15; i++)
+                    spawnRandomFirework(event.player);
+
                 return;
             }
-
-            ItemStack firework = new ItemStack(Items.fireworks);
-            firework.stackTagCompound = new NBTTagCompound();
-            NBTTagCompound expl = new NBTTagCompound();
-            expl.setBoolean("Flicker", true);
-            expl.setBoolean("Trail", true);
-
-            int[] colors = new int[rand.nextInt(8) + 1];
-            for (int i = 0; i < colors.length; i++)
+            else
             {
-                colors[i] = ItemDye.field_150922_c[rand.nextInt(16)];
+                spawnRandomFirework(event.player);
             }
-            expl.setIntArray("Colors", colors);
-            byte type = (byte) (rand.nextInt(3) + 1);
-            type = type == 3 ? 4 : type;
-            expl.setByte("Type", type);
-
-            NBTTagList explosions = new NBTTagList();
-            explosions.appendTag(expl);
-
-            NBTTagCompound fireworkTag = new NBTTagCompound();
-            fireworkTag.setTag("Explosions", explosions);
-            fireworkTag.setByte("Flight", (byte) 1);
-            firework.stackTagCompound.setTag("Fireworks", fireworkTag);
-
-            EntityFireworkRocket e = new EntityFireworkRocket(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, firework);
-            event.player.worldObj.spawnEntityInWorld(e);
         }
     }
 
     private void processBlocks(BlockCoord baseBlock, World world)
     {
-        int bx = baseBlock.x - antiGravRange;
-        for (; bx < baseBlock.x + antiGravRange; bx++)
+        int bx = baseBlock.x - fieldRange;
+        for (; bx < baseBlock.x + fieldRange; bx++)
         {
-            int by = baseBlock.y - antiGravRange;
-            for (; by < baseBlock.y + antiGravRange; by++)
+            int by = baseBlock.y - fieldRange;
+            for (; by < baseBlock.y + fieldRange; by++)
             {
-                int bz = baseBlock.z - antiGravRange;
-                for (; bz < baseBlock.z + antiGravRange; bz++)
+                int bz = baseBlock.z - fieldRange;
+                for (; bz < baseBlock.z + fieldRange; bz++)
                 {
                     BlockCoord b = new BlockCoord(bx, by, bz);
                     Block block = b.getBlock(world);

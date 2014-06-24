@@ -26,7 +26,7 @@ public class HelmetOverlayHandler
 {
     private static final ResourceLocation compass = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/overlay/compass.png");
     public static List<String> textToRender = new ArrayList<String>();
-    public int time = 300, maxTime = 300;
+    public int maxTime = 400, time = maxTime;
     
     @SubscribeEvent
     public void onClientOverlay(RenderGameOverlayEvent.Text event)

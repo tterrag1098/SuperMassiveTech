@@ -11,11 +11,15 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -30,6 +34,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.handlers.GravityArmorHandler;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.item.ItemGravityArmor;
@@ -48,6 +53,8 @@ public class Utils
     private static Stars stars = Stars.instance;
     private static Material[] pickMats = { Material.rock, Material.iron, Material.anvil };
     private static Material[] shovelMats = { Material.clay, Material.snow, Material.ground };
+
+    public static final Random rand = new Random();
 
     public static void init()
     {
@@ -424,6 +431,7 @@ public class Utils
 
     private static boolean green = true;
 
+
     /**
      * In-place adds to a list, forming an advanced tooltip from the passed item
      */
@@ -616,6 +624,36 @@ public class Utils
         return hex;
     }
     
+    public static void spawnRandomFirework(EntityPlayer player)
+    {
+        ItemStack firework = new ItemStack(Items.fireworks);
+        firework.stackTagCompound = new NBTTagCompound();
+        NBTTagCompound expl = new NBTTagCompound();
+        expl.setBoolean("Flicker", true);
+        expl.setBoolean("Trail", true);
+
+        int[] colors = new int[rand.nextInt(8) + 1];
+        for (int i = 0; i < colors.length; i++)
+        {
+            colors[i] = ItemDye.field_150922_c[rand.nextInt(16)];
+        }
+        expl.setIntArray("Colors", colors);
+        byte type = (byte) (rand.nextInt(3) + 1);
+        type = type == 3 ? 4 : type;
+        expl.setByte("Type", type);
+
+        NBTTagList explosions = new NBTTagList();
+        explosions.appendTag(expl);
+
+        NBTTagCompound fireworkTag = new NBTTagCompound();
+        fireworkTag.setTag("Explosions", explosions);
+        fireworkTag.setByte("Flight", (byte) 1);
+        firework.stackTagCompound.setTag("Fireworks", fireworkTag);
+
+        EntityFireworkRocket e = new EntityFireworkRocket(player.worldObj, player.posX, player.posY, player.posZ, firework);
+        player.worldObj.spawnEntityInWorld(e);
+    }
+    
     public static boolean doStatesMatch(EntityPlayer e, PowerUps power, int slot, String state)
     {
         ItemStack armor = e.inventory.armorInventory[slot];
@@ -625,5 +663,23 @@ public class Utils
     public static boolean armorIsGravityArmor(ItemStack stack)
     {
         return stack != null && stack.getItem() instanceof ItemGravityArmor;
+    }
+    
+    public static double getGravResist(EntityPlayer player, double mult)
+    {
+        double percent = 0.0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (doStatesMatch(player, PowerUps.GRAV_RESIST, i, GravityArmorHandler.ON))
+            {
+                percent += 0.25;
+            }
+        }
+        return percent * mult;
+    }
+
+    public static double getGravResist(EntityPlayer player)
+    {
+        return getGravResist(player, 1.0);
     }
 }
