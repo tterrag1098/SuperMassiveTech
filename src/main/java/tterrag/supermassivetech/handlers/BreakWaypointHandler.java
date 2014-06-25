@@ -16,7 +16,7 @@ public class BreakWaypointHandler
         {
             if (((TileWaypoint) te).waypoint.players.contains(event.getPlayer().getCommandSenderName())
                     || (event.getPlayer().capabilities.isCreativeMode && MinecraftServer.getServer().getConfigurationManager()
-                            .isPlayerOpped(event.getPlayer().getCommandSenderName())))
+                            .func_152596_g(event.getPlayer().getGameProfile())))
                 return;
         }
         else

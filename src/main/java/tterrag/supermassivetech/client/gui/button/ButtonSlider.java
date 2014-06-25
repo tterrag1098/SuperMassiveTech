@@ -81,7 +81,7 @@ public class ButtonSlider extends GuiButton
     }
 
     @Override
-    protected int getHoverState(boolean whatever)
+    public int getHoverState(boolean whatever)
     {
         return 0;
     }

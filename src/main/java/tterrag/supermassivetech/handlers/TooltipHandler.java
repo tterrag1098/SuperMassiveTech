@@ -43,11 +43,14 @@ public class TooltipHandler
 
         if (ConfigHandler.showOredictTooltips)
         {
-            int id = OreDictionary.getOreID(event.itemStack);
+            int[] ids = OreDictionary.getOreIDs(event.itemStack);
 
-            if (id != -1)
+            if (ids.length > 0)
             {
-                event.toolTip.add(OreDictionary.getOreName(id));
+                for (int i : ids)
+                {
+                    event.toolTip.add(OreDictionary.getOreName(i));
+                }
             }
         }
     }
