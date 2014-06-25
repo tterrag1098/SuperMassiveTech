@@ -7,22 +7,28 @@ import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageStarHeartParticle;
+import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class EntityItemStarHeart extends EntityItemIndestructible
 {
+    private final EntityPlayerMP owner;
+    
     public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY,
-            double motionZ, int delay)
+            double motionZ, int delay, EntityPlayer owner)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
+        this.owner = (EntityPlayerMP) owner;
     }
 
     private boolean ready;
@@ -104,6 +110,9 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
         worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(itemRegistry.depletedNetherStar)));
 
+        Achievements.unlock(Achievements.getValidItemStack(star), owner);
+//        PacketHandler.INSTANCE.sendTo(new MessageAchievement(star), (EntityPlayerMP) owner);
+        
         this.setDead();
     }
 

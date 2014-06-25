@@ -13,14 +13,18 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
@@ -30,9 +34,9 @@ import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class GravityArmorHandler
 {
@@ -52,6 +56,11 @@ public class GravityArmorHandler
 
     public static final String COMPASS_ONLY = Utils.localize("armorPower.compassOnly", true);
     public static final String TEXT_ONLY = Utils.localize("armorPower.textOnly", true);
+
+    private static final int defaultFun = 15;
+    private static int doFireworks = 0;
+    private static int dimID = 0;
+    private static BlockCoord lastDeath = null;
 
     private static class NoPlayersSelector implements IEntitySelector
     {
@@ -317,26 +326,26 @@ public class GravityArmorHandler
         }
     }
 
-    @SubscribeEvent
-    public void onCrafted(ItemCraftedEvent event)
+    // TODO WAT IS GOING ON
+    //@SubscribeEvent
+    public void onLivingDeath(LivingDeathEvent event)
     {
-        if (event.player.getCommandSenderName().equals("Roxarthenoob") && !event.player.worldObj.isRemote)
+        if (!event.entity.worldObj.isRemote && event.entityLiving instanceof EntityPlayerMP)
         {
-            EntityPlayer p = event.player;
+            doFireworks = defaultFun;
+            EntityLivingBase e = event.entityLiving;
+            lastDeath = new BlockCoord(MathHelper.floor_double(e.posX), MathHelper.floor_double(e.posY), MathHelper.floor_double(e.posZ));
+            dimID = e.worldObj.provider.dimensionId;
+        }
+    }
 
-            if (Utils.rand.nextInt(1000) == 999)
-            {
-                event.player.worldObj.newExplosion(null, p.posX, p.posY, p.posZ, 20f, false, false);
-
-                for (int i = 0; i < 15; i++)
-                    spawnRandomFirework(event.player);
-
-                return;
-            }
-            else
-            {
-                spawnRandomFirework(event.player);
-            }
+    //@SubscribeEvent
+    public void onServerTick(WorldTickEvent event)
+    {
+        if (event.phase == Phase.START && doFireworks > 0 && DimensionManager.getWorld(dimID).getTotalWorldTime() % 15 == 0)
+        {
+            spawnRandomFirework(lastDeath, dimID);
+            doFireworks--;
         }
     }
 

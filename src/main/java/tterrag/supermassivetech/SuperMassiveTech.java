@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import tterrag.supermassivetech.compat.OreDictRegistrations;
 import tterrag.supermassivetech.compat.WailaCompat;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.handlers.AchievementHandler;
 import tterrag.supermassivetech.handlers.BreakWaypointHandler;
 import tterrag.supermassivetech.handlers.ClientKeyHandler;
 import tterrag.supermassivetech.handlers.GravityArmorHandler;
@@ -17,6 +18,7 @@ import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.GuiHandler;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.proxy.CommonProxy;
+import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.registry.ModBlocks;
 import tterrag.supermassivetech.registry.ModEnchants;
 import tterrag.supermassivetech.registry.ModEntities;
@@ -68,8 +70,8 @@ public class SuperMassiveTech
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
-        Utils.registerEventHandlers(false, GravityArmorHandler.class);
-        Utils.registerEventHandlers(true, TooltipHandler.class, BreakWaypointHandler.class);
+        Utils.registerEventHandlers(false, GravityArmorHandler.class, AchievementHandler.class);
+        Utils.registerEventHandlers(true, GravityArmorHandler.class, TooltipHandler.class, BreakWaypointHandler.class);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
         {
@@ -88,6 +90,8 @@ public class SuperMassiveTech
         proxy.registerRenderers();
 
         enchantRegistry.init();
+        
+        Achievements.initAchievements();
 
         starRegistry.registerDefaultStars();
 

@@ -22,10 +22,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -46,6 +48,7 @@ import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.server.FMLServerHandler;
 
 public class Utils
 {
@@ -633,7 +636,7 @@ public class Utils
         return hex;
     }
 
-    public static void spawnRandomFirework(EntityPlayer player)
+    public static void spawnRandomFirework(BlockCoord pos, int dimID)
     {
         ItemStack firework = new ItemStack(Items.fireworks);
         firework.stackTagCompound = new NBTTagCompound();
@@ -659,8 +662,9 @@ public class Utils
         fireworkTag.setByte("Flight", (byte) 1);
         firework.stackTagCompound.setTag("Fireworks", fireworkTag);
 
-        EntityFireworkRocket e = new EntityFireworkRocket(player.worldObj, player.posX, player.posY, player.posZ, firework);
-        player.worldObj.spawnEntityInWorld(e);
+        World world = DimensionManager.getWorld(dimID);
+        EntityFireworkRocket e = new EntityFireworkRocket(world, pos.x + 0.5, pos.y + 1, pos.z + 0.5, firework);
+        world.spawnEntityInWorld(e);
     }
 
     public static boolean doStatesMatch(EntityPlayer e, PowerUps power, int slot, String state)
