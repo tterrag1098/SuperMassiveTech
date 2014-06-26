@@ -6,15 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
+import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.util.BlockCoord;
-import tterrag.supermassivetech.util.Utils;
 
 public class Achievements
 {
@@ -27,46 +25,51 @@ public class Achievements
 
     public static void initAchievements()
     {
-        Achievement craftHeart = makeCraftingAchievement("craftHeart", 0, -2, itemRegistry.heartOfStar, itemRegistry.heartOfStar, null);
-        makeCraftingAchievement("craftStar", 0, 0, itemRegistry.star, itemRegistry.star, craftHeart);
+        Achievement craftHeart = makeItemBasedAchievement("craftHeart", 0, -5, itemRegistry.heartOfStar, itemRegistry.heartOfStar, null);
+        Achievement craftStar = makeItemBasedAchievement("craftStar", 0, -3, new ItemStack(itemRegistry.star), new ItemStack(itemRegistry.star), craftHeart, true);
+        Achievement getDepNetherStar = makeItemBasedAchievement("getDepletedNetherStar", 4, -3, itemRegistry.depletedNetherStar, itemRegistry.depletedNetherStar, craftStar);
+ 
+        makeItemBasedAchievement("craftBHS", -2, -1, blockRegistry.blackHoleStorage, blockRegistry.blackHoleStorage, craftStar);
+        makeItemBasedAchievement("craftBHH", 2, -1, blockRegistry.blackHoleHopper, blockRegistry.blackHoleHopper, craftStar);
+        
+        Achievement craftSH = makeItemBasedAchievement("craftStarHarvester", 0, 1, blockRegistry.starHarvester, blockRegistry.starHarvester, craftStar);
+        Achievement craftContainer = makeItemBasedAchievement("craftContainer", 0, 3, itemRegistry.starContainer, itemRegistry.starContainer, craftSH);
+        makeItemBasedAchievement("starPower", 0, 5, new ItemStack(itemRegistry.starSpecial), new ItemStack(itemRegistry.star), craftContainer, true);
+        
+        makeItemBasedAchievement("craftWaypoint", -4, -2, blockRegistry.waypoint, blockRegistry.waypoint, craftStar);
+        
+        makeItemBasedAchievement("craftGravHelm", 4, 0, itemRegistry.gravityHelm, itemRegistry.gravityHelm, getDepNetherStar);
+        makeItemBasedAchievement("craftGravChest", 5, 0, itemRegistry.gravityChest, itemRegistry.gravityChest, getDepNetherStar);
+        makeItemBasedAchievement("craftGravLegs", 6, 0, itemRegistry.gravityLegs, itemRegistry.gravityLegs, getDepNetherStar);
+        makeItemBasedAchievement("craftGravBoots", 7, 0, itemRegistry.gravityBoots, itemRegistry.gravityBoots, getDepNetherStar);
 
         pageSMT = new AchievementPage(Reference.MOD_NAME, eventRequired.values().toArray(new Achievement[] {}));
         AchievementPage.registerAchievementPage(pageSMT);
     }
 
-    private static Achievement makeCraftingAchievement(String basicName, int x, int y, ItemStack display, ItemStack toCraft, Achievement req)
+    private static Achievement makeItemBasedAchievement(String basicName, int x, int y, ItemStack display, ItemStack toCraft, Achievement req, boolean special)
     {
-        Achievement ret = new Achievement("achievement." + basicName, basicName + "Achievement", x, y, display, req);
+        Achievement ret = new Achievement("achievement." + basicName, basicName, x, y, display, req);
+        ret.registerStat();
+        if (special)
+            ret.setSpecial();
         eventRequired.put(toCraft, ret);
         return ret;
     }
-
-    private static Achievement makeCraftingAchievement(String basicName, int x, int y, Item display, Item toCraft, Achievement req)
+    
+    private static Achievement makeItemBasedAchievement(String basicName, int x, int y, ItemStack display, ItemStack toCraft, Achievement req)
     {
-        return makeCraftingAchievement(basicName, x, y, new ItemStack(display), new ItemStack(toCraft), req);
+        return makeItemBasedAchievement(basicName, x, y, display, toCraft, req, false);
     }
 
-    @SuppressWarnings("unused")
-    private static Achievement makeCraftingAchievement(String basicName, int x, int y, ItemStack display, Item toCraft, Achievement req)
+    private static Achievement makeItemBasedAchievement(String basicName, int x, int y, Item display, Item toCraft, Achievement req)
     {
-        return makeCraftingAchievement(basicName, x, y, display, new ItemStack(toCraft), req);
+        return makeItemBasedAchievement(basicName, x, y, new ItemStack(display), new ItemStack(toCraft), req);
     }
 
-    @SuppressWarnings("unused")
-    private static Achievement makeCraftingAchievement(String basicName, int x, int y, Item display, ItemStack toCraft, Achievement req)
+    private static Achievement makeItemBasedAchievement(String basicName, int x, int y, Block display, Block toCraft, Achievement req)
     {
-        return makeCraftingAchievement(basicName, x, y, new ItemStack(display), toCraft, req);
-    }
-
-    private static Achievement makeCraftingAchievement(String basicName, int x, int y, Block display, ItemStack toCraft, Achievement req)
-    {
-        return makeCraftingAchievement(basicName, x, y, new ItemStack(display), toCraft, req);
-    }
-
-    @SuppressWarnings("unused")
-    private static Achievement makeCraftingAchievement(String basicName, int x, int y, Block display, Block toCraft, Achievement req)
-    {
-        return makeCraftingAchievement(basicName, x, y, display, new ItemStack(toCraft), req);
+        return makeItemBasedAchievement(basicName, x, y, new ItemStack(display), new ItemStack(toCraft), req);
     }
 
     public static void fireCraftingRecipeFor(ItemStack stack, EntityPlayerMP player)
@@ -96,14 +99,29 @@ public class Achievements
         else
         {
             Achievement ach = eventRequired.get(i);
-            player.addStat(ach, 1);
-            System.out.println(player + " " + ach);
 
-            if (player.func_147099_x().hasAchievementUnlocked(ach))
+            boolean had = player.func_147099_x().hasAchievementUnlocked(ach);
+            player.addStat(ach, 1);
+            boolean has = player.func_147099_x().hasAchievementUnlocked(ach);
+
+            if (!had && has)
             {
-                Utils.spawnRandomFirework(new BlockCoord((int) player.posX, (int) player.posY, (int) player.posZ),
-                        player.worldObj.provider.dimensionId);
+                doFireworkDisplay(player, true);
             }
         }
+    }
+
+    public static void doFireworkDisplay(EntityPlayerMP player, boolean override)
+    {
+        if (ConfigHandler.betterAchievements || override)
+        {
+            player.getEntityData().setInteger("fireworksLeft", 5);
+            player.getEntityData().setBoolean("fireworkDelay", false);
+        }
+    }
+    
+    public static void doFireworkDisplay(EntityPlayerMP player)
+    {
+        doFireworkDisplay(player, false);
     }
 }

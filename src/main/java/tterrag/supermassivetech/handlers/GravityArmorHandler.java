@@ -13,18 +13,14 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
@@ -36,7 +32,6 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class GravityArmorHandler
 {
@@ -56,11 +51,6 @@ public class GravityArmorHandler
 
     public static final String COMPASS_ONLY = Utils.localize("armorPower.compassOnly", true);
     public static final String TEXT_ONLY = Utils.localize("armorPower.textOnly", true);
-
-    private static final int defaultFun = 15;
-    private static int doFireworks = 0;
-    private static int dimID = 0;
-    private static BlockCoord lastDeath = null;
 
     private static class NoPlayersSelector implements IEntitySelector
     {
@@ -323,29 +313,6 @@ public class GravityArmorHandler
                     }
                 }
             }
-        }
-    }
-
-    // TODO WAT IS GOING ON
-    //@SubscribeEvent
-    public void onLivingDeath(LivingDeathEvent event)
-    {
-        if (!event.entity.worldObj.isRemote && event.entityLiving instanceof EntityPlayerMP)
-        {
-            doFireworks = defaultFun;
-            EntityLivingBase e = event.entityLiving;
-            lastDeath = new BlockCoord(MathHelper.floor_double(e.posX), MathHelper.floor_double(e.posY), MathHelper.floor_double(e.posZ));
-            dimID = e.worldObj.provider.dimensionId;
-        }
-    }
-
-    //@SubscribeEvent
-    public void onServerTick(WorldTickEvent event)
-    {
-        if (event.phase == Phase.START && doFireworks > 0 && DimensionManager.getWorld(dimID).getTotalWorldTime() % 15 == 0)
-        {
-            spawnRandomFirework(lastDeath, dimID);
-            doFireworks--;
         }
     }
 

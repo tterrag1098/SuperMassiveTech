@@ -32,7 +32,6 @@ import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPower;
 import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.item.ItemGravityArmor.ArmorType;
-import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -207,10 +206,5 @@ public class ClientUtils
                 Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e1.posX,
                         e1.posY + 1, e1.posZ, 0.1));
         }
-    }
-
-    public static void unlockClientAchievement(ItemStack validItemStack)
-    {
-        Achievements.unlock(validItemStack, Minecraft.getMinecraft().thePlayer);
     }
 }

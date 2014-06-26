@@ -55,7 +55,7 @@ version = "MC${config.minecraft_version}-${artifact_version}-${System.getenv().B
 archivesBaseName = "SuperMassiveTech"
 
 minecraft {
-    version = "1.7.10_pre4-10.12.2.1139-prerelease"
+    version = "1.7.10_pre4-10.12.2.1143-prerelease"
     assetDir = "eclipse/assets"
 }
 

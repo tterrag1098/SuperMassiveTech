@@ -22,7 +22,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -48,7 +47,6 @@ import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.server.FMLServerHandler;
 
 public class Utils
 {
@@ -663,8 +661,14 @@ public class Utils
         firework.stackTagCompound.setTag("Fireworks", fireworkTag);
 
         World world = DimensionManager.getWorld(dimID);
-        EntityFireworkRocket e = new EntityFireworkRocket(world, pos.x + 0.5, pos.y + 1, pos.z + 0.5, firework);
+        EntityFireworkRocket e = new EntityFireworkRocket(world, moveRandomly(pos.x), pos.y + 2.5, moveRandomly(pos.z), firework);
         world.spawnEntityInWorld(e);
+    }
+    
+    private static final double distMult = 12d;
+    private static double moveRandomly(double base)
+    {
+        return base + 0.5 + rand.nextDouble() * distMult - (distMult / 2);
     }
 
     public static boolean doStatesMatch(EntityPlayer e, PowerUps power, int slot, String state)

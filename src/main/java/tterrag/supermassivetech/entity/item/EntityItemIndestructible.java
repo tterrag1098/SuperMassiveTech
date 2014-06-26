@@ -1,6 +1,9 @@
 package tterrag.supermassivetech.entity.item;
 
+import tterrag.supermassivetech.registry.Achievements;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -22,5 +25,15 @@ public class EntityItemIndestructible extends EntityItem
     public boolean isEntityInvulnerable()
     {
         return true;
+    }
+    
+    @Override
+    public void onCollideWithPlayer(EntityPlayer player)
+    {
+        if (!this.worldObj.isRemote && this.delayBeforeCanPickup <= 0)
+        {
+            Achievements.unlock(Achievements.getValidItemStack(this.getEntityItem()), (EntityPlayerMP) player);
+        }
+        super.onCollideWithPlayer(player);
     }
 }

@@ -9,6 +9,7 @@ import tterrag.supermassivetech.compat.OreDictRegistrations;
 import tterrag.supermassivetech.compat.WailaCompat;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.handlers.AchievementHandler;
+import tterrag.supermassivetech.handlers.AchievementHandlerClient;
 import tterrag.supermassivetech.handlers.BreakWaypointHandler;
 import tterrag.supermassivetech.handlers.ClientKeyHandler;
 import tterrag.supermassivetech.handlers.GravityArmorHandler;
@@ -76,7 +77,7 @@ public class SuperMassiveTech
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
         {
             Utils.registerEventHandlers(false, ClientKeyHandler.class);
-            Utils.registerEventHandlers(true, HelmetOverlayHandler.class);
+            Utils.registerEventHandlers(true, AchievementHandlerClient.class, HelmetOverlayHandler.class);
         }
 
         OreDictRegistrations.load();

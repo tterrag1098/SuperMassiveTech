@@ -11,7 +11,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 {
     private int counter = 0;
     private final int wait = 5;
-
+    
     public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX,
             double motionY, double motionZ, int delay)
     {
