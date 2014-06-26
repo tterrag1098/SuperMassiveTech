@@ -1,14 +1,14 @@
 [
 {
-  "modid": "SuperMassiveTech",
+  "modid": "superMassiveTech",
   "name": "Super Massive Tech",
-  "description": "Harness the power of the universe!",
+  "description": "A mod all about stars, black holes, and all the powers and disasters that accompany them.",
   "version": "${version}",
-  "mcversion": "1.7.2",
+  "mcversion": "1.7.10_pre4",
   "url": "http://mods.tterrag.com",
   "updateUrl": "",
   "authors": ["tterrag"],
-  "credits": "",
+  "credits": "timewarp - texture artist\nwha-ha-ha - texture artist and ideas\nSphericon - ideas and coding",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

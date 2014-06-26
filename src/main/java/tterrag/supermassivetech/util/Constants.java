@@ -4,30 +4,65 @@ import tterrag.supermassivetech.config.ConfigHandler;
 
 public class Constants
 {
-    private static Constants instance = new Constants();
+    private static final Constants instance = new Constants();
 
     public static Constants instance()
     {
         return instance;
     }
 
-    public final float RANGE;
-    public final float STRENGTH;
-    public final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
-    public final int ENERGY_DRAIN;
+    private float range;
+    private float strength;
+    private float maxGravXZ, maxGravY, minGrav;
+    private int energyDrain;
 
     private Constants()
     {
-        RANGE = Math.min(1000, ConfigHandler.range);
-        MAX_GRAV_XZ = Math.min(1, ConfigHandler.maxGravityXZ);
-        MAX_GRAV_Y = Math.min(1, ConfigHandler.maxGravityY);
-        MIN_GRAV = Math.min(Math.min(MAX_GRAV_XZ, MAX_GRAV_Y), ConfigHandler.minGravity);
-        STRENGTH = Math.min(1000, ConfigHandler.strength);
-        ENERGY_DRAIN = Math.min(1000, ConfigHandler.gravArmorDrain);
+        refresh();
     }
 
     public static void init()
     {
-        instance = new Constants();
+        instance.refresh();
+    }
+
+    public void refresh()
+    {
+        range = Math.min(1000, ConfigHandler.range);
+        maxGravXZ = Math.min(1, ConfigHandler.maxGravityXZ);
+        maxGravY = Math.min(1, ConfigHandler.maxGravityY);
+        minGrav = Math.min(Math.min(maxGravXZ, maxGravY), ConfigHandler.minGravity);
+        strength = Math.min(1000, ConfigHandler.strength);
+        energyDrain = Math.min(1000, ConfigHandler.gravArmorDrain);
+    }
+
+    public float getRange()
+    {
+        return range;
+    }
+
+    public float getStrength()
+    {
+        return strength;
+    }
+
+    public float getMaxGravXZ()
+    {
+        return maxGravXZ;
+    }
+
+    public float getMaxGravY()
+    {
+        return maxGravY;
+    }
+
+    public float getMinGrav()
+    {
+        return minGrav;
+    }
+
+    public int getEnergyDrain()
+    {
+        return energyDrain;
     }
 }

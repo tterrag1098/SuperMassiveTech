@@ -50,7 +50,6 @@ public class Achievements
     private static Achievement makeItemBasedAchievement(String basicName, int x, int y, ItemStack display, ItemStack toCraft, Achievement req, boolean special)
     {
         Achievement ret = new Achievement("achievement." + basicName, basicName, x, y, display, req);
-        ret.registerStat();
         if (special)
             ret.setSpecial();
         eventRequired.put(toCraft, ret);

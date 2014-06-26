@@ -74,7 +74,7 @@ public class GravityArmorHandler
         if (event.phase == Phase.END && !event.player.onGround && !event.player.capabilities.isFlying
                 && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
-            double effect = getArmorMult(event.player, Constants.instance().ENERGY_DRAIN / 50);
+            double effect = getArmorMult(event.player, Constants.instance().getEnergyDrain() / 50);
             if (event.player.ridingEntity != null && event.player.posY <= 256)
             {
                 event.player.ridingEntity.motionY += effect;

@@ -222,7 +222,7 @@ public class Utils
                     IEnergyContainerItem item = (IEnergyContainerItem) s.getItem();
                     if (item.getEnergyStored(s) > 0)
                     {
-                        item.extractEnergy(s, (int) (c.ENERGY_DRAIN * gravForce) / 20, false);
+                        item.extractEnergy(s, (int) (c.getEnergyDrain() * gravForce) / 20, false);
                         armorMult -= 0.23;
                     }
                 }
@@ -308,7 +308,7 @@ public class Utils
      */
     public static void applyGravity(Entity entity, TileEntity te, boolean showParticles)
     {
-        applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, te, showParticles);
+        applyGravity(c.getStrength(), c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav(), c.getRange(), entity, te, showParticles);
     }
 
     /**
@@ -322,7 +322,7 @@ public class Utils
      */
     public static void applyGravity(Entity entity, int x, int y, int z, boolean showParticles)
     {
-        applyGravity(c.STRENGTH, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV, c.RANGE, entity, x, y, z, showParticles);
+        applyGravity(c.getStrength(), c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav(), c.getRange(), entity, x, y, z, showParticles);
     }
 
     /**

@@ -30,7 +30,7 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
      */
     public TileSMTInventory()
     {
-        this(1, 1, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
+        this(1, 1, c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav());
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
      */
     public TileSMTInventory(float rangeMult, float strengthMult)
     {
-        this(rangeMult, strengthMult, c.MAX_GRAV_XZ, c.MAX_GRAV_Y, c.MIN_GRAV);
+        this(rangeMult, strengthMult, c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav());
     }
 
     /**
@@ -53,8 +53,8 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
      */
     public TileSMTInventory(float rangeMult, float strengthMult, float maxGravXZ, float maxGravY, float minGrav)
     {
-        RANGE = c.RANGE * rangeMult;
-        STRENGTH = c.STRENGTH * strengthMult;
+        RANGE = c.getRange() * rangeMult;
+        STRENGTH = c.getStrength() * strengthMult;
         MAX_GRAV_XZ = maxGravXZ;
         MAX_GRAV_Y = maxGravY;
         MIN_GRAV = minGrav;

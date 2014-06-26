@@ -40,7 +40,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:Forge@[10.12.1.1090,);after:Waila")
+@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:Forge@10.12.2.1148,);after:Waila", guiFactory = "tterrag.supermassivetech.config.ConfigFactorySMT")
 public class SuperMassiveTech
 {
     @Instance
@@ -71,7 +71,7 @@ public class SuperMassiveTech
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
-        Utils.registerEventHandlers(false, GravityArmorHandler.class, AchievementHandler.class);
+        Utils.registerEventHandlers(false, GravityArmorHandler.class, AchievementHandler.class, ConfigHandler.class);
         Utils.registerEventHandlers(true, GravityArmorHandler.class, TooltipHandler.class, BreakWaypointHandler.class);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
