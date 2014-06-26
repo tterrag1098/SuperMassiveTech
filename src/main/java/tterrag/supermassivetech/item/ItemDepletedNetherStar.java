@@ -51,7 +51,7 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
         return new EntityItemDepletedNetherStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX,
-                location.motionY, location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
+                location.motionY, location.motionZ, ((EntityItem) location).delayBeforeCanPickup, world.getClosestPlayerToEntity(location, -1));
     }
 
     @Override

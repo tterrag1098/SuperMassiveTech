@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,6 +22,7 @@ import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageStarHarvester;
 import tterrag.supermassivetech.network.message.MessageUpdateVenting;
+import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
@@ -36,9 +38,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     private EnergyStorage storage;
     public static final int STORAGE_CAP = 100000;
     public double spinSpeed = 0;
-    public float[] spins = {
-            0, 0, 0, 0
-    };
+    public float[] spins = { 0, 0, 0, 0 };
     private boolean hasItem = false;
     private boolean needsLightingUpdate = false;
     public boolean venting = false;
@@ -288,6 +288,14 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         inventory[slot] = insert;
         player.getCurrentEquippedItem().stackSize--;
         needsLightingUpdate = true;
+
+        if (!player.worldObj.isRemote)
+        {
+            ItemStack unlock = stack.copy();
+            unlock.setItemDamage(1);
+            Achievements.unlock(Achievements.getValidItemStack(unlock), (EntityPlayerMP) player);
+        }
+        
         return true;
     }
 
@@ -343,9 +351,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return var1 == 1 && inventory[slot] == null ? new int[] {
-            slot
-        } : new int[] {};
+        return var1 == 1 && inventory[slot] == null ? new int[] { slot } : new int[] {};
     }
 
     @Override

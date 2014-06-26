@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
@@ -27,14 +28,14 @@ public class Achievements
     {
         Achievement craftHeart = makeItemBasedAchievement("craftHeart", 0, -5, itemRegistry.heartOfStar, itemRegistry.heartOfStar, null);
         Achievement craftStar = makeItemBasedAchievement("craftStar", 0, -3, new ItemStack(itemRegistry.star), new ItemStack(itemRegistry.star), craftHeart, true);
-        Achievement getDepNetherStar = makeItemBasedAchievement("getDepletedNetherStar", 4, -3, itemRegistry.depletedNetherStar, itemRegistry.depletedNetherStar, craftStar);
+        Achievement getDepNetherStar = makeItemBasedAchievement("getDepletedNetherStar", 4, -2, itemRegistry.depletedNetherStar, itemRegistry.depletedNetherStar, craftStar);
  
         makeItemBasedAchievement("craftBHS", -2, -1, blockRegistry.blackHoleStorage, blockRegistry.blackHoleStorage, craftStar);
         makeItemBasedAchievement("craftBHH", 2, -1, blockRegistry.blackHoleHopper, blockRegistry.blackHoleHopper, craftStar);
         
         Achievement craftSH = makeItemBasedAchievement("craftStarHarvester", 0, 1, blockRegistry.starHarvester, blockRegistry.starHarvester, craftStar);
         Achievement craftContainer = makeItemBasedAchievement("craftContainer", 0, 3, itemRegistry.starContainer, itemRegistry.starContainer, craftSH);
-        makeItemBasedAchievement("starPower", 0, 5, new ItemStack(itemRegistry.starSpecial), new ItemStack(itemRegistry.star), craftContainer, true);
+        makeItemBasedAchievement("starPower", 0, 5, new ItemStack(itemRegistry.starSpecial), new ItemStack(itemRegistry.star, 1, 1), craftContainer, true);
         
         makeItemBasedAchievement("craftWaypoint", -4, -2, blockRegistry.waypoint, blockRegistry.waypoint, craftStar);
         
@@ -42,6 +43,9 @@ public class Achievements
         makeItemBasedAchievement("craftGravChest", 5, 0, itemRegistry.gravityChest, itemRegistry.gravityChest, getDepNetherStar);
         makeItemBasedAchievement("craftGravLegs", 6, 0, itemRegistry.gravityLegs, itemRegistry.gravityLegs, getDepNetherStar);
         makeItemBasedAchievement("craftGravBoots", 7, 0, itemRegistry.gravityBoots, itemRegistry.gravityBoots, getDepNetherStar);
+        
+        Achievement rejuvenate = makeItemBasedAchievement("rejuvenateNetherStar", 4, -5, Items.nether_star, Items.nether_star, getDepNetherStar);
+        makeItemBasedAchievement("comeFullCircle", -2, -5, new ItemStack(itemRegistry.heartOfStar, 1, 1), new ItemStack(itemRegistry.heartOfStar, 1, 1), rejuvenate);
 
         pageSMT = new AchievementPage(Reference.MOD_NAME, eventRequired.values().toArray(new Achievement[] {}));
         AchievementPage.registerAchievementPage(pageSMT);
@@ -53,6 +57,7 @@ public class Achievements
         if (special)
             ret.setSpecial();
         eventRequired.put(toCraft, ret);
+        ret.registerStat();
         return ret;
     }
     
@@ -81,7 +86,7 @@ public class Achievements
     {
         for (ItemStack i : eventRequired.keySet())
         {
-            if (i.getItem() == stack.getItem() && i.getItemDamage() == i.getItemDamage()) { return i; }
+            if (i.isItemEqual(stack)) { return i; }
         }
         return null;
     }
@@ -107,6 +112,18 @@ public class Achievements
             {
                 doFireworkDisplay(player, true);
             }
+        }
+    }
+    
+    public static void unlockForced(Achievement ach, EntityPlayerMP player)
+    {
+        boolean had = player.func_147099_x().hasAchievementUnlocked(ach);
+        player.addStat(ach, 1);
+        boolean has = player.func_147099_x().hasAchievementUnlocked(ach);
+
+        if (!had && has)
+        {
+            doFireworkDisplay(player, true);
         }
     }
 

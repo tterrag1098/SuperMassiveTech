@@ -33,7 +33,7 @@ public class ConfigHandler
     public static void init(File file)
     {
         config = new Configuration(file);
-        
+             
         doConfiguration();
         
         config.getCategory(sectionGravity.toLowerCase()).setRequiresWorldRestart(false).setRequiresMcRestart(false);
@@ -41,8 +41,6 @@ public class ConfigHandler
     
     public static void doConfiguration()
     {
-        config.load();
-
         /* @formatter:off */
         config.addCustomCategoryComment(sectionGravity, "All double values must be in float range (don't go crazy, your game would crash anyways)");
 

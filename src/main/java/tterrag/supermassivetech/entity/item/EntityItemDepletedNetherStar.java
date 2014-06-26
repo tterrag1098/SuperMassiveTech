@@ -1,22 +1,28 @@
 package tterrag.supermassivetech.entity.item;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.tile.TileStarHarvester;
 
 public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 {
     private int counter = 0;
     private final int wait = 5;
+    private final EntityPlayerMP owner;
     
     public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX,
-            double motionY, double motionZ, int delay)
+            double motionY, double motionZ, int delay, EntityPlayer owner)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
         this.lifespan = Integer.MAX_VALUE;
+        this.owner = (EntityPlayerMP) owner;
     }
 
     @Override
@@ -44,7 +50,13 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
             }
 
             if (this.getEntityItem().getItemDamage() >= SuperMassiveTech.itemRegistry.depletedNetherStar.maxDamage)
-                this.setEntityItemStack(new ItemStack(Items.nether_star));
+            {
+                ItemStack newStar = new ItemStack(Items.nether_star);
+                Achievements.unlock(Achievements.getValidItemStack(newStar), owner);
+                newStar.stackTagCompound = new NBTTagCompound();
+                newStar.getTagCompound().setBoolean("wasRejuvenated", true);
+                this.setEntityItemStack(newStar);
+            }
         }
     }
 }

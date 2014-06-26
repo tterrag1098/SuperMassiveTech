@@ -1,11 +1,15 @@
 package tterrag.supermassivetech.handlers;
 
-import codechicken.lib.math.MathHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
+import codechicken.lib.math.MathHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -19,6 +23,20 @@ public class AchievementHandler
         if (!event.player.worldObj.isRemote)
         {
             Achievements.unlock(Achievements.getValidItemStack(event.crafting), (EntityPlayerMP) event.player);
+            
+            if (event.crafting.getItem() == SuperMassiveTech.itemRegistry.heartOfStar)
+            {
+                IInventory inv = event.craftMatrix;
+                
+                for (int i = 0; i < inv.getSizeInventory(); i++)
+                {
+                    ItemStack curStack = inv.getStackInSlot(i);
+                    if (curStack != null && curStack.getItem() == Items.nether_star && curStack.hasTagCompound() && curStack.getTagCompound().getBoolean("wasRejuvenated"))
+                    {
+                        Achievements.unlock(Achievements.getValidItemStack(new ItemStack(SuperMassiveTech.itemRegistry.heartOfStar, 1, 1)), (EntityPlayerMP) event.player);
+                    }
+                }
+            }
         }
     }
     

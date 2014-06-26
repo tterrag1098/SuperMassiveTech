@@ -35,6 +35,12 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
     {
         return Utils.localize("tooltip.starHeart", true);
     }
+    
+    @Override
+    public boolean hasEffect(ItemStack stack)
+    {
+        return stack.getItemDamage() != 0;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)

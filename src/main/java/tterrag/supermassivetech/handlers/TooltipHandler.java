@@ -5,6 +5,7 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -52,6 +53,11 @@ public class TooltipHandler
                     event.toolTip.add(OreDictionary.getOreName(i));
                 }
             }
+        }
+        
+        if (event.itemStack.getItem() == Items.nether_star && event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().getBoolean("wasRejuvenated"))
+        {
+            event.toolTip.add("" + EnumChatFormatting.ITALIC + "\"" + Utils.localize("tooltip.netherStarHot", true) + "\"");
         }
     }
 
