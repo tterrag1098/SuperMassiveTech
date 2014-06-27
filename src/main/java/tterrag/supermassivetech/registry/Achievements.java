@@ -39,13 +39,14 @@ public class Achievements
         
         makeItemBasedAchievement("craftWaypoint", -4, -2, blockRegistry.waypoint, blockRegistry.waypoint, craftStar);
         
-        makeItemBasedAchievement("craftGravHelm", 4, 0, itemRegistry.gravityHelm, itemRegistry.gravityHelm, getDepNetherStar);
-        makeItemBasedAchievement("craftGravChest", 5, 0, itemRegistry.gravityChest, itemRegistry.gravityChest, getDepNetherStar);
-        makeItemBasedAchievement("craftGravLegs", 6, 0, itemRegistry.gravityLegs, itemRegistry.gravityLegs, getDepNetherStar);
-        makeItemBasedAchievement("craftGravBoots", 7, 0, itemRegistry.gravityBoots, itemRegistry.gravityBoots, getDepNetherStar);
+        int max = itemRegistry.gravityHelm.getMaxDamage();
+        makeItemBasedAchievement("craftGravHelm", 5, 0, new ItemStack(itemRegistry.gravityHelm), new ItemStack(itemRegistry.gravityHelm, 1, max), getDepNetherStar);
+        makeItemBasedAchievement("craftGravChest", 5, 1, new ItemStack(itemRegistry.gravityChest), new ItemStack(itemRegistry.gravityChest, 1, max), getDepNetherStar);
+        makeItemBasedAchievement("craftGravLegs", 5, 2, new ItemStack(itemRegistry.gravityLegs), new ItemStack(itemRegistry.gravityLegs, 1, max), getDepNetherStar);
+        makeItemBasedAchievement("craftGravBoots", 5, 3, new ItemStack(itemRegistry.gravityBoots), new ItemStack(itemRegistry.gravityBoots, 1, max), getDepNetherStar);
         
         Achievement rejuvenate = makeItemBasedAchievement("rejuvenateNetherStar", 4, -5, Items.nether_star, Items.nether_star, getDepNetherStar);
-        makeItemBasedAchievement("comeFullCircle", -2, -5, new ItemStack(itemRegistry.heartOfStar, 1, 1), new ItemStack(itemRegistry.heartOfStar, 1, 1), rejuvenate);
+        makeItemBasedAchievement("comeFullCircle", 2, -5, new ItemStack(itemRegistry.heartOfStar, 1, 1), new ItemStack(itemRegistry.heartOfStar, 1, 1), rejuvenate);
 
         pageSMT = new AchievementPage(Reference.MOD_NAME, eventRequired.values().toArray(new Achievement[] {}));
         AchievementPage.registerAchievementPage(pageSMT);
@@ -53,6 +54,7 @@ public class Achievements
 
     private static Achievement makeItemBasedAchievement(String basicName, int x, int y, ItemStack display, ItemStack toCraft, Achievement req, boolean special)
     {
+        basicName = "SMT." + basicName;
         Achievement ret = new Achievement("achievement." + basicName, basicName, x, y, display, req);
         if (special)
             ret.setSpecial();

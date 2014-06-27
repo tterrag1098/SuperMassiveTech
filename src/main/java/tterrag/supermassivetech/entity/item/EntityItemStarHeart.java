@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -21,14 +19,16 @@ import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class EntityItemStarHeart extends EntityItemIndestructible
-{
-    private final EntityPlayerMP owner;
+{    
+    public EntityItemStarHeart(World world)
+    {
+        super(world);
+    }
     
     public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY,
-            double motionZ, int delay, EntityPlayer owner)
+            double motionZ, int delay)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
-        this.owner = (EntityPlayerMP) owner;
     }
 
     private boolean ready;
@@ -42,6 +42,11 @@ public class EntityItemStarHeart extends EntityItemIndestructible
     public void onUpdate()
     {
         super.onUpdate();
+        
+        if (worldObj.isRemote)
+        {
+            return;
+        }
 
         if (explodeTimer < 0)
         {
@@ -107,10 +112,16 @@ public class EntityItemStarHeart extends EntityItemIndestructible
 
         worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
-        worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, star));
-        worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(itemRegistry.depletedNetherStar, star.stackSize)));
+        EntityItemIndestructible starEntity = new EntityItemIndestructible(worldObj, posX, posY, posZ, star, 0, 0, 0, 0);
+        EntityItemIndestructible depletedEntity = new EntityItemDepletedNetherStar(worldObj, posX, posY, posZ, new ItemStack(itemRegistry.depletedNetherStar, star.stackSize), 0, 0, 0, 0);
+        
+        starEntity.func_145799_b(this.func_145800_j());
+        depletedEntity.func_145799_b(this.func_145800_j());
 
-        Achievements.unlock(Achievements.getValidItemStack(star), owner);
+        Utils.spawnItemInWorldWithRandomMotion(starEntity);
+        Utils.spawnItemInWorldWithRandomMotion(depletedEntity);
+
+        Achievements.unlock(Achievements.getValidItemStack(star), (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
         
         this.setDead();
     }

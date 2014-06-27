@@ -363,7 +363,7 @@ public class Utils
             if (stack.stackTagCompound == null)
                 stack.stackTagCompound = new NBTTagCompound();
 
-            stack.stackTagCompound.setString("type", type.toString());
+            stack.stackTagCompound.setString("type", type.getName());
             stack.stackTagCompound.setInteger("energy", type.getPowerStoredMax());
         }
         else if (stack != null)
@@ -399,11 +399,20 @@ public class Utils
 
     public static void spawnItemInWorldWithRandomMotion(World world, ItemStack item, int x, int y, int z)
     {
-        float f = (float) Math.random() + x;
-        float f1 = (float) Math.random() + y;
-        float f2 = (float) Math.random() + z;
+        spawnItemInWorldWithRandomMotion(new EntityItem(world, x, y, z, item));
+    }
+    
+    public static void spawnItemInWorldWithRandomMotion(EntityItem entity)
+    {
+        float f = (float) Math.random() * 2 - 1;
+        float f1 = (float) Math.random() * 2 - 1;
+        float f2 = (float) Math.random() * 2 - 1;
 
-        world.spawnEntityInWorld(new EntityItem(world, f, f1, f2, item));
+        entity.motionX += f;
+        entity.motionY += f1;
+        entity.motionZ += f2;
+        
+        entity.worldObj.spawnEntityInWorld(entity);
     }
 
     /**
@@ -634,8 +643,18 @@ public class Utils
         return hex;
     }
 
-    public static void spawnRandomFirework(BlockCoord pos, int dimID)
+    // I don't really expect this to be very readable...but it works
+    public static void spawnFireworkAround(BlockCoord block, int dimID)
     {
+        World world = DimensionManager.getWorld(dimID);
+
+        BlockCoord pos = new BlockCoord(0, 0, 0);
+        
+        while (!world.isAirBlock(pos.x, pos.y, pos.z))
+        {
+            pos.setPosition(moveRandomly(block.x), block.y + 2, moveRandomly(block.z));
+        }
+        
         ItemStack firework = new ItemStack(Items.fireworks);
         firework.stackTagCompound = new NBTTagCompound();
         NBTTagCompound expl = new NBTTagCompound();
@@ -660,8 +679,8 @@ public class Utils
         fireworkTag.setByte("Flight", (byte) 1);
         firework.stackTagCompound.setTag("Fireworks", fireworkTag);
 
-        World world = DimensionManager.getWorld(dimID);
-        EntityFireworkRocket e = new EntityFireworkRocket(world, moveRandomly(pos.x), pos.y + 2.5, moveRandomly(pos.z), firework);
+        System.out.println(pos.x + " " + pos.y + " " + pos.z + " " + dimID);
+        EntityFireworkRocket e = new EntityFireworkRocket(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, firework);
         world.spawnEntityInWorld(e);
     }
     

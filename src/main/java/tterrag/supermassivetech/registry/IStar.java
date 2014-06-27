@@ -42,6 +42,11 @@ public interface IStar
     public int getFuse();
 
     /**
+     * Returns the basic (NBT identifier) name of the star
+     */
+    public String getName();
+
+    /**
      * <code>toString()</code> here returns the proper name of the star, to be
      * used in tooltips
      */

@@ -15,14 +15,17 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 {
     private int counter = 0;
     private final int wait = 5;
-    private final EntityPlayerMP owner;
+    
+    public EntityItemDepletedNetherStar(World world)
+    {
+        super(world);
+    }
     
     public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX,
-            double motionY, double motionZ, int delay, EntityPlayer owner)
+            double motionY, double motionZ, int delay)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
         this.lifespan = Integer.MAX_VALUE;
-        this.owner = (EntityPlayerMP) owner;
     }
 
     @Override
@@ -52,11 +55,27 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
             if (this.getEntityItem().getItemDamage() >= SuperMassiveTech.itemRegistry.depletedNetherStar.maxDamage)
             {
                 ItemStack newStar = new ItemStack(Items.nether_star);
-                Achievements.unlock(Achievements.getValidItemStack(newStar), owner);
+                
+                if (!worldObj.isRemote)
+                {
+                    Achievements.unlock(Achievements.getValidItemStack(newStar), (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
+                }
+                
                 newStar.stackTagCompound = new NBTTagCompound();
                 newStar.getTagCompound().setBoolean("wasRejuvenated", true);
+                this.delayBeforeCanPickup = 0;
                 this.setEntityItemStack(newStar);
             }
         }
+    }
+    
+    @Override
+    public void onCollideWithPlayer(EntityPlayer player)
+    {
+        if (!worldObj.isRemote && this.func_145800_j().equals(player.getCommandSenderName()) && this.delayBeforeCanPickup <= 0)
+        {
+            Achievements.unlock(Achievements.getValidItemStack(this.getEntityItem()), (EntityPlayerMP) player);
+        }
+        super.onCollideWithPlayer(player);
     }
 }

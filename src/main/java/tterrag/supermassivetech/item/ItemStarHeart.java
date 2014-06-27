@@ -19,8 +19,10 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
-        return new EntityItemStarHeart(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY,
-                location.motionZ, ((EntityItem) location).delayBeforeCanPickup, world.getClosestPlayerToEntity(location, -1));
+        EntityItemStarHeart entity =  new EntityItemStarHeart(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY,
+                location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
+        entity.func_145799_b(world.getClosestPlayerToEntity(location, -1).getCommandSenderName());
+        return entity;
     }
 
     @Override

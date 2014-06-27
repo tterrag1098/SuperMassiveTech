@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.util;
 
+import codechicken.lib.math.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -47,5 +48,12 @@ public class BlockCoord
         int z = tag.getInteger("blockCoordz");
 
         return new BlockCoord(x, y, z);
+    }
+
+    public void setPosition(double x, double y, double z)
+    {
+        this.x = MathHelper.floor_double(x);
+        this.y = MathHelper.floor_double(y);
+        this.z = MathHelper.floor_double(z);
     }
 }

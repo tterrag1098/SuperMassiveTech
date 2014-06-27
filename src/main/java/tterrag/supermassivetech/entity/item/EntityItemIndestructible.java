@@ -1,15 +1,12 @@
 package tterrag.supermassivetech.entity.item;
 
-import tterrag.supermassivetech.registry.Achievements;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityItemIndestructible extends EntityItem
 {
-
     public EntityItemIndestructible(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX,
             double motionY, double motionZ, int delay)
     {
@@ -21,6 +18,11 @@ public class EntityItemIndestructible extends EntityItem
         this.delayBeforeCanPickup = delay;
     }
 
+    public EntityItemIndestructible(World world)
+    {
+        super(world);
+    }
+
     @Override
     public boolean isEntityInvulnerable()
     {
@@ -28,12 +30,8 @@ public class EntityItemIndestructible extends EntityItem
     }
     
     @Override
-    public void onCollideWithPlayer(EntityPlayer player)
+    public void writeEntityToNBT(NBTTagCompound p_70014_1_)
     {
-        if (!this.worldObj.isRemote && this.delayBeforeCanPickup <= 0)
-        {
-            Achievements.unlock(Achievements.getValidItemStack(this.getEntityItem()), (EntityPlayerMP) player);
-        }
-        super.onCollideWithPlayer(player);
+        super.writeEntityToNBT(p_70014_1_);
     }
 }

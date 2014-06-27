@@ -43,6 +43,7 @@ task buildInfo {
         ext.buildNum = "DEV.${project.buildInfo.revision}"
     }
 }
+
 ext.artifact_version = 'NFG'
 if (System.getenv().ARTIFACT_VERSION == null) {
     artifact_version = "${config.mod_version}"
@@ -55,7 +56,7 @@ version = "MC${config.minecraft_version}-${artifact_version}-${System.getenv().B
 archivesBaseName = "SuperMassiveTech"
 
 minecraft {
-    version = "1.7.10-10.12.2.1150"
+    version = "${config.minecraft_version}-${config.forge_version}"
     assetDir = "eclipse/assets"
 }
 
@@ -71,7 +72,8 @@ repositories {
 }
  
 dependencies {
-    compile "mcp.mobius.waila:Waila:1.5.2a"
+	// wtb WAILA 1.7.10
+    //compile "mcp.mobius.waila:Waila:1.5.2a"
 }
 
 processResources

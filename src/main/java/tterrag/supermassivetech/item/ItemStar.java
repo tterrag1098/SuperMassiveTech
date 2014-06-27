@@ -51,15 +51,13 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
 
         if (type == null)
         {
-            return 0xFFFF00;
+            return this instanceof ItemStarSpecial ? Stars.instance.getTypeByName("neutron").getColor() : 0xFFFF00;
         }
         else
             return type.getColor();
     }
 
-    @SuppressWarnings({
-            "rawtypes", "unchecked"
-    })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list)

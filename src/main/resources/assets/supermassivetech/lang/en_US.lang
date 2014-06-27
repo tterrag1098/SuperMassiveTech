@@ -88,7 +88,7 @@ SMT.star.pulsar=Pulsar
 #Items
 SMT.tooltip.starHeart=- Creates a star when ignited in-world.|- More fire in the vicinity causes~   a higher chance for better stars.
 SMT.tooltip.depletedNetherStar=- Created when a star is born.|- Can be rejuvenated into a~   useable nether star.|- Place it into the plume of a~   venting Star Harvester and wait.
-SMT.tooltip.netherStarHot=Ouch! It's hot!
+SMT.tooltip.netherStarHot="Ouch! It's hot!"
 #Blocks
 SMT.tooltip.blackHoleStorage=- Stores 2^40 items and fluids|- Accepts pipe input/output from any side
 SMT.tooltip.blackHoleHopper=- Right click with an item to configure|- Right click with empty hand~   to check configuration|- Shift right click with an empty hand to clear
@@ -111,3 +111,51 @@ SMT.armorPower.attractor=Attractor
 
 SMT.armorPower.compassOnly=Compass Only
 SMT.armorPower.textOnly=Text Only
+
+## Achievements ##
+# Note: These are spoilers. Read on with caution
+
+achievement.SMT.craftHeart=The Heart
+achievement.SMT.craftHeart.desc=Creating the seed for limitless power.
+
+achievement.SMT.craftStar=The Star
+achievement.SMT.craftStar.desc=Boom.
+
+achievement.SMT.getDepletedNetherStar=Fallen Star
+achievement.SMT.getDepletedNetherStar.desc=Can you restore it to its former glory?
+
+achievement.SMT.rejuvenateNetherStar=Restoration
+achievement.SMT.rejuvenateNetherStar.desc=Like a diamond in the sky.
+
+achievement.SMT.comeFullCircle=The Cycle
+achievement.SMT.comeFullCircle.desc=How long can this go on?
+
+achievement.SMT.craftWaypoint=Leave your Mark
+achievement.SMT.craftWaypoint.desc=As a beacon into the sky.
+
+achievement.SMT.craftBHS=Deeper Storage Unit
+achievement.SMT.craftBHS.desc=Have we gone too deep?
+
+achievement.SMT.craftBHH=The Great Attractor
+achievement.SMT.craftBHH.desc=One heck of an upgrade.
+
+achievement.SMT.craftStarHarvester=The Base
+achievement.SMT.craftStarHarvester.desc=Stabilizing the power.
+
+achievement.SMT.craftContainer=The Containment
+achievement.SMT.craftContainer.desc=Containing the power.
+
+achievement.SMT.starPower=The Power
+achievement.SMT.starPower.desc=Phenomenal cosmic power! Itty bitty living space.
+
+achievement.SMT.craftGravHelm=The Vision
+achievement.SMT.craftGravHelm.desc=You can see clearly now, you have a HUD.
+
+achievement.SMT.craftGravChest=The Controller
+achievement.SMT.craftGravChest.desc=Make entities bow to your whim!
+
+achievement.SMT.craftGravLegs=The...Legs
+achievement.SMT.craftGravLegs.desc=Suggest modules for this armor!
+
+achievement.SMT.craftGravBoots=The...Boots
+achievement.SMT.craftGravBoots.desc=Suggest modules for this armor!

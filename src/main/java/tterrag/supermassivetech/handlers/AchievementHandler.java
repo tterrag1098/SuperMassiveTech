@@ -47,7 +47,7 @@ public class AchievementHandler
         int fireworksLeft = player.getEntityData().getInteger("fireworksLeft");
         if (event.phase == Phase.END && fireworksLeft > 0 && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
         {
-            Utils.spawnRandomFirework(getBlockCoord(player), player.worldObj.provider.dimensionId);
+            Utils.spawnFireworkAround(getBlockCoord(player), player.worldObj.provider.dimensionId);
             player.getEntityData().setInteger("fireworksLeft", fireworksLeft - 1);
             player.getEntityData().setBoolean("fireworkDelay", true);
             
@@ -55,7 +55,7 @@ public class AchievementHandler
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    Utils.spawnRandomFirework(getBlockCoord(player), player.worldObj.provider.dimensionId);
+                    Utils.spawnFireworkAround(getBlockCoord(player), player.worldObj.provider.dimensionId);
                 }
             }
         }
