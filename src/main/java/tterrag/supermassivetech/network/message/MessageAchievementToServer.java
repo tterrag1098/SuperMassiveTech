@@ -8,7 +8,9 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageAchievementToServer implements IMessage, IMessageHandler<MessageAchievementToServer, IMessage>
 {
-    public MessageAchievementToServer(){}
+    public MessageAchievementToServer()
+    {
+    }
 
     @Override
     public void toBytes(ByteBuf buf)

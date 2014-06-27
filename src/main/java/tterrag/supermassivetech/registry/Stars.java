@@ -105,7 +105,7 @@ public class Stars
         {
             return Utils.localize(name);
         }
-        
+
         @Override
         public String getName()
         {

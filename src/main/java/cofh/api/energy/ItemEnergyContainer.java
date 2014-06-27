@@ -93,7 +93,10 @@ public class ItemEnergyContainer extends Item implements IEnergyContainerItem
     public int extractEnergy(ItemStack container, int maxExtract, boolean simulate)
     {
 
-        if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy")) { return 0; }
+        if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy"))
+        {
+            return 0;
+        }
         int energy = container.stackTagCompound.getInteger("Energy");
         int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
 
@@ -109,7 +112,10 @@ public class ItemEnergyContainer extends Item implements IEnergyContainerItem
     public int getEnergyStored(ItemStack container)
     {
 
-        if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy")) { return 0; }
+        if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy"))
+        {
+            return 0;
+        }
         return container.stackTagCompound.getInteger("Energy");
     }
 

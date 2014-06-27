@@ -77,7 +77,10 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         for (int i = 0; i < inventories.size(); i++)
             processInventory(inventories.get(i));
 
-        if (connection == null) { return; }
+        if (connection == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < inventories.size(); i++)
             processConnection();
@@ -355,9 +358,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     public int[] getAccessibleSlotsFromSide(int var1)
     {
         ForgeDirection dir = getRawDir();
-        return new int[] {
-                dir.ordinal(), dir.getOpposite().ordinal()
-        };
+        return new int[] { dir.ordinal(), dir.getOpposite().ordinal() };
     }
 
     @Override

@@ -48,7 +48,10 @@ public class WailaCompat implements IWailaDataProvider
         Block block = accessor.getBlock();
         Item item = Item.getItemFromBlock(block);
 
-        if (te == null) { return currenttip; }
+        if (te == null)
+        {
+            return currenttip;
+        }
 
         if (block instanceof IAdvancedTooltip)
         {

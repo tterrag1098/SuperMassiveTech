@@ -15,12 +15,12 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 {
     private int counter = 0;
     private final int wait = 5;
-    
+
     public EntityItemDepletedNetherStar(World world)
     {
         super(world);
     }
-    
+
     public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX,
             double motionY, double motionZ, int delay)
     {
@@ -55,12 +55,13 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
             if (this.getEntityItem().getItemDamage() >= SuperMassiveTech.itemRegistry.depletedNetherStar.maxDamage)
             {
                 ItemStack newStar = new ItemStack(Items.nether_star);
-                
+
                 if (!worldObj.isRemote)
                 {
-                    Achievements.unlock(Achievements.getValidItemStack(newStar), (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
+                    Achievements.unlock(Achievements.getValidItemStack(newStar),
+                            (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
                 }
-                
+
                 newStar.stackTagCompound = new NBTTagCompound();
                 newStar.getTagCompound().setBoolean("wasRejuvenated", true);
                 this.delayBeforeCanPickup = 0;
@@ -68,7 +69,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
             }
         }
     }
-    
+
     @Override
     public void onCollideWithPlayer(EntityPlayer player)
     {

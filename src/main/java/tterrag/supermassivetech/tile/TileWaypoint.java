@@ -73,11 +73,8 @@ public class TileWaypoint extends TileEntity
 
     public int[] getColorArr()
     {
-        return waypoint.isNull() ? new int[] {
-                255, 255, 255
-        } : new int[] {
-                waypoint.getColor().getRed(), waypoint.getColor().getGreen(), waypoint.getColor().getBlue()
-        };
+        return waypoint.isNull() ? new int[] { 255, 255, 255 } : new int[] { waypoint.getColor().getRed(), waypoint.getColor().getGreen(),
+                waypoint.getColor().getBlue() };
     }
 
     public void setInternalWaypointName(String newName)

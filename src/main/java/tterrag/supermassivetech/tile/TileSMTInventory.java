@@ -98,7 +98,7 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
 
     /**
      * The multiplier to be applied to the strength of the gravity, used for
-     * gravity dependant on stored amount of items of configuration
+     * gravity dependant on stored amount of items, configuration, etc.
      * 
      * @return a float to multiply the strength with, defaults to 1.
      */

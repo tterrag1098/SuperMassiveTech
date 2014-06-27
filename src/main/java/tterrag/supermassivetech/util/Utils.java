@@ -52,12 +52,8 @@ public class Utils
 {
     private static Constants c;
     private static Stars stars = Stars.instance;
-    private static Material[] pickMats = {
-            Material.rock, Material.iron, Material.anvil
-    };
-    private static Material[] shovelMats = {
-            Material.clay, Material.snow, Material.ground
-    };
+    private static Material[] pickMats = { Material.rock, Material.iron, Material.anvil };
+    private static Material[] shovelMats = { Material.clay, Material.snow, Material.ground };
 
     public static final Random rand = new Random();
 
@@ -106,8 +102,10 @@ public class Utils
             return prefix;
         }
 
-        if (formatK && Long.toString(amnt).length() < 7 && Long.toString(amnt).length() > 3) { return formatSmallerNumber(prefix, suffix,
-                amnt, useDecimals); }
+        if (formatK && Long.toString(amnt).length() < 7 && Long.toString(amnt).length() > 3)
+        {
+            return formatSmallerNumber(prefix, suffix, amnt, useDecimals);
+        }
 
         switch (Long.toString(amnt).length())
         {
@@ -401,7 +399,7 @@ public class Utils
     {
         spawnItemInWorldWithRandomMotion(new EntityItem(world, x, y, z, item));
     }
-    
+
     public static void spawnItemInWorldWithRandomMotion(EntityItem entity)
     {
         float f = (float) Math.random() * 2 - 1;
@@ -411,7 +409,7 @@ public class Utils
         entity.motionX += f;
         entity.motionY += f1;
         entity.motionZ += f2;
-        
+
         entity.worldObj.spawnEntityInWorld(entity);
     }
 
@@ -649,12 +647,12 @@ public class Utils
         World world = DimensionManager.getWorld(dimID);
 
         BlockCoord pos = new BlockCoord(0, 0, 0);
-        
+
         while (!world.isAirBlock(pos.x, pos.y, pos.z))
         {
             pos.setPosition(moveRandomly(block.x), block.y + 2, moveRandomly(block.z));
         }
-        
+
         ItemStack firework = new ItemStack(Items.fireworks);
         firework.stackTagCompound = new NBTTagCompound();
         NBTTagCompound expl = new NBTTagCompound();
@@ -683,8 +681,9 @@ public class Utils
         EntityFireworkRocket e = new EntityFireworkRocket(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, firework);
         world.spawnEntityInWorld(e);
     }
-    
+
     private static final double distMult = 12d;
+
     private static double moveRandomly(double base)
     {
         return base + 0.5 + rand.nextDouble() * distMult - (distMult / 2);
@@ -709,6 +708,14 @@ public class Utils
             if (doStatesMatch(player, PowerUps.GRAV_RESIST, i, GravityArmorHandler.ON))
             {
                 percent += 0.25;
+            }
+            else
+            {
+                int level = EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, player.inventory.armorInventory[i]);
+                if (level > 0)
+                {
+                    percent += SuperMassiveTech.enchantRegistry.gravity.getReduction(1 / 5, level);
+                }
             }
         }
         return percent * mult;

@@ -70,9 +70,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer
         main.renderAll();
 
         double speed = 0d;
-        float[] spins = {
-                0, 0, 0, 0
-        };
+        float[] spins = { 0, 0, 0, 0 };
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(textureRing1);
 

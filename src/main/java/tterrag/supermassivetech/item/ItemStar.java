@@ -107,7 +107,10 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     {
         IStar type = Utils.getType(stack);
 
-        if (type == null) { return null; }
+        if (type == null)
+        {
+            return null;
+        }
 
         double powerLeft = stack.getTagCompound().getInteger("energy"), maxPower = type.getPowerStoredMax();
 

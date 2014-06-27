@@ -86,7 +86,10 @@ public class GuiStorageBlock extends GuiContainer
      */
     private void displayGauge(int j, int k, int line, int col, int squaled, FluidStack liquid)
     {
-        if (liquid == null) { return; }
+        if (liquid == null)
+        {
+            return;
+        }
         int start = 0;
 
         IIcon liquidIcon = null;

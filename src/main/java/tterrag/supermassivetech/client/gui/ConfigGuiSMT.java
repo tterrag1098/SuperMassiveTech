@@ -20,7 +20,7 @@ import cpw.mods.fml.client.config.IConfigElement;
 public class ConfigGuiSMT extends GuiConfig
 {
     private static Map<Class<? extends SMTEntry>, String> sections = new HashMap<Class<? extends SMTEntry>, String>();
-    
+
     public ConfigGuiSMT(GuiScreen parentScreen)
     {
         super(parentScreen, getConfigElements(), "Forge", false, false, I18n.format("SMT.config.title"));
@@ -41,25 +41,26 @@ public class ConfigGuiSMT extends GuiConfig
 
         return list;
     }
-    
+
     private static class SMTEntry extends CategoryEntry
     {
         public SMTEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
         {
             super(owningScreen, owningEntryList, configElement);
         }
-        
+
         @Override
         protected GuiScreen buildChildScreen()
         {
             String category = sections.get(this.getClass());
-            return new GuiConfig(this.owningScreen, (new ConfigElement(ConfigHandler.config.getCategory(category.toLowerCase()))).getChildElements(), 
-                    Reference.MODID, category, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, 
+            return new GuiConfig(this.owningScreen,
+                    (new ConfigElement(ConfigHandler.config.getCategory(category.toLowerCase()))).getChildElements(), Reference.MODID,
+                    category, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
                     this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
                     GuiConfig.getAbridgedConfigPath(ConfigHandler.config.getConfigFile().getAbsolutePath()));
         }
     }
-    
+
     public static class GravityEntry extends SMTEntry
     {
         public GravityEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
@@ -67,7 +68,7 @@ public class ConfigGuiSMT extends GuiConfig
             super(owningScreen, owningEntryList, configElement);
         }
     }
-    
+
     public static class ArmorEntry extends SMTEntry
     {
         public ArmorEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
@@ -75,7 +76,7 @@ public class ConfigGuiSMT extends GuiConfig
             super(owningScreen, owningEntryList, configElement);
         }
     }
-    
+
     public static class MiscEntry extends SMTEntry
     {
         public MiscEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
@@ -83,7 +84,7 @@ public class ConfigGuiSMT extends GuiConfig
             super(owningScreen, owningEntryList, configElement);
         }
     }
-    
+
     public static class EnchantsEntry extends SMTEntry
     {
         public EnchantsEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)

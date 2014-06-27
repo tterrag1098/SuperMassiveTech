@@ -63,7 +63,9 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
         public boolean isItemValid(ItemStack par1ItemStack)
         {
             if (FluidContainerRegistry.isContainer(par1ItemStack) && FluidContainerRegistry.isFilledContainer(par1ItemStack))
+            {
                 return tank.fluidStored == null || FluidContainerRegistry.containsFluid(par1ItemStack, tank.fluidStored);
+            }
 
             return false;
         }
@@ -195,9 +197,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return new int[] {
-                1, 2
-        };
+        return new int[] { 1, 2 };
     }
 
     @Override
@@ -209,16 +209,25 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public boolean canExtractItem(int var1, ItemStack var2, int var3)
     {
-        if (var1 == 2) { return true; }
+        if (var1 == 2)
+        {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
-        if (i == 1) { return storedItem == null || Utils.stacksEqual(storedItem, itemstack); }
+        if (i == 1)
+        {
+            return storedItem == null || Utils.stacksEqual(storedItem, itemstack);
+        }
 
-        if (i == 0) { return FluidContainerRegistry.isContainer(itemstack); }
+        if (i == 0)
+        {
+            return FluidContainerRegistry.isContainer(itemstack);
+        }
 
         return false;
     }
@@ -230,14 +239,22 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 
         nbt.setLong("stored", storedAmount);
         NBTTagCompound itemstackNBT = new NBTTagCompound();
+
         if (storedItem != null)
+        {
             storedItem.writeToNBT(itemstackNBT);
+        }
+
         nbt.setTag("itemstack", itemstackNBT);
 
         nbt.setLong("fluidStored", tank.amountStored);
         NBTTagCompound fluidstackNBT = new NBTTagCompound();
+
         if (tank.fluidStored != null)
+        {
             tank.fluidStored.writeToNBT(fluidstackNBT);
+
+        }
         nbt.setTag("fluidstack", fluidstackNBT);
     }
 
@@ -300,9 +317,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from)
     {
-        return new FluidTankInfo[] {
-            tank.getInfo()
-        };
+        return new FluidTankInfo[] { tank.getInfo() };
     }
 
     public BlackHoleTank getTank()
@@ -315,7 +330,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
         if (storedItem == null)
             storedItem = stackStored;
     }
-    
+
     /* IDeepStorageUnit */
 
     @Override

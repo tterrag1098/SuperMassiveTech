@@ -74,7 +74,7 @@ public class GravityArmorHandler
         if (event.phase == Phase.END && !event.player.onGround && !event.player.capabilities.isFlying
                 && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
-            double effect = getArmorMult(event.player, Constants.instance().getEnergyDrain() / 50);
+            double effect = getArmorMult(event.player, 0.072, Constants.instance().getEnergyDrain() / 50);
             if (event.player.ridingEntity != null && event.player.posY <= 256)
             {
                 event.player.ridingEntity.motionY += effect;
@@ -88,11 +88,11 @@ public class GravityArmorHandler
         }
     }
 
-    private double getArmorMult(EntityPlayer player, int drainAmount)
+    private double getArmorMult(EntityPlayer player, double seed, int drainAmount)
     {
         // no power loss in creative, still get effects
         if (player.capabilities.isCreativeMode && drainAmount != 0)
-            return getArmorMult(player, 0);
+            return getArmorMult(player, seed, 0);
 
         double effect = 0;
         for (int i = 0; i < 4; i++)
@@ -102,12 +102,16 @@ public class GravityArmorHandler
                     && doStatesMatch(player, PowerUps.GRAV_RESIST, i, ON))
             {
                 int drained = ((IEnergyContainerItem) stack.getItem()).extractEnergy(stack, drainAmount, false);
-                effect += drained > 0 || drained == drainAmount ? .072d / 4d : 0;
+                effect += drained > 0 || drained == drainAmount ? seed / 4d : 0;
             }
-            else if (stack != null && EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, stack) != 0)
+            else if (stack != null)
             {
-                effect += .072d / 5d;
-                stack.damageItem(new Random().nextInt(1000) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
+                int level = EnchantmentHelper.getEnchantmentLevel(ConfigHandler.gravEnchantID, stack);
+                if (level > 0)
+                {
+                    effect += SuperMassiveTech.enchantRegistry.gravity.getReduction(seed / 5, level);
+                    stack.damageItem(new Random().nextInt(1000) < 2 && !player.worldObj.isRemote ? 1 : 0, player);
+                }
             }
         }
         return effect;
@@ -206,7 +210,7 @@ public class GravityArmorHandler
             List<Entity> entities = null;
 
             final double defaultEffect = 0.09;
-            double effect = defaultEffect;
+            double effect = getArmorMult(player, defaultEffect, 0);
 
             if (ConfigHandler.fieldIgnorePlayers)
             {
@@ -243,7 +247,7 @@ public class GravityArmorHandler
                         }
                         else
                         {
-                            effect -= Utils.getGravResist(player, 4) * (defaultEffect * 0.05);
+                            effect -= getArmorMult(player, effect, 0);
                         }
                     }
 

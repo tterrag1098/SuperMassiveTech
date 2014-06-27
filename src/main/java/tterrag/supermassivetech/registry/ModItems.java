@@ -67,63 +67,32 @@ public class ModItems
     public void addRecipes()
     {
         /* @formatter:off */
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(heartOfStar), 
-                "RGR", 
-                "DSD", 
-                "RGR",
-                
-                'G', OreDictionary.getOres("dustGold").isEmpty() ? Items.glowstone_dust : "dustGold", 
-                'R', Items.redstone, 
-                'S', Items.nether_star,
-                'D', OreDictionary.getOres("dustDiamond").isEmpty() ? Items.diamond : "dustDiamond"
-        ));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(heartOfStar), "RGR", "DSD", "RGR",
 
-        GameRegistry.addRecipe(new ItemStack(starContainer), 
-                "iOi", 
-                "d d", 
-                "iOi",
+        'G', OreDictionary.getOres("dustGold").isEmpty() ? Items.glowstone_dust : "dustGold", 'R', Items.redstone, 'S', Items.nether_star, 'D',
+                OreDictionary.getOres("dustDiamond").isEmpty() ? Items.diamond : "dustDiamond"));
 
-                'i', Items.iron_ingot, 
-                'O', Blocks.obsidian, 
-                'd', Items.diamond
-        );
-        
-        
+        GameRegistry.addRecipe(new ItemStack(starContainer), "iOi", "d d", "iOi",
+
+        'i', Items.iron_ingot, 'O', Blocks.obsidian, 'd', Items.diamond);
+
         String armorMat = OreDictionary.getOres("ingotSteel").isEmpty() ? "ingotIron" : "ingotSteel";
-                
-        GameRegistry.addRecipe(new ShapedOreRecipe(gravityHelm.create(), 
-                "InI",
-                "I I",
-                                
-                'I', armorMat,
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
-        ));
-        
-        GameRegistry.addRecipe(new ShapedOreRecipe(gravityChest.create(), 
-                "I I",
-                "InI",
-                "III",
-                
-                'I', armorMat,
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
-        ));
-        
-        GameRegistry.addRecipe(new ShapedOreRecipe(gravityLegs.create(), 
-                "InI",
-                "I I",
-                "I I",
-                
-                'I', armorMat,
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
-        ));
-        
-        GameRegistry.addRecipe(new ShapedOreRecipe(gravityBoots.create(), 
-                "I I",
-                "InI",
-                
-                'I', armorMat,
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)
-        ));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityHelm.create(), "InI", "I I",
+
+        'I', armorMat, 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityChest.create(), "I I", "InI", "III",
+
+        'I', armorMat, 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityLegs.create(), "InI", "I I", "I I",
+
+        'I', armorMat, 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(gravityBoots.create(), "I I", "InI",
+
+        'I', armorMat, 'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE)));
         /* @formatter:on */
     }
 }

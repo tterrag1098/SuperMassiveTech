@@ -10,7 +10,7 @@ public class ModEnchants
 {
     public static final ModEnchants instance = new ModEnchants();
 
-    public Enchantment gravity;
+    public EnchantGravity gravity;
 
     private HashMap<Integer, Enchantment> enchants;
 

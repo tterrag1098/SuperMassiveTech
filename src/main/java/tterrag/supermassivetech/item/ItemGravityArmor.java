@@ -237,9 +237,7 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
         stack.setTagCompound(tag);
     }
 
-    @SuppressWarnings({
-            "unchecked", "rawtypes"
-    })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item stack, CreativeTabs tab, List list)

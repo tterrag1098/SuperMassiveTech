@@ -9,19 +9,25 @@ public class EnchantGravity extends Enchantment implements IAdvancedEnchant
 {
     public EnchantGravity()
     {
-        super(ConfigHandler.gravEnchantID, 2, EnumEnchantmentType.armor);
+        super(ConfigHandler.gravEnchantID, 5, EnumEnchantmentType.armor);
     }
 
     @Override
-    public int getMaxEnchantability(int par1)
+    public int getMaxEnchantability(int level)
     {
-        return Integer.MAX_VALUE;
+        return super.getMaxEnchantability(level) + 30;
     }
 
     @Override
-    public int getMinEnchantability(int par1)
+    public int getMinEnchantability(int level)
     {
-        return 0;
+        return super.getMinEnchantability(level);
+    }
+    
+    @Override
+    public int getMaxLevel()
+    {
+        return 3;
     }
 
     @Override
@@ -29,12 +35,15 @@ public class EnchantGravity extends Enchantment implements IAdvancedEnchant
     {
         return "enchantment.gravityResist";
     }
+    
+    public double getReduction(double base, int level)
+    {
+        return (base / this.getMaxLevel()) * level;
+    }
 
     @Override
     public String[] getTooltipDetails(ItemStack stack)
     {
-        return new String[] {
-            "Reduces all gravity effects"
-        };
+        return new String[] { "Reduces all gravity effects" };
     }
 }

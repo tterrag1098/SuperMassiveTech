@@ -91,7 +91,7 @@ public class SuperMassiveTech
         proxy.registerRenderers();
 
         enchantRegistry.init();
-        
+
         Achievements.initAchievements();
 
         starRegistry.registerDefaultStars();

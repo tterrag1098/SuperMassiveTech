@@ -28,7 +28,7 @@ public class EntityItemIndestructible extends EntityItem
     {
         return true;
     }
-    
+
     @Override
     public void writeEntityToNBT(NBTTagCompound p_70014_1_)
     {

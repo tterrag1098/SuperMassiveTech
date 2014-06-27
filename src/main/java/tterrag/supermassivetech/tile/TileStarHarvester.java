@@ -62,7 +62,9 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         if (venting)
         {
             if (!worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord))
+            {
                 venting = false;
+            }
 
             AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 7, zCoord + 1);
 
@@ -237,7 +239,10 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             }
             else if (stack.getItem() instanceof IStarItem)
             {
-                if (inventory[slot] == null && getBlockMetadata() != getRotationMeta()) { return insertStar(stack, player); }
+                if (inventory[slot] == null && getBlockMetadata() != getRotationMeta())
+                {
+                    return insertStar(stack, player);
+                }
             }
             else if (isUpright(side) && player.isSneaking())
                 return vent();
@@ -295,7 +300,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             unlock.setItemDamage(1);
             Achievements.unlock(Achievements.getValidItemStack(unlock), (EntityPlayerMP) player);
         }
-        
+
         return true;
     }
 

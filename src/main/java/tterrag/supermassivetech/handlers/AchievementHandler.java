@@ -23,34 +23,37 @@ public class AchievementHandler
         if (!event.player.worldObj.isRemote)
         {
             Achievements.unlock(Achievements.getValidItemStack(event.crafting), (EntityPlayerMP) event.player);
-            
+
             if (event.crafting.getItem() == SuperMassiveTech.itemRegistry.heartOfStar)
             {
                 IInventory inv = event.craftMatrix;
-                
+
                 for (int i = 0; i < inv.getSizeInventory(); i++)
                 {
                     ItemStack curStack = inv.getStackInSlot(i);
-                    if (curStack != null && curStack.getItem() == Items.nether_star && curStack.hasTagCompound() && curStack.getTagCompound().getBoolean("wasRejuvenated"))
+                    if (curStack != null && curStack.getItem() == Items.nether_star && curStack.hasTagCompound()
+                            && curStack.getTagCompound().getBoolean("wasRejuvenated"))
                     {
-                        Achievements.unlock(Achievements.getValidItemStack(new ItemStack(SuperMassiveTech.itemRegistry.heartOfStar, 1, 1)), (EntityPlayerMP) event.player);
+                        Achievements.unlock(Achievements.getValidItemStack(new ItemStack(SuperMassiveTech.itemRegistry.heartOfStar, 1, 1)),
+                                (EntityPlayerMP) event.player);
                     }
                 }
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent event)
     {
         EntityPlayer player = event.player;
         int fireworksLeft = player.getEntityData().getInteger("fireworksLeft");
-        if (event.phase == Phase.END && fireworksLeft > 0 && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
+        if (event.phase == Phase.END && fireworksLeft > 0
+                && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
         {
             Utils.spawnFireworkAround(getBlockCoord(player), player.worldObj.provider.dimensionId);
             player.getEntityData().setInteger("fireworksLeft", fireworksLeft - 1);
             player.getEntityData().setBoolean("fireworkDelay", true);
-            
+
             if (fireworksLeft == 1)
             {
                 for (int i = 0; i < 5; i++)
@@ -60,9 +63,10 @@ public class AchievementHandler
             }
         }
     }
-    
+
     private BlockCoord getBlockCoord(EntityPlayer player)
     {
-        return new BlockCoord(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
+        return new BlockCoord(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY),
+                MathHelper.floor_double(player.posZ));
     }
 }

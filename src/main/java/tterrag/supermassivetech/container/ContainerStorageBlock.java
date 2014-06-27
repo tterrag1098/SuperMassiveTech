@@ -61,7 +61,10 @@ public class ContainerStorageBlock extends ContainerSMT
             {
                 slot.onSlotChanged();
             }
-            if (itemstack1.stackSize == itemstack.stackSize) { return null; }
+            if (itemstack1.stackSize == itemstack.stackSize)
+            {
+                return null;
+            }
             slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
             if (itemstack1.stackSize == 0)
             {

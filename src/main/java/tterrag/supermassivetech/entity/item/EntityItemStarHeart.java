@@ -19,12 +19,12 @@ import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class EntityItemStarHeart extends EntityItemIndestructible
-{    
+{
     public EntityItemStarHeart(World world)
     {
         super(world);
     }
-    
+
     public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY,
             double motionZ, int delay)
     {
@@ -42,7 +42,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
     public void onUpdate()
     {
         super.onUpdate();
-        
+
         if (worldObj.isRemote)
         {
             return;
@@ -113,8 +113,9 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
         EntityItemIndestructible starEntity = new EntityItemIndestructible(worldObj, posX, posY, posZ, star, 0, 0, 0, 0);
-        EntityItemIndestructible depletedEntity = new EntityItemDepletedNetherStar(worldObj, posX, posY, posZ, new ItemStack(itemRegistry.depletedNetherStar, star.stackSize), 0, 0, 0, 0);
-        
+        EntityItemIndestructible depletedEntity = new EntityItemDepletedNetherStar(worldObj, posX, posY, posZ, new ItemStack(
+                itemRegistry.depletedNetherStar, star.stackSize), 0, 0, 0, 0);
+
         starEntity.func_145799_b(this.func_145800_j());
         depletedEntity.func_145799_b(this.func_145800_j());
 
@@ -122,7 +123,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         Utils.spawnItemInWorldWithRandomMotion(depletedEntity);
 
         Achievements.unlock(Achievements.getValidItemStack(star), (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
-        
+
         this.setDead();
     }
 

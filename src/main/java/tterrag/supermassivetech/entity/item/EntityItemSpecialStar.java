@@ -9,7 +9,7 @@ public class EntityItemSpecialStar extends EntityItemIndestructible
     {
         super(world);
     }
-    
+
     public EntityItemSpecialStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY,
             double motionZ, int delay)
     {

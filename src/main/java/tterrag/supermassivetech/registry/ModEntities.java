@@ -22,10 +22,9 @@ public class ModEntities
 
         EntityRegistry.registerModEntity(EntityItemStarHeart.class, "tterrag.smt.entityStarHeart", 1, SuperMassiveTech.instance, 80, 80,
                 true);
-        
-        EntityRegistry.registerModEntity(EntityItemIndestructible.class, "tterrag.smt.entityItemIndestructible", 1, SuperMassiveTech.instance, 80, 80,
-                true);
-        
+
+        EntityRegistry.registerModEntity(EntityItemIndestructible.class, "tterrag.smt.entityItemIndestructible", 1,
+                SuperMassiveTech.instance, 80, 80, true);
 
         EntityRegistry.registerModEntity(EntityFormingStar.class, "tterrag.smt.entityFormingStar", 0, SuperMassiveTech.instance, 80, 3,
                 false);

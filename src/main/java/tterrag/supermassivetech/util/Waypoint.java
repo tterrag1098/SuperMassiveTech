@@ -118,9 +118,7 @@ public class Waypoint
         }
         tag.setTag("waypointplayers", list);
 
-        tag.setIntArray("waypointcolor", new int[] {
-                color.getRed(), color.getGreen(), color.getBlue()
-        });
+        tag.setIntArray("waypointcolor", new int[] { color.getRed(), color.getGreen(), color.getBlue() });
 
         tag.setString("waypointname", name);
     }

@@ -37,9 +37,7 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
         }
     }
 
-    @SuppressWarnings({
-            "unchecked", "rawtypes"
-    })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
