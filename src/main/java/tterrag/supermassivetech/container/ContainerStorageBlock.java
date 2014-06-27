@@ -45,9 +45,7 @@ public class ContainerStorageBlock extends ContainerSMT
                 }
                 slot.onSlotChange(itemstack1, itemstack);
             }
-            if (par2 < 36
-                    && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt)
-                            .getStoredItem() == null))
+            if (par2 < 36 && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
             {
                 if (!this.mergeItemStack(itemstack1, 37, 38, false))
                     return null;
@@ -83,8 +81,7 @@ public class ContainerStorageBlock extends ContainerSMT
         for (ICrafting c : (List<ICrafting>) crafters)
         {
             FluidStack fluid = te.getTank().getFluid();
-            MessageBlackHoleStorage packet = new MessageBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? 0
-                    : fluid.fluidID);
+            MessageBlackHoleStorage packet = new MessageBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
             PacketHandler.INSTANCE.sendTo(packet, (EntityPlayerMP) c);
         }
         super.detectAndSendChanges();

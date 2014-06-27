@@ -182,12 +182,11 @@ public class Utils
      * @param yCoord - Y coord of the center of gravity
      * @param zCoord - Z coord of the center of gravity
      */
-    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity,
-            int xCoord, int yCoord, int zCoord, boolean showParticles)
+    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord,
+            boolean showParticles)
     {
         // distance forumla
-        double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2)
-                + Math.pow(yCoord + 0.5 - entity.posY, 2));
+        double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
         if (dist > range)
             return;
@@ -291,8 +290,7 @@ public class Utils
      * @param entity - Entity to effect
      * @param te - {@link TileEntity} to use as the center of gravity
      */
-    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity,
-            TileEntity te, boolean showParticles)
+    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te, boolean showParticles)
     {
         applyGravity(gravStrength, maxGravXZ, maxGravY, minGrav, range, entity, te.xCoord, te.yCoord, te.zCoord, showParticles);
     }
@@ -366,8 +364,7 @@ public class Utils
         }
         else if (stack != null)
         {
-            SuperMassiveTech.logger.error(String.format("A mod tried to set the type of an item that was not a star, item was %s",
-                    stack.getUnlocalizedName()));
+            SuperMassiveTech.logger.error(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
         }
         else
         {
@@ -480,8 +477,8 @@ public class Utils
             }
             else
             {
-                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW,
-                        getNameForKey(key), EnumChatFormatting.RED + localize("tooltip.moreInfo", true)));
+                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, getNameForKey(key),
+                        EnumChatFormatting.RED + localize("tooltip.moreInfo", true)));
             }
         }
 
@@ -536,8 +533,7 @@ public class Utils
             }
             catch (Throwable t)
             {
-                SuperMassiveTech.logger.fatal(String.format(
-                        "Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
+                SuperMassiveTech.logger.fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
                 t.printStackTrace();
             }
         }

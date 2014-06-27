@@ -55,8 +55,7 @@ public class TooltipHandler
             }
         }
 
-        if (event.itemStack.getItem() == Items.nether_star && event.itemStack.hasTagCompound()
-                && event.itemStack.getTagCompound().getBoolean("wasRejuvenated"))
+        if (event.itemStack.getItem() == Items.nether_star && event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().getBoolean("wasRejuvenated"))
         {
             event.toolTip.add("" + EnumChatFormatting.ITALIC + Utils.localize("tooltip.netherStarHot", true));
         }

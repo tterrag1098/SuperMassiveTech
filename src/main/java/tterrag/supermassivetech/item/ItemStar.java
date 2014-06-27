@@ -72,8 +72,8 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
-        return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX,
-                location.motionY, location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
+        return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
+                ((EntityItem) location).delayBeforeCanPickup);
     }
 
     @Override
@@ -116,10 +116,10 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
 
         return String.format("%s|%s|%s RF %s %d RF/t|%s|",
 
-        type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(), Utils.formatString(
-                EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false), Utils
-                .localize("tooltip.at", true), type.getPowerPerTick(), Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower)
-                + Utils.localize("tooltip.powerRemaining", true) + ": ", " RF", (long) powerLeft, true));
+        type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
+                Utils.formatString(EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getPowerStoredMax(), false),
+                Utils.localize("tooltip.at", true), type.getPowerPerTick(),
+                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + Utils.localize("tooltip.powerRemaining", true) + ": ", " RF", (long) powerLeft, true));
     }
 
     @Override

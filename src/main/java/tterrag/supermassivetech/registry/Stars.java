@@ -264,10 +264,8 @@ public class Stars
         registerStarType(new StarType(PREFIX + "supergiant", HIGH, 0xffea59, EnumChatFormatting.WHITE, 100000000, 160, 1200));
         registerStarType(new StarType(PREFIX + "brownDwarf", LOW, 0xb0752f, EnumChatFormatting.GRAY, 2500000, 20, 2400));
         registerStarType(new StarType(PREFIX + "whiteDwarf", LOW, 0xf5f6c5, EnumChatFormatting.WHITE, 5000000, 160, 1200));
-        registerStarType(new StarType(PREFIX + "neutron", SPECIAL, 0x89fbff, EnumChatFormatting.AQUA, Integer.MAX_VALUE, 15, 1)
-                .setMassLevel(2));
-        registerStarType(new StarType(PREFIX + "pulsar", SPECIAL, 0xbd28cf, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, 20, 1)
-                .setMassLevel(2));
+        registerStarType(new StarType(PREFIX + "neutron", SPECIAL, 0x89fbff, EnumChatFormatting.AQUA, Integer.MAX_VALUE, 15, 1).setMassLevel(2));
+        registerStarType(new StarType(PREFIX + "pulsar", SPECIAL, 0xbd28cf, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, 20, 1).setMassLevel(2));
 
         /*
          * - pulsars are neutron stars, neutrons are formed INSTEAD of black

@@ -107,10 +107,9 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
         int energyStored = te.getEnergyStored(ForgeDirection.UNKNOWN), maxEnergyStored = te.getMaxEnergyStored(ForgeDirection.UNKNOWN);
         int output = te.getCurrentOutputMax(), maxOutput = te.maxPerTick;
 
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.bufferStorage", true) + ": "
-                + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored + " RF");
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.currentOutputMax", true) + ": "
-                + Utils.getColorForPowerLeft(output, maxOutput) + output + " RF");
+        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.bufferStorage", true) + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored
+                + " RF");
+        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(output, maxOutput) + output + " RF");
 
     }
 }

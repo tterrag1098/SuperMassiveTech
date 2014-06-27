@@ -18,8 +18,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer
 {
     private IModelCustom main, sphere, ring;
     private static ResourceLocation textureMain = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
-    private static ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH,
-            "textures/models/starHarvesterSphere.png");
+    private static ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterSphere.png");
     private static ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
 
     public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere, ResourceLocation ring)

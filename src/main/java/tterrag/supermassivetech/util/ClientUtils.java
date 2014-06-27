@@ -52,8 +52,7 @@ public class ClientUtils
 
         double x = entity.posX, y = entity.posY + (entity instanceof EntityPlayer ? -0.6 : (entity.height / 2)), z = entity.posZ;
 
-        mc.effectRenderer.addEffect(new EntityCustomSmokeFX(mc.thePlayer.worldObj, x, y, z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5,
-                dist / 35));
+        mc.effectRenderer.addEffect(new EntityCustomSmokeFX(mc.thePlayer.worldObj, x, y, z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, dist / 35));
     }
 
     public static boolean calculateClientJumpState()
@@ -116,14 +115,14 @@ public class ClientUtils
 
     public static void spawnStarHeartParticles(int x, int y, int z, double posX, double posY, double posZ)
     {
-        Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomFlameFX(Minecraft.getMinecraft().theWorld, x + 0.5, y + 0.5,
-                z + 0.5, posX, posY, posZ, (double) 1 / 13));
+        Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomFlameFX(Minecraft.getMinecraft().theWorld, x + 0.5, y + 0.5, z + 0.5, posX, posY, posZ,
+                (double) 1 / 13));
     }
 
     public static void spawnHopperParticle(int... data)
     {
-        Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj,
-                data[3] + 0.5, data[4] + 0.5, data[5] + 0.5, data[0] + 0.5, data[1] + 0.5, data[2] + 0.5, 0.1d));
+        Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, data[3] + 0.5, data[4] + 0.5, data[5] + 0.5,
+                data[0] + 0.5, data[1] + 0.5, data[2] + 0.5, 0.1d));
     }
 
     public static void setStarHarvetserSlotContents(NBTTagCompound data, int x, int y, int z)
@@ -154,9 +153,8 @@ public class ClientUtils
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.effectRenderer != null && mc.thePlayer != null)
         {
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(
-                    Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord + 0.5 + y, zCoord + 0.5 + z, xCoord + 0.5,
-                    yCoord + 0.5, zCoord + 0.5, 0.05));
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityCustomSmokeFX(Minecraft.getMinecraft().thePlayer.worldObj, xCoord + 0.5 + x, yCoord
+                    + 0.5 + y, zCoord + 0.5 + z, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 0.05));
         }
     }
 
@@ -196,15 +194,12 @@ public class ClientUtils
 
         for (int i = 0; i < 25; i++)
         {
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(e1.worldObj, centerX, centerY, centerZ, getRandMotion(3),
-                    getRandMotion(3), getRandMotion(3)));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(e1.worldObj, centerX, centerY, centerZ, getRandMotion(3), getRandMotion(3), getRandMotion(3)));
 
             if (i % 4 == 0)
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e2.posX,
-                        e2.posY + 1, e2.posZ, 0.1));
+                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e2.posX, e2.posY + 1, e2.posZ, 0.1));
             else if (i % 4 == 1)
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e1.posX,
-                        e1.posY + 1, e1.posZ, 0.1));
+                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e1.posX, e1.posY + 1, e1.posZ, 0.1));
         }
     }
 }

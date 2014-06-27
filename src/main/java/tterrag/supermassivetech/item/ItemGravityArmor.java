@@ -220,8 +220,8 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
 
         if (par2World.isRemote && System.currentTimeMillis() > lastMessageTime + 1000)
         {
-            par3EntityPlayer.addChatMessage(new ChatComponentText(Utils.localize("tooltip.onArmorCrafted", true))
-                    .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+            par3EntityPlayer.addChatMessage(new ChatComponentText(Utils.localize("tooltip.onArmorCrafted", true)).setChatStyle(new ChatStyle()
+                    .setColor(EnumChatFormatting.YELLOW)));
             lastMessageTime = System.currentTimeMillis();
         }
     }

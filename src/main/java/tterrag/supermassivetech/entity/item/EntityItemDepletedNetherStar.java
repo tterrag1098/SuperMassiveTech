@@ -21,8 +21,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
         super(world);
     }
 
-    public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX,
-            double motionY, double motionZ, int delay)
+    public EntityItemDepletedNetherStar(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
         this.lifespan = Integer.MAX_VALUE;
@@ -35,8 +34,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 
         int x = MathHelper.floor_double(this.posX), y = MathHelper.floor_double(this.posY) - 1, z = MathHelper.floor_double(this.posZ);
 
-        if (this.getEntityItem() != null && this.getEntityItem().getItem() != Items.nether_star
-                && worldObj.getBlock(x, y, z) == SuperMassiveTech.blockRegistry.starHarvester)
+        if (this.getEntityItem() != null && this.getEntityItem().getItem() != Items.nether_star && worldObj.getBlock(x, y, z) == SuperMassiveTech.blockRegistry.starHarvester)
         {
             TileStarHarvester te = (TileStarHarvester) worldObj.getTileEntity(x, y, z);
             if (te.venting)
@@ -58,8 +56,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 
                 if (!worldObj.isRemote)
                 {
-                    Achievements.unlock(Achievements.getValidItemStack(newStar),
-                            (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
+                    Achievements.unlock(Achievements.getValidItemStack(newStar), (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
                 }
 
                 newStar.stackTagCompound = new NBTTagCompound();

@@ -18,8 +18,7 @@ public class ItemBlockSMT extends ItemBlock
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5)
     {
-        if (isGravityWell(stack) && entity instanceof EntityPlayer && !world.isRemote
-                && !((EntityPlayer) entity).capabilities.isCreativeMode)
+        if (isGravityWell(stack) && entity instanceof EntityPlayer && !world.isRemote && !((EntityPlayer) entity).capabilities.isCreativeMode)
         {
             Utils.applyGravPotionEffects((EntityPlayer) entity, getGravStrength(stack));
         }

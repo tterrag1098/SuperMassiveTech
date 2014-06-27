@@ -56,29 +56,69 @@ public class ModBlocks
     public void addRecipes()
     {
         /* @formatter:off */
-        GameRegistry.addRecipe(new ItemStack(starHarvester), "iii", "b b", "iii",
+        GameRegistry.addRecipe(new ItemStack(starHarvester), 
+                "iii", 
+                "b b", 
+                "iii",
 
-        'i', Items.iron_ingot, 'b', Blocks.iron_bars);
+                'i', Items.iron_ingot, 
+                'b', Blocks.iron_bars
+        );
 
-        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), "iii", "bsb", "iii",
+        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), 
+                "iii", 
+                "bsb", 
+                "iii",
 
-        'i', Blocks.iron_block, 'b', Blocks.iron_bars, 's', itemRegistry.star);
+                'i', Blocks.iron_block, 
+                'b', Blocks.iron_bars, 
+                's', itemRegistry.star
+        );
 
-        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), "iii", "bsb", "iii",
+        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), 
+                "iii", 
+                "bsb", 
+                "iii",
 
-        'i', Blocks.iron_block, 'b', Blocks.iron_bars, 's', itemRegistry.starSpecial);
+                'i', Blocks.iron_block, 
+                'b', Blocks.iron_bars, 
+                's', itemRegistry.starSpecial
+        );
 
-        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), "i i", "bsb", "ghg",
+        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), 
+                "i i", 
+                "bsb", 
+                "ghg",
 
-        'i', Blocks.iron_block, 'b', Blocks.iron_bars, 's', itemRegistry.star, 'g', Items.iron_ingot, 'h', Blocks.hopper);
+                'i', Blocks.iron_block, 
+                'b', Blocks.iron_bars, 
+                's', itemRegistry.star, 
+                'g', Items.iron_ingot, 
+                'h', Blocks.hopper
+        );
 
-        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), "i i", "bsb", "ghg",
+        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), 
+                "i i", 
+                "bsb", 
+                "ghg",
 
-        'i', Blocks.iron_block, 'b', Blocks.iron_bars, 's', itemRegistry.starSpecial, 'g', Items.iron_ingot, 'h', Blocks.hopper);
+                'i', Blocks.iron_block, 
+                'b', Blocks.iron_bars, 
+                's', itemRegistry.starSpecial, 
+                'g', Items.iron_ingot, 
+                'h', Blocks.hopper
+        );
 
-        GameRegistry.addRecipe(new ItemStack(waypoint), " g ", "isi", "iBi",
+        GameRegistry.addRecipe(new ItemStack(waypoint), 
+                " g ", 
+                "isi", 
+                "iBi",
 
-        'g', Blocks.glass, 'i', Items.iron_ingot, 's', itemRegistry.star, 'B', Blocks.iron_block);
+                'g', Blocks.glass, 
+                'i', Items.iron_ingot, 
+                's', itemRegistry.star, 
+                'B', Blocks.iron_block
+        );
         /* @formatter:on */
     }
 }

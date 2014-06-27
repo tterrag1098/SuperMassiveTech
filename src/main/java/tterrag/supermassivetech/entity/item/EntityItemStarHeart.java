@@ -25,8 +25,7 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         super(world);
     }
 
-    public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY,
-            double motionZ, int delay)
+    public EntityItemStarHeart(World world, double posX, double posY, double posZ, ItemStack itemstack, double motionX, double motionY, double motionZ, int delay)
     {
         super(world, posX, posY, posZ, itemstack, motionX, motionY, motionZ, delay);
     }
@@ -113,8 +112,8 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         worldObj.newExplosion(this, posX, posY, posZ, 3.0f + (this.getEntityItem().stackSize), true, true);
 
         EntityItemIndestructible starEntity = new EntityItemIndestructible(worldObj, posX, posY, posZ, star, 0, 0, 0, 0);
-        EntityItemIndestructible depletedEntity = new EntityItemDepletedNetherStar(worldObj, posX, posY, posZ, new ItemStack(
-                itemRegistry.depletedNetherStar, star.stackSize), 0, 0, 0, 0);
+        EntityItemIndestructible depletedEntity = new EntityItemDepletedNetherStar(worldObj, posX, posY, posZ, new ItemStack(itemRegistry.depletedNetherStar, star.stackSize),
+                0, 0, 0, 0);
 
         starEntity.func_145799_b(this.func_145800_j());
         depletedEntity.func_145799_b(this.func_145800_j());

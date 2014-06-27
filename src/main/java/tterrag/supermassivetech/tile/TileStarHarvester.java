@@ -97,8 +97,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             IStar type = Utils.getType(inventory[slot]);
             int energy = type.getPowerStored(inventory[slot]);
             int max = type.getPowerPerTick() * 2;
-            inventory[slot].getTagCompound().setInteger("energy",
-                    venting ? energy - max : energy - storage.receiveEnergy(energy > max ? max : energy, false));
+            inventory[slot].getTagCompound().setInteger("energy", venting ? energy - max : energy - storage.receiveEnergy(energy > max ? max : energy, false));
         }
 
         attemptOutputEnergy();
@@ -152,9 +151,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
         {
             IEnergyHandler ieh = (IEnergyHandler) te;
-            storage.extractEnergy(
-                    ieh.receiveEnergy(f.getOpposite(), storage.getEnergyStored() > perTick ? perTick : storage.getEnergyStored(), false),
-                    false);
+            storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), storage.getEnergyStored() > perTick ? perTick : storage.getEnergyStored(), false), false);
         }
     }
 
@@ -307,8 +304,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     private boolean extractStar(EntityPlayer player)
     {
         if (!player.inventory.addItemStackToInventory(inventory[slot]))
-            player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ,
-                    inventory[slot], 0, 0, 0, 0));
+            player.worldObj.spawnEntityInWorld(new EntityItemIndestructible(player.worldObj, player.posX, player.posY, player.posZ, inventory[slot], 0, 0, 0, 0));
 
         inventory[slot] = null;
         needsLightingUpdate = true;
@@ -327,14 +323,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
         if (getBlockMetadata() == getRotationMeta())
         {
-            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED
-                    + Utils.localize("tooltip.noContainerInPlace", true)));
+            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.localize("tooltip.noContainerInPlace", true)));
         }
         else if (star != null)
         {
-            player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE
-                    + " %s %d RF/t", Utils.localize("tooltip.currentStarIs", true), star.getTextColor() + star.toString(),
-                    Utils.localize("tooltip.at", true), star.getPowerPerTick())));
+            player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE + " %s %d RF/t",
+                    Utils.localize("tooltip.currentStarIs", true), star.getTextColor() + star.toString(), Utils.localize("tooltip.at", true), star.getPowerPerTick())));
             player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.powerRemaining", true) + ": "
                     + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
                     + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
@@ -345,8 +339,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         }
 
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.bufferStorage", true) + ": "
-                + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored())
-                + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
+                + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": "
                 + Utils.getColorForPowerLeft(perTick, maxPerTick) + Utils.formatString("", " RF/t", perTick, false)));
 
@@ -362,8 +355,7 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     @Override
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == slot && var3 == ForgeDirection.OPPOSITES[getRotationMeta()] && var2 != null ? var2.getItem() instanceof IStarItem
-                : false;
+        return var1 == slot && var3 == ForgeDirection.OPPOSITES[getRotationMeta()] && var2 != null ? var2.getItem() instanceof IStarItem : false;
     }
 
     @Override

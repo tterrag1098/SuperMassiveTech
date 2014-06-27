@@ -68,6 +68,7 @@ SMT.tooltip.name=Name
 SMT.tooltip.red=Red
 SMT.tooltip.green=Green
 SMT.tooltip.blue=Blue
+SMT.tooltip.recharged=Recharged
 
 #Star Stuff
 SMT.tooltip.tier.low=Low

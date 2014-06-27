@@ -98,8 +98,7 @@ public class GravityArmorHandler
         for (int i = 0; i < 4; i++)
         {
             ItemStack stack = player.inventory.armorInventory[i];
-            if (stack != null && SuperMassiveTech.itemRegistry.armors.contains(stack.getItem())
-                    && doStatesMatch(player, PowerUps.GRAV_RESIST, i, ON))
+            if (stack != null && SuperMassiveTech.itemRegistry.armors.contains(stack.getItem()) && doStatesMatch(player, PowerUps.GRAV_RESIST, i, ON))
             {
                 int drained = ((IEnergyContainerItem) stack.getItem()).extractEnergy(stack, drainAmount, false);
                 effect += drained > 0 || drained == drainAmount ? seed / 4d : 0;
@@ -167,8 +166,7 @@ public class GravityArmorHandler
                     ItemStack cur = player.inventory.mainInventory[i];
                     if (cur != null)
                     {
-                        float newSpeed = cur.getItem().getDigSpeed(cur, block,
-                                player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
+                        float newSpeed = cur.getItem().getDigSpeed(cur, block, player.worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ));
                         if (newSpeed > speed)
                         {
                             speed = newSpeed;
@@ -344,7 +342,7 @@ public class GravityArmorHandler
 
     private void createFallingSandChance(World world, BlockCoord b, BlockFalling block)
     {
-        if (!world.isRemote && world.rand.nextInt(100) == 99)
+        if (!world.isRemote && Utils.rand.nextInt(100) > 95)
         {
             EntityFallingBlock entity = new EntityFallingBlock(world, b.x + 0.5, b.y + 0.5, b.z + 0.5, block);
             world.spawnEntityInWorld(entity);

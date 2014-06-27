@@ -51,16 +51,14 @@ public class HelmetOverlayHandler
 
             GL11.glColor3f(1f, 1f, 1f);
 
-            if (Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.ON)
-                    || Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.COMPASS_ONLY))
+            if (Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.ON) || Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.COMPASS_ONLY))
             {
                 mc.ingameGUI.drawTexturedModalRect((width - 140) / 2 + getZOffset(mc), 2 + getXOffset(mc), v - 10, 256, 140, 16);
                 renderWaypoints(mc, width, player, player.posX, player.posY, player.posZ);
                 mc.ingameGUI.drawTexturedModalRect((width / 2) + getZOffset(mc), 8 + getXOffset(mc), 6, 16, 3, 9);
             }
 
-            if (Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.ON)
-                    || Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.TEXT_ONLY))
+            if (Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.ON) || Utils.doStatesMatch(player, PowerUps.HUD, 3, GravityArmorHandler.TEXT_ONLY))
             {
                 renderOverlayText(mc, height, width);
             }

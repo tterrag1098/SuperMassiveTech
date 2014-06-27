@@ -55,13 +55,11 @@ public class WailaCompat implements IWailaDataProvider
 
         if (block instanceof IAdvancedTooltip)
         {
-            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) block, Keyboard.KEY_LCONTROL,
-                    Keyboard.KEY_RCONTROL);
+            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) block, Keyboard.KEY_LCONTROL, Keyboard.KEY_RCONTROL);
         }
         else if (item instanceof IAdvancedTooltip)
         {
-            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) item, Keyboard.KEY_LCONTROL,
-                    Keyboard.KEY_RCONTROL);
+            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) item, Keyboard.KEY_LCONTROL, Keyboard.KEY_RCONTROL);
         }
 
         if (block instanceof IWailaAdditionalInfo)

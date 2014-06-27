@@ -50,8 +50,8 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
-        EntityItemDepletedNetherStar entity = new EntityItemDepletedNetherStar(world, location.posX, location.posY, location.posZ,
-                itemstack, location.motionX, location.motionY, location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
+        EntityItemDepletedNetherStar entity = new EntityItemDepletedNetherStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX,
+                location.motionY, location.motionZ, ((EntityItem) location).delayBeforeCanPickup);
         entity.func_145799_b(world.getClosestPlayerToEntity(location, -1).getCommandSenderName());
         return entity;
     }
@@ -67,7 +67,7 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
     @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
-        return "" + EnumChatFormatting.DARK_GRAY + EnumChatFormatting.ITALIC
-                + NumberFormat.getPercentInstance().format(((float) stack.getItemDamage()) / ((float) maxDamage)) + " Recharged";
+        return "" + EnumChatFormatting.DARK_GRAY + EnumChatFormatting.ITALIC + NumberFormat.getPercentInstance().format(((float) stack.getItemDamage()) / ((float) maxDamage))
+                + " " + Utils.localize("tooltip.recharged", true);
     }
 }

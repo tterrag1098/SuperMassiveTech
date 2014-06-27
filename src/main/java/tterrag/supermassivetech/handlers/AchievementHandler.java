@@ -31,11 +31,9 @@ public class AchievementHandler
                 for (int i = 0; i < inv.getSizeInventory(); i++)
                 {
                     ItemStack curStack = inv.getStackInSlot(i);
-                    if (curStack != null && curStack.getItem() == Items.nether_star && curStack.hasTagCompound()
-                            && curStack.getTagCompound().getBoolean("wasRejuvenated"))
+                    if (curStack != null && curStack.getItem() == Items.nether_star && curStack.hasTagCompound() && curStack.getTagCompound().getBoolean("wasRejuvenated"))
                     {
-                        Achievements.unlock(Achievements.getValidItemStack(new ItemStack(SuperMassiveTech.itemRegistry.heartOfStar, 1, 1)),
-                                (EntityPlayerMP) event.player);
+                        Achievements.unlock(Achievements.getValidItemStack(new ItemStack(SuperMassiveTech.itemRegistry.heartOfStar, 1, 1)), (EntityPlayerMP) event.player);
                     }
                 }
             }
@@ -47,8 +45,7 @@ public class AchievementHandler
     {
         EntityPlayer player = event.player;
         int fireworksLeft = player.getEntityData().getInteger("fireworksLeft");
-        if (event.phase == Phase.END && fireworksLeft > 0
-                && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
+        if (event.phase == Phase.END && fireworksLeft > 0 && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
         {
             Utils.spawnFireworkAround(getBlockCoord(player), player.worldObj.provider.dimensionId);
             player.getEntityData().setInteger("fireworksLeft", fireworksLeft - 1);
@@ -66,7 +63,6 @@ public class AchievementHandler
 
     private BlockCoord getBlockCoord(EntityPlayer player)
     {
-        return new BlockCoord(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY),
-                MathHelper.floor_double(player.posZ));
+        return new BlockCoord(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
     }
 }

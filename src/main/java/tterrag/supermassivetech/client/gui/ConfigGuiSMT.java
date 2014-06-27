@@ -53,11 +53,9 @@ public class ConfigGuiSMT extends GuiConfig
         protected GuiScreen buildChildScreen()
         {
             String category = sections.get(this.getClass());
-            return new GuiConfig(this.owningScreen,
-                    (new ConfigElement(ConfigHandler.config.getCategory(category.toLowerCase()))).getChildElements(), Reference.MODID,
-                    category, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
-                    this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
-                    GuiConfig.getAbridgedConfigPath(ConfigHandler.config.getConfigFile().getAbsolutePath()));
+            return new GuiConfig(this.owningScreen, (new ConfigElement(ConfigHandler.config.getCategory(category.toLowerCase()))).getChildElements(), Reference.MODID,
+                    category, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, this.configElement.requiresMcRestart()
+                            || this.owningScreen.allRequireMcRestart, GuiConfig.getAbridgedConfigPath(ConfigHandler.config.getConfigFile().getAbsolutePath()));
         }
     }
 

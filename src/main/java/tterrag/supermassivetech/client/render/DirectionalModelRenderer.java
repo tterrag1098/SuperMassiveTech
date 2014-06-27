@@ -102,8 +102,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
-        return helper == ItemRendererHelper.INVENTORY_BLOCK || helper == ItemRendererHelper.ENTITY_BOBBING
-                || helper == ItemRendererHelper.ENTITY_ROTATION;
+        return helper == ItemRendererHelper.INVENTORY_BLOCK || helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION;
     }
 
     @Override

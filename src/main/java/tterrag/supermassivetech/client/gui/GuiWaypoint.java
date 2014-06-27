@@ -148,8 +148,7 @@ public class GuiWaypoint extends GuiScreen
     @Override
     public void onGuiClosed()
     {
-        PacketHandler.INSTANCE.sendToServer(new MessageWaypointUpdate(r, g, b, tile.waypoint.getName(), tile.xCoord, tile.yCoord,
-                tile.zCoord));
+        PacketHandler.INSTANCE.sendToServer(new MessageWaypointUpdate(r, g, b, tile.waypoint.getName(), tile.xCoord, tile.yCoord, tile.zCoord));
         super.onGuiClosed();
     }
 }

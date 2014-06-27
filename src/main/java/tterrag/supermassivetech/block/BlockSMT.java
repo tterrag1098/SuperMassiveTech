@@ -122,8 +122,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     @Override
     public void onBlockHarvested(World world, int x, int y, int z, int p_149681_5_, EntityPlayer player)
     {
-        if (this.saveToItem() && canHarvestBlock(player, world.getBlockMetadata(x, y, z)) && !player.capabilities.isCreativeMode
-                && !world.isRemote)
+        if (this.saveToItem() && canHarvestBlock(player, world.getBlockMetadata(x, y, z)) && !player.capabilities.isCreativeMode && !world.isRemote)
         {
             ((ISaveToItem) this).dropItem(world, ((ISaveToItem) this).getNBTItem(world, x, y, z), x, y, z);
         }
@@ -163,8 +162,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
         if (te != null && te instanceof TileSMTInventory)
         {
             TileSMTInventory inv = (TileSMTInventory) te;
-            tooltip.add(EnumChatFormatting.WHITE + "Gravity well? "
-                    + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+            tooltip.add(EnumChatFormatting.WHITE + "Gravity well? " + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
         }
     }
 }

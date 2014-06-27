@@ -14,19 +14,14 @@ public class ModEntities
 
     public void init()
     {
-        EntityRegistry.registerModEntity(EntityItemDepletedNetherStar.class, "tterrag.smt.entityDepletedNetherStar", 1,
-                SuperMassiveTech.instance, 80, 80, true);
+        EntityRegistry.registerModEntity(EntityItemDepletedNetherStar.class, "tterrag.smt.entityDepletedNetherStar", 1, SuperMassiveTech.instance, 80, 80, true);
 
-        EntityRegistry.registerModEntity(EntityItemSpecialStar.class, "tterrag.smt.entitySpecialStar", 1, SuperMassiveTech.instance, 80,
-                80, true);
+        EntityRegistry.registerModEntity(EntityItemSpecialStar.class, "tterrag.smt.entitySpecialStar", 1, SuperMassiveTech.instance, 80, 80, true);
 
-        EntityRegistry.registerModEntity(EntityItemStarHeart.class, "tterrag.smt.entityStarHeart", 1, SuperMassiveTech.instance, 80, 80,
-                true);
+        EntityRegistry.registerModEntity(EntityItemStarHeart.class, "tterrag.smt.entityStarHeart", 1, SuperMassiveTech.instance, 80, 80, true);
 
-        EntityRegistry.registerModEntity(EntityItemIndestructible.class, "tterrag.smt.entityItemIndestructible", 1,
-                SuperMassiveTech.instance, 80, 80, true);
+        EntityRegistry.registerModEntity(EntityItemIndestructible.class, "tterrag.smt.entityItemIndestructible", 1, SuperMassiveTech.instance, 80, 80, true);
 
-        EntityRegistry.registerModEntity(EntityFormingStar.class, "tterrag.smt.entityFormingStar", 0, SuperMassiveTech.instance, 80, 3,
-                false);
+        EntityRegistry.registerModEntity(EntityFormingStar.class, "tterrag.smt.entityFormingStar", 0, SuperMassiveTech.instance, 80, 3, false);
     }
 }

@@ -23,7 +23,7 @@ public class EnchantGravity extends Enchantment implements IAdvancedEnchant
     {
         return super.getMinEnchantability(level);
     }
-    
+
     @Override
     public int getMaxLevel()
     {
@@ -35,7 +35,7 @@ public class EnchantGravity extends Enchantment implements IAdvancedEnchant
     {
         return "enchantment.gravityResist";
     }
-    
+
     public double getReduction(double base, int level)
     {
         return (base / this.getMaxLevel()) * level;

@@ -20,8 +20,7 @@ public class RenderBeaconEffect extends TileEntitySpecialRenderer
 
     private void renderWaypointAt(TileWaypoint tile, double x, double y, double z, float tickDelay)
     {
-        if (tile.waypoint == null || tile.waypoint.isNull()
-                || !tile.waypoint.players.contains(Minecraft.getMinecraft().thePlayer.getCommandSenderName()))
+        if (tile.waypoint == null || tile.waypoint.isNull() || !tile.waypoint.players.contains(Minecraft.getMinecraft().thePlayer.getCommandSenderName()))
         {
             return;
         }
