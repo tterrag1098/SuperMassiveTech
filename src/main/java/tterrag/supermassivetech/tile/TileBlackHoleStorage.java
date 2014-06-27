@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.tile;
 
+import powercrystals.minefactoryreloaded.api.IDeepStorageUnit;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -20,7 +21,7 @@ import tterrag.supermassivetech.util.Utils;
  * @author Garrett Spicer-Davis
  * 
  */
-public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInventory, IFluidHandler
+public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInventory, IFluidHandler, IDeepStorageUnit
 {
     public final static long max = 1099511627776L;
 
@@ -313,5 +314,34 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     {
         if (storedItem == null)
             storedItem = stackStored;
+    }
+    
+    /* IDeepStorageUnit */
+
+    @Override
+    public ItemStack getStoredItemType()
+    {
+        ItemStack stack = storedItem.copy();
+        stack.stackSize = (int) Math.min(Integer.MAX_VALUE, storedAmount);
+        return stack;
+    }
+
+    @Override
+    public void setStoredItemCount(int amount)
+    {
+        this.storedAmount = amount;
+    }
+
+    @Override
+    public void setStoredItemType(ItemStack type, int amount)
+    {
+        this.storedItem = type;
+        this.storedAmount = amount;
+    }
+
+    @Override
+    public int getMaxStoredCount()
+    {
+        return Integer.MAX_VALUE;
     }
 }
