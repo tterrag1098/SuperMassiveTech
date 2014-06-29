@@ -163,8 +163,7 @@ public class HelmetOverlayHandler
         int yaw = (int) player.rotationYawHead;
         yaw = (yaw - 90) % 360;
         yaw *= (256d / 360d);
-        return yaw + 3; // arbitrary number to get the texture to line up...can
-                        // be changed if texture changes
+        return yaw + 3; // arbitrary number to get the texture to line up...can be changed if texture changes
     }
 
     private int normalizeAngle(double width, double angle)
@@ -172,19 +171,7 @@ public class HelmetOverlayHandler
         double normal = width - angle;
         if (normal < 0)
         {
-            normal = (Math.abs(normal) + (Math.abs(normal) * (34d / width))); // I
-                                                                              // don't
-                                                                              // know
-                                                                              // why
-                                                                              // 34
-                                                                              // don't
-                                                                              // ask
-                                                                              // me,
-                                                                              // probably
-                                                                              // int
-                                                                              // ->
-                                                                              // double
-                                                                              // inaccuracy
+            normal = (Math.abs(normal) + (Math.abs(normal) * (34d / width))); // I don't know why 34 don't ask me, probably int -> double inaccuracy
             normal = width - normal;
         }
 
