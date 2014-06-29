@@ -40,7 +40,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:Forge@10.12.2.1148,);after:Waila", guiFactory = "tterrag.supermassivetech.config.ConfigFactorySMT")
+@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:Forge@10.13.0.1150,);after:Waila", guiFactory = "tterrag.supermassivetech.config.ConfigFactorySMT")
 public class SuperMassiveTech
 {
     @Instance

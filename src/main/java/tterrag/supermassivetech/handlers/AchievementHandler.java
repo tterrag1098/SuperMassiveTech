@@ -9,7 +9,6 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
-import codechicken.lib.math.MathHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -63,6 +62,6 @@ public class AchievementHandler
 
     private BlockCoord getBlockCoord(EntityPlayer player)
     {
-        return new BlockCoord(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
+        return new BlockCoord((int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
     }
 }
