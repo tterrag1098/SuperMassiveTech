@@ -23,6 +23,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.ClientUtils;
@@ -33,6 +34,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
+@Handler(types = HandlerType.FML)
 public class GravityArmorHandler
 {
     public static boolean isJumpKeyDown;

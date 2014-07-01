@@ -4,11 +4,13 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.network.PacketHandler;
 import tterrag.supermassivetech.network.message.MessageAchievementToServer;
 import tterrag.supermassivetech.registry.Achievements;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+@Handler(types = HandlerType.FORGE)
 public class AchievementHandlerClient
 {
     @SubscribeEvent

@@ -13,10 +13,12 @@ import net.minecraftforge.oredict.OreDictionary;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.enchant.IAdvancedEnchant;
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+@Handler(types = HandlerType.FORGE)
 public class TooltipHandler
 {
     @SubscribeEvent

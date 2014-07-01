@@ -15,6 +15,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.message.MessageUpdateGravityArmor.PowerUps;
@@ -22,6 +23,7 @@ import tterrag.supermassivetech.util.Utils;
 import tterrag.supermassivetech.util.Waypoint;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+@Handler(types = HandlerType.FORGE)
 public class HelmetOverlayHandler
 {
     private static final ResourceLocation compass = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/overlay/compass.png");

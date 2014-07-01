@@ -4,11 +4,14 @@ import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.handlers.Handler;
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.util.Constants;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+@Handler(types = HandlerType.FML)
 public class ConfigHandler
 {
     public static Configuration config;

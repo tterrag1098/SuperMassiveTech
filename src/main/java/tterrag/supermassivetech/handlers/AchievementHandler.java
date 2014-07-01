@@ -6,6 +6,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
@@ -14,6 +15,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
+@Handler(types = HandlerType.FML)
 public class AchievementHandler
 {
     @SubscribeEvent

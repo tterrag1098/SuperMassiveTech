@@ -46,7 +46,7 @@ public class RenderBlackHole extends TileEntitySpecialRenderer
         float pulse = (float) Math.sin(scale) * 1.5f;
         scale += 0.01;
         pulse = 1 + pulse;
-        System.out.println(pulse);
+
         glPointSize(pointScale + pulse);
 
         glBegin(GL_POINTS);

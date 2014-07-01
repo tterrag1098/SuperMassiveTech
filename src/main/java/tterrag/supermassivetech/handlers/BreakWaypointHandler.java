@@ -3,9 +3,11 @@ package tterrag.supermassivetech.handlers;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.world.BlockEvent;
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.tile.TileWaypoint;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+@Handler(types = HandlerType.FORGE)
 public class BreakWaypointHandler
 {
     @SubscribeEvent

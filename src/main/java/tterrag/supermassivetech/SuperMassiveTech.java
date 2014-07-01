@@ -71,16 +71,9 @@ public class SuperMassiveTech
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
-        Utils.registerEventHandlers(false, GravityArmorHandler.class, AchievementHandler.class, ConfigHandler.class);
-        Utils.registerEventHandlers(true, GravityArmorHandler.class, TooltipHandler.class, BreakWaypointHandler.class);
-
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
-            Utils.registerEventHandlers(false, ClientKeyHandler.class);
-            Utils.registerEventHandlers(true, AchievementHandlerClient.class, HelmetOverlayHandler.class);
-        }
-
         OreDictRegistrations.load();
+        
+        Utils.registerEventHandlers("tterrag.supermassivetech.handlers", "tterrag.supermassivetech.config");
 
         proxy.preInit();
 

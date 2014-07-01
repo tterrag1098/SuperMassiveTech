@@ -2,8 +2,11 @@ package tterrag.supermassivetech.util;
 
 import static tterrag.supermassivetech.SuperMassiveTech.*;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.block.material.Material;
@@ -36,6 +39,8 @@ import org.lwjgl.opengl.GL11;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.handlers.GravityArmorHandler;
+import tterrag.supermassivetech.handlers.Handler;
+import tterrag.supermassivetech.handlers.Handler.HandlerType;
 import tterrag.supermassivetech.item.IAdvancedTooltip;
 import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.item.ItemGravityArmor;
@@ -46,6 +51,10 @@ import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.registry.Stars;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import cofh.api.energy.IEnergyContainerItem;
+
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class Utils
@@ -171,11 +180,9 @@ public class Utils
      * Applies gravity to an entity with the passed configurations
      * 
      * @param gravStrength - Strength of the gravity, usually a number < 3
-     * @param maxGravXZ - Max gravity that can be applied in the X and Z
-     *            directions
+     * @param maxGravXZ - Max gravity that can be applied in the X and Z directions
      * @param maxGravY - Max gravity that can be applied in the Y direction
-     * @param minGrav - Minimum gravity that can be applied (prevents "wobbling"
-     *            if such a thing ever exists)
+     * @param minGrav - Minimum gravity that can be applied (prevents "wobbling" if such a thing ever exists)
      * @param range - The range of the gravitational effects
      * @param entity - Entity to effect
      * @param xCoord - X coord of the center of gravity
@@ -277,15 +284,12 @@ public class Utils
     }
 
     /**
-     * Applies gravity to an entity with the passed configurations, this method
-     * calls the other with the TE's xyz coords
+     * Applies gravity to an entity with the passed configurations, this method calls the other with the TE's xyz coords
      * 
      * @param gravStrength - Strength of the gravity, usually a number < 3
-     * @param maxGravXZ - Max gravity that can be applied in the X and Z
-     *            directions
+     * @param maxGravXZ - Max gravity that can be applied in the X and Z directions
      * @param maxGravY - Max gravity that can be applied in the Y direction
-     * @param minGrav - Minimum gravity that can be applied (prevents "wobbling"
-     *            if such a thing ever exists)
+     * @param minGrav - Minimum gravity that can be applied (prevents "wobbling" if such a thing ever exists)
      * @param range - The range of the gravitational effects
      * @param entity - Entity to effect
      * @param te - {@link TileEntity} to use as the center of gravity
@@ -296,8 +300,7 @@ public class Utils
     }
 
     /**
-     * Applies gravity to the passed entity, with a center at the passed TE,
-     * calls the other method with default configuration values
+     * Applies gravity to the passed entity, with a center at the passed TE, calls the other method with default configuration values
      * 
      * @param entity - Entity to affect
      * @param te - {@link TileEntity} to use as the center of gravity
@@ -308,8 +311,7 @@ public class Utils
     }
 
     /**
-     * Applies gravity to the passed entity, with a center at the passed
-     * coordinates, calls the other method with default configuration values
+     * Applies gravity to the passed entity, with a center at the passed coordinates, calls the other method with default configuration values
      * 
      * @param entity - Entity to affect
      * @param x - x coord
@@ -322,8 +324,7 @@ public class Utils
     }
 
     /**
-     * Gets the star type of a star item, can handle items that are not
-     * instances of {@link ItemStar}
+     * Gets the star type of a star item, can handle items that are not instances of {@link ItemStar}
      * 
      * @param stack - Stack to get the type from
      * @return {@link StarType} of the item
@@ -345,8 +346,7 @@ public class Utils
     }
 
     /**
-     * Sets the type of a star itemstack, can handle items that are not
-     * instances of {@link ItemStar}
+     * Sets the type of a star itemstack, can handle items that are not instances of {@link ItemStar}
      * 
      * @param stack - Stack to set the type on
      * @param type - Type to use
@@ -411,8 +411,7 @@ public class Utils
     }
 
     /**
-     * Finds the proper tool for this material, returns "none" if there isn't
-     * one
+     * Finds the proper tool for this material, returns "none" if there isn't one
      */
     public static String getToolClassFromMaterial(Material mat)
     {
@@ -520,28 +519,55 @@ public class Utils
             return EnumChatFormatting.GREEN;
     }
 
-    public static void registerEventHandlers(boolean useForge, Class<?>... classes)
+    public static void registerEventHandlers(String... packages)
     {
-        for (Class<?> c : classes)
+        for (String s : packages)
         {
+            ClassPath classpath;
+
             try
             {
-                if (useForge)
-                    MinecraftForge.EVENT_BUS.register(c.newInstance());
-                else
-                    FMLCommonHandler.instance().bus().register(c.newInstance());
+                classpath = ClassPath.from(SuperMassiveTech.class.getClassLoader());
             }
-            catch (Throwable t)
+            catch (IOException e)
             {
-                SuperMassiveTech.logger.fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
-                t.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+            Set<ClassInfo> classes = classpath.getTopLevelClasses(s);
+
+            for (ClassInfo info : classes)
+            {
+                Class<?> c = info.load();
+                try
+                {
+                    Annotation a = c.getAnnotation(Handler.class);
+                    if (a != null)
+                    {
+                        registerHandler(c, (Handler) a);
+                    }
+                }
+                catch (Throwable t)
+                {
+                    SuperMassiveTech.logger
+                            .fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
+                    t.printStackTrace();
+                }
             }
         }
     }
 
+    private static void registerHandler(Class<?> c, Handler handler) throws InstantiationException, IllegalAccessException
+    {
+        if (ArrayUtils.contains(handler.types(), HandlerType.FORGE))
+            MinecraftForge.EVENT_BUS.register(c.newInstance());
+
+        if (ArrayUtils.contains(handler.types(), HandlerType.FML))
+            FMLCommonHandler.instance().bus().register(c.newInstance());
+    }
+
     /**
-     * Applies the potion effects associated with gravity to the player at
-     * effect level <code> level </code>
+     * Applies the potion effects associated with gravity to the player at effect level <code> level </code>
      */
     public static void applyGravPotionEffects(EntityPlayer player, int level)
     {
@@ -673,7 +699,6 @@ public class Utils
         fireworkTag.setByte("Flight", (byte) 1);
         firework.stackTagCompound.setTag("Fireworks", fireworkTag);
 
-        System.out.println(pos.x + " " + pos.y + " " + pos.z + " " + dimID);
         EntityFireworkRocket e = new EntityFireworkRocket(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, firework);
         world.spawnEntityInWorld(e);
     }
