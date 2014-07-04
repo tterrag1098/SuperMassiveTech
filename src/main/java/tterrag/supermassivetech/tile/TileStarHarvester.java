@@ -254,6 +254,12 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
                     return extractStar(player);
             }
         }
+        else if (getBlockMetadata() != getRotationMeta())
+        {
+            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getBlockMetadata() - 6, 3);
+            player.inventory.addItemStackToInventory(new ItemStack(SuperMassiveTech.itemRegistry.starContainer));
+            return true;
+        }
 
         return printInfo(player);
     }

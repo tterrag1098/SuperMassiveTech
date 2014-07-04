@@ -41,12 +41,12 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
         this.texture = texture;
     }
 
-    public void renderDirectionalTileEntityAt(TileSMTInventory tile, double x, double y, double z, boolean metaOverride)
+    public void renderDirectionalTileEntityAt(TileSMTInventory tile, double x, double y, double z, int metaOverride)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.1f : 0), (float) z + 0.5f);
+        GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride < 0 ? 0.1f : 0), (float) z + 0.5f);
 
-        int meta = metaOverride ? 0 : tile.getBlockMetadata();
+        int meta = metaOverride >= 0 ? metaOverride : tile.getBlockMetadata();
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
         switch (meta)
@@ -90,7 +90,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float yaw)
     {
-        renderDirectionalTileEntityAt((TileSMTInventory) tile, x, y, z, false);
+        renderDirectionalTileEntityAt((TileSMTInventory) tile, x, y, z, 0);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
             break;
         }
 
-        renderDirectionalTileEntityAt(null, 0, 0, 0, true);
+        renderDirectionalTileEntityAt(null, 0, 0, 0, item.stackTagCompound == null ? 0 : item.stackTagCompound.getInteger("storedMetaData"));
 
         GL11.glPopMatrix();
     }

@@ -50,9 +50,10 @@ public class TooltipHandler
 
             if (ids.length > 0)
             {
+                event.toolTip.add(Utils.localize("tooltip.oreDictNames", true));
                 for (int i : ids)
                 {
-                    event.toolTip.add(OreDictionary.getOreName(i));
+                    event.toolTip.add("  - " + OreDictionary.getOreName(i));
                 }
             }
         }

@@ -44,9 +44,21 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
         if (te == null)
             return stack;
 
-        stack.stackTagCompound = new NBTTagCompound();
+        int energy = te.getEnergyStored(ForgeDirection.UNKNOWN);
+        if (energy > 0 || te.getBlockMetadata() > 5)
+        {
+            stack.stackTagCompound = new NBTTagCompound();
 
-        stack.stackTagCompound.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
+            if (energy > 0)
+            {
+                stack.stackTagCompound.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
+            }
+
+            if (te.getBlockMetadata() > 5)
+            {
+                stack.stackTagCompound.setInteger("storedMetaData", te.getBlockMetadata());
+            }
+        }
 
         return stack;
     }
@@ -59,15 +71,13 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
             TileStarHarvester harvester = (TileStarHarvester) te;
 
             harvester.setEnergyStored(tag.getInteger("energy"));
+            
+            if (tag.getInteger("storedMetaData") > 5)
+            {
+                te.getWorldObj().setBlockMetadataWithNotify(te.xCoord, te.yCoord, te.zCoord, te.getBlockMetadata() + 6, 3);
+                te.getWorldObj().markBlockForUpdate(te.xCoord, te.yCoord, te.zCoord);
+            }
         }
-    }
-
-    @Override
-    public void dropItem(World world, ItemStack item, int x, int y, int z)
-    {
-        super.dropItem(world, item, x, y, z);
-        if (world.getBlockMetadata(x, y, z) > 5)
-            Utils.spawnItemInWorldWithRandomMotion(world, new ItemStack(SuperMassiveTech.itemRegistry.starContainer), x, y, z);
     }
 
     @Override

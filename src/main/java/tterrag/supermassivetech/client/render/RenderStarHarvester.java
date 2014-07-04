@@ -31,14 +31,14 @@ public class RenderStarHarvester extends DirectionalModelRenderer
     }
 
     @Override
-    public void renderDirectionalTileEntityAt(TileSMTInventory te, double x, double y, double z, boolean metaOverride)
+    public void renderDirectionalTileEntityAt(TileSMTInventory te, double x, double y, double z, int metaOverride)
     {
         TileStarHarvester tile = (TileStarHarvester) te;
 
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride ? 0.1f : 0), (float) z + 0.5f);
+        GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride >= 0 ? 0.1f : 0), (float) z + 0.5f);
 
-        int meta = metaOverride ? 0 : tile.getBlockMetadata();
+        int meta = metaOverride >= 0 ? metaOverride : tile.getBlockMetadata();
         Minecraft.getMinecraft().getTextureManager().bindTexture(textureMain);
 
         switch (meta % 6)
@@ -130,6 +130,6 @@ public class RenderStarHarvester extends DirectionalModelRenderer
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float yaw)
     {
-        renderDirectionalTileEntityAt((TileStarHarvester) tile, x, y, z, tile == null);
+        renderDirectionalTileEntityAt((TileStarHarvester) tile, x, y, z, tile == null ? 0 : -1);
     }
 }

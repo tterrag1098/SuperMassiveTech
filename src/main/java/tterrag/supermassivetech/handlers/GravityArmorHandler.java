@@ -291,7 +291,7 @@ public class GravityArmorHandler
                         if (e instanceof EntityItem)
                         {
                             ((EntityItem) e).delayBeforeCanPickup = 0;
-                            if (y > 0)
+                            if (y > -0.5)
                             {
                                 e.motionY = 0.15;
                             }
@@ -322,14 +322,11 @@ public class GravityArmorHandler
 
     private void processBlocks(BlockCoord baseBlock, World world)
     {
-        int bx = baseBlock.x - fieldRange;
-        for (; bx < baseBlock.x + fieldRange; bx++)
+        for (int bx = baseBlock.x - fieldRange; bx < baseBlock.x + fieldRange; bx++)
         {
-            int by = baseBlock.y - fieldRange;
-            for (; by < baseBlock.y + fieldRange; by++)
+            for (int by = baseBlock.y - fieldRange; by < baseBlock.y + fieldRange; by++)
             {
-                int bz = baseBlock.z - fieldRange;
-                for (; bz < baseBlock.z + fieldRange; bz++)
+                for (int bz = baseBlock.z - fieldRange; bz < baseBlock.z + fieldRange; bz++)
                 {
                     BlockCoord b = new BlockCoord(bx, by, bz);
                     Block block = b.getBlock(world);
@@ -344,7 +341,7 @@ public class GravityArmorHandler
 
     private void createFallingSandChance(World world, BlockCoord b, BlockFalling block)
     {
-        if (!world.isRemote && Utils.rand.nextInt(100) > 95)
+        if (!world.isRemote && Utils.rand.nextInt(4) == 0)
         {
             EntityFallingBlock entity = new EntityFallingBlock(world, b.x + 0.5, b.y + 0.5, b.z + 0.5, block);
             world.spawnEntityInWorld(entity);

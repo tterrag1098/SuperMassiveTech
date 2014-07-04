@@ -69,6 +69,7 @@ SMT.tooltip.red=Red
 SMT.tooltip.green=Green
 SMT.tooltip.blue=Blue
 SMT.tooltip.recharged=Recharged
+SMT.tooltip.oreDictNames=Ore Dictionary Names:
 
 #Star Stuff
 SMT.tooltip.tier.low=Low

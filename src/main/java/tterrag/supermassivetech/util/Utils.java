@@ -394,14 +394,14 @@ public class Utils
 
     public static void spawnItemInWorldWithRandomMotion(World world, ItemStack item, int x, int y, int z)
     {
-        spawnItemInWorldWithRandomMotion(new EntityItem(world, x, y, z, item));
+        spawnItemInWorldWithRandomMotion(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item));
     }
 
     public static void spawnItemInWorldWithRandomMotion(EntityItem entity)
     {
-        float f = (float) Math.random() * 2 - 1;
-        float f1 = (float) Math.random() * 2 - 1;
-        float f2 = (float) Math.random() * 2 - 1;
+        float f = (rand.nextFloat() * 0.1f) - 0.05f;
+        float f1 = (rand.nextFloat() * 0.1f) - 0.05f;
+        float f2 = (rand.nextFloat() * 0.1f) - 0.05f;
 
         entity.motionX += f;
         entity.motionY += f1;
