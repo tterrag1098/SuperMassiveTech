@@ -44,14 +44,14 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
         if (te == null)
             return stack;
 
-        int energy = te.getEnergyStored(ForgeDirection.UNKNOWN);
+        int energy = te.getEnergyStored();
         if (energy > 0 || te.getBlockMetadata() > 5)
         {
             stack.stackTagCompound = new NBTTagCompound();
 
             if (energy > 0)
             {
-                stack.stackTagCompound.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
+                stack.stackTagCompound.setInteger("energy", te.getEnergyStored());
             }
 
             if (te.getBlockMetadata() > 5)
@@ -114,7 +114,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
             tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noStarInPlace", true));
         }
 
-        int energyStored = te.getEnergyStored(ForgeDirection.UNKNOWN), maxEnergyStored = te.getMaxEnergyStored(ForgeDirection.UNKNOWN);
+        int energyStored = te.getEnergyStored(), maxEnergyStored = te.getMaxEnergyStored();
         int output = te.getCurrentOutputMax(), maxOutput = te.maxPerTick;
 
         tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.bufferStorage", true) + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored

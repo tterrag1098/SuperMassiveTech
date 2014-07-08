@@ -341,9 +341,9 @@ public class GravityArmorHandler
 
     private void createFallingSandChance(World world, BlockCoord b, BlockFalling block)
     {
-        if (!world.isRemote && Utils.rand.nextInt(4) == 0)
+        if (!world.isRemote && Utils.rand.nextInt(99) == 0)
         {
-            EntityFallingBlock entity = new EntityFallingBlock(world, b.x + 0.5, b.y + 0.5, b.z + 0.5, block);
+            EntityFallingBlock entity = new EntityFallingBlock(world, b.x + 0.5, b.y + 0.6, b.z + 0.5, block);
             world.spawnEntityInWorld(entity);
         }
     }

@@ -212,11 +212,21 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         return storage.getEnergyStored();
     }
+    
+    public int getEnergyStored()
+    {
+        return getEnergyStored(ForgeDirection.UNKNOWN);
+    }
 
     @Override
-    public int getMaxEnergyStored(ForgeDirection from)
+    public int getMaxEnergyStored(ForgeDirection from) 
     {
         return STORAGE_CAP;
+    }
+    
+    public int getMaxEnergyStored()
+    {
+        return getMaxEnergyStored(ForgeDirection.UNKNOWN);
     }
 
     public boolean handleRightClick(EntityPlayer player, ForgeDirection side)
