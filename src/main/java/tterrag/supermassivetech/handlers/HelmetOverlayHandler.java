@@ -80,9 +80,11 @@ public class HelmetOverlayHandler
             time = maxTime;
         }
     }
-
+    
+    private List<String> namesToDraw = new ArrayList<String>();
     private void renderWaypoints(Minecraft mc, int width, EntityPlayer player, double x, double y, double z)
     {
+        namesToDraw.clear();
         for (Waypoint wp : Waypoint.waypoints)
         {
             if (!wp.players.contains(player.getCommandSenderName()))
@@ -104,10 +106,15 @@ public class HelmetOverlayHandler
 
             if (normal < ((width / 2 + 4) + getZOffset(mc)) && normal > ((width / 2 - 4) + getZOffset(mc)))
             {
-                mc.ingameGUI.drawCenteredString(mc.fontRenderer, wp.getName(), width / 2, 20, 0xFFFFFF);
-                mc.getTextureManager().bindTexture(compass);
+                namesToDraw.add(wp.getName());
             }
         }
+        for (int i = 0; i < namesToDraw.size(); i++)
+        {
+            mc.ingameGUI.drawCenteredString(mc.fontRenderer, namesToDraw.get(i), width / 2, 20 + i * 8, 0xFFFFFF);
+        }
+        
+        mc.getTextureManager().bindTexture(compass);        
         GL11.glColor3f(1f, 1f, 1f);
     }
 
