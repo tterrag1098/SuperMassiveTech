@@ -7,7 +7,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
-import tterrag.supermassivetech.client.render.RenderBeaconEffect;
+import tterrag.supermassivetech.client.render.WaypointSpecialRenderer;
 import tterrag.supermassivetech.client.render.RenderBlackHole;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
 import tterrag.supermassivetech.client.render.SimpleModelRenderer;
@@ -30,7 +30,7 @@ public class ClientProxy extends CommonProxy
 
     public static RenderStarHarvester starHarvester;
 
-    public static RenderBeaconEffect beacon;
+    public static WaypointSpecialRenderer beacon;
     public static SimpleModelRenderer waypoint;
 
     public static RenderBlackHole blackHole;
@@ -53,7 +53,7 @@ public class ClientProxy extends CommonProxy
                 "textures/models/hopper.png"));
         starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(
                 Reference.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/ring.obj"));
-        beacon = new RenderBeaconEffect();
+        beacon = new WaypointSpecialRenderer();
         blackHole = new RenderBlackHole();
 
         // BHS

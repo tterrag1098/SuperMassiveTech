@@ -14,15 +14,17 @@ import tterrag.supermassivetech.network.message.MessageBlackHoleStorage;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.util.Utils;
 
-public class ContainerStorageBlock extends ContainerSMT
+public class ContainerBlackHoleStorage extends ContainerSMT
 {
-    public ContainerStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
+    public ContainerBlackHoleStorage(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
     {
         super(par1InventoryPlayer, tile);
 
-        this.addSlotToContainer(tile.new SlotFluidContainer(tile, 0, 48, 94));
-        this.addSlotToContainer(tile.new SlotInput(tile, 1, 184, 20));
-        this.addSlotToContainer(new Slot(tile, 2, 184, 81));
+        this.addSlotToContainer(tile.new SlotInput(tile, 0, 184, 20));
+        this.addSlotToContainer(new Slot(tile, 1, 184, 81));
+        
+        this.addSlotToContainer(tile.new SlotFluidContainer(tile, 2, 32, 91, true));
+        this.addSlotToContainer(tile.new SlotFluidContainer(tile, 3, 63, 91, false));
     }
 
     @Override
@@ -36,20 +38,29 @@ public class ContainerStorageBlock extends ContainerSMT
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (par2 >= 36 && par2 <= 38)
+            if (par2 >= 36 && par2 <= 39)
             {
                 if (!this.mergeItemStack(itemstack1, 27, 36, false))
                 {
                     if (!this.mergeItemStack(itemstack1, 0, 27, false))
                         return null;
                 }
-                slot.onSlotChange(itemstack1, itemstack);
             }
-            if (par2 < 36 && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
+            
+            boolean wasFluidContainer = false;
+            if (par2 < 36 && ((Slot) this.inventorySlots.get(38)).isItemValid(itemstack1))
             {
-                if (!this.mergeItemStack(itemstack1, 37, 38, false))
+                if (!this.mergeItemStack(itemstack1, 38, 39, false))
+                    return null;
+                else
+                    wasFluidContainer = true;
+            }
+            if (!wasFluidContainer && par2 < 36 && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
+            {
+                if (!this.mergeItemStack(itemstack1, 36, 37, false))
                     return null;
             }
+            slot.onSlotChange(itemstack1, itemstack);
 
             if (itemstack1.stackSize == 0)
             {
@@ -81,7 +92,7 @@ public class ContainerStorageBlock extends ContainerSMT
         for (ICrafting c : (List<ICrafting>) crafters)
         {
             FluidStack fluid = te.getTank().getFluid();
-            MessageBlackHoleStorage packet = new MessageBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? 0 : fluid.fluidID);
+            MessageBlackHoleStorage packet = new MessageBlackHoleStorage(te.storedAmount, te.getTank().amountStored, fluid == null ? -1 : fluid.fluidID);
             PacketHandler.INSTANCE.sendTo(packet, (EntityPlayerMP) c);
         }
         super.detectAndSendChanges();

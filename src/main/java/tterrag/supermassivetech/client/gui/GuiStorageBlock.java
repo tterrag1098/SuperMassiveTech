@@ -9,12 +9,11 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.supermassivetech.container.ContainerStorageBlock;
+import tterrag.supermassivetech.container.ContainerBlackHoleStorage;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.util.Utils;
@@ -23,18 +22,18 @@ public class GuiStorageBlock extends GuiContainer
 {
     public long itemsStored;
     public long fluidStored;
+    public FluidStack currentFluid;
+
     private String formattedItemAmount = "";
     private String formattedFluidAmount = "";
     private long max = TileBlackHoleStorage.max;
-
-    public int fluidID;
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/storageGui.png");
     private static final ResourceLocation BLOCK_TEXTURE = TextureMap.locationBlocksTexture;
 
     public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)
     {
-        super(new ContainerStorageBlock(par1InventoryPlayer, tile));
+        super(new ContainerBlackHoleStorage(par1InventoryPlayer, tile));
         this.xSize = 250;
         this.ySize = 202;
     }
@@ -52,8 +51,7 @@ public class GuiStorageBlock extends GuiContainer
         int k = (this.height - this.ySize) / 2;
 
         this.drawTexturedModalRect(j + 13, k, 0, 0, this.xSize - 16, this.ySize);
-        this.displayGauge(j, k, 12, 44, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 68) + 0.5),
-                new FluidStack(FluidRegistry.getFluid(fluidID == 0 ? 1 : fluidID), 1));
+        this.displayGauge(j, k, 12, 44, (int) ((((double) fluidStored / (double) getScaledLiquidAmount()) * 68) + 0.5), currentFluid);
     }
 
     @Override
@@ -70,10 +68,9 @@ public class GuiStorageBlock extends GuiContainer
         this.fontRendererObj.drawString("Black Hole Storage", (int) (this.xSize / 3.2), 7, 0xCCCCCC);
 
         List<String> ttLines = new ArrayList<String>();
-        Fluid fluid = FluidRegistry.getFluid(fluidID);
-        if (fluid != null && mouseX < j + 68 && mouseX > j + 43 && mouseY > k + 6 && mouseY < k + 76)
+        if (currentFluid != null && mouseX < j + 68 && mouseX > j + 43 && mouseY > k + 6 && mouseY < k + 76)
         {
-            ttLines.add(fluid.getLocalizedName());
+            ttLines.add(currentFluid.getFluid().getLocalizedName(currentFluid));
             this.func_146283_a(ttLines, mouseX - j, mouseY - k);
         }
     }
@@ -83,45 +80,44 @@ public class GuiStorageBlock extends GuiContainer
      */
     private void displayGauge(int j, int k, int line, int col, int squaled, FluidStack liquid)
     {
-        if (liquid == null)
+        if (liquid != null)
         {
-            return;
-        }
-        int start = 0;
+            int start = 0;
 
-        IIcon liquidIcon = null;
-        Fluid fluid = liquid.getFluid();
-        if (fluid != null && fluid.getStillIcon() != null)
-        {
-            liquidIcon = fluid.getStillIcon();
-        }
-        mc.renderEngine.bindTexture(BLOCK_TEXTURE);
-        Utils.setGLColorFromInt(0xFFFFFF);
-
-        int x;
-
-        if (liquidIcon != null)
-        {
-            do
+            IIcon liquidIcon = null;
+            Fluid fluid = liquid.getFluid();
+            if (fluid != null && fluid.getStillIcon() != null)
             {
-                if (squaled > 16)
-                {
-                    x = 16;
-                    squaled -= 16;
-                }
-                else
-                {
-                    x = squaled;
-                    squaled = 0;
-                }
-
-                drawTexturedModelRectFromIcon(j + col + 1, k + line + 63 - x - start, liquidIcon, 22, 16 - (16 - x));
-                start = start + 16;
-
+                liquidIcon = fluid.getStillIcon();
             }
-            while (x != 0 && squaled != 0);
-        }
+            mc.renderEngine.bindTexture(BLOCK_TEXTURE);
+            Utils.setGLColorFromInt(0xFFFFFF);
 
+            int x;
+
+            if (liquidIcon != null)
+            {
+                do
+                {
+                    if (squaled > 16)
+                    {
+                        x = 16;
+                        squaled -= 16;
+                    }
+                    else
+                    {
+                        x = squaled;
+                        squaled = 0;
+                    }
+
+                    drawTexturedModelRectFromIcon(j + col + 1, k + line + 63 - x - start, liquidIcon, 22, 16 - (16 - x));
+                    start = start + 16;
+
+                }
+                while (x != 0 && squaled != 0);
+            }
+        }
+        
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(TEXTURE);
         drawTexturedModalRect(j + col, k + line + 1, 234, 0, 16, 60);

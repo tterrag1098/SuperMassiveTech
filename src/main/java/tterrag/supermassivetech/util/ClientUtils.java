@@ -5,9 +5,12 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,6 +27,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
@@ -201,5 +205,42 @@ public class ClientUtils
             else if (i % 4 == 1)
                 Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e1.posX, e1.posY + 1, e1.posZ, 0.1));
         }
+    }
+    
+    public static void render3DItem(EntityItem entityItem, Tessellator tessellator)
+    {
+        GL11.glPushMatrix();
+
+        float width = 1 / 16f;
+        float offset = 7 / 320f;
+        ItemStack itemstack = entityItem.getEntityItem();
+        IIcon icon = itemstack.getIconIndex();
+
+        float minU = icon.getMinU();
+        float maxU = icon.getMaxU();
+        float minV = icon.getMinV();
+        float maxV = icon.getMaxV();
+        float f7 = 0.5F;
+        float f8 = 0.25F;
+
+        int color = entityItem.getEntityItem().getItem().getColorFromItemStack(entityItem.getEntityItem(), 0);
+
+        GL11.glTranslatef(-f7, -f8, 0);
+
+        if (itemstack.getItemSpriteNumber() == 0)
+        {
+            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+        }
+        else
+        {
+            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
+        }
+
+        GL11.glColor4f(color & 8, color & 16, color & 24, 1.0F);
+        ItemRenderer.renderItemIn2D(tessellator, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), width);
+
+        GL11.glTranslatef(f7, f8, 0);
+        
+        GL11.glPopMatrix();
     }
 }

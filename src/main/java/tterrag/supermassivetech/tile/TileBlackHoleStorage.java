@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.tile;
 
-import powercrystals.minefactoryreloaded.api.IDeepStorageUnit;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -14,6 +13,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import powercrystals.minefactoryreloaded.api.IDeepStorageUnit;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.util.Utils;
 
@@ -32,10 +32,12 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     /* Fluid handling */
     private BlackHoleTank tank = new BlackHoleTank();
 
+    private int input = 0, output = 1, fluidIn = 2, fluidOut = 3;
+
     public TileBlackHoleStorage()
     {
         super();
-        inventory = new ItemStack[3];
+        inventory = new ItemStack[4];
     }
 
     public class SlotInput extends Slot
@@ -54,17 +56,24 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 
     public class SlotFluidContainer extends Slot
     {
-        public SlotFluidContainer(IInventory inv, int x, int y, int z)
+        private boolean input;
+
+        public SlotFluidContainer(IInventory inv, int x, int y, int z, boolean input)
         {
             super(inv, x, y, z);
+            this.input = input;
         }
 
         @Override
         public boolean isItemValid(ItemStack par1ItemStack)
         {
-            if (FluidContainerRegistry.isContainer(par1ItemStack) && FluidContainerRegistry.isFilledContainer(par1ItemStack))
+            if (!input)
+                return false;
+
+            if (FluidContainerRegistry.isContainer(par1ItemStack))
             {
-                return tank.fluidStored == null || FluidContainerRegistry.containsFluid(par1ItemStack, tank.fluidStored);
+                return tank.fluidStored == null ? FluidContainerRegistry.isFilledContainer(par1ItemStack) : FluidContainerRegistry.isEmptyContainer(par1ItemStack) ? true
+                        : FluidContainerRegistry.containsFluid(par1ItemStack, tank.getFluidStored());
             }
 
             return false;
@@ -81,27 +90,27 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
             if (inventory[i] != null && inventory[i].stackSize <= 0)
                 inventory[i] = null;
 
-        if (inventory[1] != null && storedAmount < max)
+        if (inventory[input] != null && storedAmount < max)
         {
-            if (Utils.stacksEqual(inventory[1], storedItem))
+            if (Utils.stacksEqual(inventory[input], storedItem))
             {
-                int inputToStorage = inventory[1].stackSize;
+                int inputToStorage = inventory[input].stackSize;
                 if ((storedAmount + inputToStorage) > max)
                 {
-                    inventory[1].stackSize = (int) (inputToStorage + storedAmount - max);
+                    inventory[input].stackSize = (int) (inputToStorage + storedAmount - max);
                     storedAmount = max;
                 }
                 else
                 {
                     storedAmount += inputToStorage;
-                    inventory[1] = null;
+                    inventory[input] = null;
                 }
             }
             else if (storedItem == null)
             {
-                storedItem = inventory[1].copy();
-                storedAmount = inventory[1].stackSize;
-                inventory[1] = null;
+                storedItem = inventory[input].copy();
+                storedAmount = inventory[input].stackSize;
+                inventory[input] = null;
             }
             else
             {
@@ -115,39 +124,108 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
         if (storedAmount != 0)
         {
             int maxStack = storedItem.getMaxStackSize();
-            if (inventory[2] == null)
+            if (inventory[output] == null)
             {
-                inventory[2] = storedItem.copy();
+                inventory[output] = storedItem.copy();
                 if (storedAmount > maxStack)
                 {
-                    inventory[2].stackSize = maxStack;
+                    inventory[output].stackSize = maxStack;
                     storedAmount -= maxStack;
                 }
                 else
                 {
-                    inventory[2].stackSize = (int) storedAmount;
+                    inventory[output].stackSize = (int) storedAmount;
                     storedAmount = 0;
                     storedItem = null;
                 }
             }
-            else if (inventory[2].stackSize < maxStack && Utils.stacksEqual(inventory[2], storedItem))
+            else if (inventory[output].stackSize < maxStack && Utils.stacksEqual(inventory[output], storedItem))
             {
-                int outputFromStorage = maxStack - inventory[2].stackSize;
+                int outputFromStorage = maxStack - inventory[output].stackSize;
                 if (outputFromStorage < storedAmount)
                 {
-                    inventory[2].stackSize = maxStack;
+                    inventory[output].stackSize = maxStack;
                     storedAmount -= outputFromStorage;
                 }
                 else
                 {
-                    inventory[2].stackSize += (int) storedAmount;
+                    inventory[output].stackSize += (int) storedAmount;
                     storedAmount = 0;
                     storedItem = null;
                 }
             }
         }
 
+        checkFluidContainer();
+
         super.updateEntity();
+    }
+
+    private void checkFluidContainer()
+    {
+        if (inventory[fluidIn] != null)
+        {
+            FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(inventory[fluidIn]);
+            if (fluid != null)
+            {
+                int fill = tank.fill(fluid, false);
+                if (fill < FluidContainerRegistry.BUCKET_VOLUME)
+                {
+                    return;
+                }
+
+                ItemStack container = inventory[fluidIn].getItem().getContainerItem(inventory[fluidIn]);
+
+                if (container == null)
+                {
+                    tank.fill(fluid, true);
+                    inventory[fluidIn].stackSize--;
+                }
+                else if (inventory[fluidOut] == null)
+                {
+                    tank.fill(fluid, true);
+                    inventory[fluidIn].stackSize--;
+                    inventory[fluidOut] = container.copy();
+                }
+                else if (ItemStack.areItemStackTagsEqual(inventory[fluidOut], container) && inventory[fluidOut].isItemEqual(container)
+                        && inventory[fluidOut].getMaxStackSize() > inventory[fluidOut].stackSize)
+                {
+                    tank.fill(fluid, true);
+                    inventory[fluidIn].stackSize--;
+                    inventory[fluidOut].stackSize++;
+                }
+            }
+            else
+            {
+                int vol = FluidContainerRegistry.BUCKET_VOLUME;
+                FluidStack drain = tank.drain(vol, false);
+                if (drain == null || drain.amount < vol)
+                {
+                    return;
+                }
+                
+                ItemStack container = FluidContainerRegistry.fillFluidContainer(drain, inventory[fluidIn]);
+                
+                if (container == null)
+                {
+                    tank.drain(vol, true);
+                    inventory[fluidIn].stackSize--;
+                }
+                else if (inventory[fluidOut] == null)
+                {
+                    tank.drain(vol, true);
+                    inventory[fluidIn].stackSize--;
+                    inventory[fluidOut] = container.copy();
+                }
+                else if (ItemStack.areItemStackTagsEqual(inventory[fluidOut], container) && inventory[fluidOut].isItemEqual(container)
+                        && inventory[fluidOut].getMaxStackSize() > inventory[fluidOut].stackSize)
+                {
+                    tank.drain(vol, true);
+                    inventory[fluidIn].stackSize--;
+                    inventory[fluidOut].stackSize++;
+                }
+            }
+        }
     }
 
     @Override
@@ -196,19 +274,19 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return new int[] { 1, 2 };
+        return new int[] { input, output };
     }
 
     @Override
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == 1;
+        return var1 == input;
     }
 
     @Override
     public boolean canExtractItem(int var1, ItemStack var2, int var3)
     {
-        if (var1 == 2)
+        if (var1 == output)
         {
             return true;
         }
@@ -218,12 +296,12 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
-        if (i == 1)
+        if (i == input)
         {
             return storedItem == null || Utils.stacksEqual(storedItem, itemstack);
         }
 
-        if (i == 0)
+        if (i == fluidIn)
         {
             return FluidContainerRegistry.isContainer(itemstack);
         }

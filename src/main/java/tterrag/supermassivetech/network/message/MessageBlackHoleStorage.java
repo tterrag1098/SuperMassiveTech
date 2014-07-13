@@ -3,6 +3,7 @@ package tterrag.supermassivetech.network.message;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fluids.FluidStack;
 import tterrag.supermassivetech.client.gui.GuiStorageBlock;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -52,7 +53,7 @@ public class MessageBlackHoleStorage implements IMessage, IMessageHandler<Messag
 
             storage.itemsStored = message.value;
             storage.fluidStored = message.fluidValue;
-            storage.fluidID = message.fluidID;
+            storage.currentFluid = message.fluidID == -1 ? null : new FluidStack(message.fluidID, 1);
         }
 
         return null;

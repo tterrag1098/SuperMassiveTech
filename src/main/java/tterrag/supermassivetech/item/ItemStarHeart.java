@@ -2,8 +2,10 @@ package tterrag.supermassivetech.item;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.entity.EntityFormingStar;
 import tterrag.supermassivetech.entity.item.EntityItemStarHeart;
 import tterrag.supermassivetech.util.Utils;
 import cpw.mods.fml.relauncher.Side;
@@ -49,5 +51,15 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
     public String getStaticLines(ItemStack stack)
     {
         return null;
+    }
+    
+    @Override
+    public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World world, int x, int y, int z, int p_77648_7_,
+            float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    {
+        EntityFormingStar star = new EntityFormingStar(world);
+        star.setPosition(x+ 0.5, y + 0.5, z + 0.5);
+        world.spawnEntityInWorld(star);
+        return true;
     }
 }

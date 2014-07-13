@@ -5,7 +5,6 @@ import static org.lwjgl.opengl.GL11.*;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -13,12 +12,12 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.util.ClientUtils;
 
 public class RenderFormingStar extends Render
 {
@@ -47,7 +46,6 @@ public class RenderFormingStar extends Render
         Tessellator tessellator = Tessellator.instance;
 
         bindTexture(TextureMap.locationItemsTexture);
-        IIcon icon = stack.getItem().getIcon(stack, 0);
         GL11.glPushMatrix();
 
         glScalef(0.75f, 0.75f, 0.75f);
@@ -55,7 +53,7 @@ public class RenderFormingStar extends Render
         glDepthMask(true);
         glTranslated(0, Math.sin(rot / 100) / 10, 0);
         glRotatef(rot % 360, 0, 1, 0);
-        render3DItem(item, icon, tessellator);
+        ClientUtils.render3DItem(item, tessellator);
         glRotatef(-(rot % 360), 0, 1, 0);
         glTranslatef(0, 1f / 5f, 0);
 
@@ -90,7 +88,7 @@ public class RenderFormingStar extends Render
             tessellator.draw();
         }
 
-        rot++;
+        rot += 0.5f;
 
         glDisable(GL_BLEND);
         glShadeModel(GL_FLAT);
@@ -107,41 +105,5 @@ public class RenderFormingStar extends Render
     protected ResourceLocation getEntityTexture(Entity var1)
     {
         return null;
-    }
-
-    private void render3DItem(EntityItem entityItem, IIcon icon, Tessellator tessellator)
-    {
-        GL11.glPushMatrix();
-
-        float width = 1 / 16f;
-        float offset = 7 / 320f;
-        ItemStack itemstack = entityItem.getEntityItem();
-
-        float minU = icon.getMinU();
-        float maxU = icon.getMaxU();
-        float minV = icon.getMinV();
-        float maxV = icon.getMaxV();
-        float f7 = 0.5F;
-        float f8 = 0.25F;
-
-        int color = entityItem.getEntityItem().getItem().getColorFromItemStack(entityItem.getEntityItem(), 0);
-
-        GL11.glTranslatef(-f7, -f8, -(width + offset));
-
-        GL11.glTranslatef(0f, 0f, width + offset);
-
-        if (itemstack.getItemSpriteNumber() == 0)
-        {
-            this.bindTexture(TextureMap.locationBlocksTexture);
-        }
-        else
-        {
-            this.bindTexture(TextureMap.locationItemsTexture);
-        }
-
-        GL11.glColor4f(color & 8, color & 16, color & 24, 1.0F);
-        ItemRenderer.renderItemIn2D(tessellator, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), width);
-
-        GL11.glPopMatrix();
     }
 }

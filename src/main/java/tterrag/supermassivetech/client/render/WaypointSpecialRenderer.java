@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.tile.TileWaypoint;
 
-public class RenderBeaconEffect extends TileEntitySpecialRenderer
+public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
 {
     private ResourceLocation beam = new ResourceLocation("textures/entity/beacon_beam.png");
 
@@ -87,13 +87,13 @@ public class RenderBeaconEffect extends TileEntitySpecialRenderer
         tessellator.addVertexWithUV(x + d7, y, z + d9, d25, d28);
         tessellator.addVertexWithUV(x + d7, y + d23, z + d9, d25, d29);
         tessellator.draw();
-
+        
         // put everything back where we found it
         glEnable(GL_LIGHTING);
         glEnable(GL_TEXTURE_2D);
         glDepthMask(true);
-        GL11.glAlphaFunc(GL11.GL_GREATER, 0.5F);
-        GL11.glTranslatef(0, -0.74f, 0);
+        glAlphaFunc(GL11.GL_GREATER, 0.5F);
+        glTranslatef(0, -0.74f, 0);
     }
 
     @Override
