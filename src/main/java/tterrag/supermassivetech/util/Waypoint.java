@@ -31,6 +31,21 @@ public class Waypoint
 
     public Waypoint(String name, int x, int y, int z, EntityPlayer... players)
     {
+        this(name, x, y, z, getNames(players));
+    }
+    
+    private static String[] getNames(EntityPlayer... players)
+    {
+        String[] names = new String[players.length];
+        for (int i = 0; i < names.length; i++)
+        {
+            names[i] = players[i].getCommandSenderName();
+        }
+        return names;
+    }
+    
+    public Waypoint(String name, int x, int y, int z, String... playernames)
+    {
         this.name = name;
 
         this.x = x;
@@ -39,9 +54,9 @@ public class Waypoint
 
         this.players = new LinkedList<String>();
 
-        for (EntityPlayer e : players)
+        for (String s : playernames)
         {
-            this.players.add(e.getCommandSenderName());
+            this.players.add(s);
         }
 
         Random rand = new Random();

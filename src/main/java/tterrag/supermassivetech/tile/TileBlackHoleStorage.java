@@ -280,17 +280,13 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
-        return var1 == input;
+        return var1 == input && isItemValidForSlot(var1, var2);
     }
 
     @Override
     public boolean canExtractItem(int var1, ItemStack var2, int var3)
     {
-        if (var1 == output)
-        {
-            return true;
-        }
-        return false;
+        return var1 == output;
     }
 
     @Override

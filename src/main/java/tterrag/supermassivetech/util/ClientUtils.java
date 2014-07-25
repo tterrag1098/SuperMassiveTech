@@ -212,7 +212,7 @@ public class ClientUtils
         GL11.glPushMatrix();
 
         float width = 1 / 16f;
-        float offset = 7 / 320f;
+
         ItemStack itemstack = entityItem.getEntityItem();
         IIcon icon = itemstack.getIconIndex();
 

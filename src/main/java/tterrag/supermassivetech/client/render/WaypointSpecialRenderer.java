@@ -7,13 +7,11 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.entity.EntityEvent;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,12 +21,12 @@ import tterrag.supermassivetech.tile.TileWaypoint;
 public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
 {
     private ResourceLocation beam = new ResourceLocation("textures/entity/beacon_beam.png");
-    
+
     private void renderWaypointAt(TileWaypoint tile, double x, double y, double z, float tickDelay)
     {
         Tessellator tessellator = Tessellator.instance;
 
-        float rot =  (tile.getWorldObj().getTotalWorldTime() + tickDelay) % 360 * 2;
+        float rot = -(tile.getWorldObj().getTotalWorldTime() + tickDelay) % 360 * 2;
 
         // render spinny item
         glPushMatrix();
@@ -38,7 +36,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         glScalef(0.4f, 0.4f, 0.4f);
         glRotatef(rot, 0, 1, 0);
         ItemStack is = new ItemStack(SuperMassiveTech.itemRegistry.star);
-        EntityItem item = new EntityItem(tile.getWorldObj(), 0.0F, 0.0F, 0.0F,is);
+        EntityItem item = new EntityItem(tile.getWorldObj(), 0.0F, 0.0F, 0.0F, is);
         item.hoverStart = 0.0F;
         RenderManager.instance.renderEntityWithPosYaw(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
         glScalef(2.5f, 2.5f, 2.5f);
@@ -47,14 +45,14 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         glPopMatrix();
 
         glPushMatrix();
-        
+
         if (tile.waypoint == null || tile.waypoint.isNull() || !tile.waypoint.players.contains(Minecraft.getMinecraft().thePlayer.getCommandSenderName()))
         {
             glPopAttrib();
             glPopMatrix();
             return;
-        }    
-        
+        }
+
         glAlphaFunc(GL_GREATER, 0.1F);
         bindTexture(beam);
 
@@ -116,7 +114,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         tessellator.addVertexWithUV(x + d7, y, z + d9, d25, d28);
         tessellator.addVertexWithUV(x + d7, y + d23, z + d9, d25, d29);
         tessellator.draw();
-        
+
         // put everything back where we found it
         glEnable(GL_LIGHTING);
         glEnable(GL_TEXTURE_2D);

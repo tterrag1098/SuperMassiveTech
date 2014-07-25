@@ -26,6 +26,7 @@ public class ItemBlockStorage extends ItemBlockSMT implements IAdvancedTooltip
         return Utils.localize("tooltip.blackHoleStorage", true);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
@@ -41,7 +42,7 @@ public class ItemBlockStorage extends ItemBlockSMT implements IAdvancedTooltip
             if (stack.stackTagCompound.getTag("fluidStack") != null)
                 strs.add(Utils.formatString(Utils.localize("tooltip.stored", true) + ": ", " mB", stack.stackTagCompound.getLong("fluidStored"), true, true) + " "
                         + StatCollector.translateToLocal(FluidStack.loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack")).getFluid().getLocalizedName()));
-
+            // TODO fix deprecated usage of getLocalizedName()
             return Utils.makeTooltipString(strs);
         }
 
