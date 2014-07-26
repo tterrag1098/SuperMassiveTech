@@ -32,6 +32,10 @@ public class ConfigHandler
     public static boolean fieldIgnorePlayers = false;
 
     public static boolean betterAchievements = true;
+    
+    public static boolean forceEnableLootFix = false;
+    public static boolean forceDisableLootFix = false;
+    public static int biomeLimit = 50;
 
     public static void init(File file)
     {
@@ -64,7 +68,15 @@ public class ConfigHandler
 
         showOredictTooltips = config.get(sectionMisc, "showOredictionaryTooltip", false, "Shows the oredict registration in the tooltip for every item").getBoolean(true);
         betterAchievements = config.get(sectionMisc, "superDuperFunMode", betterAchievements, "The way the game should have been made.").getBoolean(betterAchievements);
-
+        forceEnableLootFix = config.get(sectionMisc, "forceEnableLootFix", forceEnableLootFix, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will ENABLE it regardless of that fact").getBoolean();
+        forceDisableLootFix = config.get(sectionMisc, "forceDisableLootFix", forceEnableLootFix, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will DISABLE it regardless of that fact").getBoolean();
+        biomeLimit = config.get(sectionMisc, "biomeLimit", biomeLimit, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis config determines the number of biomes at which this happens (Vanilla has 40).").getInt();
+        
+        if (forceEnableLootFix && forceDisableLootFix)
+        {
+            throw new ConflictingConfigsException("You cannot force enable and disable loot fix.");
+        }
+        
         // grav armor
 
         fieldRange = config.get(sectionArmor, "fieldRange", fieldRange, "The range of the anti-grav field on the gravity armor.").getInt();
@@ -87,6 +99,16 @@ public class ConfigHandler
         else
         {
             SuperMassiveTech.logger.info("Not refreshing config file for modid \"" + event.modID + "\"");
+        }
+    }
+    
+    private static class ConflictingConfigsException extends RuntimeException 
+    {
+        private static final long serialVersionUID = -8119730897598783667L;
+
+        public ConflictingConfigsException(String string)
+        {
+            super(string);
         }
     }
 }

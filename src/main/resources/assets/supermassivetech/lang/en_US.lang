@@ -161,3 +161,20 @@ achievement.SMT.craftGravLegs.desc=Suggest modules for this armor!
 
 achievement.SMT.craftGravBoots=The...Boots
 achievement.SMT.craftGravBoots.desc=Suggest modules for this armor!
+
+
+## Configs ##
+
+SMT.config.title=Super Massive Tech Configuration
+
+SMT.config.gravityconfig=Gravity Settings
+SMT.config.gravityconfig.tooltip=Tweak ALL the things!
+
+SMT.config.enchantids=Enchant IDs
+SMT.config.enchantids.tooltip=I thought IDs were gone? :(
+
+SMT.config.gravityarmorconfig=Gravity Armor Settings
+SMT.config.gravityarmorconfig.tooltip=I'm INVINCIBLE!
+
+SMT.config.othersettings=Miscellaneous Settings
+SMT.config.othersettings.tooltip=Stuff I couldn't find a section for.

@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.network;
 
+import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.message.MessageAchievementToServer;
 import tterrag.supermassivetech.network.message.MessageBlackHoleStorage;
 import tterrag.supermassivetech.network.message.MessageHopperParticle;
@@ -15,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class PacketHandler
 {
-    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("SMTech");
+    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.CHANNEL);
 
     public static void init()
     {
