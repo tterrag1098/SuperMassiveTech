@@ -1,5 +1,7 @@
 package tterrag.supermassivetech.tile;
 
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -11,12 +13,15 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
+import tterrag.supermassivetech.compat.IWailaAdditionalInfo;
 import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Constants;
 import tterrag.supermassivetech.util.Utils;
 
-public abstract class TileSMTInventory extends TileEntity implements IInventory
+public abstract class TileSMTInventory extends TileEntity implements IInventory, IWailaAdditionalInfo
 {
     protected ItemStack[] inventory;
     protected final float RANGE;
@@ -58,6 +63,8 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
         MAX_GRAV_XZ = maxGravXZ;
         MAX_GRAV_Y = maxGravY;
         MIN_GRAV = minGrav;
+        
+        inventory = new ItemStack[0];
     }
 
     @Override
@@ -265,5 +272,11 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         this.readFromNBT(pkt.func_148857_g());
+    }
+    
+    @Override
+    public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
+    {
+        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.gravityWell", true) + " " + (this.isGravityWell() ? EnumChatFormatting.GREEN + Utils.localize("tooltip.yes", true) : EnumChatFormatting.RED + Utils.localize("tooltip.no", true)));
     }
 }

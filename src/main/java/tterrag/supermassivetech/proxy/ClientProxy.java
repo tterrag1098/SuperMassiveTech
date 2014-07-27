@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
+import tterrag.supermassivetech.client.render.ChargerSpecialRenderer;
 import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.WaypointSpecialRenderer;
 import tterrag.supermassivetech.client.render.RenderBlackHole;
@@ -17,8 +18,9 @@ import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.tile.TileBlackHole;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
-import tterrag.supermassivetech.tile.TileStarHarvester;
 import tterrag.supermassivetech.tile.TileWaypoint;
+import tterrag.supermassivetech.tile.energy.TileCharger;
+import tterrag.supermassivetech.tile.energy.TileStarHarvester;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -32,7 +34,10 @@ public class ClientProxy extends CommonProxy
 
     public static WaypointSpecialRenderer beacon;
     public static SimpleModelRenderer waypoint;
-
+    
+    public static SimpleModelRenderer charger;
+    public static ChargerSpecialRenderer chargerSpecial;
+    
     public static RenderBlackHole blackHole;
 
     @Override
@@ -43,6 +48,7 @@ public class ClientProxy extends CommonProxy
         renderIDStarHarvester = RenderingRegistry.getNextAvailableRenderId();
         renderIDWaypoint = RenderingRegistry.getNextAvailableRenderId();
         renderIDBlackHole = RenderingRegistry.getNextAvailableRenderId();
+        renderIDCharger = RenderingRegistry.getNextAvailableRenderId();
     }
 
     @Override
@@ -53,8 +59,11 @@ public class ClientProxy extends CommonProxy
                 "textures/models/hopper.png"));
         starHarvester = new RenderStarHarvester(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(
                 Reference.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"), new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/ring.obj"));
+        waypoint = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/waypoint.obj")), renderIDWaypoint);
         beacon = new WaypointSpecialRenderer();
-        blackHole = new RenderBlackHole();
+        charger = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/charger.obj")), renderIDCharger);
+        chargerSpecial = new ChargerSpecialRenderer();
+        blackHole = new RenderBlackHole();        
 
         // BHS
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleStorage.class, storage);
@@ -68,9 +77,12 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileStarHarvester.class, starHarvester);
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(blockRegistry.starHarvester), starHarvester);
 
+        // Charger
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCharger.class, chargerSpecial);
+        RenderingRegistry.registerBlockHandler(charger);
+        
         // Waypoint
         ClientRegistry.bindTileEntitySpecialRenderer(TileWaypoint.class, beacon);
-        waypoint = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(Reference.MOD_TEXTUREPATH, "models/waypoint.obj")), renderIDWaypoint);
         RenderingRegistry.registerBlockHandler(waypoint);
 
         // Black Hole

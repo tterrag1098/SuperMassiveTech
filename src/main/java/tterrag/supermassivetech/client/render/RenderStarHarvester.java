@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.tile.TileSMTInventory;
-import tterrag.supermassivetech.tile.TileStarHarvester;
+import tterrag.supermassivetech.tile.energy.TileStarHarvester;
 import tterrag.supermassivetech.util.Utils;
 
 public class RenderStarHarvester extends DirectionalModelRenderer

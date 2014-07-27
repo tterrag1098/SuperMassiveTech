@@ -68,7 +68,14 @@ SMT.tooltip.name=Name
 SMT.tooltip.red=Red
 SMT.tooltip.green=Green
 SMT.tooltip.blue=Blue
+SMT.tooltip.yes=Yes
+SMT.tooltip.no=No
+SMT.tooltip.gravityWell=Gravity Well?
 SMT.tooltip.recharged=Recharged
+SMT.tooltip.itemStorage=Stored Item Energy
+SMT.tooltip.na=N/A
+
+
 SMT.tooltip.oreDictNames=Ore Dictionary Names:
 
 #Star Stuff

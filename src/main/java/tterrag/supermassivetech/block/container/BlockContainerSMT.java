@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.block.BlockSMT;
+import tterrag.supermassivetech.tile.TileSMTInventory;
 import tterrag.supermassivetech.util.Utils;
 
 public abstract class BlockContainerSMT extends BlockSMT implements ITileEntityProvider
@@ -50,9 +51,17 @@ public abstract class BlockContainerSMT extends BlockSMT implements ITileEntityP
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
-    {
+    {        
+        if (!saveToItem())
+        {
+            TileSMTInventory te = (TileSMTInventory) world.getTileEntity(x, y, z);
+            for (int i = 0; i < te.getSizeInventory(); i++)
+            {
+                Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(i), x, y, z);
+            }
+        }
+        
         super.breakBlock(world, x, y, z, block, meta);
-        world.removeTileEntity(x, y, z);
     }
 
     @Override

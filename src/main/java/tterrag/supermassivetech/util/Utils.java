@@ -394,7 +394,10 @@ public class Utils
 
     public static void spawnItemInWorldWithRandomMotion(World world, ItemStack item, int x, int y, int z)
     {
-        spawnItemInWorldWithRandomMotion(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item));
+        if (item != null)
+        {
+            spawnItemInWorldWithRandomMotion(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item));
+        }
     }
 
     public static void spawnItemInWorldWithRandomMotion(EntityItem entity)

@@ -1,19 +1,16 @@
 package tterrag.supermassivetech.block.container;
 
-import java.util.List;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.block.ISaveToItem;
-import tterrag.supermassivetech.tile.TileStarHarvester;
+import tterrag.supermassivetech.tile.energy.TileStarHarvester;
 import tterrag.supermassivetech.util.Utils;
 
 public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
@@ -96,30 +93,5 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
     {
         TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
         return te == null || te.getStackInSlot(0) == null ? 0 : 15;
-    }
-
-    @Override
-    public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
-    {
-        super.getWailaInfo(tooltip, x, y, z, world);
-
-        TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
-
-        if (te.getBlockMetadata() < 5)
-        {
-            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noContainerInPlace", true));
-        }
-        else if (!te.isGravityWell())
-        {
-            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noStarInPlace", true));
-        }
-
-        int energyStored = te.getEnergyStored(), maxEnergyStored = te.getMaxEnergyStored();
-        int output = te.getCurrentOutputMax(), maxOutput = te.maxPerTick;
-
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.bufferStorage", true) + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored
-                + " RF");
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(output, maxOutput) + output + " RF");
-
     }
 }

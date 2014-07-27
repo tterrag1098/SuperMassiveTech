@@ -9,7 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.registry.Achievements;
-import tterrag.supermassivetech.tile.TileStarHarvester;
+import tterrag.supermassivetech.tile.energy.TileStarHarvester;
 
 public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 {

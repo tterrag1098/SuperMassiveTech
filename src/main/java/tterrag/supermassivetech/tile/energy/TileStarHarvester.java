@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.tile;
+package tterrag.supermassivetech.tile.energy;
 
 import java.util.List;
 
@@ -10,13 +10,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.compat.IWailaAdditionalInfo;
 import tterrag.supermassivetech.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.item.IStarItem;
 import tterrag.supermassivetech.network.PacketHandler;
@@ -26,28 +27,25 @@ import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.registry.IStar;
 import tterrag.supermassivetech.util.ClientUtils;
 import tterrag.supermassivetech.util.Utils;
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 
-public class TileStarHarvester extends TileSMTInventory implements ISidedInventory, IEnergyHandler
+public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory, IWailaAdditionalInfo
 {
     private int slot = 0;
 
     public final int maxPerTick = 500;
     private int perTick = maxPerTick;
-    private EnergyStorage storage;
-    public static final int STORAGE_CAP = 100000;
     public double spinSpeed = 0;
     public float[] spins = { 0, 0, 0, 0 };
     private boolean hasItem = false;
     private boolean needsLightingUpdate = false;
     public boolean venting = false;
     private ForgeDirection top = ForgeDirection.UNKNOWN;
+    
+    public static final int MAX_ENERGY = 100000;
 
     public TileStarHarvester()
     {
-        super(1.0f, 0.5f);
-        storage = new EnergyStorage(STORAGE_CAP);
+        super(1.0f, 0.5f, MAX_ENERGY);
         inventory = new ItemStack[1];
     }
 
@@ -100,9 +98,6 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
             inventory[slot].getTagCompound().setInteger("energy", venting ? energy - max : energy - storage.receiveEnergy(energy > max ? max : energy, false));
         }
 
-        attemptOutputEnergy();
-        attemptOutputEnergy();
-
         if (venting && worldObj.isRemote)
             ClientUtils.spawnVentParticles(worldObj, xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f, top);
 
@@ -144,17 +139,6 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
 
     }
 
-    private void attemptOutputEnergy()
-    {
-        ForgeDirection f = ForgeDirection.getOrientation(getRotationMeta());
-        TileEntity te = worldObj.getTileEntity(xCoord + f.offsetX, yCoord + f.offsetY, zCoord + f.offsetZ);
-        if (te instanceof IEnergyHandler && !(te instanceof TileStarHarvester))
-        {
-            IEnergyHandler ieh = (IEnergyHandler) te;
-            storage.extractEnergy(ieh.receiveEnergy(f.getOpposite(), storage.getEnergyStored() > perTick ? perTick : storage.getEnergyStored(), false), false);
-        }
-    }
-
     public int getRotationMeta()
     {
         return getBlockMetadata() % 6;
@@ -183,51 +167,27 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
     {
         return "tterrag.inventory.starHarvester";
     }
-
-    @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate)
-    {
-        return 0;
-    }
-
-    public void setEnergyStored(int energy)
-    {
-        storage.setEnergyStored(energy);
-    }
-
-    @Override
-    public boolean canConnectEnergy(ForgeDirection from)
-    {
-        return from.ordinal() == getRotationMeta();
-    }
-
-    @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate)
-    {
-        return storage.extractEnergy(maxExtract, simulate);
-    }
-
-    @Override
-    public int getEnergyStored(ForgeDirection from)
-    {
-        return storage.getEnergyStored();
-    }
     
-    public int getEnergyStored()
+    @Override
+    public ForgeDirection[] getValidInputs()
     {
-        return getEnergyStored(ForgeDirection.UNKNOWN);
+        return new ForgeDirection[] {};
     }
 
     @Override
-    public int getMaxEnergyStored(ForgeDirection from) 
+    public ForgeDirection[] getValidOutputs()
     {
-        return STORAGE_CAP;
-    }
-    
-    public int getMaxEnergyStored()
-    {
-        return getMaxEnergyStored(ForgeDirection.UNKNOWN);
-    }
+        ForgeDirection[] dirs = new ForgeDirection[1];
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+        {
+            if (dir.ordinal() == getRotationMeta())
+            {
+                dirs[0] = dir;
+                break;
+            }
+        }
+        return dirs;
+    }   
 
     public boolean handleRightClick(EntityPlayer player, ForgeDirection side)
     {
@@ -279,9 +239,16 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         return getRotationMeta() == 0 && side == top;
     }
 
-    public int getCurrentOutputMax()
+    @Override
+    public int getOutputSpeed()
     {
         return perTick;
+    }
+    
+    @Override
+    public int getMaxOutputSpeed()
+    {
+        return maxPerTick;
     }
 
     private boolean vent()
@@ -424,5 +391,20 @@ public class TileStarHarvester extends TileSMTInventory implements ISidedInvento
         nbt.setTag("spins", spinAngles);
 
         nbt.setBoolean("venting", venting);
+    }
+    
+    @Override
+    public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
+    {
+        super.getWailaInfo(tooltip, x, y, z, world);
+        
+        if (this.getBlockMetadata() < 5)
+        {
+            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noContainerInPlace", true));
+        }
+        else if (!this.isGravityWell())
+        {
+            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noStarInPlace", true));
+        }
     }
 }

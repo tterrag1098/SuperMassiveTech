@@ -9,6 +9,7 @@ import tterrag.supermassivetech.block.BlockBlackHole;
 import tterrag.supermassivetech.block.BlockWaypoint;
 import tterrag.supermassivetech.block.container.BlockBlackHoleHopper;
 import tterrag.supermassivetech.block.container.BlockBlackHoleStorage;
+import tterrag.supermassivetech.block.container.BlockCharger;
 import tterrag.supermassivetech.block.container.BlockStarHarvester;
 import tterrag.supermassivetech.item.block.ItemBlockHopper;
 import tterrag.supermassivetech.item.block.ItemBlockStarHarvester;
@@ -16,8 +17,9 @@ import tterrag.supermassivetech.item.block.ItemBlockStorage;
 import tterrag.supermassivetech.tile.TileBlackHole;
 import tterrag.supermassivetech.tile.TileBlackHoleHopper;
 import tterrag.supermassivetech.tile.TileBlackHoleStorage;
-import tterrag.supermassivetech.tile.TileStarHarvester;
 import tterrag.supermassivetech.tile.TileWaypoint;
+import tterrag.supermassivetech.tile.energy.TileCharger;
+import tterrag.supermassivetech.tile.energy.TileStarHarvester;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks
@@ -28,6 +30,7 @@ public class ModBlocks
     public Block blackHoleHopper;
     public Block starHarvester;
     public Block waypoint;
+    public Block charger;
     public Block blackHole;
 
     public void register()
@@ -48,6 +51,10 @@ public class ModBlocks
         GameRegistry.registerBlock(waypoint, "waypoint");
         GameRegistry.registerTileEntity(TileWaypoint.class, "tileWaypoint");
 
+        charger = new BlockCharger();
+        GameRegistry.registerBlock(charger, "charger");
+        GameRegistry.registerTileEntity(TileCharger.class, "tileCharger");
+        
         blackHole = new BlockBlackHole();
         GameRegistry.registerBlock(blackHole, "blackHole");
         GameRegistry.registerTileEntity(TileBlackHole.class, "tileBlackHole");

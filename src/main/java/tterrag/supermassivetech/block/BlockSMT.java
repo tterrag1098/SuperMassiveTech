@@ -10,13 +10,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Facing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.compat.IWailaAdditionalInfo;
-import tterrag.supermassivetech.tile.TileSMTInventory;
 import tterrag.supermassivetech.util.Utils;
 
 public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
@@ -139,8 +137,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     }
 
     /**
-     * Whether this block keeps its inventory in item form. If this ever returns
-     * true the block MUST implement IKeepInventoryAsItem
+     * Whether this block keeps its inventory in item form. If this ever returns true the block MUST implement IKeepInventoryAsItem
      */
     public boolean saveToItem()
     {
@@ -159,10 +156,9 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (te != null && te instanceof TileSMTInventory)
+        if (te != null && te instanceof IWailaAdditionalInfo)
         {
-            TileSMTInventory inv = (TileSMTInventory) te;
-            tooltip.add(EnumChatFormatting.WHITE + "Gravity well? " + (inv.isGravityWell() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+            ((IWailaAdditionalInfo) te).getWailaInfo(tooltip, x, y, z, world);
         }
     }
 }

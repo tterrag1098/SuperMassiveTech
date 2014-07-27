@@ -3,6 +3,7 @@ package tterrag.supermassivetech.network;
 import tterrag.supermassivetech.lib.Reference;
 import tterrag.supermassivetech.network.message.MessageAchievementToServer;
 import tterrag.supermassivetech.network.message.MessageBlackHoleStorage;
+import tterrag.supermassivetech.network.message.MessageChargerUpdate;
 import tterrag.supermassivetech.network.message.MessageHopperParticle;
 import tterrag.supermassivetech.network.message.MessageJumpUpdate;
 import tterrag.supermassivetech.network.message.MessageStarHarvester;
@@ -29,5 +30,6 @@ public class PacketHandler
         INSTANCE.registerMessage(MessageUpdateGravityArmor.class, MessageUpdateGravityArmor.class, 6, Side.SERVER);
         INSTANCE.registerMessage(MessageUpdateVenting.class, MessageUpdateVenting.class, 7, Side.CLIENT);
         INSTANCE.registerMessage(MessageAchievementToServer.class, MessageAchievementToServer.class, 8, Side.SERVER);
+        INSTANCE.registerMessage(MessageChargerUpdate.class, MessageChargerUpdate.class, 9, Side.CLIENT);
     }
 }

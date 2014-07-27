@@ -1,13 +1,14 @@
 package tterrag.supermassivetech.util;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -27,7 +28,6 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
@@ -36,7 +36,8 @@ import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPower;
 import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.item.ItemGravityArmor.ArmorType;
-import tterrag.supermassivetech.tile.TileStarHarvester;
+import tterrag.supermassivetech.tile.energy.TileCharger;
+import tterrag.supermassivetech.tile.energy.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
 
 /**
@@ -207,40 +208,29 @@ public class ClientUtils
         }
     }
     
-    public static void render3DItem(EntityItem entityItem, Tessellator tessellator)
+    public static void render3DItem(EntityItem item, float partialTickTime, boolean rotate)
     {
-        GL11.glPushMatrix();
+        float rot = -(Minecraft.getMinecraft().theWorld.getTotalWorldTime() + partialTickTime) % 360 * 2;
 
-        float width = 1 / 16f;
+        glPushMatrix();
+        glDepthMask(true);
+        if (rotate) glRotatef(rot, 0, 1, 0);
+        item.hoverStart = 0.0F;
+        RenderManager.instance.renderEntityWithPosYaw(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+        glPopMatrix();
+    }
 
-        ItemStack itemstack = entityItem.getEntityItem();
-        IIcon icon = itemstack.getIconIndex();
-
-        float minU = icon.getMinU();
-        float maxU = icon.getMaxU();
-        float minV = icon.getMinV();
-        float maxV = icon.getMaxV();
-        float f7 = 0.5F;
-        float f8 = 0.25F;
-
-        int color = entityItem.getEntityItem().getItem().getColorFromItemStack(entityItem.getEntityItem(), 0);
-
-        GL11.glTranslatef(-f7, -f8, 0);
-
-        if (itemstack.getItemSpriteNumber() == 0)
-        {
-            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-        }
-        else
-        {
-            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
-        }
-
-        GL11.glColor4f(color & 8, color & 16, color & 24, 1.0F);
-        ItemRenderer.renderItemIn2D(tessellator, maxU, minV, minU, maxV, icon.getIconWidth(), icon.getIconHeight(), width);
-
-        GL11.glTranslatef(f7, f8, 0);
+    public static void updateCharger(int x, int y, int z, int stored, boolean hasInventory)
+    {
+        TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
         
-        GL11.glPopMatrix();
+        if (te != null && te instanceof TileCharger)
+        {
+            ((TileCharger)te).setEnergyStored(stored);
+            if (!hasInventory)
+            {
+                ((TileCharger)te).setInventorySlotContents(0, null);
+            }
+        }
     }
 }
