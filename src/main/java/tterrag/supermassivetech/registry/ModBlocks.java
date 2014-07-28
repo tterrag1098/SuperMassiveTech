@@ -126,6 +126,16 @@ public class ModBlocks
                 's', itemRegistry.star, 
                 'B', Blocks.iron_block
         );
+        
+        GameRegistry.addRecipe(new ItemStack(charger),
+                "ibi",
+                "brb",
+                "ibi",
+                
+                'b', Blocks.iron_bars,
+                'i', Items.iron_ingot,
+                'r', Items.redstone
+        );
         /* @formatter:on */
     }
 }

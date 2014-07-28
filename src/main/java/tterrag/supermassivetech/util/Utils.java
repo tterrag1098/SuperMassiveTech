@@ -541,9 +541,10 @@ public class Utils
 
             for (ClassInfo info : classes)
             {
-                Class<?> c = info.load();
                 try
                 {
+                    Class<?> c = info.load();
+
                     Annotation a = c.getAnnotation(Handler.class);
                     if (a != null)
                     {
@@ -552,9 +553,16 @@ public class Utils
                 }
                 catch (Throwable t)
                 {
-                    SuperMassiveTech.logger
-                            .fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!", c.getName()));
-                    t.printStackTrace();
+                    if ((t instanceof NoClassDefFoundError || t instanceof IllegalStateException) && FMLCommonHandler.instance().getSide().isServer())
+                    {
+                        SuperMassiveTech.logger.info("Not registering clientside handler " + info.getName());
+                    }
+                    else
+                    {
+                        SuperMassiveTech.logger.fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!",
+                                info.getName()));
+                        t.printStackTrace();
+                    }
                 }
             }
         }

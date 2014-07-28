@@ -220,17 +220,14 @@ public class ClientUtils
         glPopMatrix();
     }
 
-    public static void updateCharger(int x, int y, int z, int stored, boolean hasInventory)
+    public static void updateCharger(int x, int y, int z, int stored, ItemStack item)
     {
         TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
         
         if (te != null && te instanceof TileCharger)
         {
             ((TileCharger)te).setEnergyStored(stored);
-            if (!hasInventory)
-            {
-                ((TileCharger)te).setInventorySlotContents(0, null);
-            }
+            ((TileCharger)te).setInventorySlotContents(0, item);
         }
     }
 }

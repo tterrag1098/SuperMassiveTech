@@ -60,19 +60,22 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
         TileCharger tile = (TileCharger) world.getTileEntity(x, y, z);
         if (stack != null)
         {
-            if (stack.getItem() == Items.redstone)
+            if (stack.getItem() == Items.redstone && !world.isRemote)
             {
                 world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) == 0 ? 1 : 0, 3);
                 player.addChatMessage(new ChatComponentText(Utils.localize("tooltip.redstone.mode", true)
                         + ": "
                         + (world.getBlockMetadata(x, y, z) == 0 ? EnumChatFormatting.AQUA + Utils.localize("tooltip.redstone.normal", true) : EnumChatFormatting.YELLOW
                                 + Utils.localize("tooltip.redstone.inverted", true))));
+                return true;
             }
-
-            ItemStack newStack = stack.copy();
-            newStack.stackSize = 1;
-            tile.setInventorySlotContents(0, newStack);
-            player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            else if (stack.getItem() != Items.redstone && tile.getStackInSlot(0) == null)
+            {
+                ItemStack newStack = stack.copy();
+                newStack.stackSize = 1;
+                tile.setInventorySlotContents(0, newStack);
+                player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            }
         }
         else if (player.isSneaking())
         {

@@ -89,7 +89,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
 
     private void sendPacket()
     {
-        PacketHandler.INSTANCE.sendToAllAround(new MessageChargerUpdate(xCoord, yCoord, zCoord, getEnergyStored(), inventory[0] != null), getPacketRange());
+        PacketHandler.INSTANCE.sendToAllAround(new MessageChargerUpdate(xCoord, yCoord, zCoord, getEnergyStored(), inventory[0]), getPacketRange());
     }
 
     private TargetPoint getPacketRange()
@@ -145,6 +145,12 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
         return canInsertItem(slot, stack, side);
+    }
+    
+    @Override
+    public int getInventoryStackLimit()
+    {
+        return 1;
     }
 
     /* IWailaAdditionalInfo */
