@@ -39,68 +39,76 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
         if (tile.isCharging())
         {
             glPushAttrib(GL_ALL_ATTRIB_BITS);
-            glDisable(GL_TEXTURE_2D);
-            glEnable(GL_BLEND);
-            glShadeModel(GL_SMOOTH);
-            glDisable(GL_ALPHA_TEST);
-            glDisable(GL_CULL_FACE);
 
-            RenderHelper.disableStandardItemLighting();
-
-            OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+            setupGlTranslucent();
 
             glTranslatef(0.5f, 0.5f, 0.5f);
 
             Tessellator tessellator = Tessellator.instance;
 
-            float rot = -(tile.getWorldObj().getTotalWorldTime() + partialTickTime) % 360 * 2;
+            float rot = -(tile.getWorldObj().getTotalWorldTime() + partialTickTime) % 360 * 10;
 
-            for (int i = 0; i < 8; i++)
-            {
-                glRotatef(90, 0, 1, 0);
+            renderAllTranslucent(tessellator, rot);
+            
+            glRotatef(180, 1, 0, 0);
 
-                if (i == 4)
-                {
-                    glRotatef(180, 1, 0, 0);
-                }
-
-                if (i < 4)
-                {
-                    glPushMatrix();
-                    glTranslatef(0, 0.15f, 0);
-                    glRotatef(45, 1, 0, 1);
-                    glRotatef(rot, 0, 1, 0);
-                    drawPowerTranslucent(tessellator);
-                    glRotatef(90, 0, 1, 0);
-                    drawPowerTranslucent(tessellator);
-                    glPopMatrix();
-                }
-                else
-                {
-                    glPushMatrix();
-                    glTranslatef(0, 0.15f, 0);
-                    glRotatef(45, 1, 0, 1);
-                    glRotatef(rot, 0, 1, 0);
-                    drawPowerTranslucent(tessellator);
-                    glRotatef(90, 0, 1, 0);
-                    drawPowerTranslucent(tessellator);
-                    glPopMatrix();
-                }
-            }
+            renderAllTranslucent(tessellator, rot);
+            
             glPopAttrib();
         }
 
         glPopMatrix();
     }
+    
+    private void setupGlTranslucent()
+    {
+        glDisable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        glShadeModel(GL_SMOOTH);
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_CULL_FACE);
+        glDepthMask(false);
+        
+        RenderHelper.disableStandardItemLighting();
+
+        OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+    }
+
+    private void renderAllTranslucent(Tessellator tessellator, float rot)
+    {
+        glPushMatrix();
+        glTranslatef(0, 0.14f, 0);
+        glRotatef(45, 0, 1, 0);
+        glRotatef(45, 1, 0, 0);
+        
+        for (int i = 0; i < 4; i++)
+        {
+            glRotatef(90, 0, -1, 1);
+            glPushMatrix();
+            glRotatef(rot, 0, 1, 0);
+            for (int j = 0; j < 4; j++)
+            {
+                drawPowerTranslucent(tessellator);
+                glRotatef(-90, 0, 1, 0);
+            }
+            glPopMatrix();
+        }
+        
+        glPopMatrix();
+    }
 
     private void drawPowerTranslucent(Tessellator tessellator)
     {
+        double width = 0.08875;
+        double startPt = -0.775;
+        double endPt = -0.4;
+
         tessellator.startDrawingQuads();
         tessellator.setColorRGBA(100, 255, 255, 100);
-        tessellator.addVertex(-0.05, -0.2, 0);
-        tessellator.addVertex(0.05, -0.2, 0);
-        tessellator.addVertex(0.05, -0.7, 0);
-        tessellator.addVertex(-0.05, -0.7, 0);
+        tessellator.addVertex(-width, startPt, -width);
+        tessellator.addVertex(width, startPt, -width);
+        tessellator.addVertex(width, endPt, -width);
+        tessellator.addVertex(-width, endPt, -width);
         tessellator.draw();
     }
 

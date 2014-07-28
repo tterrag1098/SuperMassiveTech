@@ -55,4 +55,15 @@ public class BlockCoord
         this.y = (int) Math.floor(y);
         this.z = (int) Math.floor(z);
     }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + x;
+        result = prime * result + y;
+        result = prime * result + z;
+        return result;
+    }
 }

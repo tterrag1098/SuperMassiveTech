@@ -12,7 +12,7 @@ public class RarityAdjuster
 {
     public static void fix()
     {
-        if (ConfigHandler.forceEnableLootFix || areBiomesRegistered(1))
+        if (ConfigHandler.forceEnableLootFix || areBiomesRegistered(ConfigHandler.biomeLimit))
         {
             addItem(DUNGEON_CHEST, new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.cactus), 0, 6, 10, 2));
             addItem(MINESHAFT_CORRIDOR, new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.cactus), 0, 6, 10, 2));

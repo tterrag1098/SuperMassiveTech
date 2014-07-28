@@ -21,7 +21,7 @@ public class BlockCharger extends BlockContainerSMT
     @Override
     public void registerBlockIcons(IIconRegister register)
     {
-        this.blockIcon = register.registerIcon(Reference.MOD_TEXTUREPATH + ":chargerBlob");
+        this.blockIcon = register.registerIcon(Reference.MOD_TEXTUREPATH + ":charger");
     }
 
     // Emits redstone if inv is empty, or if energy container is full
