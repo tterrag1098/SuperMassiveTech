@@ -5,6 +5,7 @@ tile.blackHoleStorage.name=Black Hole Storage
 tile.blackHoleHopper.name=Black Hole Hopper
 tile.starHarvester.name=Star Harvester
 tile.waypoint.name=Waypoint
+tile.charger.name=Charger
 
 #Items
 item.star.name=Star
@@ -75,6 +76,9 @@ SMT.tooltip.recharged=Recharged
 SMT.tooltip.itemStorage=Stored Item Energy
 SMT.tooltip.na=N/A
 
+SMT.tooltip.redstone.mode=Redstone Mode
+SMT.tooltip.redstone.normal=Normal
+SMT.tooltip.redstone.inverted=Inverted
 
 SMT.tooltip.oreDictNames=Ore Dictionary Names:
 
@@ -102,7 +106,7 @@ SMT.tooltip.netherStarHot="Ouch! It's hot!"
 SMT.tooltip.blackHoleStorage=- Stores 2^40 items and fluids|- Accepts pipe input/output from any side
 SMT.tooltip.blackHoleHopper=- Right click with an item to configure|- Right click with empty hand~   to check configuration|- Shift right click with an empty hand to clear
 SMT.tooltip.starHarvester=- Harvests the power of stars!|- Outputs at the rate of the star inside.|- Activate "venting" mode by shift right~   clicking the top face (must be upright).|- Once the star is out of power~   it will go critical. Better run!
-
+SMT.tooltip.charger=- Charges your items!|- Can charge any RF powered item.|- Outputs redstone when finished or empty.|- Right click with redstone to invert.
 ## Keybinds ##
 
 SMT.keybind.section.graviArmor=SMT: Gravity Armor

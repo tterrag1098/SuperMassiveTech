@@ -169,5 +169,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
         }
 
         tooltip.add(str);
+        
+        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.redstone.mode", true) + ": " + (getBlockMetadata() == 0 ? EnumChatFormatting.AQUA + Utils.localize("tooltip.redstone.normal", true) : EnumChatFormatting.YELLOW + Utils.localize("tooltip.redstone.inverted", true)));
     }
 }

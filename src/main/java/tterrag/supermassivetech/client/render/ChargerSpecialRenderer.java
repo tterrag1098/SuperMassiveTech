@@ -100,7 +100,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
     private void drawPowerTranslucent(Tessellator tessellator)
     {
         double width = 0.08875;
-        double startPt = -0.775;
+        double startPt = -0.785;
         double endPt = -0.4;
 
         tessellator.startDrawingQuads();
