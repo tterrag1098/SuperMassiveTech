@@ -14,5 +14,5 @@ public @interface Handler
         FML
     }
     
-    HandlerType[] types();
+    HandlerType[] types() default {HandlerType.FORGE, HandlerType.FML};
 }

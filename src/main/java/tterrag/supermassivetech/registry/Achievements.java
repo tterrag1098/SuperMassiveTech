@@ -12,7 +12,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
-import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.lib.Reference;
 
 public class Achievements
@@ -108,41 +107,12 @@ public class Achievements
         else
         {
             Achievement ach = eventRequired.get(i);
-
-            boolean had = player.func_147099_x().hasAchievementUnlocked(ach);
             player.addStat(ach, 1);
-            boolean has = player.func_147099_x().hasAchievementUnlocked(ach);
-
-            if (!had && has)
-            {
-                doFireworkDisplay(player, true);
-            }
         }
     }
 
     public static void unlockForced(Achievement ach, EntityPlayerMP player)
     {
-        boolean had = player.func_147099_x().hasAchievementUnlocked(ach);
         player.addStat(ach, 1);
-        boolean has = player.func_147099_x().hasAchievementUnlocked(ach);
-
-        if (!had && has)
-        {
-            doFireworkDisplay(player, true);
-        }
-    }
-
-    public static void doFireworkDisplay(EntityPlayerMP player, boolean override)
-    {
-        if (ConfigHandler.betterAchievements || override)
-        {
-            player.getEntityData().setInteger("fireworksLeft", 5);
-            player.getEntityData().setBoolean("fireworkDelay", false);
-        }
-    }
-
-    public static void doFireworkDisplay(EntityPlayerMP player)
-    {
-        doFireworkDisplay(player, false);
     }
 }

@@ -16,7 +16,6 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileCharger extends TileSMTEnergy implements ISidedInventory
 {
-    private int lastStored = 0;
     private boolean hadItem = false;
 
     public TileCharger()
@@ -58,12 +57,6 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
                     markDirty();
                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 }
-            }
-
-            if (getEnergyStored() != lastStored)
-            {
-                sendPacket();
-                lastStored = getEnergyStored();
             }
 
             if (inventory[0] != null != hadItem && !worldObj.isRemote)

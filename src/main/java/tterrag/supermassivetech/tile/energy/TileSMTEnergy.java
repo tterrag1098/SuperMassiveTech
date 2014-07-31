@@ -7,6 +7,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import tterrag.supermassivetech.network.PacketHandler;
+import tterrag.supermassivetech.network.message.MessageEnergyUpdate;
 import tterrag.supermassivetech.tile.TileSMTInventory;
 import tterrag.supermassivetech.util.Utils;
 import cofh.api.energy.EnergyStorage;
@@ -16,6 +18,8 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
 {
     protected EnergyStorage storage;
     protected int capacity;
+    
+    private int lastStored = 0;
 
     public TileSMTEnergy(int cap)
     {
@@ -50,7 +54,18 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
         if (!worldObj.isRemote)
         {
             pushEnergy();
+            
+            if (getEnergyStored() != lastStored)
+            {
+                sendPacket();
+                lastStored = getEnergyStored();
+            }
         }
+    }
+
+    private void sendPacket()
+    {
+        PacketHandler.INSTANCE.sendToDimension(new MessageEnergyUpdate(xCoord, yCoord, zCoord, getEnergyStored()), worldObj.provider.dimensionId);
     }
 
     protected void pushEnergy()

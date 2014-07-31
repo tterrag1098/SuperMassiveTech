@@ -36,7 +36,10 @@ import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPower;
 import tterrag.supermassivetech.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.item.ItemGravityArmor;
 import tterrag.supermassivetech.item.ItemGravityArmor.ArmorType;
+import tterrag.supermassivetech.network.message.MessageChargerUpdate;
+import tterrag.supermassivetech.network.message.MessageEnergyUpdate;
 import tterrag.supermassivetech.tile.energy.TileCharger;
+import tterrag.supermassivetech.tile.energy.TileSMTEnergy;
 import tterrag.supermassivetech.tile.energy.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -220,14 +223,22 @@ public class ClientUtils
         glPopMatrix();
     }
 
-    public static void updateCharger(int x, int y, int z, int stored, ItemStack item)
+    public static void updateEnergy(MessageEnergyUpdate message)
     {
-        TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
+        TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(message.x, message.y, message.z);
+        if (te instanceof TileSMTEnergy)
+        {
+            ((TileSMTEnergy)te).setEnergyStored(message.stored);
+        }
+    }
+    
+    public static void updateCharger(MessageChargerUpdate message)
+    {
+        TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(message.x, message.y, message.z);
         
         if (te != null && te instanceof TileCharger)
         {
-            ((TileCharger)te).setEnergyStored(stored);
-            ((TileCharger)te).setInventorySlotContents(0, item);
+            ((TileCharger)te).setInventorySlotContents(0, message.item);
         }
     }
 }

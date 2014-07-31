@@ -5,8 +5,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.player.AchievementEvent;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.handlers.Handler.HandlerType;
+import tterrag.supermassivetech.config.ConfigHandler;
 import tterrag.supermassivetech.registry.Achievements;
 import tterrag.supermassivetech.util.BlockCoord;
 import tterrag.supermassivetech.util.Utils;
@@ -15,7 +16,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
-@Handler(types = HandlerType.FML)
+@Handler
 public class AchievementHandler
 {
     @SubscribeEvent
@@ -40,13 +41,23 @@ public class AchievementHandler
             }
         }
     }
+    
+    @SubscribeEvent
+    public void onAchievement(AchievementEvent event)
+    {
+        if (!event.entity.worldObj.isRemote && !((EntityPlayerMP)event.entityPlayer).func_147099_x().hasAchievementUnlocked(event.achievement) && ConfigHandler.betterAchievements)
+        {
+            event.entityPlayer.getEntityData().setInteger("fireworksLeft", 5);
+            event.entityPlayer.getEntityData().setBoolean("fireworkDelay", false);
+        }
+    }
 
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent event)
     {
         EntityPlayer player = event.player;
         int fireworksLeft = player.getEntityData().getInteger("fireworksLeft");
-        if (event.phase == Phase.END && fireworksLeft > 0 && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
+        if (!event.player.worldObj.isRemote && event.phase == Phase.END && fireworksLeft > 0 && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
         {
             Utils.spawnFireworkAround(getBlockCoord(player), player.worldObj.provider.dimensionId);
             player.getEntityData().setInteger("fireworksLeft", fireworksLeft - 1);

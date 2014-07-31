@@ -8,47 +8,46 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageChargerUpdate implements IMessage, IMessageHandler<MessageChargerUpdate, IMessage>
+public class MessageChargerUpdate extends MessageEnergyUpdate
 {
-    public MessageChargerUpdate() {}
-    
-    private int x, y, z;
-    private int stored;
-    private ItemStack item;
-    
+    public MessageChargerUpdate()
+    {
+    }
+
+    public ItemStack item;
+
     public MessageChargerUpdate(int x, int y, int z, int stored, ItemStack item)
     {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.stored = stored;
+        super(x, y, z, stored);
         this.item = item;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        this.x = buf.readInt();
-        this.y = buf.readInt();
-        this.z = buf.readInt();
-        this.stored = buf.readInt();
+        super.fromBytes(buf);
         this.item = ByteBufUtils.readItemStack(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
-        buf.writeInt(x);
-        buf.writeInt(y);
-        buf.writeInt(z);
-        buf.writeInt(stored);
+        super.toBytes(buf);
         ByteBufUtils.writeItemStack(buf, item);
     }
-    
-    @Override
-    public IMessage onMessage(MessageChargerUpdate message, MessageContext ctx)
+
+    public static final class Handler implements IMessageHandler<MessageChargerUpdate, IMessage>
     {
-        ClientUtils.updateCharger(message.x, message.y, message.z, message.stored, message.item);
-        return null;
+        public Handler()
+        {
+        }
+
+        @Override
+        public IMessage onMessage(MessageChargerUpdate message, MessageContext ctx)
+        {
+            ClientUtils.updateEnergy(message);
+            ClientUtils.updateCharger(message);
+            return null;
+        }
     }
 }
