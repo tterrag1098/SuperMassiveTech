@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatisticsFile;
 import net.minecraftforge.event.entity.player.AchievementEvent;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.config.ConfigHandler;
@@ -45,7 +46,8 @@ public class AchievementHandler
     @SubscribeEvent
     public void onAchievement(AchievementEvent event)
     {
-        if (!event.entity.worldObj.isRemote && !((EntityPlayerMP)event.entityPlayer).func_147099_x().hasAchievementUnlocked(event.achievement) && ConfigHandler.betterAchievements)
+        StatisticsFile file = ((EntityPlayerMP)event.entityPlayer).func_147099_x();
+        if (!event.entity.worldObj.isRemote && file.canUnlockAchievement(event.achievement) && !file.hasAchievementUnlocked(event.achievement) && ConfigHandler.betterAchievements)
         {
             event.entityPlayer.getEntityData().setInteger("fireworksLeft", 5);
             event.entityPlayer.getEntityData().setBoolean("fireworkDelay", false);
