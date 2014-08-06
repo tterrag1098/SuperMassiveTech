@@ -4,7 +4,7 @@
   "name": "Super Massive Tech",
   "description": "A mod all about stars, black holes, and all the powers and disasters that accompany them.",
   "version": "${version}",
-  "mcversion": "1.7.10_pre4",
+  "mcversion": "1.7.10",
   "url": "http://mods.tterrag.com",
   "updateUrl": "",
   "authors": ["tterrag"],
