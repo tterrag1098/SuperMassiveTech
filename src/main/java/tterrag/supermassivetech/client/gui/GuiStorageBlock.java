@@ -13,10 +13,10 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.supermassivetech.container.ContainerBlackHoleStorage;
-import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.tile.TileBlackHoleStorage;
-import tterrag.supermassivetech.util.Utils;
+import tterrag.supermassivetech.ModProps;
+import tterrag.supermassivetech.common.container.ContainerBlackHoleStorage;
+import tterrag.supermassivetech.common.tile.TileBlackHoleStorage;
+import tterrag.supermassivetech.common.util.Utils;
 
 public class GuiStorageBlock extends GuiContainer
 {
@@ -28,7 +28,7 @@ public class GuiStorageBlock extends GuiContainer
     private String formattedFluidAmount = "";
     private long max = TileBlackHoleStorage.max;
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/gui/storageGui.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/gui/storageGui.png");
     private static final ResourceLocation BLOCK_TEXTURE = TextureMap.locationBlocksTexture;
 
     public GuiStorageBlock(InventoryPlayer par1InventoryPlayer, TileBlackHoleStorage tile)

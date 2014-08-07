@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
-import tterrag.supermassivetech.util.ClientUtils;
+import tterrag.supermassivetech.client.util.ClientUtils;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class SimpleModelRenderer implements ISimpleBlockRenderingHandler

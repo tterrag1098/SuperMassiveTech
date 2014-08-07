@@ -8,18 +8,18 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.registry.IStar;
-import tterrag.supermassivetech.tile.TileSMTInventory;
-import tterrag.supermassivetech.tile.energy.TileStarHarvester;
-import tterrag.supermassivetech.util.Utils;
+import tterrag.supermassivetech.ModProps;
+import tterrag.supermassivetech.api.common.registry.IStar;
+import tterrag.supermassivetech.common.tile.TileSMTInventory;
+import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
+import tterrag.supermassivetech.common.util.Utils;
 
 public class RenderStarHarvester extends DirectionalModelRenderer
 {
     private IModelCustom main, sphere, ring;
-    private static ResourceLocation textureMain = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
-    private static ResourceLocation textureSphere = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterSphere.png");
-    private static ResourceLocation textureRing1 = new ResourceLocation(Reference.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
+    private static ResourceLocation textureMain = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
+    private static ResourceLocation textureSphere = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/starHarvesterSphere.png");
+    private static ResourceLocation textureRing1 = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/starHarvesterRing.png");
 
     public RenderStarHarvester(ResourceLocation main, ResourceLocation sphere, ResourceLocation ring)
     {

@@ -8,8 +8,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import tterrag.supermassivetech.tile.energy.TileCharger;
-import tterrag.supermassivetech.util.ClientUtils;
+import tterrag.supermassivetech.client.util.ClientUtils;
+import tterrag.supermassivetech.common.tile.energy.TileCharger;
 
 public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
 {

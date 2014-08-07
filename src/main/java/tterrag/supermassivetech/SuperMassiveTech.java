@@ -5,22 +5,21 @@ import net.minecraft.creativetab.CreativeTabs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import tterrag.supermassivetech.compat.OreDictRegistrations;
-import tterrag.supermassivetech.compat.RarityAdjuster;
-import tterrag.supermassivetech.compat.WailaCompat;
-import tterrag.supermassivetech.config.ConfigHandler;
-import tterrag.supermassivetech.lib.Reference;
-import tterrag.supermassivetech.network.GuiHandler;
-import tterrag.supermassivetech.network.PacketHandler;
-import tterrag.supermassivetech.proxy.CommonProxy;
-import tterrag.supermassivetech.registry.Achievements;
-import tterrag.supermassivetech.registry.ModBlocks;
-import tterrag.supermassivetech.registry.ModEnchants;
-import tterrag.supermassivetech.registry.ModEntities;
-import tterrag.supermassivetech.registry.ModItems;
-import tterrag.supermassivetech.registry.Stars;
-import tterrag.supermassivetech.util.Constants;
-import tterrag.supermassivetech.util.Utils;
+import tterrag.supermassivetech.client.gui.GuiHandler;
+import tterrag.supermassivetech.common.CommonProxy;
+import tterrag.supermassivetech.common.compat.OreDictRegistrations;
+import tterrag.supermassivetech.common.compat.RarityAdjuster;
+import tterrag.supermassivetech.common.compat.WailaCompat;
+import tterrag.supermassivetech.common.config.ConfigHandler;
+import tterrag.supermassivetech.common.network.PacketHandler;
+import tterrag.supermassivetech.common.registry.Achievements;
+import tterrag.supermassivetech.common.registry.ModBlocks;
+import tterrag.supermassivetech.common.registry.ModEnchants;
+import tterrag.supermassivetech.common.registry.ModEntities;
+import tterrag.supermassivetech.common.registry.ModItems;
+import tterrag.supermassivetech.common.registry.Stars;
+import tterrag.supermassivetech.common.util.Constants;
+import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -34,13 +33,13 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = Reference.MODID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:Forge@10.13.0.1150,);after:Waila", guiFactory = "tterrag.supermassivetech.config.ConfigFactorySMT")
+@Mod(modid = ModProps.MODID, name = ModProps.MOD_NAME, version = ModProps.VERSION, dependencies = "required-after:Forge@10.13.0.1150,);after:Waila", guiFactory = "tterrag.supermassivetech.config.ConfigFactorySMT")
 public class SuperMassiveTech
 {
     @Instance
     public static SuperMassiveTech instance;
 
-    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
+    @SidedProxy(clientSide = ModProps.CLIENT_PROXY_CLASS, serverSide = ModProps.SERVER_PROXY_CLASS)
     public static CommonProxy proxy;
 
     public static Logger logger = LogManager.getLogger("SuperMassiveTech");
@@ -67,7 +66,7 @@ public class SuperMassiveTech
 
         OreDictRegistrations.load();
 
-        Utils.registerEventHandlers("tterrag.supermassivetech.handlers", "tterrag.supermassivetech.config");
+        Utils.registerEventHandlers();
 
         proxy.preInit();
 

@@ -13,11 +13,11 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL14;
 
-import tterrag.supermassivetech.lib.Reference;
+import tterrag.supermassivetech.ModProps;
 
 public class RenderBlackHole extends TileEntitySpecialRenderer
 {
-    private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_TEXTUREPATH, "/textures/blocks/blackHole.png");
+    private static final ResourceLocation texture = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "/textures/blocks/blackHole.png");
 
     private final int pointScale = 100;
 

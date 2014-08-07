@@ -11,8 +11,8 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.supermassivetech.client.model.ModelSMT;
-import tterrag.supermassivetech.tile.TileSMTInventory;
+import tterrag.supermassivetech.api.client.model.IModelSMT;
+import tterrag.supermassivetech.common.tile.TileSMTInventory;
 
 /**
  * Renders a model with directional placement
@@ -23,7 +23,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
 {
     private IModelCustom model;
     private ResourceLocation texture;
-    private ModelSMT modelSMT;
+    private IModelSMT modelSMT;
 
     public DirectionalModelRenderer()
     {
@@ -35,7 +35,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
         this.texture = texture;
     }
 
-    public DirectionalModelRenderer(ModelSMT model, ResourceLocation texture)
+    public DirectionalModelRenderer(IModelSMT model, ResourceLocation texture)
     {
         this.modelSMT = model;
         this.texture = texture;
