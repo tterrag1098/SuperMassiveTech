@@ -17,6 +17,7 @@ import org.lwjgl.input.Keyboard;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.block.BlockSMT;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.util.Utils;
 
 public class WailaCompat implements IWailaDataProvider
@@ -54,13 +55,16 @@ public class WailaCompat implements IWailaDataProvider
             return currenttip;
         }
 
+        int key1 = Keyboard.getKeyIndex(ConfigHandler.wailaKey1);
+        int key2 = Keyboard.getKeyIndex(ConfigHandler.wailaKey2);
+        
         if (block instanceof IAdvancedTooltip)
         {
-            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) block, Keyboard.KEY_LCONTROL, Keyboard.KEY_RCONTROL);
+            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) block, key1, key2);
         }
         else if (item instanceof IAdvancedTooltip)
         {
-            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) item, Keyboard.KEY_LCONTROL, Keyboard.KEY_RCONTROL);
+            Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) item, key1, key2);
         }
 
         if (block instanceof IWailaAdditionalInfo)

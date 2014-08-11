@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
@@ -28,6 +29,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
@@ -44,8 +46,7 @@ import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
 
 /**
- * Random utils for spawning particles and other client-only things. Mostly used
- * in packet handling.
+ * Random utils for spawning particles and other client-only things. Mostly used in packet handling.
  */
 public class ClientUtils
 {
@@ -210,16 +211,23 @@ public class ClientUtils
                 Minecraft.getMinecraft().effectRenderer.addEffect(new EntityCustomSmokeFX(e1.worldObj, centerX, centerY, centerZ, e1.posX, e1.posY + 1, e1.posZ, 0.1));
         }
     }
-    
+
     public static void render3DItem(EntityItem item, float partialTickTime, boolean rotate)
     {
         float rot = -(Minecraft.getMinecraft().theWorld.getTotalWorldTime() + partialTickTime) % 360 * 2;
 
         glPushMatrix();
         glDepthMask(true);
-        if (rotate) glRotatef(rot, 0, 1, 0);
+        rotate &= Minecraft.getMinecraft().gameSettings.fancyGraphics;
+        
+        if (rotate)
+        {
+            glRotatef(rot, 0, 1, 0);
+        }
+        
         item.hoverStart = 0.0F;
         RenderManager.instance.renderEntityWithPosYaw(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+
         glPopMatrix();
     }
 
@@ -228,17 +236,17 @@ public class ClientUtils
         TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(message.x, message.y, message.z);
         if (te instanceof TileSMTEnergy)
         {
-            ((TileSMTEnergy)te).setEnergyStored(message.stored);
+            ((TileSMTEnergy) te).setEnergyStored(message.stored);
         }
     }
-    
+
     public static void updateCharger(MessageChargerUpdate message)
     {
         TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(message.x, message.y, message.z);
-        
+
         if (te != null && te instanceof TileCharger)
         {
-            ((TileCharger)te).setInventorySlotContents(0, message.item);
+            ((TileCharger) te).setInventorySlotContents(0, message.item);
         }
     }
 }

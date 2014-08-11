@@ -452,7 +452,7 @@ public class Utils
      */
     public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip)
     {
-        formAdvancedTooltip(lines, stack, tooltip, Keyboard.KEY_LSHIFT, Keyboard.KEY_RSHIFT);
+        formAdvancedTooltip(lines, stack, tooltip, Keyboard.getKeyIndex(ConfigHandler.tooltipKey1), Keyboard.getKeyIndex(ConfigHandler.tooltipKey2));
     }
 
     public static void formAdvancedTooltip(List<String> lines, ItemStack stack, IAdvancedTooltip tooltip, int key)
@@ -535,7 +535,7 @@ public class Utils
                 throw new RuntimeException(e);
             }
 
-            Set<ClassInfo> classes = classpath.getAllClasses();
+            Set<ClassInfo> classes = classpath.getTopLevelClassesRecursive(ModProps.MAIN_PACKAGE);
 
             for (ClassInfo info : classes)
             {

@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.common.config;
+package tterrag.supermassivetech.client.config;
 
 import static tterrag.supermassivetech.common.config.ConfigHandler.*;
 
@@ -25,10 +25,11 @@ public class ConfigGuiSMT extends GuiConfig
     {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
         String prefix = ModProps.LOCALIZING + ".config.";
-       
+
         list.add(new ConfigElement<ConfigCategory>(config.getCategory(sectionArmor.toLowerCase()).setLanguageKey(prefix + sectionArmor.toLowerCase().replace(" ", ""))));
         list.add(new ConfigElement<ConfigCategory>(config.getCategory(sectionEnchants.toLowerCase()).setLanguageKey(prefix + sectionEnchants.toLowerCase().replace(" ", ""))));
         list.add(new ConfigElement<ConfigCategory>(config.getCategory(sectionGravity.toLowerCase()).setLanguageKey(prefix + sectionGravity.toLowerCase().replace(" ", ""))));
+        list.add(new ConfigElement<ConfigCategory>(config.getCategory(sectionTooltips.toLowerCase()).setLanguageKey(prefix + sectionTooltips.toLowerCase().replace(" ", ""))));
         list.add(new ConfigElement<ConfigCategory>(config.getCategory(sectionMisc.toLowerCase()).setLanguageKey(prefix + sectionMisc.toLowerCase().replace(" ", ""))));
 
         return list;

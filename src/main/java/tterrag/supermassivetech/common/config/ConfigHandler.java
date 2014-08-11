@@ -20,6 +20,7 @@ public class ConfigHandler
     public static String sectionEnchants = "Enchant IDs";
     public static String sectionArmor = "Gravity Armor Config";
     public static String sectionMisc = "Other Settings";
+    public static String sectionTooltips = "Tooltip Settings";
 
     public static float maxGravityXZ, maxGravityY, minGravity, range, strength;
     public static boolean doGravityWell;
@@ -32,10 +33,15 @@ public class ConfigHandler
     public static boolean fieldIgnorePlayers = false;
 
     public static boolean betterAchievements = true;
-    
+
     public static boolean forceEnableLootFix = false;
     public static boolean forceDisableLootFix = false;
     public static int biomeLimit = 50;
+
+    public static String tooltipKey1 = "LSHIFT";
+    public static String tooltipKey2 = "RSHIFT";
+    public static String wailaKey1 = "LCONTROL";
+    public static String wailaKey2 = "RCONTROL";
 
     public static void init(File file)
     {
@@ -70,6 +76,7 @@ public class ConfigHandler
         betterAchievements = config.get(sectionMisc, "superDuperFunMode", betterAchievements, "The way the game should have been made.").getBoolean(betterAchievements);
         forceEnableLootFix = config.get(sectionMisc, "forceEnableLootFix", forceEnableLootFix, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will ENABLE it regardless of that fact").getBoolean();
         forceDisableLootFix = config.get(sectionMisc, "forceDisableLootFix", forceEnableLootFix, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will DISABLE it regardless of that fact").getBoolean();
+        
         biomeLimit = config.get(sectionMisc, "biomeLimit", biomeLimit, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis config determines the number of biomes at which this happens (Vanilla has 40).").getInt();
         
         if (forceEnableLootFix && forceDisableLootFix)
@@ -82,7 +89,15 @@ public class ConfigHandler
         fieldRange = config.get(sectionArmor, "fieldRange", fieldRange, "The range of the anti-grav field on the gravity armor.").getInt();
         fieldUsageBase = config.get(sectionArmor, "fieldUsageBase", fieldUsageBase, "Base value of the power usage for the field. This is used as an exponent. The forumula is roughly \'(entity height + entity width)^fieldUsageBase\'").getDouble(fieldUsageBase);
         fieldIgnorePlayers = config.get(sectionArmor, "fieldIgnorePlayers", fieldIgnorePlayers, "Whether or not the anti-grav field ignores players.").getBoolean(fieldIgnorePlayers);
+        
+        // tooltips
+        
+        tooltipKey1 = config.get(sectionTooltips, "tooltipKey1", tooltipKey1, "The first key that can be pressed to show extended tooltips (this will show as the key to press on the condensed tooltip).").getString().toUpperCase();
+        tooltipKey2 = config.get(sectionTooltips, "tooltipKey2", tooltipKey2, "The second key that can be pressed to show extended tooltips. This is hidden and to be used for keys that have right/left versions. Can be the same as key1.").getString().toUpperCase();
 
+        wailaKey1 = config.get(sectionTooltips, "wailaKey1", wailaKey1, "The first key that can be pressed to show WAILA extended tooltips (this will show as the key to press on the condensed tooltip).").getString().toUpperCase();
+        wailaKey2 = config.get(sectionTooltips, "wailaKey2", wailaKey2, "The second key that can be pressed to show WAILA extended tooltips. This is hidden and to be used for keys that have right/left versions. Can be the same as key1.").getString().toUpperCase();
+        
         config.save();
         /* @formatter:on */
     }
@@ -101,8 +116,8 @@ public class ConfigHandler
             SuperMassiveTech.logger.info("Not refreshing config file for modid \"" + event.modID + "\"");
         }
     }
-    
-    private static class ConflictingConfigsException extends RuntimeException 
+
+    private static class ConflictingConfigsException extends RuntimeException
     {
         private static final long serialVersionUID = -8119730897598783667L;
 

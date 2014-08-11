@@ -187,5 +187,8 @@ SMT.config.enchantids.tooltip=I thought IDs were gone? :(
 SMT.config.gravityarmorconfig=Gravity Armor Settings
 SMT.config.gravityarmorconfig.tooltip=I'm INVINCIBLE!
 
+SMT.config.tooltipsettings=Tooltip Settings
+SMT.config.tooltipsettings.tooltip=You dawg, I put info in your info so you can read while you read.
+
 SMT.config.othersettings=Miscellaneous Settings
 SMT.config.othersettings.tooltip=Stuff I couldn't find a section for.

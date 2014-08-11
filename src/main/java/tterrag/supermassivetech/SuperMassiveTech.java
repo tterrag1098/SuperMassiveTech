@@ -33,7 +33,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = ModProps.MODID, name = ModProps.MOD_NAME, version = ModProps.VERSION, dependencies = "required-after:Forge@10.13.0.1150,);after:Waila", guiFactory = "tterrag.supermassivetech.config.ConfigFactorySMT")
+@Mod(modid = ModProps.MODID, name = ModProps.MOD_NAME, version = ModProps.VERSION, dependencies = "required-after:Forge@10.13.0.1171,);after:Waila", guiFactory = ModProps.GUI_FACTORY_CLASS)
 public class SuperMassiveTech
 {
     @Instance
