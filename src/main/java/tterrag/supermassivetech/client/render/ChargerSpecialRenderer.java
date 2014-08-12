@@ -46,7 +46,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
 
             Tessellator tessellator = Tessellator.instance;
 
-            float rot = -(tile.getWorldObj().getTotalWorldTime() + partialTickTime) % 360 * 10;
+            float rot = -ClientUtils.getRotation(partialTickTime, 10f);
 
             renderAllTranslucent(tessellator, rot);
             

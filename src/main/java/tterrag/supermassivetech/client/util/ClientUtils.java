@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
@@ -29,7 +28,6 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
@@ -248,5 +246,10 @@ public class ClientUtils
         {
             ((TileCharger) te).setInventorySlotContents(0, message.item);
         }
+    }
+    
+    public static float getRotation(float partialTick, float mult)
+    {
+        return (Minecraft.getMinecraft().theWorld.getTotalWorldTime() + partialTick) % 360 * mult;
     }
 }
