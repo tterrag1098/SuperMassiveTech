@@ -1,10 +1,10 @@
 package tterrag.supermassivetech.api.common.registry;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
+import cofh.api.energy.IEnergyContainerItem;
 
-public interface IStar
+public interface IStar extends IEnergyContainerItem
 {
     /**
      * Returns the unique ID of this star, use the static method in Stars.java!
@@ -20,16 +20,6 @@ public interface IStar
      * Color of the name in tooltips
      */
     public EnumChatFormatting getTextColor();
-
-    /**
-     * The amount of power currently stored in this star
-     */
-    public int getPowerStored(ItemStack stack);
-
-    /**
-     * The amount of power that was initially in this star
-     */
-    public int getPowerStoredMax();
 
     /**
      * The max power this star can provide in the harvester

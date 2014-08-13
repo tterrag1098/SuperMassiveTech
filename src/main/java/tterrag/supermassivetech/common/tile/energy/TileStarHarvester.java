@@ -93,9 +93,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         if (inventory[slot] != null && inventory[slot].stackTagCompound != null)
         {
             IStar type = Utils.getType(inventory[slot]);
-            int energy = type.getPowerStored(inventory[slot]);
-            int max = type.getPowerPerTick() * 2;
-            inventory[slot].getTagCompound().setInteger("energy", venting ? energy - max : energy - storage.receiveEnergy(energy > max ? max : energy, false));
+            storage.setEnergyStored(type.extractEnergy(inventory[slot], perTick, false));
         }
 
         if (venting && worldObj.isRemote)
@@ -313,7 +311,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
             player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE + " %s %d RF/t",
                     Utils.localize("tooltip.currentStarIs", true), star.getTextColor() + star.toString(), Utils.localize("tooltip.at", true), star.getPowerPerTick())));
             player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.powerRemaining", true) + ": "
-                    + Utils.getColorForPowerLeft(star.getPowerStored(inventory[slot]), star.getPowerStoredMax())
+                    + Utils.getColorForPowerLeft(star.getEnergyStored(inventory[slot]), star.getMaxEnergyStored(inventory[slot]))
                     + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
         }
         else

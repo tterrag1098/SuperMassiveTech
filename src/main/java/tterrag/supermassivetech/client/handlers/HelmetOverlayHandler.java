@@ -200,7 +200,7 @@ public class HelmetOverlayHandler
 
     private int getXOffset(Minecraft mc)
     {
-        return BossStatus.statusBarTime > 0 || BossStatus.bossName != null ? 18 : mc.gameSettings.showDebugInfo ? 23 : 0;
+        return BossStatus.statusBarTime > 0 || BossStatus.bossName != null || BossStatus.healthScale <= 0 ? 18 : mc.gameSettings.showDebugInfo ? 23 : 0;
     }
 
     private int getZOffset(Minecraft mc)

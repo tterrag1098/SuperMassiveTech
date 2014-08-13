@@ -136,18 +136,6 @@ public class Stars
         }
 
         @Override
-        public int getPowerStored(ItemStack stack)
-        {
-            return stack.getTagCompound() == null ? 0 : stack.getTagCompound().getInteger("energy");
-        }
-
-        @Override
-        public int getPowerStoredMax()
-        {
-            return powerMax;
-        }
-
-        @Override
         public int getPowerPerTick()
         {
             return powerPerTick;
@@ -175,6 +163,48 @@ public class Stars
         {
             this.mass = Math.max(0, level - 1);
             return this;
+        }
+
+        @Override
+        public int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate)
+        {
+            return 0; // Oh how I wish I could use java 8
+        }
+
+        @Override
+        public int extractEnergy(ItemStack stack, int maxExtract, boolean simulate)
+        {
+            int stored = getEnergyStored(stack);
+            int max = Math.min(maxExtract, getPowerPerTick());
+            
+            if (stack.stackTagCompound != null)
+            {
+                if (max >= stored)
+                {
+                    if (simulate) return stored;
+                    stack.stackTagCompound.setInteger("energy", 0);
+                    return stored;
+                }
+                else
+                {
+                    if (simulate) return max;
+                    stack.stackTagCompound.setInteger("energy", stored - max);
+                    return max;
+                }
+            }
+            return 0;
+        }
+
+        @Override
+        public int getEnergyStored(ItemStack stack)
+        {
+            return stack.getTagCompound() == null ? 0 : stack.getTagCompound().getInteger("energy");
+        }
+
+        @Override
+        public int getMaxEnergyStored(ItemStack stack)
+        {
+            return powerMax;
         }
     }
 

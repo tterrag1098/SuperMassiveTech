@@ -203,9 +203,9 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
                 {
                     return;
                 }
-                
+
                 ItemStack container = FluidContainerRegistry.fillFluidContainer(drain, inventory[fluidIn]);
-                
+
                 if (container == null)
                 {
                     tank.drain(vol, true);
@@ -409,8 +409,12 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     @Override
     public ItemStack getStoredItemType()
     {
-        ItemStack stack = storedItem.copy();
-        stack.stackSize = (int) Math.min(Integer.MAX_VALUE, storedAmount);
+        ItemStack stack = null;
+        if (storedItem != null)
+        {
+            stack = storedItem.copy();
+            stack.stackSize = (int) Math.min(Integer.MAX_VALUE, storedAmount);
+        }
         return stack;
     }
 
