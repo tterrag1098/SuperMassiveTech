@@ -39,8 +39,6 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         glTranslated(x + 0.5, y + 0.52, z + 0.5);
         glScalef(0.4f, 0.4f, 0.4f);
         ClientUtils.render3DItem(item, tickDelay, true);
-        glScalef(2.5f, 2.5f, 2.5f);
-        glTranslated(-x - 0.5, -y - 0.52, -z - 0.5);
         glPopMatrix();
         
         glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -77,7 +75,6 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         double d3 = f2 * 0.025D * (1.0D - 2.5D);
         tessellator.startDrawingQuads();
         tessellator.setColorRGBA(color[0], color[1], color[2], 255);
-        tessellator.setBrightness(0xF000F0);
         double c = 0.2D;
 
         // obfuscated names, basically are the points for the rects, sin/cos

@@ -12,7 +12,7 @@ public class BlockBlackHole extends BlockSMT implements ITileEntityProvider
 {
     public BlockBlackHole()
     {
-        super("blackHole", Material.cloth, soundTypeCloth, -1.0f, SuperMassiveTech.renderIDBlackHole, TileBlackHole.class);
+        super("blackHole", Material.cloth, soundTypeCloth, 1.0f, SuperMassiveTech.renderIDBlackHole, TileBlackHole.class);
         setBlockBounds(0.4f, 0.4f, 0.4f, 0.6f, 0.6f, 0.6f);
     }
 

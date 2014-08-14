@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.client.util.ClientUtils;
 
-public class RenderBlackHole extends TileEntitySpecialRenderer
+public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
 {
-    private static final ResourceLocation texture = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "/textures/blocks/blackHole.png");
+    private static final ResourceLocation texture = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/blocks/blackHole.png");
 
     @Override
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTickTime)

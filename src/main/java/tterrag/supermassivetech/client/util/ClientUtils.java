@@ -32,6 +32,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.client.handlers.ClientKeyHandler;
+import tterrag.supermassivetech.client.handlers.ClientRenderingHandler;
 import tterrag.supermassivetech.client.handlers.ClientKeyHandler.ArmorPower;
 import tterrag.supermassivetech.client.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;
@@ -250,6 +251,6 @@ public class ClientUtils
     
     public static float getRotation(float partialTick, float mult)
     {
-        return (Minecraft.getMinecraft().theWorld.getTotalWorldTime() + partialTick) % 360 * mult;
+        return ClientRenderingHandler.getElapsed() * mult;
     }
 }

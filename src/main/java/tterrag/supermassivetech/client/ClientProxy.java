@@ -10,7 +10,7 @@ import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.ChargerSpecialRenderer;
 import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.WaypointSpecialRenderer;
-import tterrag.supermassivetech.client.render.RenderBlackHole;
+import tterrag.supermassivetech.client.render.BlackHoleSpecialRenderer;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
 import tterrag.supermassivetech.client.render.SimpleModelRenderer;
 import tterrag.supermassivetech.client.render.entity.RenderFormingStar;
@@ -39,7 +39,7 @@ public class ClientProxy extends CommonProxy
     public static SimpleModelRenderer charger;
     public static ChargerSpecialRenderer chargerSpecial;
     
-    public static RenderBlackHole blackHole;
+    public static BlackHoleSpecialRenderer blackHole;
 
     @Override
     public void preInit()
@@ -64,7 +64,7 @@ public class ClientProxy extends CommonProxy
         beacon = new WaypointSpecialRenderer();
         charger = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/charger.obj")), renderIDCharger);
         chargerSpecial = new ChargerSpecialRenderer();
-        blackHole = new RenderBlackHole();        
+        blackHole = new BlackHoleSpecialRenderer();        
 
         // BHS
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleStorage.class, storage);
