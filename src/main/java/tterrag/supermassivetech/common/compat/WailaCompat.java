@@ -24,7 +24,7 @@ public class WailaCompat implements IWailaDataProvider
 {
     public static final WailaCompat INSTANCE = new WailaCompat();
 
-    public static void load()
+    public void load()
     {
         ModuleRegistrar.instance().registerHeadProvider(INSTANCE, BlockSMT.class);
         ModuleRegistrar.instance().registerBodyProvider(INSTANCE, BlockSMT.class);

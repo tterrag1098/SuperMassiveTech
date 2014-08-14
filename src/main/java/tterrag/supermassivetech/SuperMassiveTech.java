@@ -10,6 +10,7 @@ import tterrag.supermassivetech.common.CommonProxy;
 import tterrag.supermassivetech.common.compat.OreDictRegistrations;
 import tterrag.supermassivetech.common.compat.RarityAdjuster;
 import tterrag.supermassivetech.common.compat.WailaCompat;
+import tterrag.supermassivetech.common.compat.enderio.EnderIOCompat;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
@@ -83,7 +84,7 @@ public class SuperMassiveTech
         starRegistry.registerDefaultStars();
 
         if (Loader.isModLoaded("Waila"))
-            WailaCompat.load();
+            WailaCompat.INSTANCE.load();
     }
 
     @EventHandler
@@ -93,6 +94,9 @@ public class SuperMassiveTech
 
         itemRegistry.addRecipes();
         blockRegistry.addRecipes();
+        
+        if (Loader.isModLoaded("EnderIO"))
+            EnderIOCompat.INSTANCE.load();
     }
 
     @EventHandler

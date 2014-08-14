@@ -553,7 +553,7 @@ public class Utils
                 {
                     if ((t instanceof NoClassDefFoundError || t instanceof IllegalStateException) && FMLCommonHandler.instance().getSide().isServer())
                     {
-                        SuperMassiveTech.logger.info("Not registering clientside handler " + info.getName());
+                        SuperMassiveTech.logger.info("Not registering handler " + info.getName() + " because necessary classes are missing.");
                     }
                     else
                     {

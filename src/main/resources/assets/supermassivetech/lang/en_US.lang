@@ -83,6 +83,7 @@ SMT.tooltip.redstone.inverted=Inverted
 SMT.tooltip.oreDictNames=Ore Dictionary Names:
 
 #Star Stuff
+SMT.tooltip.tier=Tier:
 SMT.tooltip.tier.low=Low
 SMT.tooltip.tier.normal=Normal
 SMT.tooltip.tier.high=High
@@ -124,6 +125,12 @@ SMT.armorPower.attractor=Attractor
 
 SMT.armorPower.compassOnly=Compass Only
 SMT.armorPower.textOnly=Text Only
+
+## EnderIO Compat ##
+
+gravResistUpgrade.0.name=Gravity Resist I
+gravResistUpgrade.1.name=Gravity Resist II
+gravResistUpgrade.2.name=Gravity Resist III
 
 ## Achievements ##
 # Note: These are spoilers. Read on with caution

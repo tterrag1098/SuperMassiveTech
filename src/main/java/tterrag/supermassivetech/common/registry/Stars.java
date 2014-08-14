@@ -40,6 +40,11 @@ public class Stars
         {
             return Utils.localize(name, true);
         }
+
+        public StarTier next()
+        {
+            return this == HIGH ? HIGH : this == SPECIAL ? SPECIAL : values()[ordinal() + 1];
+        }
     }
 
     public static EnumChatFormatting getEnumColor(StarTier tier)
