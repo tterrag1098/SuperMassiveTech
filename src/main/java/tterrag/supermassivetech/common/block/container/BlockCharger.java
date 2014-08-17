@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.common.block.container;
 
-import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +14,7 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.tile.energy.TileCharger;
 import tterrag.supermassivetech.common.util.Utils;
+import cofh.api.energy.IEnergyContainerItem;
 
 public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
 {

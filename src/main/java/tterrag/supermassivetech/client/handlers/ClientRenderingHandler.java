@@ -1,9 +1,9 @@
 package tterrag.supermassivetech.client.handlers;
 
+import tterrag.supermassivetech.common.util.Handler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import tterrag.supermassivetech.common.util.Handler;
 
 @Handler
 public class ClientRenderingHandler

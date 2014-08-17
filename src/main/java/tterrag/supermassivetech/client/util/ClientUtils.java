@@ -1,30 +1,19 @@
 package tterrag.supermassivetech.client.util;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.Face;
-import net.minecraftforge.client.model.obj.GroupObject;
-import net.minecraftforge.client.model.obj.TextureCoordinate;
-import net.minecraftforge.client.model.obj.Vertex;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -32,7 +21,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import tterrag.supermassivetech.client.fx.EntityCustomFlameFX;
 import tterrag.supermassivetech.client.fx.EntityCustomSmokeFX;
 import tterrag.supermassivetech.client.handlers.ClientKeyHandler;
-import tterrag.supermassivetech.client.handlers.ClientRenderingHandler;
 import tterrag.supermassivetech.client.handlers.ClientKeyHandler.ArmorPower;
 import tterrag.supermassivetech.client.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;
@@ -96,24 +84,6 @@ public class ClientUtils
     private static float getRandMotion(float mult)
     {
         return (rand.nextFloat() * 0.2f - 0.1f) * mult;
-    }
-
-    public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes)
-    {
-        for (GroupObject go : model.groupObjects)
-        {
-            for (Face f : go.faces)
-            {
-                Vertex n = f.faceNormal;
-                tes.setNormal(n.x, n.y, n.z);
-                for (int i = 0; i < f.vertices.length; i++)
-                {
-                    Vertex v = f.vertices[i];
-                    TextureCoordinate t = f.textureCoordinates[i];
-                    tes.addVertexWithUV(v.x, v.y, v.z, icon.getInterpolatedU(t.u * 16), icon.getInterpolatedV(t.v * 16));
-                }
-            }
-        }
     }
 
     public static MovingObjectPosition getMouseOver()
@@ -211,25 +181,6 @@ public class ClientUtils
         }
     }
 
-    public static void render3DItem(EntityItem item, float partialTickTime, boolean rotate)
-    {
-        float rot = -(Minecraft.getMinecraft().theWorld.getTotalWorldTime() + partialTickTime) % 360 * 2;
-
-        glPushMatrix();
-        glDepthMask(true);
-        rotate &= Minecraft.getMinecraft().gameSettings.fancyGraphics;
-        
-        if (rotate)
-        {
-            glRotatef(rot, 0, 1, 0);
-        }
-        
-        item.hoverStart = 0.0F;
-        RenderManager.instance.renderEntityWithPosYaw(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-
-        glPopMatrix();
-    }
-
     public static void updateEnergy(MessageEnergyUpdate message)
     {
         TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(message.x, message.y, message.z);
@@ -247,10 +198,5 @@ public class ClientUtils
         {
             ((TileCharger) te).setInventorySlotContents(0, message.item);
         }
-    }
-    
-    public static float getRotation(float partialTick, float mult)
-    {
-        return ClientRenderingHandler.getElapsed() * mult;
     }
 }

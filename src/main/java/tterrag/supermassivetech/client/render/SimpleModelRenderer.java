@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
-import tterrag.supermassivetech.client.util.ClientUtils;
+import tterrag.supermassivetech.client.util.RenderingUtils;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
@@ -27,7 +27,7 @@ public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
         RenderHelper.disableStandardItemLighting();
         tes.startDrawingQuads();
         tes.setColorOpaque_F(1, 1, 1);
-        ClientUtils.renderWithIcon(model, block.getIcon(0, metadata), tes);
+        RenderingUtils.renderWithIcon(model, block.getIcon(0, metadata), tes);
         tes.draw();
         RenderHelper.enableStandardItemLighting();
     }
@@ -38,7 +38,7 @@ public class SimpleModelRenderer implements ISimpleBlockRenderingHandler
         tes.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
         tes.setColorOpaque_F(1, 1, 1);
         tes.addTranslation(x + .5F, y + .5F, z + .5F);
-        ClientUtils.renderWithIcon(model, block.getIcon(0, world.getBlockMetadata(x, y, z)), tes);
+        RenderingUtils.renderWithIcon(model, block.getIcon(0, world.getBlockMetadata(x, y, z)), tes);
         tes.addTranslation(-x - .5F, -y - .5F, -z - .5F);
         return true;
     }

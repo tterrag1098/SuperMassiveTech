@@ -2,9 +2,9 @@ package tterrag.supermassivetech.common.config;
 
 import java.util.Set;
 
-import tterrag.supermassivetech.client.config.ConfigGuiSMT;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import tterrag.supermassivetech.client.config.ConfigGuiSMT;
 import cpw.mods.fml.client.IModGuiFactory;
 
 public class ConfigFactorySMT implements IModGuiFactory

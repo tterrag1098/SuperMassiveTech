@@ -28,8 +28,8 @@ import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor
 import tterrag.supermassivetech.common.util.BlockCoord;
 import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Utils;
 import tterrag.supermassivetech.common.util.Handler.HandlerType;
+import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;

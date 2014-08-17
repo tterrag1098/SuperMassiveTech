@@ -15,8 +15,8 @@ import tterrag.supermassivetech.api.common.enchant.IAdvancedEnchant;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Utils;
 import tterrag.supermassivetech.common.util.Handler.HandlerType;
+import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Handler(types = HandlerType.FORGE)

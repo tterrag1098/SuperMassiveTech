@@ -3,10 +3,10 @@ package tterrag.supermassivetech.client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import tterrag.supermassivetech.api.client.model.IModelSMT;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import tterrag.supermassivetech.api.client.model.IModelSMT;
 
 public class ModelBlackHoleStorage extends ModelBase implements IModelSMT
 {

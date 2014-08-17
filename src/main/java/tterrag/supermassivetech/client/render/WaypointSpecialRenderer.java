@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.client.util.ClientUtils;
+import tterrag.supermassivetech.client.util.RenderingUtils;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
 
 public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
@@ -38,7 +38,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         glPushMatrix();
         glTranslated(x + 0.5, y + 0.52, z + 0.5);
         glScalef(0.4f, 0.4f, 0.4f);
-        ClientUtils.render3DItem(item, tickDelay, true);
+        RenderingUtils.render3DItem(item, tickDelay, true);
         glPopMatrix();
         
         glPushAttrib(GL_ALL_ATTRIB_BITS);

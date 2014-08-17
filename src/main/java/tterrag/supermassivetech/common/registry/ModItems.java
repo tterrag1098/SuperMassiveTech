@@ -11,11 +11,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import tterrag.supermassivetech.common.item.ItemDepletedNetherStar;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;
+import tterrag.supermassivetech.common.item.ItemGravityArmor.ArmorType;
 import tterrag.supermassivetech.common.item.ItemSMT;
 import tterrag.supermassivetech.common.item.ItemStar;
 import tterrag.supermassivetech.common.item.ItemStarHeart;
 import tterrag.supermassivetech.common.item.ItemStarSpecial;
-import tterrag.supermassivetech.common.item.ItemGravityArmor.ArmorType;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 
