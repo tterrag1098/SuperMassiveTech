@@ -1,6 +1,7 @@
 package tterrag.supermassivetech.common.registry;
 
 import static tterrag.supermassivetech.common.registry.Stars.StarTier.*;
+import static tterrag.supermassivetech.common.config.ConfigHandler.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -292,16 +293,15 @@ public class Stars
 
     public void registerDefaultStars()
     {
-        // TODO balance
-        registerStarType(new StarType(PREFIX + "yellowDwarf", LOW, 0xd2df00, EnumChatFormatting.YELLOW, 100000000, 80, 600));
-        registerStarType(new StarType(PREFIX + "redDwarf", NORMAL, 0xcf3702, EnumChatFormatting.RED, 200000000, 40, 600));
-        registerStarType(new StarType(PREFIX + "redGiant", LOW, 0xcf0202, EnumChatFormatting.RED, 50000000, 40, 400));
-        registerStarType(new StarType(PREFIX + "blueGiant", NORMAL, 0x314eff, EnumChatFormatting.DARK_BLUE, 400000000, 20, 400));
-        registerStarType(new StarType(PREFIX + "supergiant", HIGH, 0xffea59, EnumChatFormatting.WHITE, 1000000000, 160, 1200));
-        registerStarType(new StarType(PREFIX + "brownDwarf", LOW, 0xb0752f, EnumChatFormatting.GRAY, 25000000, 20, 2400));
-        registerStarType(new StarType(PREFIX + "whiteDwarf", LOW, 0xf5f6c5, EnumChatFormatting.WHITE, 50000000, 160, 1200));
-        registerStarType(new StarType(PREFIX + "neutron", SPECIAL, 0x89fbff, EnumChatFormatting.AQUA, Integer.MAX_VALUE, 15, 1).setMassLevel(2));
-        registerStarType(new StarType(PREFIX + "pulsar", SPECIAL, 0xbd28cf, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, 20, 1).setMassLevel(2));
+        registerStarType(new StarType(PREFIX + "yellowDwarf", LOW, 0xd2df00, EnumChatFormatting.YELLOW, (int) (100000000 * starStorageMult), (int) (80 * starOutputMult), 600));
+        registerStarType(new StarType(PREFIX + "redDwarf", NORMAL, 0xcf3702, EnumChatFormatting.RED, (int) (200000000 * starStorageMult), (int) (40 * starOutputMult), 600));
+        registerStarType(new StarType(PREFIX + "redGiant", LOW, 0xcf0202, EnumChatFormatting.RED, (int) (50000000 * starStorageMult), (int) (40 * starOutputMult), 400));
+        registerStarType(new StarType(PREFIX + "blueGiant", NORMAL, 0x314eff, EnumChatFormatting.DARK_BLUE, (int) (400000000 * starStorageMult), (int) (20 * starOutputMult), 400));
+        registerStarType(new StarType(PREFIX + "supergiant", HIGH, 0xffea59, EnumChatFormatting.WHITE, (int) (1000000000 * starStorageMult), (int) (160 * starOutputMult), 1200));
+        registerStarType(new StarType(PREFIX + "brownDwarf", LOW, 0xb0752f, EnumChatFormatting.GRAY, (int) (25000000 * starStorageMult), (int) (20 * starOutputMult), 2400));
+        registerStarType(new StarType(PREFIX + "whiteDwarf", LOW, 0xf5f6c5, EnumChatFormatting.WHITE, (int) (50000000 * starStorageMult), (int) (160 * starOutputMult), 1200));
+        registerStarType(new StarType(PREFIX + "neutron", SPECIAL, 0x89fbff, EnumChatFormatting.AQUA, Integer.MAX_VALUE, (int) (15 * starOutputMult), 1).setMassLevel(2));
+        registerStarType(new StarType(PREFIX + "pulsar", SPECIAL, 0xbd28cf, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, (int) (20 * starOutputMult), 1).setMassLevel(2));
 
         /*
          * - pulsars are neutron stars, neutrons are formed INSTEAD of black

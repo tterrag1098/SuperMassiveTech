@@ -323,17 +323,20 @@ public class GravityArmorHandler
 
     private void processBlocks(BlockCoord baseBlock, World world)
     {
-        for (int bx = baseBlock.x - fieldRange; bx < baseBlock.x + fieldRange; bx++)
+        if (ConfigHandler.doBlocks)
         {
-            for (int by = baseBlock.y - fieldRange; by < baseBlock.y + fieldRange; by++)
+            for (int bx = baseBlock.x - fieldRange; bx < baseBlock.x + fieldRange; bx++)
             {
-                for (int bz = baseBlock.z - fieldRange; bz < baseBlock.z + fieldRange; bz++)
+                for (int by = baseBlock.y - fieldRange; by < baseBlock.y + fieldRange; by++)
                 {
-                    BlockCoord b = new BlockCoord(bx, by, bz);
-                    Block block = b.getBlock(world);
-                    if (block instanceof BlockFalling)
+                    for (int bz = baseBlock.z - fieldRange; bz < baseBlock.z + fieldRange; bz++)
                     {
-                        createFallingSandChance(world, b, (BlockFalling) block);
+                        BlockCoord b = new BlockCoord(bx, by, bz);
+                        Block block = b.getBlock(world);
+                        if (block instanceof BlockFalling)
+                        {
+                            createFallingSandChance(world, b, (BlockFalling) block);
+                        }
                     }
                 }
             }

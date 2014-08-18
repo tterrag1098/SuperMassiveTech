@@ -21,6 +21,7 @@ public class ConfigHandler
     public static String sectionArmor = "Gravity Armor Config";
     public static String sectionMisc = "Other Settings";
     public static String sectionTooltips = "Tooltip Settings";
+    public static String sectionStars = "Star Settings";
 
     public static float maxGravityXZ, maxGravityY, minGravity, range, strength;
     public static boolean doGravityWell;
@@ -31,7 +32,11 @@ public class ConfigHandler
     public static int fieldRange = 7;
     public static double fieldUsageBase = 3;
     public static boolean fieldIgnorePlayers = false;
-
+    public static boolean doBlocks = true;
+    
+    public static double starOutputMult = 1.0;
+    public static double starStorageMult = 1.0;
+    
     public static boolean betterAchievements = true;
 
     public static boolean forceEnableLootFix = false;
@@ -48,8 +53,6 @@ public class ConfigHandler
         config = new Configuration(file);
 
         doConfiguration();
-
-        config.getCategory(sectionGravity.toLowerCase()).setRequiresWorldRestart(false).setRequiresMcRestart(false);
     }
 
     public static void doConfiguration()
@@ -89,6 +92,7 @@ public class ConfigHandler
         fieldRange = config.get(sectionArmor, "fieldRange", fieldRange, "The range of the anti-grav field on the gravity armor.").getInt();
         fieldUsageBase = config.get(sectionArmor, "fieldUsageBase", fieldUsageBase, "Base value of the power usage for the field. This is used as an exponent. The forumula is roughly \'(entity height + entity width)^fieldUsageBase\'").getDouble(fieldUsageBase);
         fieldIgnorePlayers = config.get(sectionArmor, "fieldIgnorePlayers", fieldIgnorePlayers, "Whether or not the anti-grav field ignores players.").getBoolean(fieldIgnorePlayers);
+        doBlocks = config.get(sectionArmor, "doBlocks", doBlocks, "Whether the anti-grav affects blocks").getBoolean();
         
         // tooltips
         
@@ -98,6 +102,9 @@ public class ConfigHandler
         wailaKey1 = config.get(sectionTooltips, "wailaKey1", wailaKey1, "The first key that can be pressed to show WAILA extended tooltips (this will show as the key to press on the condensed tooltip).").getString().toUpperCase();
         wailaKey2 = config.get(sectionTooltips, "wailaKey2", wailaKey2, "The second key that can be pressed to show WAILA extended tooltips. This is hidden and to be used for keys that have right/left versions. Can be the same as key1.").getString().toUpperCase();
         
+        starOutputMult = config.get(sectionStars, "starOutputMult", starOutputMult, "The multiplier to apply to the output rate of stars.").getDouble();
+        starStorageMult = config.get(sectionStars, "starStorageMult", starStorageMult, "The multiplier to apply to the storage amount of stars.").getDouble();
+
         config.save();
         /* @formatter:on */
     }
