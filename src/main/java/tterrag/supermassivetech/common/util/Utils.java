@@ -2,11 +2,8 @@ package tterrag.supermassivetech.common.util;
 
 import static tterrag.supermassivetech.SuperMassiveTech.*;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.block.material.Material;
@@ -30,7 +27,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -49,13 +45,7 @@ import tterrag.supermassivetech.common.item.ItemStar;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.tile.TileBlackHoleStorage;
-import tterrag.supermassivetech.common.util.Handler.HandlerType;
 import cofh.api.energy.IEnergyContainerItem;
-
-import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
-
-import cpw.mods.fml.common.FMLCommonHandler;
 
 public class Utils
 {
@@ -520,58 +510,6 @@ public class Utils
             return EnumChatFormatting.GOLD;
         else
             return EnumChatFormatting.GREEN;
-    }
-
-    public static void registerEventHandlers()
-    {
-            ClassPath classpath;
-
-            try
-            {
-                classpath = ClassPath.from(SuperMassiveTech.class.getClassLoader());
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-
-            Set<ClassInfo> classes = classpath.getTopLevelClassesRecursive(ModProps.MAIN_PACKAGE);
-
-            for (ClassInfo info : classes)
-            {
-                try
-                {
-                    Class<?> c = info.load();
-
-                    Annotation a = c.getAnnotation(Handler.class);
-                    if (a != null)
-                    {
-                        registerHandler(c, (Handler) a);
-                    }
-                }
-                catch (Throwable t)
-                {
-                    if ((t instanceof NoClassDefFoundError || t instanceof IllegalStateException) && FMLCommonHandler.instance().getSide().isServer())
-                    {
-                        SuperMassiveTech.logger.info("Not registering handler " + info.getName() + " because necessary classes are missing.");
-                    }
-                    else
-                    {
-                        SuperMassiveTech.logger.fatal(String.format("Failed to register handler %s, this is a serious bug, certain functions will not be avaialble!",
-                                info.getName()));
-                        t.printStackTrace();
-                    }
-                }
-            }
-    }
-
-    private static void registerHandler(Class<?> c, Handler handler) throws InstantiationException, IllegalAccessException
-    {
-        if (ArrayUtils.contains(handler.types(), HandlerType.FORGE))
-            MinecraftForge.EVENT_BUS.register(c.newInstance());
-
-        if (ArrayUtils.contains(handler.types(), HandlerType.FML))
-            FMLCommonHandler.instance().bus().register(c.newInstance());
     }
 
     /**

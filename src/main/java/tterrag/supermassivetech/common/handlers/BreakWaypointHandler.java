@@ -3,9 +3,9 @@ package tterrag.supermassivetech.common.handlers;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.world.BlockEvent;
+import tterrag.core.utils.Handler;
+import tterrag.core.utils.Handler.HandlerType;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
-import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Handler.HandlerType;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Handler(types = HandlerType.FORGE)

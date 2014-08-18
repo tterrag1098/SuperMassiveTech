@@ -10,12 +10,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.oredict.OreDictionary;
+import tterrag.core.utils.Handler;
+import tterrag.core.utils.Handler.HandlerType;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.enchant.IAdvancedEnchant;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.config.ConfigHandler;
-import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Handler.HandlerType;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 

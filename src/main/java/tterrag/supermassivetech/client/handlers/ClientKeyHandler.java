@@ -14,12 +14,12 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
+import tterrag.core.utils.Handler;
+import tterrag.core.utils.Handler.HandlerType;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.MessageJumpUpdate;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor.PowerUps;
-import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Handler.HandlerType;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

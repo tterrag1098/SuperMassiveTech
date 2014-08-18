@@ -14,8 +14,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import tterrag.core.client.RenderingUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
-import tterrag.supermassivetech.client.util.RenderingUtils;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
 
 public class WaypointSpecialRenderer extends TileEntitySpecialRenderer

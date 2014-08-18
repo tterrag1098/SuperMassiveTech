@@ -15,12 +15,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
+import tterrag.core.utils.Handler;
+import tterrag.core.utils.Handler.HandlerType;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor.PowerUps;
-import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Handler.HandlerType;
 import tterrag.supermassivetech.common.util.Utils;
 import tterrag.supermassivetech.common.util.Waypoint;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

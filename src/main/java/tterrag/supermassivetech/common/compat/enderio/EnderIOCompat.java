@@ -2,11 +2,11 @@ package tterrag.supermassivetech.common.compat.enderio;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import tterrag.core.utils.Handler;
+import tterrag.core.utils.Handler.HandlerType;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
 import tterrag.supermassivetech.common.util.Constants;
-import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Handler.HandlerType;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;

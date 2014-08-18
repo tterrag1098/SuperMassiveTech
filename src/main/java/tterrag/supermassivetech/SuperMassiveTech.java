@@ -34,7 +34,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 /**
  * @author Garrett Spicer-Davis
  */
-@Mod(modid = ModProps.MODID, name = ModProps.MOD_NAME, version = ModProps.VERSION, dependencies = "required-after:Forge@10.13.0.1171,);after:Waila", guiFactory = ModProps.GUI_FACTORY_CLASS)
+@Mod(modid = ModProps.MODID, name = ModProps.MOD_NAME, version = ModProps.VERSION, dependencies = "required-after:Forge@10.13.0.1171,);required-after:ttCore;after:Waila", guiFactory = ModProps.GUI_FACTORY_CLASS)
 public class SuperMassiveTech
 {
     @Instance
@@ -66,9 +66,7 @@ public class SuperMassiveTech
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
         OreDictRegistrations.load();
-
-        Utils.registerEventHandlers();
-
+        
         proxy.preInit();
 
         itemRegistry.register();

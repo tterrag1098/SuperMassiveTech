@@ -3,11 +3,11 @@ package tterrag.supermassivetech.common.config;
 import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
+import tterrag.core.utils.Handler;
+import tterrag.core.utils.Handler.HandlerType;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.util.Constants;
-import tterrag.supermassivetech.common.util.Handler;
-import tterrag.supermassivetech.common.util.Handler.HandlerType;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
