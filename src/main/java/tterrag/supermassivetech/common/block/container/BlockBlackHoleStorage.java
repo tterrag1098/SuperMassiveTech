@@ -5,6 +5,7 @@
  */
 package tterrag.supermassivetech.common.block.container;
 
+import static tterrag.supermassivetech.common.tile.TileBlackHoleStorage.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -69,13 +70,13 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements ISaveToI
 
         NBTTagCompound tag = new NBTTagCompound();
 
-        if (te.getStackInSlot(2) != null && !Utils.stacksEqual(te.getStackInSlot(2), te.getStoredItem()))
+        if (te.getStackInSlot(output) != null && !Utils.stacksEqual(te.getStackInSlot(output), te.getStoredItem()))
         {
-            Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(2), x, y, z);
-            te.setInventorySlotContents(2, null);
+            Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(output), x, y, z);
+            te.setInventorySlotContents(output, null);
         }
 
-        long itemAmount = te.storedAmount + (te.getStackInSlot(2) == null ? 0 : te.getStackInSlot(2).stackSize);
+        long itemAmount = te.storedAmount + (te.getStackInSlot(output) == null ? 0 : te.getStackInSlot(output).stackSize);
         tag.setLong("itemsStored", itemAmount);
         tag.setLong("fluidStored", te.getTank().amountStored);
 
@@ -86,7 +87,7 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements ISaveToI
             tag.setTag("itemStack", itemTag);
         }
 
-        if (te.getStoredItem() == null && te.getStackInSlot(2) != null)
+        if (te.getStoredItem() == null && te.getStackInSlot(output) != null)
         {
             NBTTagCompound itemTag = new NBTTagCompound();
             te.getStackInSlot(2).writeToNBT(itemTag);

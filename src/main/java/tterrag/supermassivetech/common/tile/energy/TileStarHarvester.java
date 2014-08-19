@@ -23,9 +23,10 @@ import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.common.network.PacketHandler;
-import tterrag.supermassivetech.common.network.message.MessageStarHarvester;
-import tterrag.supermassivetech.common.network.message.MessageUpdateVenting;
+import tterrag.supermassivetech.common.network.message.tile.MessageStarHarvester;
+import tterrag.supermassivetech.common.network.message.tile.MessageUpdateVenting;
 import tterrag.supermassivetech.common.registry.Achievements;
+import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
 import tterrag.supermassivetech.common.util.Utils;
 
 public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory, IWailaAdditionalInfo

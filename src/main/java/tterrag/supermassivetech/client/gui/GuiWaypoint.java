@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import tterrag.supermassivetech.client.gui.button.ButtonSlider;
 import tterrag.supermassivetech.common.network.PacketHandler;
-import tterrag.supermassivetech.common.network.message.MessageWaypointUpdate;
+import tterrag.supermassivetech.common.network.message.tile.MessageWaypointUpdate;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
 
 public class GuiWaypoint extends GuiScreen

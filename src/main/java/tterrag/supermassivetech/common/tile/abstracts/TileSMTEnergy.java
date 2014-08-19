@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.common.tile.energy;
+package tterrag.supermassivetech.common.tile.abstracts;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -8,8 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
 
 import tterrag.supermassivetech.common.network.PacketHandler;
-import tterrag.supermassivetech.common.network.message.MessageEnergyUpdate;
-import tterrag.supermassivetech.common.tile.TileSMTInventory;
+import tterrag.supermassivetech.common.network.message.tile.MessageEnergyUpdate;
 import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;

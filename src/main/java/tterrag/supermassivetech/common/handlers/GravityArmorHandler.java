@@ -34,6 +34,7 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 @Handler(types = HandlerType.FML)
 public class GravityArmorHandler
@@ -131,14 +132,7 @@ public class GravityArmorHandler
             {
                 try
                 {
-                    try
-                    {
-                        isHittingBlock = PlayerControllerMP.class.getDeclaredField("isHittingBlock");
-                    }
-                    catch (Throwable t)
-                    {
-                        isHittingBlock = PlayerControllerMP.class.getDeclaredField("field_78778_j");
-                    }
+                    isHittingBlock = ReflectionHelper.findField(PlayerControllerMP.class, "isHittingBlock", "field_78778_j");
                     isHittingBlock.setAccessible(true);
                 }
                 catch (Throwable t)

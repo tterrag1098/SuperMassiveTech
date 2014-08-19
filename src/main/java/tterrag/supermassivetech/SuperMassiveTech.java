@@ -14,6 +14,7 @@ import tterrag.supermassivetech.common.compat.enderio.EnderIOCompat;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
+import tterrag.supermassivetech.common.registry.BlackHoleEnergyRegistry;
 import tterrag.supermassivetech.common.registry.ModBlocks;
 import tterrag.supermassivetech.common.registry.ModEnchants;
 import tterrag.supermassivetech.common.registry.ModEntities;
@@ -66,7 +67,7 @@ public class SuperMassiveTech
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
         OreDictRegistrations.load();
-        
+
         proxy.preInit();
 
         itemRegistry.register();
@@ -80,6 +81,7 @@ public class SuperMassiveTech
         Achievements.initAchievements();
 
         starRegistry.registerDefaultStars();
+        BlackHoleEnergyRegistry.INSTANCE.registerDefaults();
 
         if (Loader.isModLoaded("Waila"))
             WailaCompat.INSTANCE.load();
@@ -92,7 +94,7 @@ public class SuperMassiveTech
 
         itemRegistry.addRecipes();
         blockRegistry.addRecipes();
-        
+
         if (Loader.isModLoaded("EnderIO"))
             EnderIOCompat.INSTANCE.load();
     }

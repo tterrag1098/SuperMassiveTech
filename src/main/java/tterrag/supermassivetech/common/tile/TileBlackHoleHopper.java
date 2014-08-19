@@ -15,7 +15,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.common.network.PacketHandler;
-import tterrag.supermassivetech.common.network.message.MessageHopperParticle;
+import tterrag.supermassivetech.common.network.message.tile.MessageHopperParticle;
+import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
 import tterrag.supermassivetech.common.util.Utils;
 
 public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInventory

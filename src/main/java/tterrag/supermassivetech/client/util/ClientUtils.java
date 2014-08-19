@@ -25,10 +25,12 @@ import tterrag.supermassivetech.client.handlers.ClientKeyHandler.ArmorPower;
 import tterrag.supermassivetech.client.handlers.ClientKeyHandler.ArmorPowerState;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;
 import tterrag.supermassivetech.common.item.ItemGravityArmor.ArmorType;
-import tterrag.supermassivetech.common.network.message.MessageChargerUpdate;
-import tterrag.supermassivetech.common.network.message.MessageEnergyUpdate;
+import tterrag.supermassivetech.common.network.message.tile.MessageChargerUpdate;
+import tterrag.supermassivetech.common.network.message.tile.MessageEnergyUpdate;
+import tterrag.supermassivetech.common.network.message.tile.MessageUpdateBlackHole;
+import tterrag.supermassivetech.common.tile.TileBlackHole;
+import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
 import tterrag.supermassivetech.common.tile.energy.TileCharger;
-import tterrag.supermassivetech.common.tile.energy.TileSMTEnergy;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -197,6 +199,16 @@ public class ClientUtils
         if (te != null && te instanceof TileCharger)
         {
             ((TileCharger) te).setInventorySlotContents(0, message.item);
+        }
+    }
+
+    public static void updateBlackHole(MessageUpdateBlackHole message)
+    {
+        TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(message.x, message.y, message.z);
+        
+        if (te != null && te instanceof TileBlackHole)
+        {
+            ((TileBlackHole) te).setEnergy(message.energy);
         }
     }
 }

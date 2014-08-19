@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.api.common.registry.IStar;
-import tterrag.supermassivetech.common.tile.TileSMTInventory;
+import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
 import tterrag.supermassivetech.common.util.Utils;
 

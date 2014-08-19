@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import tterrag.core.client.RenderingUtils;
 import tterrag.supermassivetech.ModProps;
+import tterrag.supermassivetech.api.common.tile.IBlackHole;
 
 public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
 {
@@ -14,6 +15,8 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTickTime)
     {
+        IBlackHole bh = (IBlackHole) te;
+        
         glPushMatrix();
         glTranslated(x + 0.5f, y + 0.5f, z + 0.5f);
 
@@ -27,7 +30,7 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
         glPushAttrib(GL_ALL_ATTRIB_BITS);
         glDisable(GL_LIGHTING);
         glAlphaFunc(GL_ALWAYS, 1);
-        RenderingUtils.renderBillboardQuad(rot, 0.7d);
+        RenderingUtils.renderBillboardQuad(rot, bh.getSize());
         glPopAttrib();
         glPopMatrix();
 

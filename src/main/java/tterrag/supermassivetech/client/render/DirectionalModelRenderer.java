@@ -12,7 +12,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.supermassivetech.api.client.model.IModelSMT;
-import tterrag.supermassivetech.common.tile.TileSMTInventory;
+import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
 
 /**
  * Renders a model with directional placement

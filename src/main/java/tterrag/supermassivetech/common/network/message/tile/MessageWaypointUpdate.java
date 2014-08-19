@@ -1,4 +1,4 @@
-package tterrag.supermassivetech.common.network.message;
+package tterrag.supermassivetech.common.network.message.tile;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;

@@ -263,7 +263,9 @@ public class Utils
         // shows smoke particles
 
         if (showParticles && entity.worldObj.isRemote)
-            ClientUtils.spawnGravityEffectParticles(xCoord, yCoord, zCoord, entity, (float) dist);
+        {
+            ClientUtils.spawnGravityEffectParticles(xCoord, yCoord, zCoord, entity, (float) Math.min(2, dist));
+        }
     }
 
     public static void setEntityVelocity(Entity entity, double velX, double velY, double velZ)

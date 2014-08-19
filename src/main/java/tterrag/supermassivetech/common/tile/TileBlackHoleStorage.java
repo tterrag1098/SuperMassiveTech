@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import powercrystals.minefactoryreloaded.api.IDeepStorageUnit;
 import tterrag.supermassivetech.SuperMassiveTech;
+import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
 import tterrag.supermassivetech.common.util.Utils;
 
 /**
@@ -32,7 +33,8 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     /* Fluid handling */
     private BlackHoleTank tank = new BlackHoleTank();
 
-    private int input = 0, output = 1, fluidIn = 2, fluidOut = 3;
+    /* Slot indeces */
+    public static final int input = 0, output = 1, fluidIn = 2, fluidOut = 3;
 
     public TileBlackHoleStorage()
     {

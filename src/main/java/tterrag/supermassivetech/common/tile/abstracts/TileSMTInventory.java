@@ -1,8 +1,7 @@
-package tterrag.supermassivetech.common.tile;
+package tterrag.supermassivetech.common.tile.abstracts;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -11,24 +10,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
-import tterrag.supermassivetech.client.util.ClientUtils;
-import tterrag.supermassivetech.common.config.ConfigHandler;
-import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 
-public abstract class TileSMTInventory extends TileEntity implements IInventory, IWailaAdditionalInfo
+public abstract class TileSMTInventory extends TileSMT implements IInventory, IWailaAdditionalInfo
 {
     protected ItemStack[] inventory;
-    protected final float RANGE;
-    protected final float STRENGTH;
-    protected final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
-    private int ticksSinceLastParticle = 0;
-    private static Constants c = Constants.instance();
 
     /**
      * Sets the tile with all default constant values
@@ -58,70 +47,10 @@ public abstract class TileSMTInventory extends TileEntity implements IInventory,
      */
     public TileSMTInventory(float rangeMult, float strengthMult, float maxGravXZ, float maxGravY, float minGrav)
     {
-        RANGE = c.getRange() * rangeMult;
-        STRENGTH = c.getStrength() * strengthMult;
-        MAX_GRAV_XZ = maxGravXZ;
-        MAX_GRAV_Y = maxGravY;
-        MIN_GRAV = minGrav;
+        super(rangeMult, strengthMult, maxGravXZ, maxGravY, minGrav);
         
         inventory = new ItemStack[0];
     }
-
-    @Override
-    public void updateEntity()
-    {
-        if (isGravityWell() && ConfigHandler.doGravityWell)
-        {
-            for (Object o : worldObj.getEntitiesWithinAABB(
-                    Entity.class,
-                    AxisAlignedBB.getBoundingBox(xCoord + 0.5 - RANGE, yCoord + 0.5 - RANGE, zCoord + 0.5 - RANGE, xCoord + 0.5 + RANGE, yCoord + 0.5 + RANGE, zCoord + 0.5
-                            + RANGE)))
-            {
-                Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, RANGE, (Entity) o, this, showParticles());
-            }
-
-            if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 && showParticles())
-            {
-                double x = getRand(), y = getRand(), z = getRand();
-
-                ClientUtils.spawnGravityParticle(xCoord, yCoord, zCoord, x, y, z);
-                ticksSinceLastParticle = 0;
-            }
-            else if (ticksSinceLastParticle < 4)
-                ticksSinceLastParticle++;
-            else
-                ticksSinceLastParticle = 0;
-        }
-    }
-
-    private double getRand()
-    {
-        double num = (worldObj.rand.nextFloat() * (RANGE * 2) - RANGE);
-        if (num < 0 && num > -1.0)
-            num = -1.0f;
-        if (num > 0 && num < 1.0)
-            num = 1.0f;
-        return num;
-    }
-
-    /**
-     * The multiplier to be applied to the strength of the gravity, used for
-     * gravity dependant on stored amount of items, configuration, etc.
-     * 
-     * @return a float to multiply the strength with, defaults to 1.
-     */
-    protected float getStrengthMultiplier()
-    {
-        return 1;
-    }
-
-    /**
-     * Whether this tile is a gravity well, that is, whether to apply gravity to
-     * surrounding entities.
-     */
-    public abstract boolean isGravityWell();
-
-    public abstract boolean showParticles();
 
     @Override
     public int getSizeInventory()
