@@ -60,7 +60,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole
             lastStoredEnergy = storedEnergy;
         }
 
-        System.out.println("Energy: " + getEnergy() + "  Size: " + getSize() + "  Strength: " + getStrength() * getStrengthMultiplier() + "  Range: " + getRange() * getRangeMultiplier());
+//        System.out.println("Energy: " + getEnergy() + "  Size: " + getSize() + "  Strength: " + getStrength() * getStrengthMultiplier() + "  Range: " + getRange() * getRangeMultiplier());
     }
 
     private void sendPacket()
