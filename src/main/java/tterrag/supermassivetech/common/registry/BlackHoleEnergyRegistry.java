@@ -10,7 +10,13 @@ import net.minecraft.item.ItemStack;
 
 public class BlackHoleEnergyRegistry
 {
-    private static class BlackHoleEnergyEntry
+    private interface IEnergyEntry<T>
+    {
+        boolean matches(T entry);
+        int getEnergyFor(T entry);
+    }
+    
+    private static class EnergyEntryItem implements IEnergyEntry<ItemStack>
     {
         private ItemStack entryKey;
         private int energyOut;
@@ -18,25 +24,25 @@ public class BlackHoleEnergyRegistry
         private boolean checkNBT = false;
         private boolean checkDamage = true;
         
-        private BlackHoleEnergyEntry(ItemStack key, int energy)
+        private EnergyEntryItem(ItemStack key, int energy)
         {
             entryKey = key;
             energyOut = energy;
         }
         
-        private BlackHoleEnergyEntry setCheckNBT(boolean set)
+        private EnergyEntryItem setCheckNBT(boolean set)
         {
             checkNBT = set;
             return this;
         }
         
-        private BlackHoleEnergyEntry setCheckDamage(boolean set)
+        private EnergyEntryItem setCheckDamage(boolean set)
         {
             checkDamage = set;
             return this;
         }
         
-        private boolean matches(ItemStack stack)
+        public boolean matches(ItemStack stack)
         {
             boolean matches = true;
             
@@ -55,7 +61,7 @@ public class BlackHoleEnergyRegistry
             return matches;
         }
         
-        private int getEnergyFor(ItemStack stack)
+        public int getEnergyFor(ItemStack stack)
         {
             return energyOut * stack.stackSize;
         }
@@ -63,11 +69,11 @@ public class BlackHoleEnergyRegistry
     
     public static final BlackHoleEnergyRegistry INSTANCE = new BlackHoleEnergyRegistry();
     
-    private List<BlackHoleEnergyEntry> entries = new ArrayList<BlackHoleEnergyEntry>();
+    private List<IEnergyEntry<ItemStack>> items = new ArrayList<IEnergyEntry<ItemStack>>();
     
     public int getEnergyFor(ItemStack stack)
     {
-        for (BlackHoleEnergyEntry entry : entries)
+        for (IEnergyEntry<ItemStack> entry : items)
         {
             if (entry.matches(stack))
             {
@@ -80,27 +86,27 @@ public class BlackHoleEnergyRegistry
     /**
      * Defaults both checks to false
      */
-    public void registerBlackHoleEnergy(ItemStack input, int energy)
+    public void registerItemEnergy(ItemStack input, int energy)
     {
-        registerBlackHoleEnergy(input, energy, false, false);
+        registerItemEnergy(input, energy, false, false);
     }
     
     /**
      * Defaults checKNBT to false
      */
-    public void registerBlackHoleEnergy(ItemStack input, int energy, boolean checkNBT)
+    public void registerItemEnergy(ItemStack input, int energy, boolean checkNBT)
     {
-        registerBlackHoleEnergy(input, energy, checkNBT, false);
+        registerItemEnergy(input, energy, checkNBT, false);
     }
     
-    public void registerBlackHoleEnergy(ItemStack input, int energy, boolean checkNBT, boolean checkDamage)
+    public void registerItemEnergy(ItemStack input, int energy, boolean checkNBT, boolean checkDamage)
     {
-        entries.add(new BlackHoleEnergyEntry(input, energy).setCheckNBT(checkNBT).setCheckDamage(checkDamage));
+        items.add(new EnergyEntryItem(input, energy).setCheckNBT(checkNBT).setCheckDamage(checkDamage));
     }
     
     public void registerDefaults()
     {
-        registerBlackHoleEnergy(new ItemStack(Items.diamond), 10);
-        registerBlackHoleEnergy(new ItemStack(Item.getItemFromBlock(Blocks.diamond_block)), 90);
+        registerItemEnergy(new ItemStack(Items.diamond), 10);
+        registerItemEnergy(new ItemStack(Item.getItemFromBlock(Blocks.diamond_block)), 90);
     }
 }
