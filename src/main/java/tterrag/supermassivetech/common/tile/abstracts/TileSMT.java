@@ -14,7 +14,7 @@ public abstract class TileSMT extends TileEntity
     private final float STRENGTH;
     private final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
     private int ticksSinceLastParticle = 0;
-    protected static final Constants c = Constants.instance();
+    private static final Constants c = Constants.instance();
 
     /**
      * Sets the tile with all default constant values
@@ -55,13 +55,13 @@ public abstract class TileSMT extends TileEntity
     {
         if (isGravityWell() && ConfigHandler.doGravityWell)
         {
-            float range = RANGE * getRangeMultiplier();
+            float range = getRange() * getRangeMultiplier();
             for (Object o : worldObj.getEntitiesWithinAABB(
                     Entity.class,
                     AxisAlignedBB.getBoundingBox(xCoord + 0.5 - range, yCoord + 0.5 - range, zCoord + 0.5 - range, xCoord + 0.5 + range, yCoord + 0.5 + range, zCoord + 0.5
                             + range)))
             {
-                Utils.applyGravity(STRENGTH * getStrengthMultiplier(), MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV, range, (Entity) o, this, showParticles());
+                Utils.applyGravity(getStrength() * getStrengthMultiplier(), getMaxGravXZ(), getMaxGravY(), getMinGrav(), range, (Entity) o, this, showParticles());
             }
 
             if (worldObj != null && worldObj.isRemote && ticksSinceLastParticle >= 4 && showParticles())
@@ -80,7 +80,7 @@ public abstract class TileSMT extends TileEntity
 
     private double getRand()
     {
-        double num = (worldObj.rand.nextFloat() * (RANGE * 2) - RANGE);
+        double num = (worldObj.rand.nextFloat() * (getRange() * 2) - getRange());
         if (num < 0 && num > -1.0)
             num = -1.0f;
         if (num > 0 && num < 1.0)

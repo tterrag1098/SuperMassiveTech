@@ -24,12 +24,12 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
 
         float rot = RenderingUtils.getRotation(partialTickTime, 2);
 
-        glEnable(GL_BLEND);
-
         glPushMatrix();
         glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glEnable(GL_BLEND);
         glDisable(GL_LIGHTING);
         glAlphaFunc(GL_ALWAYS, 1);
+        glEnable(GL_DEPTH_TEST);
         RenderingUtils.renderBillboardQuad(rot, bh.getSize());
         glPopAttrib();
         glPopMatrix();

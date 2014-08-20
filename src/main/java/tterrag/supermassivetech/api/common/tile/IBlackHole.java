@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 
 public interface IBlackHole
 {
-    public int getEnergy();
+    public long getEnergy();
     
-    public void setEnergy(int newEnergy);
+    public void setEnergy(long newEnergy);
     
     public void incrementEnergy(Entity collided);
     

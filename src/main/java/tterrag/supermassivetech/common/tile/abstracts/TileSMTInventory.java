@@ -13,11 +13,13 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
+import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 
 public abstract class TileSMTInventory extends TileSMT implements IInventory, IWailaAdditionalInfo
 {
     protected ItemStack[] inventory;
+    private static final Constants c = Constants.instance();
 
     /**
      * Sets the tile with all default constant values

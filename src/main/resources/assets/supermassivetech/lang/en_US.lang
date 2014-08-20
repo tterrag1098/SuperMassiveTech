@@ -199,3 +199,7 @@ SMT.config.tooltipsettings.tooltip=You dawg, I put info in your info so you can 
 
 SMT.config.othersettings=Miscellaneous Settings
 SMT.config.othersettings.tooltip=Stuff I couldn't find a section for.
+
+## Death Messages ##
+
+SMT.death.blackHole=%s was spaghettified by a black hole
