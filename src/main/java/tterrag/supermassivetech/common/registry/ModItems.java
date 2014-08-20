@@ -2,8 +2,6 @@ package tterrag.supermassivetech.common.registry;
 
 import java.util.ArrayList;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
@@ -62,6 +60,12 @@ public class ModItems
         armors.add(gravityChest);
         armors.add(gravityLegs);
         armors.add(gravityBoots);
+        
+        OreDictionary.registerOre("itemStar", star);
+        OreDictionary.registerOre("itemStar", starSpecial);
+        OreDictionary.registerOre("itemStarContainer", starContainer);
+        OreDictionary.registerOre("itemStarHeart", heartOfStar);
+        OreDictionary.registerOre("itemDepletedNetherStar", new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE));
     }
 
     public void addRecipes()
@@ -72,21 +76,21 @@ public class ModItems
                 "DSD", 
                 "RGR",
 
-                'G', OreDictionary.getOres("dustGold").isEmpty() ? Items.glowstone_dust : "dustGold", 
-                'R', Items.redstone, 
-                'S', Items.nether_star, 
-                'D', OreDictionary.getOres("dustDiamond").isEmpty() ? Items.diamond : "dustDiamond")
+                'G', OreDictionary.getOres("dustGold").isEmpty() ? "dustGlowstone" : "dustGold", 
+                'R', "dustRedstone",
+                'S', "itemNetherStar",
+                'D', OreDictionary.getOres("dustDiamond").isEmpty() ? "gemDiamond" : "dustDiamond")
         );
 
-        GameRegistry.addRecipe(new ItemStack(starContainer), 
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(starContainer), 
                 "iOi", 
                 "d d", 
                 "iOi",
 
-                'i', Items.iron_ingot, 
-                'O', Blocks.obsidian, 
-                'd', Items.diamond
-        );
+                'i', "ingotIron",
+                'O', "blockObsidian", 
+                'd', "gemDiamond"
+        ));
 
         String armorMat = OreDictionary.getOres("ingotSteel").isEmpty() ? "ingotIron" : "ingotSteel";
 
@@ -95,8 +99,8 @@ public class ModItems
                 "I I",
 
                 'I', armorMat, 
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE))
-        );
+                'n', "itemDepletedNetherStar"
+        ));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(gravityChest.create(), 
                 "I I", 
@@ -104,8 +108,8 @@ public class ModItems
                 "III",
 
                 'I', armorMat, 
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE))
-        );
+                'n', "itemDepletedNetherStar"
+        ));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(gravityLegs.create(), 
                 "InI", 
@@ -113,16 +117,16 @@ public class ModItems
                 "I I",
 
                 'I', armorMat, 
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE))
-        );
+                'n', "itemDepletedNetherStar"
+        ));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(gravityBoots.create(), 
                 "I I", 
                 "InI",
 
                 'I', armorMat, 
-                'n', new ItemStack(depletedNetherStar, 1, OreDictionary.WILDCARD_VALUE))
-        );
+                'n', "itemDepletedNetherStar"
+        ));
         /* @formatter:on */
     }
 }

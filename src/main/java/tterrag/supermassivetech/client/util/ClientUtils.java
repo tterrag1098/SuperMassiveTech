@@ -105,7 +105,7 @@ public class ClientUtils
                 data[0] + 0.5, data[1] + 0.5, data[2] + 0.5, 0.1d));
     }
 
-    public static void setStarHarvetserSlotContents(NBTTagCompound data, int x, int y, int z)
+    public static void updateStarHarvester(NBTTagCompound data, int x, int y, int z, double spinSpeed)
     {
         World world = Minecraft.getMinecraft().theWorld;
 
@@ -114,7 +114,8 @@ public class ClientUtils
             TileEntity t = world.getTileEntity(x, y, z);
             if (t != null && t instanceof TileStarHarvester)
             {
-                ((TileStarHarvester) t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
+                ((TileStarHarvester)t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
+                ((TileStarHarvester)t).spinSpeed = spinSpeed;
             }
         }
     }
@@ -205,7 +206,7 @@ public class ClientUtils
     public static void updateBlackHole(MessageUpdateBlackHole message)
     {
         TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(message.x, message.y, message.z);
-        
+
         if (te != null && te instanceof TileBlackHole)
         {
             ((TileBlackHole) te).setEnergy(message.energy);

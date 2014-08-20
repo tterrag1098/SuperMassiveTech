@@ -1,7 +1,7 @@
 package tterrag.supermassivetech.common.network.message.tile;
 
-import tterrag.supermassivetech.client.util.ClientUtils;
 import io.netty.buffer.ByteBuf;
+import tterrag.supermassivetech.client.util.ClientUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

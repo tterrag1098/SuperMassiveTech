@@ -2,8 +2,8 @@ package tterrag.supermassivetech.common.compat.enderio;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import tterrag.core.utils.Handler;
-import tterrag.core.utils.Handler.HandlerType;
+import tterrag.core.common.Handlers.Handler;
+import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
 import tterrag.supermassivetech.common.util.Constants;

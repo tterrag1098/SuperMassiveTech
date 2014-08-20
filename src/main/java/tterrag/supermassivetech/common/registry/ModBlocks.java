@@ -1,10 +1,9 @@
 package tterrag.supermassivetech.common.registry;
 
-import static tterrag.supermassivetech.SuperMassiveTech.*;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import tterrag.supermassivetech.common.block.BlockBlackHole;
 import tterrag.supermassivetech.common.block.BlockWaypoint;
 import tterrag.supermassivetech.common.block.container.BlockBlackHoleHopper;
@@ -54,88 +53,68 @@ public class ModBlocks
         charger = new BlockCharger();
         GameRegistry.registerBlock(charger, "charger");
         GameRegistry.registerTileEntity(TileCharger.class, "tileCharger");
-        
+
         blackHole = new BlockBlackHole();
         GameRegistry.registerBlock(blackHole, "blackHole");
         GameRegistry.registerTileEntity(TileBlackHole.class, "tileBlackHole");
+        
+        OreDictionary.registerOre("blackHole", blackHole);
     }
 
     public void addRecipes()
     {
         /* @formatter:off */
-        GameRegistry.addRecipe(new ItemStack(starHarvester), 
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(starHarvester), 
                 "iii", 
                 "b b", 
                 "iii",
 
-                'i', Items.iron_ingot, 
-                'b', Blocks.iron_bars
-        );
+                'i', "ingotIron", 
+                'b', "barsIron"
+        ));
 
-        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), 
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blackHoleStorage), 
                 "iii", 
                 "bsb", 
                 "iii",
 
-                'i', Blocks.iron_block, 
-                'b', Blocks.iron_bars, 
-                's', itemRegistry.star
-        );
+                'i', "blockIron", 
+                'b', "barsIron", 
+                's', "itemStar"
+        ));
 
-        GameRegistry.addRecipe(new ItemStack(blackHoleStorage), 
-                "iii", 
-                "bsb", 
-                "iii",
-
-                'i', Blocks.iron_block, 
-                'b', Blocks.iron_bars, 
-                's', itemRegistry.starSpecial
-        );
-
-        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), 
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blackHoleHopper), 
                 "i i", 
                 "bsb", 
                 "ghg",
 
-                'i', Blocks.iron_block, 
-                'b', Blocks.iron_bars, 
-                's', itemRegistry.star, 
-                'g', Items.iron_ingot, 
-                'h', Blocks.hopper
-        );
+                'i', "blockIron", 
+                'b', "barsIron", 
+                's', "itemStar", 
+                'g', "ingotIron", 
+                'h', "blockHopper"
+        ));
 
-        GameRegistry.addRecipe(new ItemStack(blackHoleHopper), 
-                "i i", 
-                "bsb", 
-                "ghg",
-
-                'i', Blocks.iron_block, 
-                'b', Blocks.iron_bars, 
-                's', itemRegistry.starSpecial, 
-                'g', Items.iron_ingot, 
-                'h', Blocks.hopper
-        );
-
-        GameRegistry.addRecipe(new ItemStack(waypoint), 
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(waypoint), 
                 " g ", 
                 "isi", 
                 "iBi",
 
-                'g', Blocks.glass, 
-                'i', Items.iron_ingot, 
-                's', itemRegistry.star, 
-                'B', Blocks.iron_block
-        );
+                'g', "blockGlass", 
+                'i', "ingotIron", 
+                's', "itemStar", 
+                'B', "blockIron"
+        ));
         
-        GameRegistry.addRecipe(new ItemStack(charger),
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(charger),
                 "ibi",
                 "brb",
                 "ibi",
                 
-                'b', Blocks.iron_bars,
-                'i', Items.iron_ingot,
-                'r', Items.redstone
-        );
+                'b', "barsIron",
+                'i', "ingotIron",
+                'r', "dustRedstone"
+        ));
         /* @formatter:on */
     }
 }

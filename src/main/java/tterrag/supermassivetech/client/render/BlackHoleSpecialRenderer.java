@@ -4,7 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import tterrag.core.client.RenderingUtils;
+import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.api.common.tile.IBlackHole;
 

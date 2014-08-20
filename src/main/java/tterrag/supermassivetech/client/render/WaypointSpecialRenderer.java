@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.core.client.RenderingUtils;
+import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
 

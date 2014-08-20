@@ -1,9 +1,10 @@
 package tterrag.supermassivetech.common.registry;
 
-import static tterrag.supermassivetech.common.registry.Stars.StarTier.*;
 import static tterrag.supermassivetech.common.config.ConfigHandler.*;
+import static tterrag.supermassivetech.common.registry.Stars.StarTier.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -261,6 +262,11 @@ public class Stars
                 return s;
         }
         return null;
+    }
+    
+    public Collection<IStar> getTypes()
+    {
+        return types.values();
     }
 
     public StarTier getWeightedCreationTier(int offset)

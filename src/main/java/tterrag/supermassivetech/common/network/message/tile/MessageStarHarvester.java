@@ -12,22 +12,19 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
 {
     private NBTTagCompound data;
     private int x, y, z;
+    private double spinSpeed;
 
     public MessageStarHarvester()
     {
     }
 
-    public MessageStarHarvester(NBTTagCompound tag, int x, int y, int z)
+    public MessageStarHarvester(NBTTagCompound tag, int x, int y, int z, double spinSpeed)
     {
         data = tag;
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    public MessageStarHarvester(int x, int y, int z)
-    {
-        this(null, x, y, z);
+        this.spinSpeed = spinSpeed;
     }
 
     @Override
@@ -36,6 +33,7 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
         buffer.writeInt(x);
         buffer.writeInt(y);
         buffer.writeInt(z);
+        buffer.writeDouble(spinSpeed);
 
         if (data != null)
         {
@@ -57,6 +55,7 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
         x = buffer.readInt();
         y = buffer.readInt();
         z = buffer.readInt();
+        spinSpeed = buffer.readDouble();
 
         if (buffer.isReadable())
         {
@@ -74,7 +73,7 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
     @Override
     public IMessage onMessage(MessageStarHarvester message, MessageContext ctx)
     {
-        ClientUtils.setStarHarvetserSlotContents(message.data, message.x, message.y, message.z);
+        ClientUtils.updateStarHarvester(message.data, message.x, message.y, message.z, message.spinSpeed);
         return null;
     }
 }

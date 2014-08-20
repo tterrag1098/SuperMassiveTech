@@ -15,8 +15,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.core.utils.Handler;
-import tterrag.core.utils.Handler.HandlerType;
+import tterrag.core.common.Handlers.Handler;
+import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;

@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import tterrag.supermassivetech.client.gui.GuiHandler;
 import tterrag.supermassivetech.common.CommonProxy;
-import tterrag.supermassivetech.common.compat.OreDictRegistrations;
 import tterrag.supermassivetech.common.compat.RarityAdjuster;
 import tterrag.supermassivetech.common.compat.WailaCompat;
 import tterrag.supermassivetech.common.compat.enderio.EnderIOCompat;
@@ -65,8 +64,6 @@ public class SuperMassiveTech
         Utils.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
-        OreDictRegistrations.load();
 
         proxy.preInit();
 

@@ -26,6 +26,7 @@ import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageStarHarvester;
 import tterrag.supermassivetech.common.network.message.tile.MessageUpdateVenting;
 import tterrag.supermassivetech.common.registry.Achievements;
+import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
 import tterrag.supermassivetech.common.util.Utils;
 
@@ -33,15 +34,25 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
 {
     private int slot = 0;
 
-    public final int maxPerTick = 500;
-    private int perTick = maxPerTick;
-    public double spinSpeed = 0;
+    public static final int MAX_PER_TICK;
+    static 
+    {
+        int max = 0;
+        for (IStar type : Stars.instance.getTypes())
+        {
+            max = Math.max(type.getPowerPerTick(), max);
+        }
+        MAX_PER_TICK = max * 2; // max output of star harvester will be max output of any star type times 2
+    }
+    
+    private int perTick = 0;
+    public double spinSpeed = 0, lastSpinSpeed = 0;
     public float[] spins = { 0, 0, 0, 0 };
     private boolean hasItem = false;
     private boolean needsLightingUpdate = false;
     public boolean venting = false;
     private ForgeDirection top = ForgeDirection.UNKNOWN;
-    
+
     public static final int MAX_ENERGY = 100000;
 
     public TileStarHarvester()
@@ -58,74 +69,87 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
             top = ForgeDirection.getOrientation(getRotationMeta()).getOpposite();
         }
 
-        if (venting)
+        updateAnimation(); // update animation on both sides as this controls spinSpeed, and thus perTick
+
+        if (!worldObj.isRemote)
         {
-            if (!worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord))
+
+            if (venting)
             {
-                venting = false;
+                if (!worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord))
+                {
+                    venting = false;
+                }
+
+                AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 7, zCoord + 1);
+
+                @SuppressWarnings("unchecked")
+                List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
+
+                for (EntityLivingBase e : entities)
+                {
+                    e.setFire(5);
+                }
             }
 
-            AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(xCoord, yCoord + 1, zCoord, xCoord + 1, yCoord + 7, zCoord + 1);
+            super.updateEntity();
 
-            @SuppressWarnings("unchecked")
-            List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
-
-            for (EntityLivingBase e : entities)
+            if (needsLightingUpdate)
             {
-                e.setFire(5);
+                worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
+                needsLightingUpdate = false;
+            }
+
+            if ((inventory[slot] != null) != hasItem || spinSpeed != lastSpinSpeed) // energy change is handled in super
+            {
+                sendPacket();
+                hasItem = inventory[slot] != null;
+                lastSpinSpeed = spinSpeed;
+            }
+
+            if (inventory[slot] != null && inventory[slot].stackTagCompound != null)
+            {
+                IStar type = Utils.getType(inventory[slot]);
+                int amnt = type.getPowerPerTick();
+                int takenFromStar = type.extractEnergy(inventory[slot], Math.min(amnt, venting ? amnt : storage.getMaxEnergyStored() - storage.getEnergyStored()), false);
+                if (!venting) // remove energy from star but don't add to internal storage if venting
+                {
+                    storage.receiveEnergy(takenFromStar, false);
+                }
             }
         }
 
-        super.updateEntity();
-
-        if (needsLightingUpdate)
-        {
-            worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
-            needsLightingUpdate = false;
-        }
-
-        if ((inventory[slot] != null) != hasItem)
-        {
-            sendPacket();
-        }
-
-        perTick = (int) (maxPerTick * spinSpeed);
-
-        if (inventory[slot] != null && inventory[slot].stackTagCompound != null)
-        {
-            IStar type = Utils.getType(inventory[slot]);
-            storage.setEnergyStored(type.extractEnergy(inventory[slot], perTick, false));
-        }
+        perTick = (int) (MAX_PER_TICK * spinSpeed);
 
         if (venting && worldObj.isRemote)
             ClientUtils.spawnVentParticles(worldObj, xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f, top);
+    }
 
-        updateAnimation();
+    @Override
+    protected void pushEnergy()
+    {
+        super.pushEnergy();
     }
 
     private void sendPacket()
     {
-        hasItem = inventory[slot] != null;
-        if (hasItem)
-        {
-            NBTTagCompound tag = new NBTTagCompound();
-            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord));
-        }
-        else
-        {
-            PacketHandler.INSTANCE.sendToAll(new MessageStarHarvester(xCoord, yCoord, zCoord));
-        }
+        NBTTagCompound tag = new NBTTagCompound();
+        PacketHandler.INSTANCE.sendToDimension(new MessageStarHarvester(inventory[slot] == null ? null : inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord, spinSpeed),
+                worldObj.provider.dimensionId);
     }
 
     private void updateAnimation()
     {
-        if (isGravityWell())
+        if (!worldObj.isRemote) // do not change spin speed on client, allow packet sync
         {
-            spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.0005;
-        }
-        else
-        {
-            spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.01;
+            if (isGravityWell())
+            {
+                spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.0005;
+            }
+            else
+            {
+                spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.01;
+            }
         }
 
         for (int i = 0; i < spins.length; i++)
@@ -166,7 +190,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     {
         return "tterrag.inventory.starHarvester";
     }
-    
+
     @Override
     public ForgeDirection[] getValidInputs()
     {
@@ -186,7 +210,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
             }
         }
         return dirs;
-    }   
+    }
 
     public boolean handleRightClick(EntityPlayer player, ForgeDirection side)
     {
@@ -243,11 +267,11 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     {
         return perTick;
     }
-    
+
     @Override
     public int getMaxOutputSpeed()
     {
-        return maxPerTick;
+        return MAX_PER_TICK;
     }
 
     private boolean vent()
@@ -323,7 +347,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.bufferStorage", true) + ": "
                 + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": "
-                + Utils.getColorForPowerLeft(perTick, maxPerTick) + Utils.formatString("", " RF/t", perTick, false)));
+                + Utils.getColorForPowerLeft(perTick, MAX_PER_TICK) + Utils.formatString("", " RF/t", perTick, false)));
 
         return true;
     }
@@ -391,12 +415,12 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
 
         nbt.setBoolean("venting", venting);
     }
-    
+
     @Override
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
         super.getWailaInfo(tooltip, x, y, z, world);
-        
+
         if (this.getBlockMetadata() < 5)
         {
             tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noContainerInPlace", true));

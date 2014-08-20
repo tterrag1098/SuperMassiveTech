@@ -14,8 +14,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
-import tterrag.core.utils.Handler;
-import tterrag.core.utils.Handler.HandlerType;
+import tterrag.core.common.Handlers.Handler;
+import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.MessageJumpUpdate;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor;

@@ -3,8 +3,8 @@ package tterrag.supermassivetech.common.config;
 import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
-import tterrag.core.utils.Handler;
-import tterrag.core.utils.Handler.HandlerType;
+import tterrag.core.common.Handlers.Handler;
+import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.util.Constants;

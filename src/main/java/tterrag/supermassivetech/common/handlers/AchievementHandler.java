@@ -7,7 +7,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraftforge.event.entity.player.AchievementEvent;
-import tterrag.core.utils.Handler;
+import tterrag.core.common.Handlers.Handler;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
