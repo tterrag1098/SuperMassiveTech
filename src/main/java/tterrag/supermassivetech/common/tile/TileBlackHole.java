@@ -1,14 +1,10 @@
 package tterrag.supermassivetech.common.tile;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import tterrag.supermassivetech.api.common.tile.IBlackHole;
 import tterrag.supermassivetech.common.network.PacketHandler;
@@ -16,33 +12,16 @@ import tterrag.supermassivetech.common.network.message.tile.MessageUpdateBlackHo
 import tterrag.supermassivetech.common.registry.BlackHoleEnergyRegistry;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMT;
 import tterrag.supermassivetech.common.util.Constants;
-import tterrag.supermassivetech.common.util.Utils;
 
 public class TileBlackHole extends TileSMT implements IBlackHole
 {
     private long storedEnergy = 1;
     private long lastStoredEnergy = 1;
-    
+
     private static final float SIZE_MULT = 1f / 1000000f;
     private static final float SIZE_BASE = 0.5f;
-    
-    private static final DamageSource dmgBlackHole = new DamageSource("dmg.blackHole")
-    {
-        public boolean isDamageAbsolute() {return true;}
-        
-        public IChatComponent func_151519_b(EntityLivingBase entity)
-        {
-            if (entity instanceof EntityPlayer)
-            {
-                String text = String.format(Utils.localize("death.blackHole", true), ((EntityPlayer)entity).getCommandSenderName());
-                return new ChatComponentText(text);
-            }
-            else
-            {
-                return null;
-            }
-        }
-    };
+
+    private static final DamageSource dmgBlackHole = new DamageSourceBlackHole("dmg.blackHole");
 
     public TileBlackHole()
     {
@@ -60,7 +39,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole
             lastStoredEnergy = storedEnergy;
         }
 
-//        System.out.println("Energy: " + getEnergy() + "  Size: " + getSize() + "  Strength: " + getStrength() * getStrengthMultiplier() + "  Range: " + getRange() * getRangeMultiplier());
+        // System.out.println("Energy: " + getEnergy() + "  Size: " + getSize() + "  Strength: " + getStrength() * getStrengthMultiplier() + "  Range: " + getRange() * getRangeMultiplier());
     }
 
     private void sendPacket()
@@ -84,7 +63,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole
     {
         return getSize() * 2;
     }
-    
+
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
@@ -133,7 +112,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole
             entity.attackEntityFrom(dmgBlackHole, dmg);
         }
     }
-    
+
     private int getDamageFromSize()
     {
         return MathHelper.floor_float(getSize() * 2);

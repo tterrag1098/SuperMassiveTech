@@ -202,4 +202,6 @@ SMT.config.othersettings.tooltip=Stuff I couldn't find a section for.
 
 ## Death Messages ##
 
-SMT.death.blackHole=%s was spaghettified by a black hole
+SMT.death.blackHole.1=%s was spaghettified
+SMT.death.blackHole.2=%s fell into the event horizon
+SMT.death.blackHole.3=%s passed the point of no return
