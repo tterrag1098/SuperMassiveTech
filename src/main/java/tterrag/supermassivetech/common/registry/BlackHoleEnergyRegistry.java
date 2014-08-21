@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 
 public class BlackHoleEnergyRegistry
 {
-    private interface IEnergyEntry<T>
+    public interface IEnergyEntry<T>
     {
         boolean matches(T entry);
 
@@ -175,7 +175,7 @@ public class BlackHoleEnergyRegistry
 
     public void registerItemEnergy(ItemStack input, int energy, boolean checkNBT, boolean checkDamage)
     {
-        items.add(new EnergyEntryItem(input, energy).setCheckNBT(checkNBT).setCheckDamage(checkDamage));
+        registerItem(new EnergyEntryItem(input, energy).setCheckNBT(checkNBT).setCheckDamage(checkDamage));
     }
     
     /**
@@ -191,7 +191,17 @@ public class BlackHoleEnergyRegistry
      */
     public void registerEntityEnergy(Class<? extends Entity> input, int energy, boolean strictCompare)
     {
-        entities.add(new EnergyEntryEntity(input, energy, strictCompare));
+        registerEntity(new EnergyEntryEntity(input, energy, strictCompare));
+    }
+    
+    public void registerEntity(IEnergyEntry<Entity> entry)
+    {
+        entities.add(entry);
+    }
+    
+    public void registerItem(IEnergyEntry<ItemStack> entry)
+    {
+        items.add(entry);
     }
     
     public void registerDefaults()
