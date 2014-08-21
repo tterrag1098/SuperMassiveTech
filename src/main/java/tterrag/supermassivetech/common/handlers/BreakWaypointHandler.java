@@ -3,6 +3,9 @@ package tterrag.supermassivetech.common.handlers;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.world.BlockEvent;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
@@ -17,9 +20,9 @@ public class BreakWaypointHandler
         TileEntity te = event.world.getTileEntity(event.x, event.y, event.z);
         if (te != null && te instanceof TileWaypoint)
         {
-            if (((TileWaypoint) te).waypoint.players.contains(event.getPlayer().getCommandSenderName())
-                    || (event.getPlayer().capabilities.isCreativeMode && MinecraftServer.getServer().getConfigurationManager()
-                            .func_152596_g(event.getPlayer().getGameProfile())))
+            if (((TileWaypoint) te).waypoint.players.contains(event.getPlayer().getCommandSenderName()) // belongs to player
+                    || event.getPlayer().capabilities.isCreativeMode // is creative 
+                    || ArrayUtils.contains(MinecraftServer.getServer().getConfigurationManager().func_152606_n(), event.getPlayer().getCommandSenderName())) // is op
                 return;
         }
         else

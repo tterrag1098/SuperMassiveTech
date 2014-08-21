@@ -107,7 +107,6 @@ public class TileBlackHole extends TileSMT implements IBlackHole
         {
             int energy = BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(entity);
             int dmg = getDamageFromSize();
-            System.out.println(dmg);
             setEnergy(getEnergy() + (energy * dmg));
             entity.attackEntityFrom(dmgBlackHole, dmg);
         }

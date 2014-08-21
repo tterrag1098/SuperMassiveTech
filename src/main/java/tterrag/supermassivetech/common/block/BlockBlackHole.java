@@ -51,7 +51,7 @@ public class BlockBlackHole extends BlockSMT implements ITileEntityProvider
         float zBase = z + 0.5f;
         float scale = bh.getSize() / 2f;
         
-        System.out.println(scale);
+//        System.out.println(scale);
         
         return AxisAlignedBB.getBoundingBox(xBase - scale, yBase - scale, zBase - scale, xBase + scale, yBase + scale, zBase + scale);
     }
