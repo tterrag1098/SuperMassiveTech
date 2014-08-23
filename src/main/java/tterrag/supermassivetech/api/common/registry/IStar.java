@@ -4,6 +4,9 @@ import net.minecraft.util.EnumChatFormatting;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import cofh.api.energy.IEnergyContainerItem;
 
+/**
+ * Interface for interaction with star objects
+ */
 public interface IStar extends IEnergyContainerItem
 {
     /**
