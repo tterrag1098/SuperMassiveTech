@@ -50,6 +50,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     @Override
     public void updateEntity()
     {
+        super.updateEntity();
         if (!worldObj.isRemote)
         {
             pushEnergy();

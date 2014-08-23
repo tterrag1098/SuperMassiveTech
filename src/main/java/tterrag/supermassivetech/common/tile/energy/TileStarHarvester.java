@@ -68,12 +68,12 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         {
             top = ForgeDirection.getOrientation(getRotationMeta()).getOpposite();
         }
-
+        
+        super.updateEntity();
         updateAnimation(); // update animation on both sides as this controls spinSpeed, and thus perTick
 
         if (!worldObj.isRemote)
         {
-
             if (venting)
             {
                 if (!worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord))
@@ -91,9 +91,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
                     e.setFire(5);
                 }
             }
-
-            super.updateEntity();
-
+            
             if (needsLightingUpdate)
             {
                 worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
