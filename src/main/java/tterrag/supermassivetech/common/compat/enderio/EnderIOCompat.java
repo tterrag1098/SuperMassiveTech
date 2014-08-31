@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
+import tterrag.core.common.compat.ICompatability;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
 import tterrag.supermassivetech.common.util.Constants;
@@ -15,11 +16,9 @@ import crazypants.enderio.item.darksteel.DarkSteelRecipeManager;
 import crazypants.enderio.item.darksteel.ItemDarkSteelArmor;
 
 @Handler(types = HandlerType.FML)
-public class EnderIOCompat
+public class EnderIOCompat implements ICompatability
 {
-    public static final EnderIOCompat INSTANCE = new EnderIOCompat();
-
-    public void load()
+    public static void load()
     {
         DarkSteelRecipeManager.instance.getUpgrades().add(new GravityResistUpgrade(10, 0));
         DarkSteelRecipeManager.instance.getUpgrades().add(new GravityResistUpgrade(20, 1));

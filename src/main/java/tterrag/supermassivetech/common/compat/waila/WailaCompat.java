@@ -1,11 +1,11 @@
-package tterrag.supermassivetech.common.compat;
+package tterrag.supermassivetech.common.compat.waila;
 
 import java.util.List;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,13 +22,14 @@ import tterrag.supermassivetech.common.util.Utils;
 
 public class WailaCompat implements IWailaDataProvider
 {
+    private WailaCompat() {}
     public static final WailaCompat INSTANCE = new WailaCompat();
 
-    public void load()
+    public static void load(IWailaRegistrar registrar)
     {
-        ModuleRegistrar.instance().registerHeadProvider(INSTANCE, BlockSMT.class);
-        ModuleRegistrar.instance().registerBodyProvider(INSTANCE, BlockSMT.class);
-        ModuleRegistrar.instance().registerTailProvider(INSTANCE, BlockSMT.class);
+        registrar.registerHeadProvider(INSTANCE, BlockSMT.class);
+        registrar.registerBodyProvider(INSTANCE, BlockSMT.class);
+        registrar.registerTailProvider(INSTANCE, BlockSMT.class);
     }
 
     @Override

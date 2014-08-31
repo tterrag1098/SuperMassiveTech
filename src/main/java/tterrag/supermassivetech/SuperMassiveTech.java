@@ -5,11 +5,14 @@ import net.minecraft.creativetab.CreativeTabs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import tterrag.core.common.compat.CompatabilityRegistry;
+import tterrag.core.common.util.CreativeTabsCustom;
+import tterrag.core.common.util.RegisterTime;
 import tterrag.supermassivetech.client.gui.GuiHandler;
 import tterrag.supermassivetech.common.CommonProxy;
 import tterrag.supermassivetech.common.compat.RarityAdjuster;
-import tterrag.supermassivetech.common.compat.WailaCompat;
 import tterrag.supermassivetech.common.compat.enderio.EnderIOCompat;
+import tterrag.supermassivetech.common.compat.waila.WailaCompat;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
@@ -21,12 +24,12 @@ import tterrag.supermassivetech.common.registry.ModItems;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -43,15 +46,15 @@ public class SuperMassiveTech
     @SidedProxy(clientSide = ModProps.CLIENT_PROXY_CLASS, serverSide = ModProps.SERVER_PROXY_CLASS)
     public static CommonProxy proxy;
 
-    public static Logger logger = LogManager.getLogger("SuperMassiveTech");
+    public static final Logger logger = LogManager.getLogger("SuperMassiveTech");
 
-    public static ModItems itemRegistry = ModItems.instance;
-    public static ModEnchants enchantRegistry = ModEnchants.instance;
-    public static ModBlocks blockRegistry = ModBlocks.instance;
-    public static ModEntities entityRegistry = ModEntities.instance;
-    public static Stars starRegistry = Stars.instance;
+    public static final ModItems itemRegistry = ModItems.instance;
+    public static final ModEnchants enchantRegistry = ModEnchants.instance;
+    public static final ModBlocks blockRegistry = ModBlocks.instance;
+    public static final ModEntities entityRegistry = ModEntities.instance;
+    public static final Stars starRegistry = Stars.instance;
 
-    public static CreativeTabs tabSMT = Utils.tab;
+    public static final CreativeTabs tabSMT = new CreativeTabsCustom(ModProps.MODID, itemRegistry.heartOfStar);
 
     public static int renderIDStorage, renderIDHopper, renderIDStarHarvester, renderIDWaypoint, renderIDBlackHole, renderIDCharger;
 
@@ -80,8 +83,9 @@ public class SuperMassiveTech
         starRegistry.registerDefaultStars();
         BlackHoleEnergyRegistry.INSTANCE.registerDefaults();
 
-        if (Loader.isModLoaded("Waila"))
-            WailaCompat.INSTANCE.load();
+        FMLInterModComms.sendMessage("Waila", "register", WailaCompat.class.getName() + ".load");
+        
+        CompatabilityRegistry.instance().registerCompat("EnderIO", RegisterTime.INIT, EnderIOCompat.class);
     }
 
     @EventHandler
@@ -91,9 +95,6 @@ public class SuperMassiveTech
 
         itemRegistry.addRecipes();
         blockRegistry.addRecipes();
-
-        if (Loader.isModLoaded("EnderIO"))
-            EnderIOCompat.INSTANCE.load();
     }
 
     @EventHandler

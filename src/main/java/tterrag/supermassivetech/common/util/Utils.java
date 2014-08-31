@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,7 +14,6 @@ import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -60,15 +58,6 @@ public class Utils
     {
         c = Constants.instance();
     }
-
-    public static CreativeTabs tab = new CreativeTabs(CreativeTabs.getNextID(), "superMassiveTech")
-    {
-        @Override
-        public Item getTabIconItem()
-        {
-            return SuperMassiveTech.itemRegistry.heartOfStar;
-        }
-    };
 
     /**
      * Turns an int into a glColor4f function
