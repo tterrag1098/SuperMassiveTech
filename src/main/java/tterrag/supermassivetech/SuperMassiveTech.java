@@ -1,10 +1,9 @@
 package tterrag.supermassivetech;
 
-import net.minecraft.creativetab.CreativeTabs;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import tterrag.core.TTCore;
 import tterrag.core.common.compat.CompatabilityRegistry;
 import tterrag.core.common.util.CreativeTabsCustom;
 import tterrag.core.common.util.RegisterTime;
@@ -54,7 +53,7 @@ public class SuperMassiveTech
     public static final ModEntities entityRegistry = ModEntities.instance;
     public static final Stars starRegistry = Stars.instance;
 
-    public static final CreativeTabs tabSMT = new CreativeTabsCustom(ModProps.MODID, itemRegistry.heartOfStar);
+    public static CreativeTabsCustom tabSMT = new CreativeTabsCustom(ModProps.MODID);
 
     public static int renderIDStorage, renderIDHopper, renderIDStarHarvester, renderIDWaypoint, renderIDBlackHole, renderIDCharger;
 
@@ -73,7 +72,7 @@ public class SuperMassiveTech
         itemRegistry.register();
         blockRegistry.register();
         entityRegistry.init();
-
+        
         proxy.registerRenderers();
 
         enchantRegistry.init();
@@ -83,7 +82,7 @@ public class SuperMassiveTech
         starRegistry.registerDefaultStars();
         BlackHoleEnergyRegistry.INSTANCE.registerDefaults();
 
-        FMLInterModComms.sendMessage("Waila", "register", WailaCompat.class.getName() + ".load");
+        FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + "common.compat.waila.WailaCompat.load");
         
         CompatabilityRegistry.instance().registerCompat("EnderIO", RegisterTime.INIT, EnderIOCompat.class);
     }

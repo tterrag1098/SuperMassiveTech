@@ -51,7 +51,7 @@ public class TooltipHandler
 
             if (ids.length > 0)
             {
-                event.toolTip.add(Utils.localize("tooltip.oreDictNames", true));
+                event.toolTip.add(Utils.lang.localize("tooltip.oreDictNames"));
                 for (int i : ids)
                 {
                     event.toolTip.add("  - " + OreDictionary.getOreName(i));
@@ -61,7 +61,7 @@ public class TooltipHandler
 
         if (event.itemStack.getItem() == Items.nether_star && event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().getBoolean("wasRejuvenated"))
         {
-            event.toolTip.add("" + EnumChatFormatting.ITALIC + Utils.localize("tooltip.netherStarHot", true));
+            event.toolTip.add("" + EnumChatFormatting.ITALIC + Utils.lang.localize("tooltip.netherStarHot"));
         }
     }
 

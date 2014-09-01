@@ -46,15 +46,15 @@ public class GravityArmorHandler
     private final double fieldScalingPower = ConfigHandler.fieldUsageBase;
 
     // String constants for armor power states
-    public static final String ON = Utils.localize("tooltip.on", true);
-    public static final String OFF = Utils.localize("tooltip.off", true);
+    public static final String ON = Utils.lang.localize("tooltip.on");
+    public static final String OFF = Utils.lang.localize("tooltip.off");
 
-    public static final String ANTI_GRAV = Utils.localize("armorPower.antiGrav", true);
-    public static final String REPULSOR = Utils.localize("armorPower.repulsor", true);
-    public static final String ATTRACTOR = Utils.localize("armorPower.attractor", true);
+    public static final String ANTI_GRAV = Utils.lang.localize("armorPower.antiGrav");
+    public static final String REPULSOR = Utils.lang.localize("armorPower.repulsor");
+    public static final String ATTRACTOR = Utils.lang.localize("armorPower.attractor");
 
-    public static final String COMPASS_ONLY = Utils.localize("armorPower.compassOnly", true);
-    public static final String TEXT_ONLY = Utils.localize("armorPower.textOnly", true);
+    public static final String COMPASS_ONLY = Utils.lang.localize("armorPower.compassOnly");
+    public static final String TEXT_ONLY = Utils.lang.localize("armorPower.textOnly");
 
     private static class NoPlayersSelector implements IEntitySelector
     {

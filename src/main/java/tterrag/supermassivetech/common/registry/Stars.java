@@ -40,7 +40,7 @@ public class Stars
         @Override
         public String toString()
         {
-            return Utils.localize(name, true);
+            return Utils.lang.localize(name);
         }
 
         public StarTier next()
@@ -111,7 +111,7 @@ public class Stars
         @Override
         public String toString()
         {
-            return Utils.localize(name);
+            return Utils.lang.localize(name);
         }
 
         @Override

@@ -38,7 +38,7 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
     @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
-        return Utils.localize("tooltip.starHeart", true);
+        return Utils.lang.localize("tooltip.starHeart");
     }
 
     @Override

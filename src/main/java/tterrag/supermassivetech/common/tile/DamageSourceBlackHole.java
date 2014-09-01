@@ -21,7 +21,7 @@ public class DamageSourceBlackHole extends DamageSource
     {
         int num = 1;
         String text = DEATH_MSG_BASE + num;
-        while (!Utils.localize(text, true).equals(ModProps.LOCALIZING + "." + text))
+        while (!Utils.lang.localize(text).equals(ModProps.LOCALIZING + "." + text))
         {
             num++;
             text = text.replace("" + (num - 1), "" + num);
@@ -48,7 +48,7 @@ public class DamageSourceBlackHole extends DamageSource
         if (entity instanceof EntityPlayer)
         {
             int num = entity.worldObj.rand.nextInt(DEATH_MSG_COUNT) + 1;
-            String text = String.format(Utils.localize(DEATH_MSG_BASE + num, true), ((EntityPlayer) entity).getCommandSenderName());
+            String text = String.format(Utils.lang.localize(DEATH_MSG_BASE + num), ((EntityPlayer) entity).getCommandSenderName());
             return new ChatComponentText(text);
         }
         else

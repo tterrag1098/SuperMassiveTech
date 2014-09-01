@@ -307,7 +307,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     public void setConfig(ItemStack stack, EntityPlayer player)
     {
-        player.addChatMessage(new ChatComponentText(Utils.localize("tooltip.setConfig", true) + ": " + StatCollector.translateToLocal(stack.getUnlocalizedName() + ".name")));
+        player.addChatMessage(new ChatComponentText(Utils.lang.localize("tooltip.setConfig") + ": " + StatCollector.translateToLocal(stack.getUnlocalizedName() + ".name")));
         inventory[cfgSlot] = stack.copy();
     }
 
@@ -320,11 +320,11 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     {
         if (inventory[cfgSlot] == null)
         {
-            player.addChatMessage(new ChatComponentText(Utils.localize("tooltip.noConfigSet", true)));
+            player.addChatMessage(new ChatComponentText(Utils.lang.localize("tooltip.noConfigSet")));
             return;
         }
 
-        player.addChatMessage(new ChatComponentText(Utils.localize("tooltip.clearedConfig", true) + ": "
+        player.addChatMessage(new ChatComponentText(Utils.lang.localize("tooltip.clearedConfig") + ": "
                 + StatCollector.translateToLocal(inventory[cfgSlot].getUnlocalizedName() + ".name")));
         inventory[cfgSlot] = null;
     }

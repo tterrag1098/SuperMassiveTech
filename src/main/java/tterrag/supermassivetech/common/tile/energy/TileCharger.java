@@ -154,7 +154,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     {
         super.getWailaInfo(tooltip, x, y, z, world);
 
-        String str = EnumChatFormatting.WHITE + Utils.localize("tooltip.itemStorage", true) + ": ";
+        String str = EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.itemStorage") + ": ";
 
         if (inventory[0] != null && inventory[0].getItem() instanceof IEnergyContainerItem)
         {
@@ -165,11 +165,11 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
         }
         else
         {
-            str += EnumChatFormatting.GRAY + Utils.localize("tooltip.na", true);
+            str += EnumChatFormatting.GRAY + Utils.lang.localize("tooltip.na");
         }
 
         tooltip.add(str);
         
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.redstone.mode", true) + ": " + (getBlockMetadata() == 0 ? EnumChatFormatting.AQUA + Utils.localize("tooltip.redstone.normal", true) : EnumChatFormatting.YELLOW + Utils.localize("tooltip.redstone.inverted", true)));
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.redstone.mode") + ": " + (getBlockMetadata() == 0 ? EnumChatFormatting.AQUA + Utils.lang.localize("tooltip.redstone.normal") : EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.redstone.inverted")));
     }
 }

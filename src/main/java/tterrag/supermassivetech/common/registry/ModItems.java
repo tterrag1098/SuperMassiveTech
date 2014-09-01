@@ -7,6 +7,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.item.ItemDepletedNetherStar;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;
 import tterrag.supermassivetech.common.item.ItemGravityArmor.ArmorType;
@@ -39,6 +40,8 @@ public class ModItems
         starSpecial = new ItemStarSpecial("starSpecial");
         starContainer = new ItemSMT("starContainer", "starContainer");
         depletedNetherStar = new ItemDepletedNetherStar();
+        
+        SuperMassiveTech.tabSMT.setDisplay(heartOfStar);
 
         gravityHelm = new ItemGravityArmor(ArmorMaterial.DIAMOND, ArmorType.HELMET);
         gravityChest = new ItemGravityArmor(ArmorMaterial.DIAMOND, ArmorType.CHESTPLATE);

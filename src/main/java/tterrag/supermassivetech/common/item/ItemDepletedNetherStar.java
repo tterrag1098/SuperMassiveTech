@@ -61,7 +61,7 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
     @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
-        return Utils.localize("tooltip.depletedNetherStar", true);
+        return Utils.lang.localize("tooltip.depletedNetherStar");
     }
 
     @Override
@@ -69,6 +69,6 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
     public String getStaticLines(ItemStack stack)
     {
         return "" + EnumChatFormatting.DARK_GRAY + EnumChatFormatting.ITALIC + NumberFormat.getPercentInstance().format(((float) stack.getItemDamage()) / ((float) maxDamage))
-                + " " + Utils.localize("tooltip.recharged", true);
+                + " " + Utils.lang.localize("tooltip.recharged");
     }
 }

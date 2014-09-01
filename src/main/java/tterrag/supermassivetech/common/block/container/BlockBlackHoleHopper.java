@@ -34,7 +34,7 @@ public class BlockBlackHoleHopper extends BlockContainerSMT implements ISaveToIt
             if (player.isSneaking())
                 te.clearConfig(player);
             else
-                player.addChatMessage(new ChatComponentText(Utils.localize("tooltip.currentConfig", true) + ": " + te.getConfig()));
+                player.addChatMessage(new ChatComponentText(Utils.lang.localize("tooltip.currentConfig") + ": " + te.getConfig()));
         }
         else
         {

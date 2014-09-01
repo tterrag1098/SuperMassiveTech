@@ -21,7 +21,7 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
     @SideOnly(Side.CLIENT)
     public String getHiddenLines(ItemStack stack)
     {
-        return Utils.localize("tooltip.blackHoleHopper", true);
+        return Utils.lang.localize("tooltip.blackHoleHopper");
     }
 
     @Override
@@ -36,9 +36,9 @@ public class ItemBlockHopper extends ItemBlockSMT implements IAdvancedTooltip
         List<String> strs = new ArrayList<String>();
 
         if (stored != null)
-            strs.add(String.format("%s: %d %s", Utils.localize("tooltip.stored", true), stored.stackSize, stored.getDisplayName()));
+            strs.add(String.format("%s: %d %s", Utils.lang.localize("tooltip.stored"), stored.stackSize, stored.getDisplayName()));
         if (cfg != null)
-            strs.add(String.format("%s: %s", Utils.localize("tooltip.configuration", true), cfg.getDisplayName()));
+            strs.add(String.format("%s: %s", Utils.lang.localize("tooltip.configuration"), cfg.getDisplayName()));
 
         if (strs.isEmpty())
         {

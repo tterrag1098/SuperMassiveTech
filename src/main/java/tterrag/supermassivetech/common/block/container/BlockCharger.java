@@ -63,10 +63,10 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
             if (stack.getItem() == Items.redstone && !world.isRemote)
             {
                 world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) == 0 ? 1 : 0, 3);
-                player.addChatMessage(new ChatComponentText(Utils.localize("tooltip.redstone.mode", true)
+                player.addChatMessage(new ChatComponentText(Utils.lang.localize("tooltip.redstone.mode")
                         + ": "
-                        + (world.getBlockMetadata(x, y, z) == 0 ? EnumChatFormatting.AQUA + Utils.localize("tooltip.redstone.normal", true) : EnumChatFormatting.YELLOW
-                                + Utils.localize("tooltip.redstone.inverted", true))));
+                        + (world.getBlockMetadata(x, y, z) == 0 ? EnumChatFormatting.AQUA + Utils.lang.localize("tooltip.redstone.normal") : EnumChatFormatting.YELLOW
+                                + Utils.lang.localize("tooltip.redstone.inverted"))));
                 return true;
             }
             else if (stack.getItem() != Items.redstone && tile.getStackInSlot(0) == null)
@@ -88,7 +88,7 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
     @Override
     public String getHiddenLines(ItemStack stack)
     {
-        return Utils.localize("tooltip.charger", true);
+        return Utils.lang.localize("tooltip.charger");
     }
 
     @Override

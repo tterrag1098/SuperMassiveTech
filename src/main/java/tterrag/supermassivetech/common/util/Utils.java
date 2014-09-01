@@ -22,7 +22,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -30,6 +29,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import tterrag.core.common.Lang;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
@@ -54,6 +54,8 @@ public class Utils
 
     public static final Random rand = new Random();
 
+    public static final Lang lang = new Lang(ModProps.LOCALIZING);
+    
     public static void init()
     {
         c = Constants.instance();
@@ -447,7 +449,7 @@ public class Utils
         {
             if (Keyboard.isKeyDown(key) || Keyboard.isKeyDown(alternateKey))
             {
-                for (String s : splitList(tooltip.getHiddenLines(stack)))
+                for (String s : lang.splitList(tooltip.getHiddenLines(stack)))
                 {
                     String[] ss = s.split("~");
                     for (String line : ss)
@@ -460,8 +462,8 @@ public class Utils
             }
             else
             {
-                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + localize("tooltip.hold", true) + EnumChatFormatting.YELLOW, getNameForKey(key),
-                        EnumChatFormatting.RED + localize("tooltip.moreInfo", true)));
+                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + lang.localize("tooltip.hold") + EnumChatFormatting.YELLOW, getNameForKey(key),
+                        EnumChatFormatting.RED + lang.localize("tooltip.moreInfo")));
             }
         }
 
@@ -470,7 +472,7 @@ public class Utils
             if (tooltip.getHiddenLines(stack) != null)
                 lines.add("");
 
-            for (String s : splitList(tooltip.getStaticLines(stack), "~"))
+            for (String s : lang.splitList(tooltip.getStaticLines(stack), "~"))
                 lines.add(EnumChatFormatting.WHITE + s);
         }
     }
@@ -481,13 +483,13 @@ public class Utils
         {
         case Keyboard.KEY_LSHIFT:
         case Keyboard.KEY_RSHIFT:
-            return localize("tooltip.shift", true);
+            return lang.localize("tooltip.shift");
         case Keyboard.KEY_LCONTROL:
         case Keyboard.KEY_RCONTROL:
-            return localize("tooltip.control", true);
+            return lang.localize("tooltip.control");
         case Keyboard.KEY_LMENU:
         case Keyboard.KEY_RMENU:
-            return localize("tooltip.alt", true);
+            return lang.localize("tooltip.alt");
         }
 
         return Keyboard.getKeyName(key);
@@ -513,34 +515,6 @@ public class Utils
             player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, level, true));
             player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, level, true));
         }
-    }
-
-    public static String localize(String unloc, boolean appendModid)
-    {
-        if (appendModid)
-            return localize(ModProps.LOCALIZING + "." + unloc);
-        else
-            return localize(unloc);
-    }
-
-    public static String localize(String unloc)
-    {
-        return StatCollector.translateToLocal(unloc);
-    }
-
-    public static String[] localizeList(String unloc)
-    {
-        return splitList(localize(unloc, true));
-    }
-
-    private static String[] splitList(String list, String splitRegex)
-    {
-        return list.split(splitRegex);
-    }
-
-    public static String[] splitList(String list)
-    {
-        return splitList(list, "\\|");
     }
 
     public static String makeTooltipString(List<String> strs)

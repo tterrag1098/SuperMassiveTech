@@ -105,9 +105,9 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
         {
             String name = tag.getString("waypointname");
             int[] color = tag.getIntArray("waypointcolor");
-            String ret = String.format("%s: %s~%s: %d~%s: %d~%s: %d", EnumChatFormatting.YELLOW + Utils.localize("tooltip.name", true), EnumChatFormatting.WHITE + name,
-                    EnumChatFormatting.RED + Utils.localize("tooltip.red", true), color[0], EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true), color[1],
-                    EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true), color[2]);
+            String ret = String.format("%s: %s~%s: %d~%s: %d~%s: %d", EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.name"), EnumChatFormatting.WHITE + name,
+                    EnumChatFormatting.RED + Utils.lang.localize("tooltip.red"), color[0], EnumChatFormatting.GREEN + Utils.lang.localize("tooltip.green"), color[1],
+                    EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.blue"), color[2]);
 
             return ret;
         }

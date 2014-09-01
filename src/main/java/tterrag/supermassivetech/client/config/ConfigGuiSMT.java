@@ -18,7 +18,7 @@ public class ConfigGuiSMT extends GuiConfig
 {
     public ConfigGuiSMT(GuiScreen parentScreen)
     {
-        super(parentScreen, getConfigElements(parentScreen), ModProps.MODID, false, false, Utils.localize("config.title", true));
+        super(parentScreen, getConfigElements(parentScreen), ModProps.MODID, false, false, Utils.lang.localize("config.title"));
     }
 
     private static List<IConfigElement> getConfigElements(GuiScreen parent)

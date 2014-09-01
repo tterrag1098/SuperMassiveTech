@@ -19,7 +19,7 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
     @Override
     public String getHiddenLines(ItemStack stack)
     {
-        return Utils.localize("tooltip.starHarvester", true);
+        return Utils.lang.localize("tooltip.starHarvester");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
             int energy = tag.getInteger("energy");
             if (energy != 0)
             {
-                toReturn += String.format("%s: %s", Utils.localize("tooltip.bufferStorage", true),
+                toReturn += String.format("%s: %s", Utils.lang.localize("tooltip.bufferStorage"),
                         Utils.getColorForPowerLeft(energy, TileStarHarvester.MAX_ENERGY) + Utils.formatString("", " RF", energy, true, true));
             }
             else

@@ -77,7 +77,7 @@ public class ClientKeyHandler
                     throw new IllegalArgumentException("Armor slot must be between 0 and 3");
             }
 
-            KeyBinding bind = new KeyBinding(Utils.localize(unloc, true), key, Utils.localize("keybind.section.graviArmor", true));
+            KeyBinding bind = new KeyBinding(Utils.lang.localize(unloc), key, Utils.lang.localize("keybind.section.graviArmor"));
             ClientRegistry.registerKeyBinding(bind);
 
             byte[] info = new byte[applicable.length];

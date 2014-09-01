@@ -143,9 +143,9 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
         int energyStored = this.getEnergyStored(), maxEnergyStored = this.getMaxStorage();
         int output = this.getOutputSpeed();
 
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.bufferStorage", true) + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.bufferStorage") + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored
                 + " RF");
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.currentOutputMax", true) + ": " + Utils.getColorForPowerLeft(output, this.getMaxOutputSpeed())
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.currentOutputMax") + ": " + Utils.getColorForPowerLeft(output, this.getMaxOutputSpeed())
                 + output + " RF");
     }
 

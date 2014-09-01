@@ -119,9 +119,9 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
         return String.format("%s|%s|%s RF %s %d RF/t|%s|",
 
         type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-                Utils.formatString(EnumChatFormatting.YELLOW + Utils.localize("tooltip.outputs", true) + " ", "", type.getMaxEnergyStored(stack), false),
-                Utils.localize("tooltip.at", true), type.getPowerPerTick(),
-                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + Utils.localize("tooltip.powerRemaining", true) + ": ", " RF", (long) powerLeft, true));
+                Utils.formatString(EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.outputs") + " ", "", type.getMaxEnergyStored(stack), false),
+                Utils.lang.localize("tooltip.at"), type.getPowerPerTick(),
+                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + Utils.lang.localize("tooltip.powerRemaining") + ": ", " RF", (long) powerLeft, true));
     }
 
     @Override
@@ -129,6 +129,6 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     public String getStaticLines(ItemStack stack)
     {
         IStar type = Utils.getType(stack);
-        return type != null ? null : Utils.localize("tooltip.anyType", true);
+        return type != null ? null : Utils.lang.localize("tooltip.anyType");
     }
 }

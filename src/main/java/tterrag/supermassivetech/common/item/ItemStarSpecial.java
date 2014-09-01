@@ -61,7 +61,7 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
     @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
     {
-        return EnumChatFormatting.RED + Utils.localize("tooltip.warning", true) + ": " + EnumChatFormatting.WHITE + Utils.localize("tooltip.warningText", true);
+        return EnumChatFormatting.RED + Utils.lang.localize("tooltip.warning") + ": " + EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.warningText");
     }
 
     @Override

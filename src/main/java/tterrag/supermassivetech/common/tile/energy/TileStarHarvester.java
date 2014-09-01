@@ -327,24 +327,24 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
 
         if (getBlockMetadata() == getRotationMeta())
         {
-            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.localize("tooltip.noContainerInPlace", true)));
+            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.lang.localize("tooltip.noContainerInPlace")));
         }
         else if (star != null)
         {
             player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE + " %s %d RF/t",
-                    Utils.localize("tooltip.currentStarIs", true), star.getTextColor() + star.toString(), Utils.localize("tooltip.at", true), star.getPowerPerTick())));
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.powerRemaining", true) + ": "
+                    Utils.lang.localize("tooltip.currentStarIs"), star.getTextColor() + star.toString(), Utils.lang.localize("tooltip.at"), star.getPowerPerTick())));
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.powerRemaining") + ": "
                     + Utils.getColorForPowerLeft(star.getEnergyStored(inventory[slot]), star.getMaxEnergyStored(inventory[slot]))
                     + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
         }
         else
         {
-            player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.localize("tooltip.noStarInPlace", true)));
+            player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + Utils.lang.localize("tooltip.noStarInPlace")));
         }
 
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.bufferStorage", true) + ": "
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.bufferStorage") + ": "
                 + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.localize("tooltip.currentOutputMax", true) + ": "
+        player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.currentOutputMax") + ": "
                 + Utils.getColorForPowerLeft(perTick, MAX_PER_TICK) + Utils.formatString("", " RF/t", perTick, false)));
 
         return true;
@@ -421,11 +421,11 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
 
         if (this.getBlockMetadata() < 5)
         {
-            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noContainerInPlace", true));
+            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.lang.localize("tooltip.noContainerInPlace"));
         }
         else if (!this.isGravityWell())
         {
-            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.localize("tooltip.noStarInPlace", true));
+            tooltip.add("" + EnumChatFormatting.RED + EnumChatFormatting.ITALIC + Utils.lang.localize("tooltip.noStarInPlace"));
         }
     }
 }

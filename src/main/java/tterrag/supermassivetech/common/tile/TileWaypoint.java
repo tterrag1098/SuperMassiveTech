@@ -129,10 +129,10 @@ public class TileWaypoint extends TileEntity implements IWailaAdditionalInfo
         {
             tooltip.add("");
 
-            tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.name", true) + ": " + waypoint.getName());
-            tooltip.add(EnumChatFormatting.RED + Utils.localize("tooltip.red", true) + ": " + waypoint.getColor().getRed());
-            tooltip.add(EnumChatFormatting.GREEN + Utils.localize("tooltip.green", true) + ": " + waypoint.getColor().getGreen());
-            tooltip.add(EnumChatFormatting.BLUE + Utils.localize("tooltip.blue", true) + ": " + waypoint.getColor().getBlue());
+            tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.name") + ": " + waypoint.getName());
+            tooltip.add(EnumChatFormatting.RED + Utils.lang.localize("tooltip.red") + ": " + waypoint.getColor().getRed());
+            tooltip.add(EnumChatFormatting.GREEN + Utils.lang.localize("tooltip.green") + ": " + waypoint.getColor().getGreen());
+            tooltip.add(EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.blue") + ": " + waypoint.getColor().getBlue());
 
             tooltip.add("");
         }

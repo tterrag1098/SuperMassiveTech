@@ -191,6 +191,6 @@ public abstract class TileSMTInventory extends TileSMT implements IInventory, IW
     @Override
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
-        tooltip.add(EnumChatFormatting.WHITE + Utils.localize("tooltip.gravityWell", true) + " " + (this.isGravityWell() ? EnumChatFormatting.GREEN + Utils.localize("tooltip.yes", true) : EnumChatFormatting.RED + Utils.localize("tooltip.no", true)));
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.gravityWell") + " " + (this.isGravityWell() ? EnumChatFormatting.GREEN + Utils.lang.localize("tooltip.yes") : EnumChatFormatting.RED + Utils.lang.localize("tooltip.no")));
     }
 }

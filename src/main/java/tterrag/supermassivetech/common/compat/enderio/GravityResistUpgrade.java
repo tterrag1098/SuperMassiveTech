@@ -68,7 +68,7 @@ public class GravityResistUpgrade extends AbstractUpgrade
     @Override
     public String getUpgradeItemName()
     {
-        return super.getUpgradeItemName() + " (" + Utils.localize("tooltip.tier", true) + " " + level.toString() + ")";
+        return super.getUpgradeItemName() + " (" + Utils.lang.localize("tooltip.tier") + " " + level.toString() + ")";
     }
 
     @Override
