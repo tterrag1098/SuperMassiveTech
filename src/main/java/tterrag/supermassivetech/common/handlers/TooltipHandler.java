@@ -9,13 +9,11 @@ import net.minecraft.init.Items;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.enchant.IAdvancedEnchant;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
-import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -43,20 +41,6 @@ public class TooltipHandler
         {
             IAdvancedTooltip block = (IAdvancedTooltip) Block.getBlockFromItem(event.itemStack.getItem());
             Utils.formAdvancedTooltip(event.toolTip, event.itemStack, block);
-        }
-
-        if (ConfigHandler.showOredictTooltips)
-        {
-            int[] ids = OreDictionary.getOreIDs(event.itemStack);
-
-            if (ids.length > 0)
-            {
-                event.toolTip.add(Utils.lang.localize("tooltip.oreDictNames"));
-                for (int i : ids)
-                {
-                    event.toolTip.add("  - " + OreDictionary.getOreName(i));
-                }
-            }
         }
 
         if (event.itemStack.getItem() == Items.nether_star && event.itemStack.hasTagCompound() && event.itemStack.getTagCompound().getBoolean("wasRejuvenated"))

@@ -27,7 +27,6 @@ public class ConfigHandler
     public static boolean doGravityWell;
     public static int gravArmorDrain;
     public static int gravEnchantID;
-    public static boolean showOredictTooltips;
 
     public static int fieldRange = 7;
     public static double fieldUsageBase = 3;
@@ -75,7 +74,6 @@ public class ConfigHandler
 
         // other
 
-        showOredictTooltips = config.get(sectionMisc, "showOredictionaryTooltip", false, "Shows the oredict registration in the tooltip for every item").getBoolean(true);
         betterAchievements = config.get(sectionMisc, "superDuperFunMode", betterAchievements, "The way the game should have been made.").getBoolean(betterAchievements);
         forceEnableLootFix = config.get(sectionMisc, "forceEnableLootFix", forceEnableLootFix, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will ENABLE it regardless of that fact").getBoolean();
         forceDisableLootFix = config.get(sectionMisc, "forceDisableLootFix", forceEnableLootFix, "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will DISABLE it regardless of that fact").getBoolean();

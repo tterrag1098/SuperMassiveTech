@@ -3,7 +3,6 @@ package tterrag.supermassivetech;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import tterrag.core.TTCore;
 import tterrag.core.common.compat.CompatabilityRegistry;
 import tterrag.core.common.util.CreativeTabsCustom;
 import tterrag.core.common.util.RegisterTime;
@@ -11,7 +10,6 @@ import tterrag.supermassivetech.client.gui.GuiHandler;
 import tterrag.supermassivetech.common.CommonProxy;
 import tterrag.supermassivetech.common.compat.RarityAdjuster;
 import tterrag.supermassivetech.common.compat.enderio.EnderIOCompat;
-import tterrag.supermassivetech.common.compat.waila.WailaCompat;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
