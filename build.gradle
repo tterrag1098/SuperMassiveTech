@@ -69,10 +69,15 @@ repositories {
         name 'CB Repo'
         url "http://chickenbones.net/maven/"
     }
+    maven { // EnderIO & ttCore
+        name 'tterrag Repo'
+        url "http://maven.tterrag.com"
+    }
 }
  
 dependencies {
     compile "mcp.mobius.waila:Waila:1.5.3_1.7.10"
+    compile "com.enderio:EnderIO:1.7.10-2.0.185_beta"
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
