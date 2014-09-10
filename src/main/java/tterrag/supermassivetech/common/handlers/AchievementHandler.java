@@ -24,7 +24,7 @@ public class AchievementHandler
     @SubscribeEvent
     public void onCrafted(ItemCraftedEvent event)
     {
-        if (!event.player.worldObj.isRemote)
+        if (!event.player.worldObj.isRemote && event.player instanceof EntityPlayerMP)
         {
             Achievements.unlock(Achievements.getValidItemStack(event.crafting), (EntityPlayerMP) event.player);
 
