@@ -116,10 +116,6 @@ public class ConfigHandler
             doConfiguration();
             Constants.instance().refresh();
         }
-        else
-        {
-            SuperMassiveTech.logger.info("Not refreshing config file for modid \"" + event.modID + "\"");
-        }
     }
 
     private static class ConflictingConfigsException extends RuntimeException

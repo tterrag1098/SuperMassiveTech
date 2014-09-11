@@ -143,7 +143,7 @@ public class BlackHoleEnergyRegistry
                 return entry.getEnergyFor(stack);
             }
         }
-        return stack.getItem() instanceof ItemBlock ? DEFAULT_ENERGY * BLOCK_MULT : DEFAULT_ENERGY;
+        return (stack.getItem() instanceof ItemBlock ? DEFAULT_ENERGY * BLOCK_MULT : DEFAULT_ENERGY) * stack.stackSize;
     }
     
     public int getEnergyFor(Entity entity)
@@ -209,5 +209,7 @@ public class BlackHoleEnergyRegistry
     {
         registerItemEnergy(new ItemStack(Items.diamond), 8192);
         registerItemEnergy(new ItemStack(Item.getItemFromBlock(Blocks.diamond_block)), getEnergyFor(new ItemStack(Items.diamond)) * 9);
+        registerItemEnergy(new ItemStack(Blocks.stone), 8000);
+        registerItemEnergy(new ItemStack(Blocks.grass), 8000);
     }
 }
