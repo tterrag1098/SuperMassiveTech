@@ -1,12 +1,14 @@
 package tterrag.supermassivetech.common.item;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
-import tterrag.supermassivetech.common.entity.EntityFormingStar;
+import tterrag.supermassivetech.common.entity.EntityDyingBlock;
 import tterrag.supermassivetech.common.entity.item.EntityItemStarHeart;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.relauncher.Side;
@@ -58,9 +60,8 @@ public class ItemStarHeart extends ItemSMT implements IAdvancedTooltip
     public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World world, int x, int y, int z, int p_77648_7_,
             float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
-        EntityFormingStar star = new EntityFormingStar(world);
-        star.setPosition(x+ 0.5, y + 0.5, z + 0.5);
-        world.spawnEntityInWorld(star);
+        EntityDyingBlock e = new EntityDyingBlock(world, world.getBlock(x, y, z), world.getBlockMetadata(x, y, z), x, y + 1, z);
+        world.spawnEntityInWorld(e);
         return true;
     }
 }

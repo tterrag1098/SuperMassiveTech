@@ -125,6 +125,7 @@ public class BlackHoleEnergyRegistry
     }
 
     public static final BlackHoleEnergyRegistry INSTANCE = new BlackHoleEnergyRegistry();
+    private BlackHoleEnergyRegistry() {}
 
     private List<IEnergyEntry<ItemStack>> items = new ArrayList<IEnergyEntry<ItemStack>>();
     private List<IEnergyEntry<Entity>> entities = new ArrayList<IEnergyEntry<Entity>>();

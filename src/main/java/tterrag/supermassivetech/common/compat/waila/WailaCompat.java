@@ -22,8 +22,8 @@ import tterrag.supermassivetech.common.util.Utils;
 
 public class WailaCompat implements IWailaDataProvider
 {
-    private WailaCompat() {}
     public static final WailaCompat INSTANCE = new WailaCompat();
+    private WailaCompat() {}
 
     public static void load(IWailaRegistrar registrar)
     {
@@ -58,7 +58,7 @@ public class WailaCompat implements IWailaDataProvider
 
         int key1 = Keyboard.getKeyIndex(ConfigHandler.wailaKey1);
         int key2 = Keyboard.getKeyIndex(ConfigHandler.wailaKey2);
-        
+
         if (block instanceof IAdvancedTooltip)
         {
             Utils.formAdvancedTooltip(currenttip, accessor.getStack(), (IAdvancedTooltip) block, key1, key2);

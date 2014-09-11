@@ -1,12 +1,19 @@
 package tterrag.supermassivetech.common.tile;
 
+import java.util.Random;
+
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import tterrag.supermassivetech.api.common.tile.IBlackHole;
+import tterrag.supermassivetech.common.block.BlockBlackHole;
+import tterrag.supermassivetech.common.entity.EntityDyingBlock;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageUpdateBlackHole;
 import tterrag.supermassivetech.common.registry.BlackHoleEnergyRegistry;
@@ -33,10 +40,55 @@ public class TileBlackHole extends TileSMT implements IBlackHole
     {
         super.updateEntity();
 
-        if (!worldObj.isRemote && storedEnergy != lastStoredEnergy)
+        if (!worldObj.isRemote)
         {
-            sendPacket();
-            lastStoredEnergy = storedEnergy;
+            float sizeMult = 2.75f;
+            int size = (int) (getSize() * sizeMult);
+ 
+            if (size != 0)
+            {
+                Random rand = worldObj.rand;
+
+                int restartCount = 0;
+                int maxChecks = size * 10;
+                for (int i = 0; i < 1 && restartCount < maxChecks; i++)
+                {
+                    // find a random block in the cubic range
+                    int bX = xCoord + rand.nextInt(size) - rand.nextInt(size);
+                    int bY = yCoord + rand.nextInt(size) - rand.nextInt(size);
+                    int bZ = zCoord + rand.nextInt(size) - rand.nextInt(size);
+
+                    // if is within the circular range
+                    if (getDistanceFrom(bX, bY, bZ) <= size * sizeMult)
+                    {
+                        Block block = worldObj.getBlock(bX, bY, bZ);
+                        float hardness = block.getBlockHardness(worldObj, bX, bY, bZ);
+                        
+                        // make sure block is not unbreakable, nonexistant, or myself
+                        if (!(hardness < 0 || block.isAir(worldObj, bX, bY, bZ) || block instanceof BlockBlackHole))
+                        {
+                            worldObj.spawnEntityInWorld(new EntityDyingBlock(worldObj, block, worldObj.getBlockMetadata(bX, bY, bZ), bX, bY, bZ));
+                            worldObj.setBlockToAir(bX, bY, bZ);
+                        }
+                        else
+                        {
+                            i--; // try again
+                            restartCount++;
+                        }
+                    }
+                    else
+                    {
+                        i--; // try again
+                        restartCount++;
+                    }
+                }
+            }
+
+            if (storedEnergy != lastStoredEnergy)
+            {
+                sendPacket();
+                lastStoredEnergy = storedEnergy;
+            }
         }
 
         // System.out.println("Energy: " + getEnergy() + "  Size: " + getSize() + "  Strength: " + getStrength() * getStrengthMultiplier() + "  Range: " + getRange() * getRangeMultiplier());
@@ -101,6 +153,12 @@ public class TileBlackHole extends TileSMT implements IBlackHole
         {
             long energy = getEnergy() + BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(((EntityItem) entity).getEntityItem());
             setEnergy(energy);
+            entity.setDead();
+        }
+        else if (entity instanceof EntityFallingBlock)
+        {
+            ItemStack block = new ItemStack(((EntityFallingBlock)entity).func_145805_f());
+            setEnergy(getEnergy() + BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(block));
             entity.setDead();
         }
         else

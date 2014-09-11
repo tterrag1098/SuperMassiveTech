@@ -11,6 +11,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 public class ModEntities
 {
     public static final ModEntities instance = new ModEntities();
+    private ModEntities() {}
 
     public void init()
     {

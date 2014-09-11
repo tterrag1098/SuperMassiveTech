@@ -16,8 +16,10 @@ import tterrag.supermassivetech.common.util.Utils;
 
 public class Stars
 {
-    private static int nextStarID = 0;
     public static Stars instance = new Stars();
+    private Stars() {}
+
+    private static int nextStarID = 0;
     public static final String PREFIX = "SMT.star.";
 
     public enum StarTier

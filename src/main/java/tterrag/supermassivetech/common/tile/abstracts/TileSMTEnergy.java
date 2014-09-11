@@ -114,7 +114,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     }
 
     @Override
-    public boolean canConnectEnergy(ForgeDirection from)
+    public final boolean canConnectEnergy(ForgeDirection from)
     {
         return ArrayUtils.contains(getValidInputs(), from) || ArrayUtils.contains(getValidOutputs(), from);
     }
@@ -122,13 +122,13 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     /* IEnergyHandler basic impl */
 
     @Override
-    public int getEnergyStored(ForgeDirection from)
+    public final int getEnergyStored(ForgeDirection from)
     {
         return getEnergyStored();
     }
 
     @Override
-    public int getMaxEnergyStored(ForgeDirection from)
+    public final int getMaxEnergyStored(ForgeDirection from)
     {
         return getMaxStorage();
     }

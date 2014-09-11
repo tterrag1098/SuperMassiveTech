@@ -80,7 +80,7 @@ public class SuperMassiveTech
         starRegistry.registerDefaultStars();
         BlackHoleEnergyRegistry.INSTANCE.registerDefaults();
 
-        FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + "common.compat.waila.WailaCompat.load");
+        FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + ".common.compat.waila.WailaCompat.load");
         
         CompatabilityRegistry.instance().registerCompat("EnderIO", RegisterTime.INIT, EnderIOCompat.class);
     }

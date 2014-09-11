@@ -80,8 +80,6 @@ SMT.tooltip.redstone.mode=Redstone Mode
 SMT.tooltip.redstone.normal=Normal
 SMT.tooltip.redstone.inverted=Inverted
 
-SMT.tooltip.oreDictNames=Ore Dictionary Names:
-
 #Star Stuff
 SMT.tooltip.tier=Tier:
 SMT.tooltip.tier.low=Low

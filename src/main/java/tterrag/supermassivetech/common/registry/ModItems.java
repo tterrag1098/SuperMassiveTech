@@ -21,7 +21,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ModItems
 {
     public static final ModItems instance = new ModItems();
-
+    private ModItems() {}
+    
     public Item star, starSpecial;
     public Item heartOfStar;
 
@@ -31,7 +32,7 @@ public class ModItems
 
     public ItemGravityArmor gravityHelm, gravityChest, gravityLegs, gravityBoots;
 
-    public ArrayList<IEnergyContainerItem> armors = new ArrayList<IEnergyContainerItem>();
+    public final ArrayList<IEnergyContainerItem> armors = new ArrayList<IEnergyContainerItem>();
 
     public void register()
     {

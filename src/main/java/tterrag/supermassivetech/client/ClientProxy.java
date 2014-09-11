@@ -13,8 +13,10 @@ import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
 import tterrag.supermassivetech.client.render.SimpleModelRenderer;
 import tterrag.supermassivetech.client.render.WaypointSpecialRenderer;
+import tterrag.supermassivetech.client.render.entity.RenderDyingBlock;
 import tterrag.supermassivetech.client.render.entity.RenderFormingStar;
 import tterrag.supermassivetech.common.CommonProxy;
+import tterrag.supermassivetech.common.entity.EntityDyingBlock;
 import tterrag.supermassivetech.common.entity.EntityFormingStar;
 import tterrag.supermassivetech.common.tile.TileBlackHole;
 import tterrag.supermassivetech.common.tile.TileBlackHoleHopper;
@@ -92,5 +94,6 @@ public class ClientProxy extends CommonProxy
 
         // Entities
         RenderingRegistry.registerEntityRenderingHandler(EntityFormingStar.class, new RenderFormingStar());
+        RenderingRegistry.registerEntityRenderingHandler(EntityDyingBlock.class, new RenderDyingBlock());
     }
 }

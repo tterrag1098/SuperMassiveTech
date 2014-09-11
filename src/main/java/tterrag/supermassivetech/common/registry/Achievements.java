@@ -14,14 +14,14 @@ import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 import tterrag.supermassivetech.ModProps;
 
-public class Achievements
+public final class Achievements
 {
     public static Achievement craftHeart;
     public static Achievement craftStar;
 
     public static AchievementPage pageSMT;
 
-    public static Map<ItemStack, Achievement> eventRequired = new HashMap<ItemStack, Achievement>();
+    public static final Map<ItemStack, Achievement> eventRequired = new HashMap<ItemStack, Achievement>();
 
     public static void initAchievements()
     {
