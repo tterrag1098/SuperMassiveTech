@@ -12,6 +12,16 @@ public class EntityDyingBlock extends Entity
 {
     private static final int DATA_ID = 10;
     
+    public EntityDyingBlock(World world)
+    {
+        super(world);
+        this.setSize(0.98F, 0.98F);
+        this.yOffset = this.height / 2.0F;
+        this.motionX = 0.0D;
+        this.motionY = 0.0D;
+        this.motionZ = 0.0D;
+    }
+    
     public EntityDyingBlock(World world, Block block, int meta, int x, int y, int z)
     {
         super(world);
@@ -72,17 +82,31 @@ public class EntityDyingBlock extends Entity
     
     @Override
     public void onUpdate()
-    {
-        this.moveEntity(motionX, motionY, motionZ);
-
-        this.motionY -= 0.04;
+    {        
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
         
-        if (worldObj.getTotalWorldTime() % 500 == 0)
-        {
-            this.setDead();
-        }
+        this.motionY -= 0.04;
+        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        this.motionX *= 0.98;
+        this.motionY *= 0.98;
+        this.motionZ *= 0.98;
         
         super.onUpdate();
+        
+        System.out.println((worldObj.isRemote ? "Client: " : "Server: ") + Math.round(posX) + "  " + Math.round(posY) + "  " + Math.round(posZ));
+        
+        if (worldObj.getTotalWorldTime() % 400 == 0)
+        {
+//            this.setDead();
+        }
+    }
+    
+    @Override
+    protected boolean canTriggerWalking()
+    {
+        return false;
     }
 
     @Override

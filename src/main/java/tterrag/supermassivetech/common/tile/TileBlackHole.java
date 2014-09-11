@@ -67,7 +67,11 @@ public class TileBlackHole extends TileSMT implements IBlackHole
                         // make sure block is not unbreakable, nonexistant, or myself
                         if (!(hardness < 0 || block.isAir(worldObj, bX, bY, bZ) || block instanceof BlockBlackHole))
                         {
-                            worldObj.spawnEntityInWorld(new EntityDyingBlock(worldObj, block, worldObj.getBlockMetadata(bX, bY, bZ), bX, bY, bZ));
+                            if (block.isOpaqueCube())
+                            {
+                                worldObj.spawnEntityInWorld(new EntityDyingBlock(worldObj, block, worldObj.getBlockMetadata(bX, bY, bZ), bX, bY, bZ));
+                            }
+                            
                             worldObj.setBlockToAir(bX, bY, bZ);
                         }
                         else
@@ -158,6 +162,12 @@ public class TileBlackHole extends TileSMT implements IBlackHole
         else if (entity instanceof EntityFallingBlock)
         {
             ItemStack block = new ItemStack(((EntityFallingBlock)entity).func_145805_f());
+            setEnergy(getEnergy() + BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(block));
+            entity.setDead();
+        }
+        else if (entity instanceof EntityDyingBlock)
+        {
+            ItemStack block = ((EntityDyingBlock)entity).getBlockStack();
             setEnergy(getEnergy() + BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(block));
             entity.setDead();
         }
