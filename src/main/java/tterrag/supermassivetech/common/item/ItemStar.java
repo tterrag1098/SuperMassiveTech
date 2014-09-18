@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
-import tterrag.supermassivetech.common.entity.item.EntityItemIndestructible;
+import tterrag.supermassivetech.common.entity.item.EntityItemStar;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.util.Utils;
@@ -74,7 +74,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
-        return new EntityItemIndestructible(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
+        return new EntityItemStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
                 ((EntityItem) location).delayBeforeCanPickup);
     }
 

@@ -65,6 +65,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
                 markDirty();
                 sendPacket();
                 hadItem = inventory[0] != null;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             }
         }
     }

@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
@@ -83,6 +84,17 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
             tile.setInventorySlotContents(0, null);
         }
         return true;
+    }
+    
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z)
+    {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te != null && te instanceof TileCharger)
+        {
+            return ((TileCharger)te).isCharging() ? 10 : 0;
+        }
+        return 0;
     }
 
     @Override

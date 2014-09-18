@@ -5,7 +5,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import tterrag.supermassivetech.common.block.BlockBlackHole;
+import tterrag.supermassivetech.common.block.BlockInvisibleLight;
 import tterrag.supermassivetech.common.block.BlockWaypoint;
+import tterrag.supermassivetech.common.block.BlockInvisibleLight.TileInvisibleLight;
 import tterrag.supermassivetech.common.block.container.BlockBlackHoleHopper;
 import tterrag.supermassivetech.common.block.container.BlockBlackHoleStorage;
 import tterrag.supermassivetech.common.block.container.BlockCharger;
@@ -35,6 +37,7 @@ public class ModBlocks
     public Block waypoint;
     public Block charger;
     public Block blackHole;
+    public Block invisibleLight;
 
     public void register()
     {
@@ -62,6 +65,10 @@ public class ModBlocks
         GameRegistry.registerBlock(blackHole, "blackHole");
         GameRegistry.registerTileEntity(TileBlackHole.class, "tileBlackHole");
         OreDictionary.registerOre("blackHole", blackHole);
+        
+        invisibleLight = new BlockInvisibleLight();
+        GameRegistry.registerBlock(invisibleLight, "invisibleLight");
+        GameRegistry.registerTileEntity(TileInvisibleLight.class, "tileInvisibleLight");
     }
 
     public void addRecipes()

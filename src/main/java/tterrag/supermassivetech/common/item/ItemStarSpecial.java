@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import net.minecraft.world.World;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
-import tterrag.supermassivetech.common.entity.item.EntityItemSpecialStar;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.relauncher.Side;
@@ -48,13 +46,6 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
             if (t.getTier() == StarTier.SPECIAL && (t.toString().equals("Pulsar") || t.toString().equals("Neutron")))
                 list.add(Utils.setType(new ItemStack(this), t));
         }
-    }
-
-    @Override
-    public Entity createEntity(World world, Entity location, ItemStack itemstack)
-    {
-        return new EntityItemSpecialStar(world, location.posX, location.posY, location.posZ, itemstack, location.motionX, location.motionY, location.motionZ,
-                ((EntityItem) location).delayBeforeCanPickup);
     }
 
     @Override

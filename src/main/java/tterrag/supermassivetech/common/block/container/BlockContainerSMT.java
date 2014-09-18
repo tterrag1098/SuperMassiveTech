@@ -36,20 +36,6 @@ public abstract class BlockContainerSMT extends BlockSMT implements ITileEntityP
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
-    {
-        try
-        {
-            return teClass.newInstance();
-        }
-        catch (Throwable t)
-        {
-            t.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {        
         if (!saveToItem())

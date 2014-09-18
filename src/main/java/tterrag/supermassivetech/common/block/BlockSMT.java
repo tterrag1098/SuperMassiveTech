@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Facing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.block.ISaveToItem;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
@@ -29,7 +30,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
         super(mat);
         setStepSound(type);
         setHardness(hardness);
-        setBlockName(unlocName);
+        setBlockName(ModProps.LOCALIZING + "." + unlocName);
         setCreativeTab(SuperMassiveTech.tabSMT);
         this.renderID = renderID;
         this.unlocName = unlocName;
@@ -39,6 +40,11 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     protected BlockSMT(String unlocName, Material mat, SoundType type, float hardness, int renderID)
     {
         this(unlocName, mat, type, hardness, renderID, null);
+    }
+    
+    protected BlockSMT(String unlocName, Material mat, SoundType type, float hardness, Class<? extends TileEntity> teClass)
+    {
+        this(unlocName, mat, type, hardness, 0, teClass);
     }
 
     protected BlockSMT(String unlocName, Material mat, SoundType type, float hardness)
@@ -135,6 +141,20 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return this.saveToItem() ? null : super.getItemDropped(p_149650_1_, p_149650_2_, p_149650_3_);
+    }
+    
+    // overrides ITEP in subclasses
+    public TileEntity createNewTileEntity(World world, int metadata)
+    {
+        try
+        {
+            return teClass.newInstance();
+        }
+        catch (Throwable t)
+        {
+            t.printStackTrace();
+        }
+        return null;
     }
 
     /**
