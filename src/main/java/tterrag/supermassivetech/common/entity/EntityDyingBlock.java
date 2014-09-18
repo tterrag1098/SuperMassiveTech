@@ -6,13 +6,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityDyingBlock extends Entity
 {
-    private static final int DATA_ID = 10;
-    private static final int MAX_LIFETIME = 10000;
+    private static final int DATA_ID = 20;
+    private static final int MAX_LIFETIME = 600;
 
     public EntityDyingBlock(World world)
     {
@@ -68,6 +67,7 @@ public class EntityDyingBlock extends Entity
     protected void entityInit()
     {
         this.getDataWatcher().addObject(DATA_ID, new ItemStack(Blocks.stone));
+        this.getDataWatcher().setObjectWatched(DATA_ID);
     }
 
     @Override
@@ -79,27 +79,7 @@ public class EntityDyingBlock extends Entity
     @Override
     public void onUpdate()
     {
-        if (!worldObj.isRemote && ticksExisted > 20 && motionX + motionY + motionZ < 0.01)
-        {
-            int x = MathHelper.floor_double(posX), y = MathHelper.floor_double(posY), z = MathHelper.floor_double(posZ);
-            Block curBlock = worldObj.getBlock(x, y, z);
-            if (curBlock == null || curBlock.isAir(worldObj, x, y, z) || curBlock.isReplaceable(worldObj, x, y, z))
-            {
-                worldObj.setBlock(x, y, z, getBlock());
-                worldObj.setBlockMetadataWithNotify(x, y, z, getMeta(), 3);
-                this.setDead();
-            }
-            else
-            {
-                this.posY += 1;
-            }
-        }
-        else
-        {
-            System.out.println(worldObj.isRemote + " " + ticksExisted + "  " + (motionX + motionY + motionZ));
-        }
-        
-        if (ticksExisted > MAX_LIFETIME)
+        if ((ticksExisted > 20 && this.motionX + this.motionY + this.motionZ < 0.001) || ticksExisted > MAX_LIFETIME)
         {
             this.setDead();
         }
@@ -116,7 +96,7 @@ public class EntityDyingBlock extends Entity
 
         super.onUpdate();
     }
-
+    
     @Override
     protected boolean canTriggerWalking()
     {

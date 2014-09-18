@@ -46,6 +46,7 @@ public class RenderDyingBlock extends Render
             render.setRenderBoundsFromBlock(block);
             render.renderBlockSandFalling(block, entity.worldObj, bX, bY, bZ, meta);
             
+            glEnable(GL_LIGHTING);
             glPopMatrix();
         }
     }

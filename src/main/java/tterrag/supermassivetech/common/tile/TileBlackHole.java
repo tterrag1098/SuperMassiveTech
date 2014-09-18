@@ -27,8 +27,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAdditionalInfo
 {
-    private long storedEnergy = 1;
-    private long lastStoredEnergy = 1;
+    private long storedEnergy = 0;
+    private long lastStoredEnergy = 0;
 
     private static final float SIZE_MULT = 1f / 1000000f;
     private static final float SIZE_BASE = 0.5f;
@@ -86,7 +86,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
                     // make sure block is not unbreakable, nonexistant, or myself
                     if (!(hardness < 0 || block.isAir(worldObj, bX, bY, bZ) || block instanceof BlockBlackHole))
                     {
-                        if (block.isOpaqueCube())
+                        if (block.renderAsNormalBlock())
                         {
                             worldObj.spawnEntityInWorld(new EntityDyingBlock(worldObj, block, worldObj.getBlockMetadata(bX, bY, bZ), bX, bY, bZ));
                         }
@@ -133,7 +133,8 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
             for (int i = 0; i < getSize() * 2; i++)
             {
                 double pX = xCoord + 0.5, pY = yCoord + 0.5, pZ = zCoord + 0.5;
-                double velX = worldObj.rand.nextDouble() / 8 - 0.0625, velZ = worldObj.rand.nextDouble() / 8 - 0.0625, velY = getSize() / 10;
+                double maxAngle = getSize() * 0.05;
+                double velX = worldObj.rand.nextDouble() * maxAngle - (maxAngle / 2), velZ = worldObj.rand.nextDouble() * maxAngle - (maxAngle / 2), velY = getSize() / 10;
                 velY = i % 2 == 0 ? -velY * 1.5 : velY;
                 worldObj.spawnParticle("smoke", pX, pY, pZ, velX, velY, velZ);
             }
@@ -212,8 +213,10 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
         {
             int energy = BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(entity);
             int dmg = getDamageFromSize();
-            setEnergy(getEnergy() + (energy * dmg));
-            entity.attackEntityFrom(dmgBlackHole, dmg);
+            if (entity.attackEntityFrom(dmgBlackHole, dmg))
+            {
+                setEnergy(getEnergy() + (energy * dmg));
+            }
         }
     }
 

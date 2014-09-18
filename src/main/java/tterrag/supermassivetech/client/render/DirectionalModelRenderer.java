@@ -44,7 +44,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
     public void renderDirectionalTileEntityAt(TileSMTInventory tile, double x, double y, double z, int metaOverride)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride < 0 ? 0.1f : 0), (float) z + 0.5f);
+        GL11.glTranslatef((float) x + 0.5f, (float) y - (metaOverride >= 0 ? 0.1f : 0), (float) z + 0.5f);
 
         int meta = metaOverride >= 0 ? metaOverride : tile.getBlockMetadata();
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -90,7 +90,7 @@ public class DirectionalModelRenderer extends TileEntitySpecialRenderer implemen
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float yaw)
     {
-        renderDirectionalTileEntityAt((TileSMTInventory) tile, x, y, z, 0);
+        renderDirectionalTileEntityAt((TileSMTInventory) tile, x, y, z, -1);
     }
 
     @Override

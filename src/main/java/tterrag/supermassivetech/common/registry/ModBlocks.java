@@ -24,7 +24,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ModBlocks
 {
     public static final ModBlocks instance = new ModBlocks();
-    private ModBlocks() {}
+
+    private ModBlocks()
+    {
+    }
 
     public Block blackHoleStorage;
     public Block blackHoleHopper;
@@ -58,7 +61,6 @@ public class ModBlocks
         blackHole = new BlockBlackHole();
         GameRegistry.registerBlock(blackHole, "blackHole");
         GameRegistry.registerTileEntity(TileBlackHole.class, "tileBlackHole");
-        
         OreDictionary.registerOre("blackHole", blackHole);
     }
 

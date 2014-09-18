@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import tterrag.core.client.handlers.ClientHandler;
 import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.api.common.tile.IBlackHole;
@@ -16,9 +17,17 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTickTime)
     {
         IBlackHole bh = (IBlackHole) te;
+
+        float wobbleScale = 0.05f;
+        float wobble = (float) ClientHandler.getElapsedTicks() / 10f;
+        float wobbleX = (float) (Math.sin(wobble) * wobbleScale) + 1;
+        float wobbleY = (float) (Math.sin(wobble) * -1 * wobbleScale) + 1;
         
+        System.out.println(wobbleX + "  " + wobbleY);
+
         glPushMatrix();
-        glTranslated(x + 0.5f, y + 0.5f, z + 0.5f);
+        glTranslated(x + 0.5, y + 0.5, z + 0.5);
+        glScalef(wobbleX, wobbleY, 1);
 
         this.bindTexture(texture);
 
@@ -33,7 +42,6 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
         RenderingUtils.renderBillboardQuad(rot, bh.getSize());
         glPopAttrib();
         glPopMatrix();
-
         glPopMatrix();
     }
 }

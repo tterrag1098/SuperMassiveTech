@@ -1,12 +1,11 @@
 package tterrag.supermassivetech.common.tile;
 
-import tterrag.supermassivetech.ModProps;
-import tterrag.supermassivetech.common.util.Utils;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IChatComponent;
+import tterrag.supermassivetech.ModProps;
+import tterrag.supermassivetech.common.util.Utils;
 
 public class DamageSourceBlackHole extends DamageSource
 {
@@ -26,7 +25,7 @@ public class DamageSourceBlackHole extends DamageSource
             num++;
             text = text.replace("" + (num - 1), "" + num);
         }
-        
+
         DEATH_MSG_COUNT = num - 1;
     }
 
@@ -35,7 +34,7 @@ public class DamageSourceBlackHole extends DamageSource
     {
         return true;
     }
-    
+
     @Override
     public boolean isUnblockable()
     {
@@ -45,15 +44,8 @@ public class DamageSourceBlackHole extends DamageSource
     @Override
     public IChatComponent func_151519_b(EntityLivingBase entity)
     {
-        if (entity instanceof EntityPlayer)
-        {
-            int num = entity.worldObj.rand.nextInt(DEATH_MSG_COUNT) + 1;
-            String text = String.format(Utils.lang.localize(DEATH_MSG_BASE + num), ((EntityPlayer) entity).getCommandSenderName());
-            return new ChatComponentText(text);
-        }
-        else
-        {
-            return null;
-        }
+        int num = entity.worldObj.rand.nextInt(DEATH_MSG_COUNT) + 1;
+        String text = String.format(Utils.lang.localize(DEATH_MSG_BASE + num), entity.getCommandSenderName());
+        return new ChatComponentText(text);
     }
 }
