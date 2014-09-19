@@ -116,12 +116,6 @@ public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityP
     }
 
     @Override
-    public TileEntity createNewTileEntity(World var1, int var2)
-    {
-        return new TileWaypoint();
-    }
-
-    @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z)
     {
         return 13;
