@@ -32,7 +32,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
         {
             glPushMatrix();
             glTranslatef(0.5f, 0.3f, 0.5f);
-            RenderingUtils.render3DItem(item, partialTickTime, true);
+            RenderingUtils.render3DItem(item, true);
             glPopMatrix();
         }
 
@@ -46,7 +46,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
 
             Tessellator tessellator = Tessellator.instance;
 
-            float rot = -RenderingUtils.getRotation(partialTickTime, 10f);
+            float rot = -RenderingUtils.getRotation(10f);
 
             renderAllTranslucent(tessellator, rot);
             

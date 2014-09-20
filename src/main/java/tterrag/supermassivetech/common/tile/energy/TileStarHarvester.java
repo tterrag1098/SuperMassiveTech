@@ -157,7 +157,6 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
 
             spins[i] += (float) (i == 0 ? spinSpeed * 15f : spinSpeed * (6f + i * 2));
         }
-
     }
 
     public int getRotationMeta()

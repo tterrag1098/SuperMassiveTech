@@ -31,7 +31,7 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
 
         this.bindTexture(texture);
 
-        float rot = RenderingUtils.getRotation(partialTickTime, 2);
+        float rot = RenderingUtils.getRotation(2);
 
         glPushMatrix();
         glPushAttrib(GL_ALL_ATTRIB_BITS);

@@ -38,7 +38,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         glPushMatrix();
         glTranslated(x + 0.5, y + 0.52, z + 0.5);
         glScalef(0.4f, 0.4f, 0.4f);
-        RenderingUtils.render3DItem(item, tickDelay, true);
+        RenderingUtils.render3DItem(item, true);
         glPopMatrix();
         
         glPushAttrib(GL_ALL_ATTRIB_BITS);

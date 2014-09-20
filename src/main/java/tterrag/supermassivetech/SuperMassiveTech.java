@@ -3,6 +3,7 @@ package tterrag.supermassivetech;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import tterrag.core.IModTT;
 import tterrag.core.common.compat.CompatabilityRegistry;
 import tterrag.core.common.util.CreativeTabsCustom;
 import tterrag.core.common.util.RegisterTime;
@@ -35,7 +36,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
  * @author Garrett Spicer-Davis
  */
 @Mod(modid = ModProps.MODID, name = ModProps.MOD_NAME, version = ModProps.VERSION, dependencies = ModProps.DEPENDENCIES, guiFactory = ModProps.GUI_FACTORY_CLASS)
-public class SuperMassiveTech
+public class SuperMassiveTech implements IModTT
 {
     @Instance
     public static SuperMassiveTech instance;
@@ -82,7 +83,7 @@ public class SuperMassiveTech
 
         FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + ".common.compat.waila.WailaCompat.load");
         
-        CompatabilityRegistry.instance().registerCompat("EnderIO", RegisterTime.INIT, EnderIOCompat.class);
+        CompatabilityRegistry.instance().registerCompat(RegisterTime.INIT, EnderIOCompat.class, "EnderIO");
     }
 
     @EventHandler
@@ -98,5 +99,23 @@ public class SuperMassiveTech
     public static void postInit(FMLPostInitializationEvent event)
     {
         RarityAdjuster.fix();
+    }
+
+    @Override
+    public String modid()
+    {
+        return ModProps.MODID;
+    }
+
+    @Override
+    public String name()
+    {
+        return ModProps.MOD_NAME;
+    }
+
+    @Override
+    public String version()
+    {
+        return ModProps.VERSION;
     }
 }

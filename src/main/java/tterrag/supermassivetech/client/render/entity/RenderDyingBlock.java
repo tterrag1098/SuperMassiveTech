@@ -36,9 +36,9 @@ public class RenderDyingBlock extends Render
             
             glPushMatrix();
             glTranslated(x, y, z);
-            glRotatef(RenderingUtils.getRotation(partialTickTime, rand.nextInt(10)) + rotOffset, 1, 0, 0);
-            glRotatef(RenderingUtils.getRotation(partialTickTime, rand.nextInt(10)) + rotOffset, 0, 1, 0);
-            glRotatef(RenderingUtils.getRotation(partialTickTime, rand.nextInt(10)) + rotOffset, 0, 0, 1);
+            glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 1, 0, 0);
+            glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 0, 1, 0);
+            glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 0, 0, 1);
             glDisable(GL_LIGHTING);
             
             bindEntityTexture(entity);
