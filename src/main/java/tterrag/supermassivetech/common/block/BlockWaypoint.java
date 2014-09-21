@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.common.block;
 
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,7 +22,7 @@ import tterrag.supermassivetech.common.util.Waypoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockWaypoint extends BlockSMT implements ISaveToItem, ITileEntityProvider, IAdvancedTooltip, IWailaAdditionalInfo
+public class BlockWaypoint extends BlockSMT implements ISaveToItem, IAdvancedTooltip, IWailaAdditionalInfo
 {
     public BlockWaypoint()
     {
