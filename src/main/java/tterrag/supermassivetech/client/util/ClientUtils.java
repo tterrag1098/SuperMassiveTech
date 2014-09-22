@@ -78,6 +78,16 @@ public class ClientUtils
         }
     }
 
+    public static void spawnDyingParticles(World world, float x, float y, float z)
+    {
+        GameSettings settings = Minecraft.getMinecraft().gameSettings;
+        for (int i = 0; i < -((settings.particleSetting - 2) * 2); i++)
+        {
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, x, y, z, getRandMotion() / 7, getRandMotion() / 7, getRandMotion() / 7));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(world, x, y, z, getRandMotion() / 7, getRandMotion() / 7, getRandMotion() / 7));
+        }
+    }
+
     private static float getRandMotion()
     {
         return getRandMotion(1);
@@ -105,7 +115,7 @@ public class ClientUtils
                 data[0] + 0.5, data[1] + 0.5, data[2] + 0.5, 0.1d));
     }
 
-    public static void updateStarHarvester(NBTTagCompound data, int x, int y, int z, double spinSpeed)
+    public static void updateStarHarvester(NBTTagCompound data, int x, int y, int z, double spinSpeed, boolean dying)
     {
         World world = Minecraft.getMinecraft().theWorld;
 
@@ -116,6 +126,7 @@ public class ClientUtils
             {
                 ((TileStarHarvester)t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
                 ((TileStarHarvester)t).spinSpeed = spinSpeed;
+                ((TileStarHarvester)t).dying = dying;
             }
         }
     }

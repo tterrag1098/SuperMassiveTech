@@ -27,6 +27,7 @@ import tterrag.supermassivetech.common.network.message.tile.MessageStarHarvester
 import tterrag.supermassivetech.common.network.message.tile.MessageUpdateVenting;
 import tterrag.supermassivetech.common.registry.Achievements;
 import tterrag.supermassivetech.common.registry.Stars;
+import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
 import tterrag.supermassivetech.common.util.Utils;
 
@@ -51,6 +52,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     private boolean hasItem = false;
     private boolean needsLightingUpdate = false;
     public boolean venting = false;
+    public boolean dying = false;
     private ForgeDirection top = ForgeDirection.UNKNOWN;
 
     public static final int MAX_ENERGY = 100000;
@@ -110,6 +112,12 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
                 IStar type = Utils.getType(inventory[slot]);
                 int amnt = type.getPowerPerTick();
                 int takenFromStar = type.extractEnergy(inventory[slot], Math.min(amnt, venting ? amnt : storage.getMaxEnergyStored() - storage.getEnergyStored()), false);
+                if (dying = type.getEnergyStored(inventory[slot]) <= 0)
+                    Utils.setStarFuseRemaining(inventory[slot], Utils.getStarFuseRemaining(inventory[slot]) - 1);
+                
+                if (Utils.getStarFuseRemaining(inventory[slot]) <= 0)
+                    collapse();
+                
                 if (!venting) // remove energy from star but don't add to internal storage if venting
                 {
                     storage.receiveEnergy(takenFromStar, false);
@@ -118,9 +126,22 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         }
 
         perTick = (int) (MAX_PER_TICK * spinSpeed);
-
         if (venting && worldObj.isRemote)
             ClientUtils.spawnVentParticles(worldObj, xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f, top);
+        if (dying && worldObj.isRemote)
+            ClientUtils.spawnDyingParticles(worldObj, xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
+    }
+
+    private void collapse()
+    {
+        if (worldObj.rand.nextBoolean()) // 50/50 for now, probably want something better
+        {
+            worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, SuperMassiveTech.blockRegistry.blackHole);
+        }
+        else
+        {
+            this.insertStar(Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)), null);
+        }
     }
 
     @Override
@@ -132,7 +153,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     private void sendPacket()
     {
         NBTTagCompound tag = new NBTTagCompound();
-        PacketHandler.INSTANCE.sendToDimension(new MessageStarHarvester(inventory[slot] == null ? null : inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord, spinSpeed),
+        PacketHandler.INSTANCE.sendToDimension(new MessageStarHarvester(inventory[slot] == null ? null : inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord, spinSpeed, dying),
                 worldObj.provider.dimensionId);
     }
 
@@ -291,14 +312,17 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         ItemStack insert = stack.copy();
         insert.stackSize = 1;
         inventory[slot] = insert;
-        player.getCurrentEquippedItem().stackSize--;
         needsLightingUpdate = true;
 
-        if (!player.worldObj.isRemote)
+        if (player != null)
         {
-            ItemStack unlock = stack.copy();
-            unlock.setItemDamage(1);
-            Achievements.unlock(Achievements.getValidItemStack(unlock), (EntityPlayerMP) player);
+            player.getCurrentEquippedItem().stackSize--;
+            if (!player.worldObj.isRemote)
+            {
+                ItemStack unlock = stack.copy();
+                unlock.setItemDamage(1);
+                Achievements.unlock(Achievements.getValidItemStack(unlock), (EntityPlayerMP) player);
+            }
         }
 
         return true;

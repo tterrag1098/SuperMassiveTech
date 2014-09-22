@@ -327,13 +327,27 @@ public class Utils
         else
             return 0;
     }
+    
+    public static int getStarFuseRemaining(ItemStack star)
+    {
+        if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
+            return star.stackTagCompound.getInteger("fuse");
+        else
+            return 0;
+    }
+    
+    public static void setStarFuseRemaining(ItemStack star, int fuse)
+    {
+        if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
+            star.stackTagCompound.setInteger("fuse", fuse);
+    }
 
     /**
      * Sets the type of a star itemstack, can handle items that are not instances of {@link ItemStar}
      * 
      * @param stack - Stack to set the type on
      * @param type - Type to use
-     * @return The itemstack effected
+     * @return The itemstack affected
      */
     public static ItemStack setType(ItemStack stack, IStar type)
     {
@@ -344,6 +358,7 @@ public class Utils
 
             stack.stackTagCompound.setString("type", type.getName());
             stack.stackTagCompound.setInteger("energy", type.getMaxEnergyStored(stack));
+            stack.stackTagCompound.setInteger("fuse", type.getFuse());
         }
         else if (stack != null)
         {
