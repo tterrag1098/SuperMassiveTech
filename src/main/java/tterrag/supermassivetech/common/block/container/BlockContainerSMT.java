@@ -1,7 +1,6 @@
 package tterrag.supermassivetech.common.block.container;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +9,7 @@ import tterrag.supermassivetech.common.block.BlockSMT;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
 import tterrag.supermassivetech.common.util.Utils;
 
-public abstract class BlockContainerSMT extends BlockSMT implements ITileEntityProvider
+public abstract class BlockContainerSMT extends BlockSMT
 {
     protected BlockContainerSMT(String unlocName, Material mat, SoundType type, float hardness, Class<? extends TileEntity> te)
     {

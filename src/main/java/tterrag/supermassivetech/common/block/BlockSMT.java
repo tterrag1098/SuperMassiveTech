@@ -143,8 +143,14 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
         return this.saveToItem() ? null : super.getItemDropped(p_149650_1_, p_149650_2_, p_149650_3_);
     }
     
-    // overrides ITEP in subclasses
-    public TileEntity createNewTileEntity(World world, int metadata)
+    @Override
+    public boolean hasTileEntity(int metadata)
+    {
+        return teClass != null;
+    }
+    
+    @Override
+    public TileEntity createTileEntity(World world, int metadata)
     {
         try
         {

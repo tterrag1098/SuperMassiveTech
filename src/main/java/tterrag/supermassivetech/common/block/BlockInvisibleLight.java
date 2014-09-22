@@ -3,7 +3,6 @@ package tterrag.supermassivetech.common.block;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +10,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockInvisibleLight extends BlockSMT implements ITileEntityProvider
+public class BlockInvisibleLight extends BlockSMT
 {
     public BlockInvisibleLight()
     {
