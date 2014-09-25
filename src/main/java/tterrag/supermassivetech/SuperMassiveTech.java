@@ -10,7 +10,6 @@ import tterrag.core.common.util.RegisterTime;
 import tterrag.supermassivetech.client.gui.GuiHandler;
 import tterrag.supermassivetech.common.CommonProxy;
 import tterrag.supermassivetech.common.compat.RarityAdjuster;
-import tterrag.supermassivetech.common.compat.enderio.EnderIOCompat;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
@@ -83,7 +82,7 @@ public class SuperMassiveTech implements IModTT
 
         FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + ".common.compat.waila.WailaCompat.load");
         
-        CompatabilityRegistry.instance().registerCompat(RegisterTime.INIT, EnderIOCompat.class, "EnderIO");
+        CompatabilityRegistry.instance().registerCompat(RegisterTime.INIT, ModProps.MAIN_PACKAGE + ".common.compat.enderio.EnderIOCompat", "EnderIO");
     }
 
     @EventHandler
