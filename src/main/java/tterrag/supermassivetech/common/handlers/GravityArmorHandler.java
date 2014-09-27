@@ -205,7 +205,7 @@ public class GravityArmorHandler
             List<Entity> entities = null;
 
             final double defaultEffect = 0.09;
-            double effect = getArmorMult(player, defaultEffect, 0);
+            double effect = defaultEffect;
 
             if (ConfigHandler.fieldIgnorePlayers)
             {

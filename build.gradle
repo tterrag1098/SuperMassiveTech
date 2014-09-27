@@ -38,7 +38,6 @@ repositories {
 dependencies {
     compile "tterrag.core:ttCore:MC1.7.10-0.0.2-14"
     compile "com.enderio:EnderIO:1.7.10-2.0.185_beta"
-    compile "mcp.mobius.waila:Waila:1.5.3a_1.7.10"
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
