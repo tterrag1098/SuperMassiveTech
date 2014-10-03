@@ -16,9 +16,9 @@ public class ModProps
     public static final String CHANNEL = "SMTech";
     
     // for dependencies
-    public static final String TTCORE_VERSION = "1.7.10-0.0.2-14,)";
-    public static final String FORGE_VERSION = "10.13.0.1171,)";
-    public static final String ENDERIO_VERSION = "1.7.10-2.0.186_beta,)";
+    public static final String TTCORE_VERSION = "[1.7.10-0.0.2-10,)";
+    public static final String FORGE_VERSION = "[10.13.0.1171,)";
+    public static final String ENDERIO_VERSION = "[1.7.10-2.0.186_beta,)";
     
     public static final String DEPENDENCIES = "required-after:Forge@" + FORGE_VERSION + ";"
                                             + "required-after:ttCore@" + TTCORE_VERSION + ";"
