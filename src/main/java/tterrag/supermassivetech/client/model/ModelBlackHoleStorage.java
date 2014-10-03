@@ -6,9 +6,9 @@ import java.util.List;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import tterrag.supermassivetech.api.client.model.IModelSMT;
+import tterrag.core.api.client.model.IModelTT;
 
-public class ModelBlackHoleStorage extends ModelBase implements IModelSMT
+public class ModelBlackHoleStorage extends ModelBase implements IModelTT
 {
     ModelRenderer top, bottom;
     ModelRenderer core;
