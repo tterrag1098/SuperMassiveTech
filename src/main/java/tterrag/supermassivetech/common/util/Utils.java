@@ -2,6 +2,8 @@ package tterrag.supermassivetech.common.util;
 
 import static tterrag.supermassivetech.SuperMassiveTech.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -671,5 +673,16 @@ public class Utils
     public static double getGravResist(EntityPlayer player)
     {
         return getGravResist(player, 1.0);
+    }
+    
+    public static boolean shouldSpawnBlackHole(World worldObj) // TODO: implement something better for this
+    {
+      return worldObj.rand.nextBoolean();
+    }
+    
+    /// Expensive (relatively speaking)
+    public static int coordRound(double posX)
+    {
+      return new BigDecimal(posX).setScale(0, RoundingMode.HALF_DOWN).intValue();
     }
 }

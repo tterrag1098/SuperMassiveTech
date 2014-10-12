@@ -112,6 +112,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
                 IStar type = Utils.getType(inventory[slot]);
                 int amnt = type.getPowerPerTick();
                 int takenFromStar = type.extractEnergy(inventory[slot], Math.min(amnt, venting ? amnt : storage.getMaxEnergyStored() - storage.getEnergyStored()), false);
+                
                 if (dying = type.getEnergyStored(inventory[slot]) <= 0)
                     Utils.setStarFuseRemaining(inventory[slot], Utils.getStarFuseRemaining(inventory[slot]) - 1);
                 
@@ -134,14 +135,10 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
 
     private void collapse()
     {
-        if (worldObj.rand.nextBoolean()) // 50/50 for now, probably want something better
-        {
+        if (Utils.shouldSpawnBlackHole(worldObj))
             worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, SuperMassiveTech.blockRegistry.blackHole);
-        }
         else
-        {
             this.insertStar(Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)), null);
-        }
     }
 
     @Override
@@ -336,6 +333,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         inventory[slot] = null;
         needsLightingUpdate = true;
         venting = false;
+        dying = false;
         return true;
     }
 

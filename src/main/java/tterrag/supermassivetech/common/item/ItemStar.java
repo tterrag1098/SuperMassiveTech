@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
@@ -21,6 +22,7 @@ import tterrag.supermassivetech.common.entity.item.EntityItemStar;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.util.Utils;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -43,6 +45,22 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     {
         if (!par2World.isRemote)
             Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getMassLevel());
+        
+        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= 0)
+            Utils.setStarFuseRemaining(par1ItemStack, Utils.getStarFuseRemaining(par1ItemStack) - 1);
+        
+        if (Utils.getStarFuseRemaining(par1ItemStack) <= 0)
+        {
+            if (Utils.shouldSpawnBlackHole(par2World))
+            {
+                par1ItemStack = Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL));
+            }
+            else
+            {
+                ((EntityPlayer)par3Entity).inventory.setInventorySlotContents(par4, null);
+                par2World.setBlock(Utils.coordRound(par3Entity.posX), Utils.coordRound(par3Entity.posY), Utils.coordRound(par3Entity.posZ), SuperMassiveTech.blockRegistry.blackHole);
+            }
+        }
     }
 
     @Override
