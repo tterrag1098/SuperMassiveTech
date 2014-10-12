@@ -20,6 +20,7 @@ minecraft {
     runDir = 'run'
 	
 	replace "@VERSION@", project.version
+	replace "${toReplace}", "required-after:Forge@${forgeDep_version};required-after:ttCore@${ttCore_version};after:EnderIO;after:Waila;"
     replaceIn "ModProps.java"
 }
 
@@ -40,6 +41,7 @@ repositories {
 
 dependencies {
     compile "tterrag.core:ttCore:MC1.7.10-0.0.2-20"
+    compile "mcp.mobius.waila:Waila:1.5.5_1.7.10"
     compile "com.enderio:EnderIO:1.7.10-2.0.185_beta"
     compile fileTree(dir: 'libs', include: '*.jar')
 }
