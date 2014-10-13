@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -21,8 +22,8 @@ import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.entity.item.EntityItemStar;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
+import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -46,20 +47,21 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
         if (!par2World.isRemote)
             Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getMassLevel());
         
-        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= 0)
+        EntityPlayer player = ((EntityPlayer)par3Entity);
+        
+        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= (Utils.getType(par1ItemStack).getMaxEnergyStored(par1ItemStack) * Constants.instance().getStarDeathTrigger()))
+        {
             Utils.setStarFuseRemaining(par1ItemStack, Utils.getStarFuseRemaining(par1ItemStack) - 1);
+            player.setFire(1);
+        }
         
         if (Utils.getStarFuseRemaining(par1ItemStack) <= 0)
         {
-            if (Utils.shouldSpawnBlackHole(par2World))
-            {
-                par1ItemStack = Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL));
-            }
-            else
-            {
-                ((EntityPlayer)par3Entity).inventory.setInventorySlotContents(par4, null);
-                par2World.setBlock(Utils.coordRound(par3Entity.posX), Utils.coordRound(par3Entity.posY), Utils.coordRound(par3Entity.posZ), SuperMassiveTech.blockRegistry.blackHole);
-            }
+            player.inventory.setInventorySlotContents(par4, Utils.shouldSpawnBlackHole(par2World) ? 
+                Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)) :
+                new ItemStack(SuperMassiveTech.blockRegistry.blackHole));
+            //player.noClip = true;
+            player.attackEntityFrom(DamageSource.anvil, player.getMaxHealth()); // TODO: proper damage source
         }
     }
 

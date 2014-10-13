@@ -29,6 +29,7 @@ import tterrag.supermassivetech.common.registry.Achievements;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
+import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 
 public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory, IWailaAdditionalInfo
@@ -113,7 +114,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
                 int amnt = type.getPowerPerTick();
                 int takenFromStar = type.extractEnergy(inventory[slot], Math.min(amnt, venting ? amnt : storage.getMaxEnergyStored() - storage.getEnergyStored()), false);
                 
-                if (dying = type.getEnergyStored(inventory[slot]) <= 0)
+                if (dying = type.getEnergyStored(inventory[slot]) <= (type.getMaxEnergyStored(inventory[slot]) * Constants.instance().getStarDeathTrigger()))
                     Utils.setStarFuseRemaining(inventory[slot], Utils.getStarFuseRemaining(inventory[slot]) - 1);
                 
                 if (Utils.getStarFuseRemaining(inventory[slot]) <= 0)

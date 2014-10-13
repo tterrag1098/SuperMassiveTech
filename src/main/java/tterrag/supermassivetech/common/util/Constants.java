@@ -15,6 +15,7 @@ public class Constants
     private float strength;
     private float maxGravXZ, maxGravY, minGrav;
     private int energyDrain;
+    private float starDeathTrigger = 0.05f; // percent remaining fuel to trigger collapse
 
     private Constants()
     {
@@ -64,5 +65,10 @@ public class Constants
     public int getEnergyDrain()
     {
         return energyDrain;
+    }
+
+    public float getStarDeathTrigger()
+    {
+        return starDeathTrigger;
     }
 }
