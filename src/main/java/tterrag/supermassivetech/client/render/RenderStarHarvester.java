@@ -1,7 +1,6 @@
 package tterrag.supermassivetech.client.render;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -14,7 +13,7 @@ import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
 import tterrag.supermassivetech.common.util.Utils;
 
-public class RenderStarHarvester extends DirectionalModelRenderer
+public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarvester>
 {
     private IModelCustom main, sphere, ring;
     private static ResourceLocation textureMain = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/starHarvesterMain.png");
@@ -31,13 +30,13 @@ public class RenderStarHarvester extends DirectionalModelRenderer
     }
 
     @Override
-    protected int getRotation(TileEntity tile, int metaOverride)
+    protected int getRotation(TileStarHarvester tile, int metaOverride)
     {
         return super.getRotation(tile, metaOverride) % 6;
     }
 
     @Override
-    protected void renderModel(TileEntity tile, int meta)
+    protected void renderModel(TileStarHarvester tile, int meta)
     {
         if (tile instanceof TileStarHarvester)
         {

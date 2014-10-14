@@ -29,9 +29,9 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-    public static DirectionalModelRenderer storage;
+    public static DirectionalModelRenderer<TileBlackHoleStorage> storage;
 
-    public static DirectionalModelRenderer hopper;
+    public static DirectionalModelRenderer<TileBlackHoleHopper> hopper;
 
     public static RenderStarHarvester starHarvester;
 
@@ -57,8 +57,8 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderers()
     {
-        storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/storage.png"));
-        hopper = new DirectionalModelRenderer(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH,
+        storage = new DirectionalModelRenderer<TileBlackHoleStorage>(new ModelBlackHoleStorage(), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/storage.png"));
+        hopper = new DirectionalModelRenderer<TileBlackHoleHopper>(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH,
                 "textures/models/hopper.png"));
         starHarvester = new RenderStarHarvester(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(
                 ModProps.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/ring.obj"));
