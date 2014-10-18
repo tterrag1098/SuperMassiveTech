@@ -26,7 +26,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
 
     private static final ResourceLocation soundLoc = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "charger.on");
 
-    private float pitch = 1.0f, volume = 0.2f;
+    private float pitch = 0, volume = 0;
     private final float pitchIncr = 0.02f, volumeIncr = 0.0125f;
 
     @SideOnly(Side.CLIENT)
