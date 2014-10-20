@@ -5,6 +5,7 @@ import java.io.File;
 import net.minecraftforge.common.config.Configuration;
 import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
+import tterrag.core.common.event.ConfigFileChangedEvent;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.util.Constants;
@@ -27,6 +28,8 @@ public class ConfigHandler
     public static boolean doGravityWell;
     public static int gravArmorDrain;
     public static int gravEnchantID;
+    
+    public static int chargerSpeed = 1000;
 
     public static int fieldRange = 7;
     public static double fieldUsageBase = 3;
@@ -85,6 +88,8 @@ public class ConfigHandler
             throw new ConflictingConfigsException("You cannot force enable and disable loot fix.");
         }
         
+        chargerSpeed = config.get(sectionMisc, "chargerSpeed", chargerSpeed, "The rate at which the charger charges items. Max energy input will be 2x this value, energy buffer will be 10x").getInt();
+        
         // grav armor
 
         fieldRange = config.get(sectionArmor, "fieldRange", fieldRange, "The range of the anti-grav field on the gravity armor.").getInt();
@@ -115,6 +120,19 @@ public class ConfigHandler
             SuperMassiveTech.logger.info("Refreshing config file...");
             doConfiguration();
             Constants.instance().refresh();
+        }
+    }
+    
+    @SubscribeEvent
+    public void onConfigReload(ConfigFileChangedEvent event)
+    {
+        if (event.modID.equals(ModProps.MODID))
+        {
+            SuperMassiveTech.logger.info("Reloading config from file");
+            config.load();
+            doConfiguration();
+            Constants.instance().refresh();
+            event.setSuccessful();
         }
     }
 

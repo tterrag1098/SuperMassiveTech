@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.core.client.sound.BlockSound;
 import tterrag.supermassivetech.ModProps;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageChargerUpdate;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
@@ -26,27 +27,28 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
 
     private static final ResourceLocation soundLoc = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "charger.on");
 
-    private float pitch = 0, volume = 0;
+    private float pitch = 0.7f, volume = 0.1f;
     private final float pitchIncr = 0.02f, volumeIncr = 0.0125f;
 
     @SideOnly(Side.CLIENT)
-    private BlockSound sound = null;
+    private BlockSound sound;
 
     private boolean soundPlaying = false;
 
     public TileCharger()
     {
-        super(10000);
+        super(ConfigHandler.chargerSpeed * 10);
 
         inventory = new ItemStack[1];
 
-        setOutputSpeed(1000);
-        setInputSpeed(1000);
+        setOutputSpeed(ConfigHandler.chargerSpeed);
+        setInputSpeed(ConfigHandler.chargerSpeed * 2);
     }
 
     @Override
     public void updateEntity()
     {
+        System.out.println(xCoord + " " + yCoord + " " + zCoord);
         super.updateEntity();
 
         if (!worldObj.isRemote)
@@ -91,7 +93,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
             }
             else
             {
-                stopSound();
+                stopSound(false);
             }
         }
     }
@@ -120,12 +122,12 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     }
 
     @SideOnly(Side.CLIENT)
-    public void stopSound()
+    public void stopSound(boolean force)
     {
         soundPlaying = false;
         if (sound != null)
         {
-            if (volume <= 0.01f)
+            if (volume <= 0.01f || force)
             {
                 sound.setDonePlaying(true);
                 sound = null;
@@ -142,9 +144,10 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     @Override
     public void invalidate()
     {
+        super.invalidate();
         if (worldObj.isRemote)
         {
-            stopSound();
+            stopSound(true);
         }
     }
 
@@ -248,11 +251,5 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
         }
 
         tooltip.add(str);
-
-        tooltip.add(EnumChatFormatting.WHITE
-                + Utils.lang.localize("tooltip.redstone.mode")
-                + ": "
-                + (getBlockMetadata() == 0 ? EnumChatFormatting.AQUA + Utils.lang.localize("tooltip.redstone.normal") : EnumChatFormatting.YELLOW
-                        + Utils.lang.localize("tooltip.redstone.inverted")));
     }
 }

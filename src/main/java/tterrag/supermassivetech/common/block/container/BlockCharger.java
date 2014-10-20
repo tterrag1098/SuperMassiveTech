@@ -16,7 +16,6 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.tile.energy.TileCharger;
 import tterrag.supermassivetech.common.util.Utils;
-import cofh.api.energy.IEnergyContainerItem;
 
 public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
 {
@@ -29,30 +28,6 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
     public void registerBlockIcons(IIconRegister register)
     {
         this.blockIcon = register.registerIcon(ModProps.MOD_TEXTUREPATH + ":charger");
-    }
-
-    // Emits redstone if inv is empty, or if energy container is full
-    @Override
-    public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side)
-    {
-        TileCharger te = (TileCharger) world.getTileEntity(x, y, z);
-        int meta = world.getBlockMetadata(x, y, z);
-        ItemStack stack = te.getStackInSlot(0);
-        if (stack != null && stack.getItem() instanceof IEnergyContainerItem)
-        {
-            IEnergyContainerItem item = (IEnergyContainerItem) stack.getItem();
-            if (item.getEnergyStored(stack) < item.getMaxEnergyStored(stack))
-            {
-                return meta == 1 ? 15 : 0;
-            }
-        }
-        return meta == 1 ? 0 : 15;
-    }
-
-    @Override
-    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side)
-    {
-        return isProvidingStrongPower(world, x, y, z, side);
     }
 
     @Override
@@ -75,13 +50,6 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
                         + (world.getBlockMetadata(x, y, z) == 0 ? EnumChatFormatting.AQUA + Utils.lang.localize("tooltip.redstone.normal") : EnumChatFormatting.YELLOW
                                 + Utils.lang.localize("tooltip.redstone.inverted"))));
                 return true;
-            }
-            else if (stack.getItem() != Items.redstone && tile.getStackInSlot(0) == null)
-            {
-                ItemStack newStack = stack.copy();
-                newStack.stackSize = 1;
-                tile.setInventorySlotContents(0, newStack);
-                player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
         }
         else if (player.isSneaking() && tile.getStackInSlot(0) != null && player instanceof EntityPlayerMP /* prevent crashes with poorly implemented fake players */)
