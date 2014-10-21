@@ -43,7 +43,7 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
     {
         for (IStar t : stars.types.values())
         {
-            if (t.getTier() == StarTier.SPECIAL && (t.toString().equals("Pulsar") || t.toString().equals("Neutron")))
+            if (t.getTier() == StarTier.SPECIAL && (t.getName().equals("pulsar") || t.getName().equals("neutron")))
                 list.add(Utils.setType(new ItemStack(this), t));
         }
     }
