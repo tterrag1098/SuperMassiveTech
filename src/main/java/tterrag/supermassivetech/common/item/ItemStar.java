@@ -22,6 +22,8 @@ import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.entity.item.EntityItemStar;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
+import tterrag.supermassivetech.common.tile.DamageSourceBlackHole;
+import tterrag.supermassivetech.common.util.BlockCoord;
 import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.relauncher.Side;
@@ -55,13 +57,28 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
             player.setFire(1);
         }
         
-        if (Utils.getStarFuseRemaining(par1ItemStack) <= 0)
+        if (Utils.getStarFuseRemaining(par1ItemStack) <= 0 && !par2World.isRemote)
         {
-            player.inventory.setInventorySlotContents(par4, Utils.shouldSpawnBlackHole(par2World) ? 
-                Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)) :
-                new ItemStack(SuperMassiveTech.blockRegistry.blackHole));
+            if (Utils.shouldSpawnBlackHole(par2World))
+            {
+                par2World.newExplosion(null, player.posX, player.posY, player.posZ, 6, true, true);
+                BlockCoord tmp, starting = new BlockCoord(Utils.coordRound(player.posX), Utils.coordRound(player.posY), Utils.coordRound(player.posZ));
+                // Find a non-protected block around the player
+                // First, check 1x1x1 area
+                // Then 3x3x3, and 5x5x5
+                searchLoop: for (int i = 1; i < 5; i += 2)
+                  for (int j = 0; j < (i * i * i); ++j)
+                    if (Utils.canBreakBlock(player, par2World, tmp = new BlockCoord((starting.x - (i / 2)) + (j % i), (starting.y - (i / 2)) + ((j / i) % i), (starting.z - (i / 2)) + ((j / (i * i)) % i)))) // expansion of ((j/(i^n))%i) where n is the current dim. we are checking
+                    {
+                      par2World.setBlock(tmp.x, tmp.y, tmp.z, SuperMassiveTech.blockRegistry.blackHole);
+                      player.inventory.setInventorySlotContents(par4, null);
+                      break searchLoop;
+                    }
+            }
+            else
+                player.inventory.setInventorySlotContents(par4, Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)));
             //player.noClip = true;
-            player.attackEntityFrom(DamageSource.anvil, player.getMaxHealth()); // TODO: proper damage source
+            player.attackEntityFrom(new DamageSourceBlackHole("dmg.blackHole"), player.getMaxHealth());
         }
     }
 

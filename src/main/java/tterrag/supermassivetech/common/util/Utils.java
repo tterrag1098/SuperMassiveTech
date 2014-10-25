@@ -681,8 +681,15 @@ public class Utils
     }
     
     /// Expensive (relatively speaking)
-    public static int coordRound(double posX)
+    public static int coordRound(double coord)
     {
-      return new BigDecimal(posX).setScale(0, RoundingMode.HALF_DOWN).intValue();
+      return new BigDecimal(coord).setScale(0, RoundingMode.HALF_DOWN).intValue();
+    }
+
+    public static boolean canBreakBlock(EntityPlayer player, World world, BlockCoord blockCoord)
+    {
+      // Make sure block isn't spawn protected or unbreakable
+      return world.canMineBlock(player, blockCoord.x, blockCoord.y, blockCoord.z)
+          && world.getBlock(blockCoord.x, blockCoord.y, blockCoord.z).canEntityDestroy(world, blockCoord.x, blockCoord.y, blockCoord.z, player);
     }
 }
