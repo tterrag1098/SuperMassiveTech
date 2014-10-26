@@ -38,7 +38,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
     @Override
     protected void renderModel(TileStarHarvester tile, int meta)
     {
-        if (tile instanceof TileStarHarvester)
+        if (tile instanceof TileStarHarvester || tile == null)
         {
             TileStarHarvester harvester = (TileStarHarvester) tile;
 
