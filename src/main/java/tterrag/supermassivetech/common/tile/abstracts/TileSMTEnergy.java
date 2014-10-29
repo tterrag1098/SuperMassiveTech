@@ -76,7 +76,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
             if (tile instanceof IEnergyHandler)
             {
                 IEnergyHandler ieh = (IEnergyHandler) tile;
-                ieh.receiveEnergy(dir, storage.extractEnergy(getOutputSpeed(), false), false);
+                storage.extractEnergy(ieh.receiveEnergy(dir, storage.extractEnergy(getOutputSpeed(), true), false), false);
             }
         }
     }
