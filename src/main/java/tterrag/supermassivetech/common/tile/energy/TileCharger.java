@@ -48,7 +48,6 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     @Override
     public void updateEntity()
     {
-        System.out.println(xCoord + " " + yCoord + " " + zCoord);
         super.updateEntity();
 
         if (!worldObj.isRemote)
