@@ -30,6 +30,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.core.common.Lang;
+import tterrag.core.common.util.BlockCoord;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;

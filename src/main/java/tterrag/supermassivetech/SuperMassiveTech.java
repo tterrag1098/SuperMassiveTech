@@ -1,5 +1,8 @@
 package tterrag.supermassivetech;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +24,7 @@ import tterrag.supermassivetech.common.registry.ModItems;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -29,6 +33,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 /**
@@ -54,6 +59,11 @@ public class SuperMassiveTech implements IModTT
     public static CreativeTabsCustom tabSMT = new CreativeTabsCustom(ModProps.MODID);
 
     public static int renderIDStorage, renderIDHopper, renderIDStarHarvester, renderIDWaypoint, renderIDBlackHole, renderIDCharger;
+    
+    public SuperMassiveTech()
+    {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event)
@@ -82,7 +92,7 @@ public class SuperMassiveTech implements IModTT
 
         FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + ".common.compat.waila.WailaCompat.load");
         
-        CompatabilityRegistry.instance().registerCompat(RegisterTime.INIT, ModProps.MAIN_PACKAGE + ".common.compat.enderio.EnderIOCompat", "EnderIO");
+        CompatabilityRegistry.INSTANCE.registerCompat(RegisterTime.INIT, ModProps.MAIN_PACKAGE + ".common.compat.enderio.EnderIOCompat", "EnderIO");
     }
 
     @EventHandler
@@ -116,5 +126,12 @@ public class SuperMassiveTech implements IModTT
     public String version()
     {
         return ModProps.VERSION;
+    }
+    
+    @SubscribeEvent
+    public void handleOreRegisterEvent(OreRegisterEvent event)
+    {
+        if (event.Ore.getItem() == null)
+            throw new RuntimeException("Null item being registered! Active mod: " + Loader.instance().activeModContainer());
     }
 }

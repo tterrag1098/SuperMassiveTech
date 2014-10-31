@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import tterrag.supermassivetech.common.util.BlockCoord;
+import tterrag.core.common.util.BlockCoord;
 
 public class EntityFormingStar extends Entity
 {

@@ -23,11 +23,12 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
+import tterrag.core.common.util.BlockCoord;
+import tterrag.core.common.util.blockiterators.CubicBlockIterator;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor.PowerUps;
-import tterrag.supermassivetech.common.util.BlockCoord;
 import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
@@ -319,19 +320,13 @@ public class GravityArmorHandler
     {
         if (ConfigHandler.doBlocks)
         {
-            for (int bx = baseBlock.x - fieldRange; bx < baseBlock.x + fieldRange; bx++)
+            CubicBlockIterator iter = new CubicBlockIterator(baseBlock, fieldRange);
+            while (iter.hasNext())
             {
-                for (int by = baseBlock.y - fieldRange; by < baseBlock.y + fieldRange; by++)
+                BlockCoord coord = iter.next();
+                if (coord.getBlock(world) instanceof BlockFalling)
                 {
-                    for (int bz = baseBlock.z - fieldRange; bz < baseBlock.z + fieldRange; bz++)
-                    {
-                        BlockCoord b = new BlockCoord(bx, by, bz);
-                        Block block = b.getBlock(world);
-                        if (block instanceof BlockFalling)
-                        {
-                            createFallingSandChance(world, b, (BlockFalling) block);
-                        }
-                    }
+                    createFallingSandChance(world, coord, (BlockFalling) coord.getBlock(world));
                 }
             }
         }
