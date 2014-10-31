@@ -37,7 +37,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
-@Handler(types = HandlerType.FML)
+@Handler(HandlerType.FML)
 public class GravityArmorHandler
 {
     public static boolean isJumpKeyDown;

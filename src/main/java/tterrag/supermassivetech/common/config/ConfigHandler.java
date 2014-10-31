@@ -12,7 +12,7 @@ import tterrag.supermassivetech.common.util.Constants;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Handler(types = HandlerType.FML)
+@Handler(HandlerType.FML)
 public class ConfigHandler
 {
     public static Configuration config;

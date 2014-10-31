@@ -25,7 +25,7 @@ import tterrag.supermassivetech.common.util.Utils;
 import tterrag.supermassivetech.common.util.Waypoint;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Handler(types = HandlerType.FORGE)
+@Handler(HandlerType.FORGE)
 public class HelmetOverlayHandler
 {
     private static final ResourceLocation compass = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/gui/overlay/compass.png");
