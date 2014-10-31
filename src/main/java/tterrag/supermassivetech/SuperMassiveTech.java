@@ -1,7 +1,6 @@
 package tterrag.supermassivetech;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +23,6 @@ import tterrag.supermassivetech.common.registry.ModItems;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -33,7 +31,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 /**
@@ -126,12 +123,5 @@ public class SuperMassiveTech implements IModTT
     public String version()
     {
         return ModProps.VERSION;
-    }
-    
-    @SubscribeEvent
-    public void handleOreRegisterEvent(OreRegisterEvent event)
-    {
-        if (event.Ore.getItem() == null)
-            throw new RuntimeException("Null item being registered! Active mod: " + Loader.instance().activeModContainer());
     }
 }
