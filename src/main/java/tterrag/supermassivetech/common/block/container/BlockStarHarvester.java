@@ -18,6 +18,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
     public BlockStarHarvester()
     {
         super("starHarvester", Material.iron, soundTypeMetal, 5.0f, TileStarHarvester.class, SuperMassiveTech.renderIDStarHarvester);
+        setResistance(100f);
     }
 
     @Override

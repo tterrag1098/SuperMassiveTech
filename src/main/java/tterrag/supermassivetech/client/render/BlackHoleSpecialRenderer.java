@@ -23,8 +23,6 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
         float wobbleX = (float) (Math.sin(wobble) * wobbleScale) + 1;
         float wobbleY = (float) (Math.sin(wobble) * -1 * wobbleScale) + 1;
         
-        System.out.println(wobbleX + "  " + wobbleY);
-
         glPushMatrix();
         glTranslated(x + 0.5, y + 0.5, z + 0.5);
         glScalef(wobbleX, wobbleY, 1);

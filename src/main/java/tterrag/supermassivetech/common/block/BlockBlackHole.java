@@ -14,6 +14,7 @@ public class BlockBlackHole extends BlockSMT implements ITileEntityProvider
     public BlockBlackHole()
     {
         super("blackHole", Material.cloth, soundTypeCloth, 1.0f, SuperMassiveTech.renderIDBlackHole, TileBlackHole.class);
+        setResistance(100f);
     }
 
     @Override

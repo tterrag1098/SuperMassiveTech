@@ -22,12 +22,12 @@ import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.entity.item.EntityItemIndestructible;
+import tterrag.supermassivetech.common.item.ItemStarSpecial;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageStarHarvester;
 import tterrag.supermassivetech.common.network.message.tile.MessageUpdateVenting;
 import tterrag.supermassivetech.common.registry.Achievements;
 import tterrag.supermassivetech.common.registry.Stars;
-import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
 import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
@@ -135,11 +135,22 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     }
 
     private void collapse()
-    {
+    {        
         if (Utils.shouldSpawnBlackHole(worldObj))
+        {
             worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, SuperMassiveTech.blockRegistry.blackHole);
+            explode(4.0f);
+        }
         else
-            this.insertStar(Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)), null);
+        {
+            this.insertStar(Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.starSpecial), ItemStarSpecial.getRandomType(worldObj.rand)), null);
+            explode(2.0f);
+        }
+    }
+    
+    private void explode(float str)
+    {
+        worldObj.newExplosion(null, xCoord + 0.5, yCoord - 0.5, zCoord + 0.5, str, true, true);
     }
 
     @Override

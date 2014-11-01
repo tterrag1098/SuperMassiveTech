@@ -1,6 +1,7 @@
 package tterrag.supermassivetech.common.item;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -9,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
@@ -59,5 +61,10 @@ public class ItemStarSpecial extends ItemStar implements IAdvancedTooltip, IStar
     public boolean hasEffect(ItemStack par1ItemStack, int pass)
     {
         return true;
+    }
+
+    public static IStar getRandomType(Random rand)
+    {
+        return rand.nextBoolean() ? SuperMassiveTech.starRegistry.getTypeByName("pulsar") : SuperMassiveTech.starRegistry.getTypeByName("neutron");
     }
 }
