@@ -8,8 +8,7 @@ public abstract class MessageParticle implements IMessage
     protected int[] info = new int[6];
 
     public MessageParticle()
-    {
-    }
+    {}
 
     public MessageParticle(int... information)
     {

@@ -36,7 +36,7 @@ public abstract class BlockContainerSMT extends BlockSMT
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
-    {        
+    {
         if (!saveToItem())
         {
             TileSMTInventory te = (TileSMTInventory) world.getTileEntity(x, y, z);
@@ -45,7 +45,7 @@ public abstract class BlockContainerSMT extends BlockSMT
                 Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(i), x, y, z);
             }
         }
-        
+
         super.breakBlock(world, x, y, z, block, meta);
     }
 

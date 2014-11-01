@@ -30,12 +30,12 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-    {        
+    {
         if (world.isRemote)
         {
             return true;
         }
-        
+
         ItemStack stack = player.getCurrentEquippedItem();
         TileCharger tile = (TileCharger) world.getTileEntity(x, y, z);
         if (stack != null)
@@ -51,19 +51,19 @@ public class BlockCharger extends BlockContainerSMT implements IAdvancedTooltip
         else if (player.isSneaking() && tile.getStackInSlot(0) != null && player instanceof EntityPlayerMP /* prevent crashes with poorly implemented fake players */)
         {
             player.inventory.addItemStackToInventory(tile.getStackInSlot(0));
-            ((EntityPlayerMP)player).sendContainerToPlayer(player.inventoryContainer);
+            ((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);
             tile.setInventorySlotContents(0, null);
         }
         return true;
     }
-    
+
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z)
     {
         TileEntity te = world.getTileEntity(x, y, z);
         if (te != null && te instanceof TileCharger)
         {
-            return ((TileCharger)te).isCharging() ? 10 : 0;
+            return ((TileCharger) te).isCharging() ? 10 : 0;
         }
         return 0;
     }

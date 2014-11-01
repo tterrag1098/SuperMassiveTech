@@ -82,7 +82,7 @@ public class BlockInvisibleLight extends BlockSMT
     {
         return true;
     }
-    
+
     @Override
     public int getLightValue()
     {

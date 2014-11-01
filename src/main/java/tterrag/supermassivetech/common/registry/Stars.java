@@ -17,7 +17,9 @@ import tterrag.supermassivetech.common.util.Utils;
 public class Stars
 {
     public static Stars instance = new Stars();
-    private Stars() {}
+
+    private Stars()
+    {}
 
     private static int nextStarID = 0;
     public static final String PREFIX = "star.";
@@ -27,8 +29,7 @@ public class Stars
         LOW("tooltip.tier.low"), NORMAL("tooltip.tier.normal"), HIGH("tooltip.tier.high"),
 
         /**
-         * Will not be created by the normal means, nor will it have an ItemStar
-         * listed in the game, you must create it in your own class
+         * Will not be created by the normal means, nor will it have an ItemStar listed in the game, you must create it in your own class
          */
         SPECIAL("tooltip.tier.special");
 
@@ -68,8 +69,7 @@ public class Stars
     }
 
     /**
-     * Defines a new type of star, all registered star types will have their own
-     * item and a chance to be created when a star heart is used
+     * Defines a new type of star, all registered star types will have their own item and a chance to be created when a star heart is used
      * 
      * @author Garrett Spicer-Davis
      */
@@ -85,13 +85,11 @@ public class Stars
          * Creates a new <code>StarType</code> object
          * 
          * @param name - full unlocalized name of the star type
-         * @param tier - {@link StarTier} of this star, low &lt; normal &lt;
-         *            high, in terms of value
+         * @param tier - {@link StarTier} of this star, low &lt; normal &lt; high, in terms of value
          * @param color - hex color value
          * @param textColor - {@link EnumChatFormatting} to use in tooltips
          * @param powerMax - max amount of power "stored" in this star
-         * @param powerPerTick - max power per tick (in RF) this provides in a
-         *            star harvester
+         * @param powerPerTick - max power per tick (in RF) this provides in a star harvester
          * @param fuse - amount of time before exploding once it goes critical
          */
         public StarType(String name, StarTier tier, int color, EnumChatFormatting textColor, int powerMax, int powerPerTick, int fuse)
@@ -123,8 +121,7 @@ public class Stars
         }
 
         /**
-         * The automatically assigned numerical ID of this star, used for
-         * ordering purposes
+         * The automatically assigned numerical ID of this star, used for ordering purposes
          */
         @Override
         public int getID()
@@ -185,18 +182,20 @@ public class Stars
         {
             int stored = getEnergyStored(stack);
             int max = Math.min(maxExtract, getPowerPerTick());
-            
+
             if (stack.stackTagCompound != null)
             {
                 if (max >= stored)
                 {
-                    if (simulate) return stored;
+                    if (simulate)
+                        return stored;
                     stack.stackTagCompound.setInteger("energy", 0);
                     return stored;
                 }
                 else
                 {
-                    if (simulate) return max;
+                    if (simulate)
+                        return max;
                     stack.stackTagCompound.setInteger("energy", stored - max);
                     return max;
                 }
@@ -265,7 +264,7 @@ public class Stars
         }
         return null;
     }
-    
+
     public Collection<IStar> getTypes()
     {
         return types.values();
@@ -304,21 +303,19 @@ public class Stars
         registerStarType(new StarType(PREFIX + "yellowDwarf", LOW, 0xd2df00, EnumChatFormatting.YELLOW, (int) (100000000 * starStorageMult), (int) (80 * starOutputMult), 600));
         registerStarType(new StarType(PREFIX + "redDwarf", NORMAL, 0xcf3702, EnumChatFormatting.RED, (int) (200000000 * starStorageMult), (int) (40 * starOutputMult), 600));
         registerStarType(new StarType(PREFIX + "redGiant", LOW, 0xcf0202, EnumChatFormatting.RED, (int) (50000000 * starStorageMult), (int) (40 * starOutputMult), 400));
-        registerStarType(new StarType(PREFIX + "blueGiant", NORMAL, 0x314eff, EnumChatFormatting.DARK_BLUE, (int) (400000000 * starStorageMult), (int) (20 * starOutputMult), 400));
-        registerStarType(new StarType(PREFIX + "supergiant", HIGH, 0xffea59, EnumChatFormatting.WHITE, (int) (1000000000 * starStorageMult), (int) (160 * starOutputMult), 1200));
+        registerStarType(new StarType(PREFIX + "blueGiant", NORMAL, 0x314eff, EnumChatFormatting.DARK_BLUE, (int) (400000000 * starStorageMult), (int) (20 * starOutputMult),
+                400));
+        registerStarType(new StarType(PREFIX + "supergiant", HIGH, 0xffea59, EnumChatFormatting.WHITE, (int) (1000000000 * starStorageMult), (int) (160 * starOutputMult),
+                1200));
         registerStarType(new StarType(PREFIX + "brownDwarf", LOW, 0xb0752f, EnumChatFormatting.GRAY, (int) (25000000 * starStorageMult), (int) (20 * starOutputMult), 2400));
         registerStarType(new StarType(PREFIX + "whiteDwarf", LOW, 0xf5f6c5, EnumChatFormatting.WHITE, (int) (50000000 * starStorageMult), (int) (160 * starOutputMult), 1200));
         registerStarType(new StarType(PREFIX + "neutron", SPECIAL, 0x89fbff, EnumChatFormatting.AQUA, Integer.MAX_VALUE, (int) (15 * starOutputMult), 1).setMassLevel(2));
         registerStarType(new StarType(PREFIX + "pulsar", SPECIAL, 0xbd28cf, EnumChatFormatting.DARK_PURPLE, Integer.MAX_VALUE, (int) (20 * starOutputMult), 1).setMassLevel(2));
 
         /*
-         * - pulsars are neutron stars, neutrons are formed INSTEAD of black
-         * holes. - a critical star could have a chance of forming either of
-         * these two, OR a black hole. - the advantage of these would be a low
-         * power output for an infinite time (think RTG from IC2). - however,
-         * due to their unstable nature, stacking either of these items would
-         * cause a catastrophic explosion resulting in a black hole...probably
-         * obliterating whatever was holding the items.
+         * - pulsars are neutron stars, neutrons are formed INSTEAD of black holes. - a critical star could have a chance of forming either of these two, OR a black hole. - the advantage of these
+         * would be a low power output for an infinite time (think RTG from IC2). - however, due to their unstable nature, stacking either of these items would cause a catastrophic explosion resulting
+         * in a black hole...probably obliterating whatever was holding the items.
          */
     }
 }

@@ -101,7 +101,7 @@ public abstract class TileSMT extends TileEntity
     {
         return 1;
     }
-    
+
     /**
      * The multiplier to be applied to the range of the gravity, used for gravity dependant on stored amount of items, configuration, etc.
      * 
@@ -143,7 +143,7 @@ public abstract class TileSMT extends TileEntity
     {
         return MIN_GRAV;
     }
-    
+
     @Override
     public Packet getDescriptionPacket()
     {

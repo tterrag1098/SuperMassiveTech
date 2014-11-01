@@ -21,7 +21,7 @@ public class BreakWaypointHandler
         if (te != null && te instanceof TileWaypoint)
         {
             if (((TileWaypoint) te).waypoint.players.contains(event.getPlayer().getCommandSenderName()) // belongs to player
-                    || event.getPlayer().capabilities.isCreativeMode // is creative 
+                    || event.getPlayer().capabilities.isCreativeMode // is creative
                     || ArrayUtils.contains(MinecraftServer.getServer().getConfigurationManager().func_152606_n(), event.getPlayer().getCommandSenderName())) // is op
                 return;
         }

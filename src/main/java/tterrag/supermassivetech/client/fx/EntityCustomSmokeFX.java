@@ -4,8 +4,7 @@ import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.world.World;
 
 /**
- * Smoke particle that doesn't "float" upwards, noclips, and disappears inside
- * of gravity wells
+ * Smoke particle that doesn't "float" upwards, noclips, and disappears inside of gravity wells
  */
 public class EntityCustomSmokeFX extends EntitySmokeFX
 {
@@ -28,7 +27,7 @@ public class EntityCustomSmokeFX extends EntitySmokeFX
         this.toY = toY;
         this.toZ = toZ;
     }
-    
+
     public EntityCustomSmokeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
     {
         super(par1World, par2, par4, par6, par8, par10, par12, 1.0f);

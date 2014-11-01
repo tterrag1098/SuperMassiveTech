@@ -3,6 +3,7 @@ package tterrag.supermassivetech.api.common.compat;
 import java.util.List;
 
 import net.minecraft.world.World;
+import tterrag.supermassivetech.common.block.BlockSMT;
 
 /**
  * Used to add WAILA compatability without using and abusing <code>{@literal @}Optional</code>

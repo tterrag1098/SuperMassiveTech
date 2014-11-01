@@ -22,7 +22,7 @@ public class ContainerBlackHoleStorage extends ContainerSMT
 
         this.addSlotToContainer(tile.new SlotInput(tile, 0, 184, 20));
         this.addSlotToContainer(new Slot(tile, 1, 184, 81));
-        
+
         this.addSlotToContainer(tile.new SlotFluidContainer(tile, 2, 32, 91, true));
         this.addSlotToContainer(tile.new SlotFluidContainer(tile, 3, 63, 91, false));
     }
@@ -46,7 +46,7 @@ public class ContainerBlackHoleStorage extends ContainerSMT
                         return null;
                 }
             }
-            
+
             boolean wasFluidContainer = false;
             if (par2 < 36 && ((Slot) this.inventorySlots.get(38)).isItemValid(itemstack1))
             {
@@ -55,7 +55,8 @@ public class ContainerBlackHoleStorage extends ContainerSMT
                 else
                     wasFluidContainer = true;
             }
-            if (!wasFluidContainer && par2 < 36 && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
+            if (!wasFluidContainer && par2 < 36
+                    && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
             {
                 if (!this.mergeItemStack(itemstack1, 36, 37, false))
                     return null;

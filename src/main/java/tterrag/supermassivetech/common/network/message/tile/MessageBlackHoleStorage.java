@@ -16,8 +16,7 @@ public class MessageBlackHoleStorage implements IMessage, IMessageHandler<Messag
     private int fluidID;
 
     public MessageBlackHoleStorage()
-    {
-    }
+    {}
 
     public MessageBlackHoleStorage(long value, long fluidValue, int fluidID)
     {

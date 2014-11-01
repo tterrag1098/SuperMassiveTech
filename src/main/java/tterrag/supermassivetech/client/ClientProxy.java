@@ -37,10 +37,10 @@ public class ClientProxy extends CommonProxy
 
     public static WaypointSpecialRenderer beacon;
     public static SimpleModelRenderer waypoint;
-    
+
     public static SimpleModelRenderer charger;
     public static ChargerSpecialRenderer chargerSpecial;
-    
+
     public static BlackHoleSpecialRenderer blackHole;
 
     @Override
@@ -57,16 +57,17 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderers()
     {
-        storage = new DirectionalModelRenderer<TileBlackHoleStorage>(new ModelBlackHoleStorage(), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/storage.png"));
-        hopper = new DirectionalModelRenderer<TileBlackHoleHopper>(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH,
-                "textures/models/hopper.png"));
-        starHarvester = new RenderStarHarvester(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(
-                ModProps.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/ring.obj"));
+        storage = new DirectionalModelRenderer<TileBlackHoleStorage>(new ModelBlackHoleStorage(),
+                new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/storage.png"));
+        hopper = new DirectionalModelRenderer<TileBlackHoleHopper>(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(
+                ModProps.MOD_TEXTUREPATH, "textures/models/hopper.png"));
+        starHarvester = new RenderStarHarvester(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH,
+                "models/starHarvesterSphere.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/ring.obj"));
         waypoint = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/waypoint.obj")), renderIDWaypoint);
         beacon = new WaypointSpecialRenderer();
         charger = new SimpleModelRenderer(new WavefrontObject(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/charger.obj")), renderIDCharger);
         chargerSpecial = new ChargerSpecialRenderer();
-        blackHole = new BlackHoleSpecialRenderer();        
+        blackHole = new BlackHoleSpecialRenderer();
 
         // BHS
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlackHoleStorage.class, storage);
@@ -83,7 +84,7 @@ public class ClientProxy extends CommonProxy
         // Charger
         ClientRegistry.bindTileEntitySpecialRenderer(TileCharger.class, chargerSpecial);
         RenderingRegistry.registerBlockHandler(charger);
-        
+
         // Waypoint
         ClientRegistry.bindTileEntitySpecialRenderer(TileWaypoint.class, beacon);
         RenderingRegistry.registerBlockHandler(waypoint);

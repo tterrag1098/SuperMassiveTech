@@ -1,6 +1,7 @@
 package tterrag.supermassivetech.api.common.enchant;
 
 import net.minecraft.item.ItemStack;
+import tterrag.supermassivetech.common.item.ItemSMT;
 
 /**
  * Allows your enchants to have some flavor or descrtiption text underneath them

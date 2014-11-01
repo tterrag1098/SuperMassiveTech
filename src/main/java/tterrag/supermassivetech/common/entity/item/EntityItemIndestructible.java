@@ -33,7 +33,7 @@ public class EntityItemIndestructible extends EntityItem
     {
         super.writeEntityToNBT(p_70014_1_);
     }
-    
+
     @Override
     public boolean canRenderOnFire()
     {

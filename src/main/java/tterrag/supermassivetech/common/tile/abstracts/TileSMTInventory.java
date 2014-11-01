@@ -39,15 +39,14 @@ public abstract class TileSMTInventory extends TileSMT implements IInventory, IW
      * 
      * @param rangeMult - mulitplier for range, base is set in config
      * @param strengthMult - multiplier for strength, base is set in config
-     * @param maxGravXZ - max gravity that can be applied in the X and Z
-     *            directions
+     * @param maxGravXZ - max gravity that can be applied in the X and Z directions
      * @param maxGravY - max gravity that can be applied in the Y direction
      * @param minGrav - minimum gravity to be applied, prevents "bouncing"
      */
     public TileSMTInventory(float rangeMult, float strengthMult, float maxGravXZ, float maxGravY, float minGrav)
     {
         super(rangeMult, strengthMult, maxGravXZ, maxGravY, minGrav);
-        
+
         inventory = new ItemStack[0];
     }
 
@@ -187,10 +186,11 @@ public abstract class TileSMTInventory extends TileSMT implements IInventory, IW
             this.inventory[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
         }
     }
-    
+
     @Override
     public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world)
     {
-        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.gravityWell") + " " + (this.isGravityWell() ? EnumChatFormatting.GREEN + Utils.lang.localize("tooltip.yes") : EnumChatFormatting.RED + Utils.lang.localize("tooltip.no")));
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.gravityWell") + " "
+                + (this.isGravityWell() ? EnumChatFormatting.GREEN + Utils.lang.localize("tooltip.yes") : EnumChatFormatting.RED + Utils.lang.localize("tooltip.no")));
     }
 }

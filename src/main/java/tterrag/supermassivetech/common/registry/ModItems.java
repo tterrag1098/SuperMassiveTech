@@ -21,8 +21,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ModItems
 {
     public static final ModItems instance = new ModItems();
-    private ModItems() {}
-    
+
+    private ModItems()
+    {}
+
     public Item star, starSpecial;
     public Item heartOfStar;
 
@@ -41,7 +43,7 @@ public class ModItems
         starSpecial = new ItemStarSpecial("starSpecial");
         starContainer = new ItemSMT("starContainer", "starContainer");
         depletedNetherStar = new ItemDepletedNetherStar();
-        
+
         SuperMassiveTech.tabSMT.setDisplay(heartOfStar);
 
         gravityHelm = new ItemGravityArmor(ArmorMaterial.DIAMOND, ArmorType.HELMET);
@@ -64,7 +66,7 @@ public class ModItems
         armors.add(gravityChest);
         armors.add(gravityLegs);
         armors.add(gravityBoots);
-        
+
         OreDictionary.registerOre("itemStar", star);
         OreDictionary.registerOre("itemStar", starSpecial);
         OreDictionary.registerOre("itemStarContainer", starContainer);

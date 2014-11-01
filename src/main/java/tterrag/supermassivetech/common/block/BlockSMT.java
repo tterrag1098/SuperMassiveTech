@@ -41,7 +41,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     {
         this(unlocName, mat, type, hardness, renderID, null);
     }
-    
+
     protected BlockSMT(String unlocName, Material mat, SoundType type, float hardness, Class<? extends TileEntity> teClass)
     {
         this(unlocName, mat, type, hardness, 0, teClass);
@@ -142,13 +142,13 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
     {
         return this.saveToItem() ? null : super.getItemDropped(p_149650_1_, p_149650_2_, p_149650_3_);
     }
-    
+
     @Override
     public boolean hasTileEntity(int metadata)
     {
         return teClass != null;
     }
-    
+
     @Override
     public TileEntity createTileEntity(World world, int metadata)
     {

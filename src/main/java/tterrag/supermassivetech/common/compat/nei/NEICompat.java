@@ -6,6 +6,6 @@ public class NEICompat implements ICompatability
 {
     public static void load()
     {
-        
+
     }
 }

@@ -11,8 +11,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class MessageChargerUpdate extends MessageEnergyUpdate
 {
     public MessageChargerUpdate()
-    {
-    }
+    {}
 
     public ItemStack item;
 
@@ -39,8 +38,7 @@ public class MessageChargerUpdate extends MessageEnergyUpdate
     public static final class Handler implements IMessageHandler<MessageChargerUpdate, IMessage>
     {
         public Handler()
-        {
-        }
+        {}
 
         @Override
         public IMessage onMessage(MessageChargerUpdate message, MessageContext ctx)

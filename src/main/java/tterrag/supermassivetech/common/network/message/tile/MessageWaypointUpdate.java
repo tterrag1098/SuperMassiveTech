@@ -13,8 +13,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class MessageWaypointUpdate implements IMessage, IMessageHandler<MessageWaypointUpdate, IMessage>
 {
     public MessageWaypointUpdate()
-    {
-    }
+    {}
 
     private int r, g, b;
     private String name;

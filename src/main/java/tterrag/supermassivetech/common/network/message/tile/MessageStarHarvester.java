@@ -16,8 +16,7 @@ public class MessageStarHarvester implements IMessage, IMessageHandler<MessageSt
     private boolean dying;
 
     public MessageStarHarvester()
-    {
-    }
+    {}
 
     public MessageStarHarvester(NBTTagCompound tag, int x, int y, int z, double spinSpeed, boolean dying)
     {

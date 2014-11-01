@@ -17,7 +17,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
 {
     protected EnergyStorage storage;
     protected int capacity;
-    
+
     private int lastStored = 0;
 
     public TileSMTEnergy(int cap)
@@ -54,7 +54,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
         if (!worldObj.isRemote)
         {
             pushEnergy();
-            
+
             if (getEnergyStored() != lastStored)
             {
                 sendPacket();
@@ -132,24 +132,23 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     {
         return getMaxStorage();
     }
-    
 
     /* IWailaAdditionalInfo */
-    
+
+    @Override
     public void getWailaInfo(java.util.List<String> tooltip, int x, int y, int z, net.minecraft.world.World world)
     {
         super.getWailaInfo(tooltip, x, y, z, world);
-        
+
         int energyStored = this.getEnergyStored(), maxEnergyStored = this.getMaxStorage();
         int output = this.getOutputSpeed();
 
         tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.bufferStorage") + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored
                 + " RF");
-        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.currentOutputMax") + ": " + Utils.getColorForPowerLeft(output, this.getMaxOutputSpeed())
-                + output + " RF");
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.currentOutputMax") + ": " + Utils.getColorForPowerLeft(output, this.getMaxOutputSpeed()) + output
+                + " RF");
     }
 
-    
     /* getters & setters */
 
     public int getEnergyStored()
@@ -196,16 +195,16 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     {
         this.storage.setMaxReceive(inputSpeed);
     }
-    
+
     /* Read/Write NBT */
-    
+
     @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         storage.writeToNBT(nbt);
         super.writeToNBT(nbt);
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {

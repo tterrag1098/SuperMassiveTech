@@ -12,8 +12,7 @@ public class MessageEnergyUpdate implements IMessage, IMessageHandler<MessageEne
     public int stored;
 
     public MessageEnergyUpdate()
-    {
-    }
+    {}
 
     public MessageEnergyUpdate(int x, int y, int z, int stored)
     {

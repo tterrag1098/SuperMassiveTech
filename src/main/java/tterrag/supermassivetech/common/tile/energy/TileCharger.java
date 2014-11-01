@@ -102,9 +102,9 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     {
         volume = Math.min(volume + volumeIncr, 0.2f);
         pitch = Math.min(pitch + pitchIncr, 1.0f);
-        
+
         if (!soundPlaying)
-        {            
+        {
             if (sound != null)
             {
                 sound.setDonePlaying(true);
@@ -114,9 +114,9 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
             sound = new BlockSound(soundLoc).setVolume(volume).setDoRepeat(true).setLocation(xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
             FMLClientHandler.instance().getClient().getSoundHandler().playSound(sound);
         }
-            
+
         sound.setVolume(volume).setPitch(pitch);
-        
+
         soundPlaying = true;
     }
 

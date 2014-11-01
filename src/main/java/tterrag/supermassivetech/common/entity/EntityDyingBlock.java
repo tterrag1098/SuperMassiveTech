@@ -96,7 +96,7 @@ public class EntityDyingBlock extends Entity
 
         super.onUpdate();
     }
-    
+
     @Override
     protected boolean canTriggerWalking()
     {

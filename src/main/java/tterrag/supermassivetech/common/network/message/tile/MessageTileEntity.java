@@ -6,16 +6,17 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 public abstract class MessageTileEntity implements IMessage
 {
     public int x, y, z;
-    
-    public MessageTileEntity() {}
-    
+
+    public MessageTileEntity()
+    {}
+
     public MessageTileEntity(int x, int y, int z)
     {
         this.x = x;
         this.y = y;
         this.z = z;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {

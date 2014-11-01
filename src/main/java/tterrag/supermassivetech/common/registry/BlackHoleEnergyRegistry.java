@@ -45,6 +45,7 @@ public class BlackHoleEnergyRegistry
             return this;
         }
 
+        @Override
         public boolean matches(ItemStack stack)
         {
             boolean matches = true;
@@ -64,6 +65,7 @@ public class BlackHoleEnergyRegistry
             return matches;
         }
 
+        @Override
         public int getEnergyFor(ItemStack stack)
         {
             if (matches(stack))
@@ -125,11 +127,13 @@ public class BlackHoleEnergyRegistry
     }
 
     public static final BlackHoleEnergyRegistry INSTANCE = new BlackHoleEnergyRegistry();
-    private BlackHoleEnergyRegistry() {}
+
+    private BlackHoleEnergyRegistry()
+    {}
 
     private List<IEnergyEntry<ItemStack>> items = new ArrayList<IEnergyEntry<ItemStack>>();
     private List<IEnergyEntry<Entity>> entities = new ArrayList<IEnergyEntry<Entity>>();
-    
+
     private static final int DEFAULT_ENERGY = 1;
     private static final int BLOCK_MULT = 4;
     private static final int ENTITY_MULT = 5;
@@ -145,7 +149,7 @@ public class BlackHoleEnergyRegistry
         }
         return (stack.getItem() instanceof ItemBlock ? DEFAULT_ENERGY * BLOCK_MULT : DEFAULT_ENERGY) * stack.stackSize;
     }
-    
+
     public int getEnergyFor(Entity entity)
     {
         for (IEnergyEntry<Entity> entry : entities)
@@ -178,7 +182,7 @@ public class BlackHoleEnergyRegistry
     {
         registerItem(new EnergyEntryItem(input, energy).setCheckNBT(checkNBT).setCheckDamage(checkDamage));
     }
-    
+
     /**
      * Defaults check to false
      */
@@ -194,17 +198,17 @@ public class BlackHoleEnergyRegistry
     {
         registerEntity(new EnergyEntryEntity(input, energy, strictCompare));
     }
-    
+
     public void registerEntity(IEnergyEntry<Entity> entry)
     {
         entities.add(entry);
     }
-    
+
     public void registerItem(IEnergyEntry<ItemStack> entry)
     {
         items.add(entry);
     }
-    
+
     public void registerDefaults()
     {
         registerItemEnergy(new ItemStack(Items.diamond), 8192);

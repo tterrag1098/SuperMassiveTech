@@ -85,10 +85,10 @@ public class BlackHoleTank implements IFluidTank
             if (!doDrain)
                 return stack;
             amountStored -= toRemove;
-            
+
             if (amountStored == 0)
                 fluidStored = null;
-            
+
             return stack;
         }
     }

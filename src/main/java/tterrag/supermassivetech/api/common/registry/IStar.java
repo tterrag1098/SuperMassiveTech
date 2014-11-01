@@ -40,8 +40,7 @@ public interface IStar extends IEnergyContainerItem
     public String getName();
 
     /**
-     * <code>toString()</code> here returns the proper name of the star, to be
-     * used in tooltips
+     * <code>toString()</code> here returns the proper name of the star, to be used in tooltips
      */
     @Override
     public String toString();
@@ -52,8 +51,7 @@ public interface IStar extends IEnergyContainerItem
     public StarTier getTier();
 
     /**
-     * The level (> 0 and usually < 5) of gravity potion effects to apply to the
-     * player when this tier of star is held
+     * The level (> 0 and usually < 5) of gravity potion effects to apply to the player when this tier of star is held
      * 
      * @return
      */

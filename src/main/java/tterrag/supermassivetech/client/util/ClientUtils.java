@@ -124,9 +124,9 @@ public class ClientUtils
             TileEntity t = world.getTileEntity(x, y, z);
             if (t != null && t instanceof TileStarHarvester)
             {
-                ((TileStarHarvester)t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
-                ((TileStarHarvester)t).spinSpeed = spinSpeed;
-                ((TileStarHarvester)t).dying = dying;
+                ((TileStarHarvester) t).setInventorySlotContents(0, data == null ? null : ItemStack.loadItemStackFromNBT(data));
+                ((TileStarHarvester) t).spinSpeed = spinSpeed;
+                ((TileStarHarvester) t).dying = dying;
             }
         }
     }

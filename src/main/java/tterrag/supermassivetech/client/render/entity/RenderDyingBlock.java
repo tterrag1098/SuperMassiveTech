@@ -18,7 +18,7 @@ public class RenderDyingBlock extends Render
 {
     private static final RenderBlocks render = RenderBlocks.getInstance();
     private static final Random rand = new Random();
-    
+
     @Override
     public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime)
     {
@@ -26,26 +26,26 @@ public class RenderDyingBlock extends Render
         {
             Block block = ((EntityDyingBlock) entity).getBlock();
             int meta = ((EntityDyingBlock) entity).getMeta();
-            
+
             int bX = MathHelper.floor_double(entity.posX);
             int bY = MathHelper.floor_double(entity.posY);
             int bZ = MathHelper.floor_double(entity.posZ);
-            
+
             rand.setSeed(entity.getUniqueID().getLeastSignificantBits());
             int rotOffset = rand.nextInt(360);
-            
+
             glPushMatrix();
             glTranslated(x, y, z);
             glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 1, 0, 0);
             glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 0, 1, 0);
             glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 0, 0, 1);
             glDisable(GL_LIGHTING);
-            
+
             bindEntityTexture(entity);
-            
+
             render.setRenderBoundsFromBlock(block);
             render.renderBlockSandFalling(block, entity.worldObj, bX, bY, bZ, meta);
-            
+
             glEnable(GL_LIGHTING);
             glPopMatrix();
         }

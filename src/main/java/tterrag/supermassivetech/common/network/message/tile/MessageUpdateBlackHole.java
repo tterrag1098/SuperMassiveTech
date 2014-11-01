@@ -10,14 +10,15 @@ public class MessageUpdateBlackHole extends MessageTileEntity implements IMessag
 {
     public long energy;
 
-    public MessageUpdateBlackHole() {}
-    
+    public MessageUpdateBlackHole()
+    {}
+
     public MessageUpdateBlackHole(int x, int y, int z, long storedEnergy)
     {
         super(x, y, z);
         this.energy = storedEnergy;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {

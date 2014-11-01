@@ -20,7 +20,7 @@ public class PacketHandler
 {
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(ModProps.CHANNEL);
     private static int id = 0;
-    
+
     public static void init()
     {
         INSTANCE.registerMessage(MessageBlackHoleStorage.class, MessageBlackHoleStorage.class, id++, Side.CLIENT);

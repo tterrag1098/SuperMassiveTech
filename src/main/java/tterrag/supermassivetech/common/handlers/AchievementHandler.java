@@ -43,12 +43,13 @@ public class AchievementHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onAchievement(AchievementEvent event)
     {
-        StatisticsFile file = ((EntityPlayerMP)event.entityPlayer).func_147099_x();
-        if (!event.entity.worldObj.isRemote && file.canUnlockAchievement(event.achievement) && !file.hasAchievementUnlocked(event.achievement) && ConfigHandler.betterAchievements)
+        StatisticsFile file = ((EntityPlayerMP) event.entityPlayer).func_147099_x();
+        if (!event.entity.worldObj.isRemote && file.canUnlockAchievement(event.achievement) && !file.hasAchievementUnlocked(event.achievement)
+                && ConfigHandler.betterAchievements)
         {
             event.entityPlayer.getEntityData().setInteger("fireworksLeft", 5);
             event.entityPlayer.getEntityData().setBoolean("fireworkDelay", false);
@@ -60,7 +61,8 @@ public class AchievementHandler
     {
         EntityPlayer player = event.player;
         int fireworksLeft = player.getEntityData().getInteger("fireworksLeft");
-        if (!event.player.worldObj.isRemote && event.phase == Phase.END && fireworksLeft > 0 && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
+        if (!event.player.worldObj.isRemote && event.phase == Phase.END && fireworksLeft > 0
+                && (!player.getEntityData().getBoolean("fireworkDelay") || player.worldObj.getTotalWorldTime() % 20 == 0))
         {
             Utils.spawnFireworkAround(getBlockCoord(player), player.worldObj.provider.dimensionId);
             player.getEntityData().setInteger("fireworksLeft", fireworksLeft - 1);

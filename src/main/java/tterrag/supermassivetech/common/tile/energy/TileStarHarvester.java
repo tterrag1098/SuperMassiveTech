@@ -37,7 +37,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     private int slot = 0;
 
     public static final int MAX_PER_TICK;
-    static 
+    static
     {
         int max = 0;
         for (IStar type : Stars.instance.getTypes())
@@ -46,7 +46,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         }
         MAX_PER_TICK = max * 2; // max output of star harvester will be max output of any star type times 2
     }
-    
+
     private int perTick = 0;
     public double spinSpeed = 0, lastSpinSpeed = 0;
     public float[] spins = { 0, 0, 0, 0 };
@@ -71,7 +71,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         {
             top = ForgeDirection.getOrientation(getRotationMeta()).getOpposite();
         }
-        
+
         super.updateEntity();
         updateAnimation(); // update animation on both sides as this controls spinSpeed, and thus perTick
 
@@ -94,7 +94,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
                     e.setFire(5);
                 }
             }
-            
+
             if (needsLightingUpdate)
             {
                 worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
@@ -113,13 +113,13 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
                 IStar type = Utils.getType(inventory[slot]);
                 int amnt = type.getPowerPerTick();
                 int takenFromStar = type.extractEnergy(inventory[slot], Math.min(amnt, venting ? amnt : storage.getMaxEnergyStored() - storage.getEnergyStored()), false);
-                
+
                 if (dying = type.getEnergyStored(inventory[slot]) <= (type.getMaxEnergyStored(inventory[slot]) * Constants.instance().getStarDeathTrigger()))
                     Utils.setStarFuseRemaining(inventory[slot], Utils.getStarFuseRemaining(inventory[slot]) - 1);
-                
+
                 if (Utils.getStarFuseRemaining(inventory[slot]) <= 0)
                     collapse();
-                
+
                 if (!venting) // remove energy from star but don't add to internal storage if venting
                 {
                     storage.receiveEnergy(takenFromStar, false);
@@ -135,7 +135,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     }
 
     private void collapse()
-    {        
+    {
         if (Utils.shouldSpawnBlackHole(worldObj))
         {
             worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, SuperMassiveTech.blockRegistry.blackHole);
@@ -147,7 +147,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
             explode(2.0f);
         }
     }
-    
+
     private void explode(float str)
     {
         worldObj.newExplosion(null, xCoord + 0.5, yCoord - 0.5, zCoord + 0.5, str, true, true);
@@ -162,8 +162,8 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     private void sendPacket()
     {
         NBTTagCompound tag = new NBTTagCompound();
-        PacketHandler.INSTANCE.sendToDimension(new MessageStarHarvester(inventory[slot] == null ? null : inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord, spinSpeed, dying),
-                worldObj.provider.dimensionId);
+        PacketHandler.INSTANCE.sendToDimension(new MessageStarHarvester(inventory[slot] == null ? null : inventory[slot].writeToNBT(tag), xCoord, yCoord, zCoord, spinSpeed,
+                dying), worldObj.provider.dimensionId);
     }
 
     private void updateAnimation()
@@ -189,7 +189,7 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
             spins[i] += (float) (i == 0 ? spinSpeed * 15f : spinSpeed * (6f + i * 2));
         }
     }
-    
+
     private int getMaxSpinSpeed()
     {
         return dying ? 4 : 1;

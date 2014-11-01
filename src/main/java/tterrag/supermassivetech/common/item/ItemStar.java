@@ -47,37 +47,45 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     {
         if (!par2World.isRemote)
             Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getMassLevel());
-        
-        EntityPlayer player = ((EntityPlayer)par3Entity);
-        
-        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= (Utils.getType(par1ItemStack).getMaxEnergyStored(par1ItemStack) * Constants.instance().getStarDeathTrigger()))
+
+        EntityPlayer player = ((EntityPlayer) par3Entity);
+
+        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= (Utils.getType(par1ItemStack).getMaxEnergyStored(par1ItemStack) * Constants.instance()
+                .getStarDeathTrigger()))
         {
             Utils.setStarFuseRemaining(par1ItemStack, Utils.getStarFuseRemaining(par1ItemStack) - 1);
             player.setFire(1);
         }
-        
+
         if (Utils.getStarFuseRemaining(par1ItemStack) <= 0 && !par2World.isRemote)
         {
             if (Utils.shouldSpawnBlackHole(par2World))
             {
                 par2World.newExplosion(null, player.posX, player.posY, player.posZ, 6, true, true);
-                BlockCoord tmp, starting = new BlockCoord(Utils.coordRound(player.posX), Utils.coordRound(player.posY), Utils.coordRound(player.posZ));
+                BlockCoord tmp, starting = new BlockCoord(player);
                 // Find a non-protected block around the player
                 // First, check 1x1x1 area
                 // Then 3x3x3, and 5x5x5
                 searchLoop: for (int i = 1; i < 5; i += 2)
-                  for (int j = 0; j < (i * i * i); ++j)
-                    if (Utils.canBreakBlock(player, par2World, tmp = new BlockCoord((starting.x - (i / 2)) + (j % i), (starting.y - (i / 2)) + ((j / i) % i), (starting.z - (i / 2)) + ((j / (i * i)) % i)))) // expansion of ((j/(i^n))%i) where n is the current dim. we are checking
+                {
+                    for (int j = 0; j < (i * i * i); ++j)
                     {
-                      par2World.setBlock(tmp.x, tmp.y, tmp.z, SuperMassiveTech.blockRegistry.blackHole);
-                      player.inventory.setInventorySlotContents(par4, null);
-                      break searchLoop;
+                        if (Utils.canBreakBlock(player, par2World, tmp = new BlockCoord((starting.x - (i / 2)) + (j % i), (starting.y - (i / 2)) + ((j / i) % i),
+                                (starting.z - (i / 2)) + ((j / (i * i)) % i)))) // expansion of ((j/(i^n))%i) where n is the current dim. we are checking
+                        {
+                            par2World.setBlock(tmp.x, tmp.y, tmp.z, SuperMassiveTech.blockRegistry.blackHole);
+                            player.inventory.setInventorySlotContents(par4, null);
+                            break searchLoop;
+                        }
                     }
+                }
             }
             else
-                player.inventory.setInventorySlotContents(par4, Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)));
-            //player.noClip = true;
-            player.attackEntityFrom(new DamageSourceBlackHole("dmg.blackHole"), player.getMaxHealth());
+            {
+                player.inventory.setInventorySlotContents(par4,
+                        Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)));
+                player.attackEntityFrom(new DamageSourceBlackHole("dmg.blackHole"), player.getMaxHealth());
+            }
         }
     }
 

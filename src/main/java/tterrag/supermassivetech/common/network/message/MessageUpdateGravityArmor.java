@@ -21,8 +21,7 @@ public class MessageUpdateGravityArmor implements IMessage, IMessageHandler<Mess
     private byte[] indeces;
 
     public MessageUpdateGravityArmor()
-    {
-    }
+    {}
 
     public MessageUpdateGravityArmor(PowerUps powerup, ArmorPowerState state, byte... indeces)
     {

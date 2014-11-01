@@ -9,8 +9,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class MessageUpdateVenting implements IMessage, IMessageHandler<MessageUpdateVenting, IMessage>
 {
     public MessageUpdateVenting()
-    {
-    }
+    {}
 
     private int x, y, z;
     private boolean venting;

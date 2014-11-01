@@ -11,8 +11,7 @@ public class MessageJumpUpdate implements IMessage, IMessageHandler<MessageJumpU
     private boolean isJumpKeyDown;
 
     public MessageJumpUpdate()
-    {
-    }
+    {}
 
     public MessageJumpUpdate(boolean jumped)
     {

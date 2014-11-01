@@ -48,7 +48,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
     {
         if (tile instanceof TileStarHarvester || tile == null)
         {
-            TileStarHarvester harvester = (TileStarHarvester) tile;
+            TileStarHarvester harvester = tile;
 
             GL11.glScalef(0.5f, 0.5f, 0.5f);
             main.renderAll();
@@ -107,9 +107,9 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
 
                 sphere.renderAll();
                 glPopMatrix();
-                
+
                 GL11.glEnable(GL11.GL_LIGHTING);
-                
+
                 if (tile.dying)
                 {
                     renderBeams(tile, speed);
@@ -122,23 +122,23 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
     private void renderBeams(TileStarHarvester tile, double speed)
     {
         glPushMatrix();
-        
+
         glDisable(GL_TEXTURE_2D);
         glShadeModel(GL_SMOOTH);
         glEnable(GL_BLEND);
         OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE, GL_ZERO, GL_ONE);
         glDisable(GL_ALPHA_TEST);
         glDisable(GL_CULL_FACE);
-        
+
         Tessellator tessellator = Tessellator.instance;
 
         Random rand = Utils.rand;
         rand.setSeed(298347L);
-        
-//        glTranslatef(0, 1f, 0);
-        
+
+        // glTranslatef(0, 1f, 0);
+
         float rot = RenderingUtils.getRotation(-4f);
-        
+
         for (int i = 0; i < speed * 5; i++)
         {
             glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);

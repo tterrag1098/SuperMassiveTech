@@ -23,7 +23,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
     private ResourceLocation beam = new ResourceLocation("textures/entity/beacon_beam.png");
 
     private static EntityItem item = null;
-    
+
     private void renderWaypointAt(TileWaypoint tile, double x, double y, double z, float tickDelay)
     {
         if (item == null)
@@ -31,7 +31,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
             item = new EntityItem(tile.getWorldObj());
             item.setEntityItemStack(new ItemStack(SuperMassiveTech.itemRegistry.star));
         }
-        
+
         Tessellator tessellator = Tessellator.instance;
 
         // render spinny item
@@ -40,7 +40,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         glScalef(0.4f, 0.4f, 0.4f);
         RenderingUtils.render3DItem(item, true);
         glPopMatrix();
-        
+
         glPushAttrib(GL_ALL_ATTRIB_BITS);
         glPushMatrix();
 

@@ -9,8 +9,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class MessageHopperParticle extends MessageParticle implements IMessageHandler<MessageHopperParticle, IMessage>
 {
     public MessageHopperParticle()
-    {
-    }
+    {}
 
     public MessageHopperParticle(int... information)
     {

@@ -49,17 +49,17 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
             float rot = -RenderingUtils.getRotation(10f);
 
             renderAllTranslucent(tessellator, rot);
-            
+
             glRotatef(180, 1, 0, 0);
 
             renderAllTranslucent(tessellator, rot);
-            
+
             glPopAttrib();
         }
 
         glPopMatrix();
     }
-    
+
     private void setupGlTranslucent()
     {
         glDisable(GL_TEXTURE_2D);
@@ -68,7 +68,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
         glDisable(GL_ALPHA_TEST);
         glDisable(GL_CULL_FACE);
         glDepthMask(false);
-        
+
         RenderHelper.disableStandardItemLighting();
 
         OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
@@ -80,7 +80,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
         glTranslatef(0, 0.14f, 0);
         glRotatef(45, 0, 1, 0);
         glRotatef(45, 1, 0, 0);
-        
+
         for (int i = 0; i < 4; i++)
         {
             glRotatef(90, 0, -1, 1);
@@ -93,7 +93,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
             }
             glPopMatrix();
         }
-        
+
         glPopMatrix();
     }
 

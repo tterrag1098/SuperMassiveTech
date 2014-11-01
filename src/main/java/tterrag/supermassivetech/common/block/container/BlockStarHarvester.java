@@ -69,7 +69,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
             TileStarHarvester harvester = (TileStarHarvester) te;
 
             harvester.setEnergyStored(tag.getInteger("energy"));
-            
+
             if (tag.getInteger("storedMetaData") > 5)
             {
                 te.getWorldObj().setBlockMetadataWithNotify(te.xCoord, te.yCoord, te.zCoord, te.getBlockMetadata() + 6, 3);

@@ -56,7 +56,7 @@ public class SuperMassiveTech implements IModTT
     public static CreativeTabsCustom tabSMT = new CreativeTabsCustom(ModProps.MODID);
 
     public static int renderIDStorage, renderIDHopper, renderIDStarHarvester, renderIDWaypoint, renderIDBlackHole, renderIDCharger;
-    
+
     public SuperMassiveTech()
     {
         MinecraftForge.EVENT_BUS.register(this);
@@ -77,7 +77,7 @@ public class SuperMassiveTech implements IModTT
         itemRegistry.register();
         blockRegistry.register();
         entityRegistry.init();
-        
+
         proxy.registerRenderers();
 
         enchantRegistry.init();
@@ -88,7 +88,7 @@ public class SuperMassiveTech implements IModTT
         BlackHoleEnergyRegistry.INSTANCE.registerDefaults();
 
         FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + ".common.compat.waila.WailaCompat.load");
-        
+
         CompatabilityRegistry.INSTANCE.registerCompat(RegisterTime.INIT, ModProps.MAIN_PACKAGE + ".common.compat.enderio.EnderIOCompat", "EnderIO");
     }
 

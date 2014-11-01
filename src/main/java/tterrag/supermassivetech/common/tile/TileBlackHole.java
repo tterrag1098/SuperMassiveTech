@@ -141,6 +141,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
         }
     }
 
+    @Override
     public float getSize()
     {
         return SIZE_BASE + (storedEnergy * SIZE_MULT);
@@ -189,6 +190,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
         return true;
     }
 
+    @Override
     public void incrementEnergy(Entity entity)
     {
         if (entity instanceof EntityItem)

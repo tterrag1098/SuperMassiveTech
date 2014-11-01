@@ -23,7 +23,9 @@ import tterrag.supermassivetech.common.util.Utils;
 public class WailaCompat implements IWailaDataProvider
 {
     public static final WailaCompat INSTANCE = new WailaCompat();
-    private WailaCompat() {}
+
+    private WailaCompat()
+    {}
 
     public static void load(IWailaRegistrar registrar)
     {

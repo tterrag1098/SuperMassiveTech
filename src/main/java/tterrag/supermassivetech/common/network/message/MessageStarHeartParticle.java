@@ -8,8 +8,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class MessageStarHeartParticle extends MessageParticle implements IMessageHandler<MessageStarHeartParticle, IMessage>
 {
     public MessageStarHeartParticle()
-    {
-    }
+    {}
 
     public MessageStarHeartParticle(int... information)
     {

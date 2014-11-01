@@ -82,8 +82,9 @@ public class HelmetOverlayHandler
             time = maxTime;
         }
     }
-    
+
     private List<String> namesToDraw = new ArrayList<String>();
+
     private void renderWaypoints(Minecraft mc, int width, EntityPlayer player, double x, double y, double z)
     {
         namesToDraw.clear();
@@ -115,8 +116,8 @@ public class HelmetOverlayHandler
         {
             mc.ingameGUI.drawCenteredString(mc.fontRenderer, namesToDraw.get(i), width / 2, 20 + i * 8, 0xFFFFFF);
         }
-        
-        mc.getTextureManager().bindTexture(compass);        
+
+        mc.getTextureManager().bindTexture(compass);
         GL11.glColor3f(1f, 1f, 1f);
     }
 

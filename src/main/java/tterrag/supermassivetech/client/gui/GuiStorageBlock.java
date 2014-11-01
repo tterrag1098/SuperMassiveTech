@@ -117,7 +117,7 @@ public class GuiStorageBlock extends GuiContainer
                 while (x != 0 && squaled != 0);
             }
         }
-        
+
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(TEXTURE);
         drawTexturedModalRect(j + col, k + line + 1, 234, 0, 16, 60);

@@ -33,7 +33,7 @@ public class Waypoint
     {
         this(name, x, y, z, getNames(players));
     }
-    
+
     private static String[] getNames(EntityPlayer... players)
     {
         String[] names = new String[players.length];
@@ -43,7 +43,7 @@ public class Waypoint
         }
         return names;
     }
-    
+
     public Waypoint(String name, int x, int y, int z, String... playernames)
     {
         this.name = name;

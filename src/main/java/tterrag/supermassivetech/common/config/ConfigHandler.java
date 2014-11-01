@@ -28,17 +28,17 @@ public class ConfigHandler
     public static boolean doGravityWell;
     public static int gravArmorDrain;
     public static int gravEnchantID;
-    
+
     public static int chargerSpeed = 1000;
 
     public static int fieldRange = 7;
     public static double fieldUsageBase = 3;
     public static boolean fieldIgnorePlayers = false;
     public static boolean doBlocks = true;
-    
+
     public static double starOutputMult = 1.0;
     public static double starStorageMult = 1.0;
-    
+
     public static boolean betterAchievements = true;
 
     public static boolean forceEnableLootFix = false;
@@ -122,7 +122,7 @@ public class ConfigHandler
             Constants.instance().refresh();
         }
     }
-    
+
     @SubscribeEvent
     public void onConfigReload(ConfigFileChangedEvent event)
     {

@@ -2,8 +2,6 @@ package tterrag.supermassivetech.common.util;
 
 import static tterrag.supermassivetech.SuperMassiveTech.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -58,7 +56,7 @@ public class Utils
     public static final Random rand = new Random();
 
     public static final Lang lang = new Lang(ModProps.LOCALIZING);
-    
+
     public static void init()
     {
         c = Constants.instance();
@@ -330,7 +328,7 @@ public class Utils
         else
             return 0;
     }
-    
+
     public static int getStarFuseRemaining(ItemStack star)
     {
         if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
@@ -338,7 +336,7 @@ public class Utils
         else
             return 0;
     }
-    
+
     public static void setStarFuseRemaining(ItemStack star, int fuse)
     {
         if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
@@ -675,22 +673,18 @@ public class Utils
     {
         return getGravResist(player, 1.0);
     }
-    
+
     public static boolean shouldSpawnBlackHole(World worldObj) // TODO: implement something better for this
     {
-      return worldObj.rand.nextBoolean();
-    }
-    
-    /// Expensive (relatively speaking)
-    public static int coordRound(double coord)
-    {
-      return new BigDecimal(coord).setScale(0, RoundingMode.HALF_DOWN).intValue();
+        return worldObj.rand.nextBoolean();
     }
 
+    /**
+     * Make sure block isn't spawn protected or unbreakable
+     */
     public static boolean canBreakBlock(EntityPlayer player, World world, BlockCoord blockCoord)
     {
-      // Make sure block isn't spawn protected or unbreakable
-      return world.canMineBlock(player, blockCoord.x, blockCoord.y, blockCoord.z)
-          && world.getBlock(blockCoord.x, blockCoord.y, blockCoord.z).canEntityDestroy(world, blockCoord.x, blockCoord.y, blockCoord.z, player);
+        return world.canMineBlock(player, blockCoord.x, blockCoord.y, blockCoord.z)
+                && world.getBlock(blockCoord.x, blockCoord.y, blockCoord.z).canEntityDestroy(world, blockCoord.x, blockCoord.y, blockCoord.z, player);
     }
 }

@@ -52,7 +52,7 @@ public class RenderFormingStar extends Render
         glDepthMask(true);
         glTranslated(0, Math.sin(rot / 100) / 10, 0);
         glRotatef(rot % 360, 0, 1, 0);
-//        ClientUtils.render3DItem(item, tessellator);
+        // ClientUtils.render3DItem(item, tessellator);
         glRotatef(-(rot % 360), 0, 1, 0);
         glTranslatef(0, 1f / 5f, 0);
 
