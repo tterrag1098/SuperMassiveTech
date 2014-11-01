@@ -11,15 +11,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.entity.item.EntityItemStar;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
+import tterrag.supermassivetech.common.tile.DamageSourceBlackHole;
+import tterrag.supermassivetech.common.util.BlockCoord;
+import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,6 +48,38 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
     {
         if (!par2World.isRemote)
             Utils.applyGravPotionEffects((EntityPlayer) par3Entity, Utils.getType(par1ItemStack).getMassLevel());
+        
+        EntityPlayer player = ((EntityPlayer)par3Entity);
+        
+        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= (Utils.getType(par1ItemStack).getMaxEnergyStored(par1ItemStack) * Constants.instance().getStarDeathTrigger()))
+        {
+            Utils.setStarFuseRemaining(par1ItemStack, Utils.getStarFuseRemaining(par1ItemStack) - 1);
+            player.setFire(1);
+        }
+        
+        if (Utils.getStarFuseRemaining(par1ItemStack) <= 0 && !par2World.isRemote)
+        {
+            if (Utils.shouldSpawnBlackHole(par2World))
+            {
+                par2World.newExplosion(null, player.posX, player.posY, player.posZ, 6, true, true);
+                BlockCoord tmp, starting = new BlockCoord(Utils.coordRound(player.posX), Utils.coordRound(player.posY), Utils.coordRound(player.posZ));
+                // Find a non-protected block around the player
+                // First, check 1x1x1 area
+                // Then 3x3x3, and 5x5x5
+                searchLoop: for (int i = 1; i < 5; i += 2)
+                  for (int j = 0; j < (i * i * i); ++j)
+                    if (Utils.canBreakBlock(player, par2World, tmp = new BlockCoord((starting.x - (i / 2)) + (j % i), (starting.y - (i / 2)) + ((j / i) % i), (starting.z - (i / 2)) + ((j / (i * i)) % i)))) // expansion of ((j/(i^n))%i) where n is the current dim. we are checking
+                    {
+                      par2World.setBlock(tmp.x, tmp.y, tmp.z, SuperMassiveTech.blockRegistry.blackHole);
+                      player.inventory.setInventorySlotContents(par4, null);
+                      break searchLoop;
+                    }
+            }
+            else
+                player.inventory.setInventorySlotContents(par4, Utils.setType(new ItemStack(SuperMassiveTech.itemRegistry.star), Stars.instance.getRandomStarFromType(StarTier.SPECIAL)));
+            //player.noClip = true;
+            player.attackEntityFrom(new DamageSourceBlackHole("dmg.blackHole"), player.getMaxHealth());
+        }
     }
 
     @Override

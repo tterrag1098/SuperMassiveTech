@@ -2,6 +2,8 @@ package tterrag.supermassivetech.common.util;
 
 import static tterrag.supermassivetech.SuperMassiveTech.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -328,13 +330,27 @@ public class Utils
         else
             return 0;
     }
+    
+    public static int getStarFuseRemaining(ItemStack star)
+    {
+        if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
+            return star.stackTagCompound.getInteger("fuse");
+        else
+            return 0;
+    }
+    
+    public static void setStarFuseRemaining(ItemStack star, int fuse)
+    {
+        if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
+            star.stackTagCompound.setInteger("fuse", fuse);
+    }
 
     /**
      * Sets the type of a star itemstack, can handle items that are not instances of {@link ItemStar}
      * 
      * @param stack - Stack to set the type on
      * @param type - Type to use
-     * @return The itemstack effected
+     * @return The itemstack affected
      */
     public static ItemStack setType(ItemStack stack, IStar type)
     {
@@ -345,6 +361,7 @@ public class Utils
 
             stack.stackTagCompound.setString("type", type.getName());
             stack.stackTagCompound.setInteger("energy", type.getMaxEnergyStored(stack));
+            stack.stackTagCompound.setInteger("fuse", type.getFuse());
         }
         else if (stack != null)
         {
@@ -657,5 +674,23 @@ public class Utils
     public static double getGravResist(EntityPlayer player)
     {
         return getGravResist(player, 1.0);
+    }
+    
+    public static boolean shouldSpawnBlackHole(World worldObj) // TODO: implement something better for this
+    {
+      return worldObj.rand.nextBoolean();
+    }
+    
+    /// Expensive (relatively speaking)
+    public static int coordRound(double coord)
+    {
+      return new BigDecimal(coord).setScale(0, RoundingMode.HALF_DOWN).intValue();
+    }
+
+    public static boolean canBreakBlock(EntityPlayer player, World world, BlockCoord blockCoord)
+    {
+      // Make sure block isn't spawn protected or unbreakable
+      return world.canMineBlock(player, blockCoord.x, blockCoord.y, blockCoord.z)
+          && world.getBlock(blockCoord.x, blockCoord.y, blockCoord.z).canEntityDestroy(world, blockCoord.x, blockCoord.y, blockCoord.z, player);
     }
 }
