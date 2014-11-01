@@ -1,6 +1,13 @@
 package tterrag.supermassivetech.client.render;
 
+import static org.lwjgl.opengl.GL11.*;
+
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
@@ -8,6 +15,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import tterrag.core.client.render.DirectionalModelRenderer;
+import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
@@ -91,16 +99,77 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
 
                 Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphere);
 
+                glPushMatrix();
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glRotatef(-spins[0], 0, 1f, 0);
-                GL11.glScalef(1f + (float) speed / 5f, 1.0f, 1f + (float) speed / 5f);
+                GL11.glScalef(1f + (float) speed / 5f, 1f + (float) (speed > 1 ? (speed - 1f) / 5f : 0), 1f + (float) speed / 5f);
                 GL11.glTranslatef(0f, -1f, 0f);
 
                 sphere.renderAll();
-
+                glPopMatrix();
+                
                 GL11.glEnable(GL11.GL_LIGHTING);
+                
+                if (tile.dying)
+                {
+                    renderBeams(tile, speed);
+                }
             }
         }
         GL11.glPopMatrix();
+    }
+
+    private void renderBeams(TileStarHarvester tile, double speed)
+    {
+        glPushMatrix();
+        
+        glDisable(GL_TEXTURE_2D);
+        glShadeModel(GL_SMOOTH);
+        glEnable(GL_BLEND);
+        OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE, GL_ZERO, GL_ONE);
+        glDisable(GL_ALPHA_TEST);
+        glDisable(GL_CULL_FACE);
+        
+        Tessellator tessellator = Tessellator.instance;
+
+        Random rand = Utils.rand;
+        rand.setSeed(298347L);
+        
+//        glTranslatef(0, 1f, 0);
+        
+        float rot = RenderingUtils.getRotation(-4f);
+        
+        for (int i = 0; i < speed * 5; i++)
+        {
+            glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+            glRotatef(rand.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+            glRotatef(rand.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+            glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+
+            glRotatef((rand.nextFloat() * 0.1f * rot) % 360, 0, 1, 0);
+
+            tessellator.startDrawingQuads();
+
+            tessellator.setBrightness(255);
+            tessellator.setColorRGBA(255, 255, 100, 250);
+
+            tessellator.addVertex(0, 0, 0);
+            tessellator.addVertex(0, 0, 0);
+            tessellator.setColorRGBA(255, 255, 100, 0);
+            tessellator.addVertex(5, 4, 5);
+            tessellator.addVertex(5, 6, 5);
+
+            tessellator.draw();
+        }
+
+        glDisable(GL_BLEND);
+        glShadeModel(GL_FLAT);
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_ALPHA_TEST);
+        glEnable(GL_LIGHTING);
+        RenderHelper.enableStandardItemLighting();
+
+        glPopMatrix();
     }
 }

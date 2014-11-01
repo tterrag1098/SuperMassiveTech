@@ -170,11 +170,12 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     {
         if (!worldObj.isRemote) // do not change spin speed on client, allow packet sync
         {
-            if (isGravityWell())
+            int max = getMaxSpinSpeed();
+            if (isGravityWell() && spinSpeed < max)
             {
-                spinSpeed = spinSpeed >= 1 ? 1 : spinSpeed + 0.0005;
+                spinSpeed += 0.0005 + (dying ? 0.01 : 0);
             }
-            else
+            else if (!isGravityWell() || spinSpeed > max + 0.02)
             {
                 spinSpeed = spinSpeed <= 0 ? 0 : spinSpeed - 0.01;
             }
@@ -187,6 +188,11 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
 
             spins[i] += (float) (i == 0 ? spinSpeed * 15f : spinSpeed * (6f + i * 2));
         }
+    }
+    
+    private int getMaxSpinSpeed()
+    {
+        return dying ? 4 : 1;
     }
 
     public int getRotationMeta()
