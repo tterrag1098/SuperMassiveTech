@@ -139,7 +139,6 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
         // glTranslatef(0, 1f, 0);
 
         float rot = RenderingUtils.getRotation(-4f);
-        tessellator.startDrawingQuads();
 
         for (int i = 0; i < speed * 5; i++)
         {
@@ -150,6 +149,8 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
 
             glRotatef((rand.nextFloat() * 0.1f * rot) % 360, 0, 1, 0);
 
+            tessellator.startDrawingQuads();
+
             tessellator.setBrightness(255);
             
             tessellator.setColorRGBA(255, 255, 100, 250);
@@ -158,9 +159,9 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
             tessellator.setColorRGBA(255, 255, 100, 0);
             tessellator.addVertex(5, 4, 5);
             tessellator.addVertex(5, 6, 5);
+
+            tessellator.draw();
         }
-        
-        tessellator.draw();
 
         glDisable(GL_BLEND);
         glShadeModel(GL_FLAT);
