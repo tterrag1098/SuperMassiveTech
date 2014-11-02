@@ -19,7 +19,7 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
         IBlackHole bh = (IBlackHole) te;
 
         float wobbleScale = 0.05f;
-        float wobble = (float) ClientHandler.getElapsedTicks() / 10f;
+        float wobble = (float) ClientHandler.getTicksElapsed() / 10f;
         float wobbleX = (float) (Math.sin(wobble) * wobbleScale) + 1;
         float wobbleY = (float) (Math.sin(wobble) * -1 * wobbleScale) + 1;
         

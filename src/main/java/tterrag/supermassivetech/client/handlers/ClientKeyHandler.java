@@ -27,7 +27,7 @@ import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
-@Handler(types = HandlerType.FML)
+@Handler(HandlerType.FML)
 public class ClientKeyHandler
 {
     public static final ArmorPowerState ERROR = new ArmorPowerState("ERROR", BLACK);

@@ -1,0 +1,20 @@
+{
+  "charger.up": {
+    "category": "block",
+    "sounds": [
+      "charger/up"
+    ]
+  },
+  "charger.on": {
+    "category": "block",
+    "sounds": [
+      "charger/on"
+    ]
+  },
+  "charger.off": {
+    "category": "block",
+    "sounds": [
+      "charger/off"
+    ]
+  }
+}

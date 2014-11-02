@@ -5,28 +5,44 @@ import java.util.List;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.core.client.sound.BlockSound;
 import tterrag.supermassivetech.ModProps;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageChargerUpdate;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
 import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileCharger extends TileSMTEnergy implements ISidedInventory
 {
     private boolean hadItem = false;
 
+    private static final ResourceLocation soundLoc = new ResourceLocation(ModProps.MOD_TEXTUREPATH, "charger.on");
+
+    private float pitch = 0.7f, volume = 0.1f;
+    private final float pitchIncr = 0.02f, volumeIncr = 0.0125f;
+
+    @SideOnly(Side.CLIENT)
+    private BlockSound sound;
+
+    private boolean soundPlaying = false;
+
     public TileCharger()
     {
-        super(10000);
+        super(ConfigHandler.chargerSpeed * 10);
 
         inventory = new ItemStack[1];
 
-        setOutputSpeed(1000);
-        setInputSpeed(1000);
+        setOutputSpeed(ConfigHandler.chargerSpeed);
+        setInputSpeed(ConfigHandler.chargerSpeed * 2);
     }
 
     @Override
@@ -68,6 +84,70 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             }
         }
+        else
+        {
+            if (isCharging())
+            {
+                playSound();
+            }
+            else
+            {
+                stopSound(false);
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void playSound()
+    {
+        volume = Math.min(volume + volumeIncr, 0.2f);
+        pitch = Math.min(pitch + pitchIncr, 1.0f);
+        
+        if (!soundPlaying)
+        {            
+            if (sound != null)
+            {
+                sound.setDonePlaying(true);
+                sound = null;
+            }
+
+            sound = new BlockSound(soundLoc).setVolume(volume).setDoRepeat(true).setLocation(xCoord + 0.5f, yCoord + 0.5f, zCoord + 0.5f);
+            FMLClientHandler.instance().getClient().getSoundHandler().playSound(sound);
+        }
+            
+        sound.setVolume(volume).setPitch(pitch);
+        
+        soundPlaying = true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void stopSound(boolean force)
+    {
+        soundPlaying = false;
+        if (sound != null)
+        {
+            if (volume <= 0.01f || force)
+            {
+                sound.setDonePlaying(true);
+                sound = null;
+            }
+            else
+            {
+                volume -= volumeIncr;
+                pitch -= pitchIncr;
+                sound.setVolume(volume).setPitch(pitch);
+            }
+        }
+    }
+
+    @Override
+    public void invalidate()
+    {
+        super.invalidate();
+        if (worldObj.isRemote)
+        {
+            stopSound(true);
+        }
     }
 
     public boolean isCharging()
@@ -76,9 +156,9 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
         {
             return false;
         }
-        
+
         IEnergyContainerItem item = (IEnergyContainerItem) inventory[0].getItem();
-        
+
         return getEnergyStored() > 0 && item.getEnergyStored(inventory[0]) < item.getMaxEnergyStored(inventory[0]);
     }
 
@@ -141,7 +221,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     {
         return canInsertItem(slot, stack, side);
     }
-    
+
     @Override
     public int getInventoryStackLimit()
     {
@@ -170,7 +250,5 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
         }
 
         tooltip.add(str);
-        
-        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.redstone.mode") + ": " + (getBlockMetadata() == 0 ? EnumChatFormatting.AQUA + Utils.lang.localize("tooltip.redstone.normal") : EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.redstone.inverted")));
     }
 }

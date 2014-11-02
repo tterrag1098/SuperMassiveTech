@@ -61,6 +61,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 
                 newStar.stackTagCompound = new NBTTagCompound();
                 newStar.getTagCompound().setBoolean("wasRejuvenated", true);
+                newStar.stackSize = getEntityItem().stackSize;
                 this.delayBeforeCanPickup = 0;
                 this.setEntityItemStack(newStar);
             }

@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraftforge.event.entity.player.AchievementEvent;
 import tterrag.core.common.Handlers.Handler;
+import tterrag.core.common.util.BlockCoord;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
-import tterrag.supermassivetech.common.util.BlockCoord;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -24,7 +24,7 @@ public class AchievementHandler
     @SubscribeEvent
     public void onCrafted(ItemCraftedEvent event)
     {
-        if (!event.player.worldObj.isRemote)
+        if (!event.player.worldObj.isRemote && event.player instanceof EntityPlayerMP)
         {
             Achievements.unlock(Achievements.getValidItemStack(event.crafting), (EntityPlayerMP) event.player);
 

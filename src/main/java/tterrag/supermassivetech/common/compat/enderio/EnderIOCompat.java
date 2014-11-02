@@ -15,7 +15,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import crazypants.enderio.item.darksteel.DarkSteelRecipeManager;
 import crazypants.enderio.item.darksteel.ItemDarkSteelArmor;
 
-@Handler(types = HandlerType.FML)
+@Handler(HandlerType.FML)
 public class EnderIOCompat implements ICompatability
 {
     public static void load()

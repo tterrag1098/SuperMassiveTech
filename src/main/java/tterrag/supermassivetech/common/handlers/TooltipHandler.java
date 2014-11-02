@@ -17,7 +17,7 @@ import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Handler(types = HandlerType.FORGE)
+@Handler(HandlerType.FORGE)
 public class TooltipHandler
 {
     @SubscribeEvent

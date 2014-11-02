@@ -10,11 +10,13 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import tterrag.core.common.util.BlockCoord;
+import tterrag.core.common.util.blockiterators.CubicBlockIterator;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.MessageStarHeartParticle;
 import tterrag.supermassivetech.common.registry.Achievements;
-import tterrag.supermassivetech.common.util.BlockCoord;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
@@ -144,37 +146,15 @@ public class EntityItemStarHeart extends EntityItemIndestructible
             return super.attackEntityFrom(par1DamageSource, par2);
     }
 
-    @SuppressWarnings("unused")
-    private boolean isInValidState()
-    {
-        for (int i = -1; i <= 1; i++)
-        {
-            for (int j = -1; j <= 1; j++)
-            {
-                if (i != 0)
-                {
-                    if (worldObj.getBlock((int) posX + i, (int) posY, (int) posZ + j) != Blocks.fire)
-                        return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     private void getFire()
     {
-        for (int x = -RADIUS; x <= RADIUS; x++)
+        CubicBlockIterator iter = new CubicBlockIterator(new BlockCoord(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)), RADIUS);
+        while (iter.hasNext())
         {
-            for (int y = -RADIUS; y <= RADIUS; y++)
+            BlockCoord coord = iter.next();
+            if (coord.getBlock(worldObj) == Blocks.fire)
             {
-                for (int z = -RADIUS; z <= RADIUS; z++)
-                {
-                    if (worldObj.getBlock((int) posX + x, (int) posY + y, (int) posZ + z) == Blocks.fire)
-                    {
-                        fire.add(new BlockCoord((int) posX + x, (int) posY + y, (int) posZ + z));
-                    }
-                }
+                fire.add(coord);
             }
         }
     }

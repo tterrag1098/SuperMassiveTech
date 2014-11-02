@@ -5,13 +5,13 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.obj.WavefrontObject;
+import tterrag.core.client.render.DirectionalModelRenderer;
+import tterrag.core.client.render.SimpleModelRenderer;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.BlackHoleSpecialRenderer;
 import tterrag.supermassivetech.client.render.ChargerSpecialRenderer;
-import tterrag.supermassivetech.client.render.DirectionalModelRenderer;
 import tterrag.supermassivetech.client.render.RenderStarHarvester;
-import tterrag.supermassivetech.client.render.SimpleModelRenderer;
 import tterrag.supermassivetech.client.render.WaypointSpecialRenderer;
 import tterrag.supermassivetech.client.render.entity.RenderDyingBlock;
 import tterrag.supermassivetech.client.render.entity.RenderFormingStar;
@@ -29,9 +29,9 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-    public static DirectionalModelRenderer storage;
+    public static DirectionalModelRenderer<TileBlackHoleStorage> storage;
 
-    public static DirectionalModelRenderer hopper;
+    public static DirectionalModelRenderer<TileBlackHoleHopper> hopper;
 
     public static RenderStarHarvester starHarvester;
 
@@ -57,8 +57,8 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderers()
     {
-        storage = new DirectionalModelRenderer(new ModelBlackHoleStorage(), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/storage.png"));
-        hopper = new DirectionalModelRenderer(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH,
+        storage = new DirectionalModelRenderer<TileBlackHoleStorage>(new ModelBlackHoleStorage(), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "textures/models/storage.png"));
+        hopper = new DirectionalModelRenderer<TileBlackHoleHopper>(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/newHopper.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH,
                 "textures/models/hopper.png"));
         starHarvester = new RenderStarHarvester(new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/starHarvesterMain.obj"), new ResourceLocation(
                 ModProps.MOD_TEXTUREPATH, "models/starHarvesterSphere.obj"), new ResourceLocation(ModProps.MOD_TEXTUREPATH, "models/ring.obj"));

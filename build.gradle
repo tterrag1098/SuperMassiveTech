@@ -18,6 +18,10 @@ version = "MC${minecraft_version}-${mod_version}-${System.getenv().BUILD_NUMBER}
 minecraft {
     version = "${minecraft_version}-${forge_version}"
     runDir = 'run'
+	
+	replace "@VERSION@", project.version
+	replace "${toReplace}", "required-after:Forge@[${forgeDep_version},);required-after:ttCore@[${ttCore_version},);after:EnderIO;after:Waila;"
+    replaceIn "ModProps.java"
 }
 
 repositories {
@@ -36,9 +40,9 @@ repositories {
 }
 
 dependencies {
-    compile "tterrag.core:ttCore:MC1.7.10-0.0.2-11"
+    compile "tterrag.core:ttCore:${ttCore_version}"
+    compile "mcp.mobius.waila:Waila:1.5.5_1.7.10"
     compile "com.enderio:EnderIO:1.7.10-2.0.185_beta"
-    compile "mcp.mobius.waila:Waila:1.5.3a_1.7.10"
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
