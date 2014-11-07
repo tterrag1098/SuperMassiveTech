@@ -30,7 +30,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
     private long storedEnergy = 0;
     private long lastStoredEnergy = 0;
 
-    private static final float SIZE_MULT = 1f / 1000000f;
+    private static final float SIZE_MULT = 1f / 500f;
     private static final float SIZE_BASE = 0.5f;
 
     private static final DamageSource dmgBlackHole = new DamageSourceBlackHole("dmg.blackHole");
@@ -61,7 +61,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
 
     private void doBlockSearch()
     {
-        float sizeMult = 2.9f;
+        float sizeMult = 3f;
         int size = (int) (getSize() * sizeMult);
 
         if (size != 0)
@@ -119,7 +119,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
         {
             spawnEmissionParticles();
         }
-        else if (worldObj.getTotalWorldTime() % 5 == 0)
+        else if (worldObj.getTotalWorldTime() % 2 == 0)
         {
             storedEnergy = Math.max(0, storedEnergy - 1);
         }
@@ -130,11 +130,11 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
     {
         if (getEnergy() > 0)
         {
-            for (int i = 0; i < getSize() * 2; i++)
+            for (int i = 0; i < getSize() * 5; i++)
             {
                 double pX = xCoord + 0.5, pY = yCoord + 0.5, pZ = zCoord + 0.5;
-                double maxAngle = getSize() * 0.05;
-                double velX = worldObj.rand.nextDouble() * maxAngle - (maxAngle / 2), velZ = worldObj.rand.nextDouble() * maxAngle - (maxAngle / 2), velY = getSize() / 10;
+                double maxAngle = getSize() * 0.1;
+                double velX = worldObj.rand.nextDouble() * maxAngle - (maxAngle / 2), velZ = worldObj.rand.nextDouble() * maxAngle - (maxAngle / 2), velY = getSize() / 5;
                 velY = i % 2 == 0 ? -velY * 1.5 : velY;
                 worldObj.spawnParticle("smoke", pX, pY, pZ, velX, velY, velZ);
             }
@@ -144,7 +144,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
     @Override
     public float getSize()
     {
-        return SIZE_BASE + (storedEnergy * SIZE_MULT);
+        return (float) (SIZE_BASE + Math.pow(storedEnergy * SIZE_MULT, 0.75));
     }
 
     @Override

@@ -15,7 +15,6 @@ import tterrag.supermassivetech.common.compat.RarityAdjuster;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.registry.Achievements;
-import tterrag.supermassivetech.common.registry.BlackHoleEnergyRegistry;
 import tterrag.supermassivetech.common.registry.ModBlocks;
 import tterrag.supermassivetech.common.registry.ModEnchants;
 import tterrag.supermassivetech.common.registry.ModEntities;
@@ -85,7 +84,6 @@ public class SuperMassiveTech implements IModTT
         Achievements.initAchievements();
 
         starRegistry.registerDefaultStars();
-        BlackHoleEnergyRegistry.INSTANCE.registerDefaults();
 
         FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + ".common.compat.waila.WailaCompat.load");
 
