@@ -272,7 +272,7 @@ public class Stars
 
     public StarTier getWeightedCreationTier(int offset)
     {
-        int tier = new Random().nextInt(Math.max(0, 1000 - (offset * 2)));
+        int tier = new Random().nextInt(Math.max(1, 1000 - (offset * 2)));
         if (tier < 10)
             return HIGH;
         else if (tier < 100)
