@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.common.tile.energy;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import net.minecraft.inventory.ISidedInventory;
@@ -191,15 +192,15 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
     }
 
     @Override
-    public ForgeDirection[] getValidOutputs()
+    public EnumSet<ForgeDirection> getValidOutputs()
     {
-        return new ForgeDirection[] {};
+        return EnumSet.noneOf(ForgeDirection.class);
     }
 
     @Override
-    public ForgeDirection[] getValidInputs()
+    public EnumSet<ForgeDirection> getValidInputs()
     {
-        return ForgeDirection.VALID_DIRECTIONS;
+        return EnumSet.allOf(ForgeDirection.class);
     }
 
     /* ISidedInventory */

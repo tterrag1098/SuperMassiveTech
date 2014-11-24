@@ -1,5 +1,6 @@
 package tterrag.supermassivetech.common.tile.energy;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -225,24 +226,15 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
     }
 
     @Override
-    public ForgeDirection[] getValidInputs()
+    public EnumSet<ForgeDirection> getValidInputs()
     {
-        return new ForgeDirection[] {};
+        return EnumSet.noneOf(ForgeDirection.class);
     }
 
     @Override
-    public ForgeDirection[] getValidOutputs()
+    public EnumSet<ForgeDirection> getValidOutputs()
     {
-        ForgeDirection[] dirs = new ForgeDirection[1];
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-        {
-            if (dir.ordinal() == getRotationMeta())
-            {
-                dirs[0] = dir;
-                break;
-            }
-        }
-        return dirs;
+        return EnumSet.of(ForgeDirection.VALID_DIRECTIONS[getRotationMeta()]);
     }
 
     public boolean handleRightClick(EntityPlayer player, ForgeDirection side)

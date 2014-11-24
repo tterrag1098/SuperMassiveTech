@@ -1,12 +1,11 @@
 package tterrag.supermassivetech.common.tile.abstracts;
 
+import java.util.EnumSet;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageEnergyUpdate;
 import tterrag.supermassivetech.common.util.Utils;
@@ -43,9 +42,9 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
         storage = new EnergyStorage(cap);
     }
 
-    public abstract ForgeDirection[] getValidOutputs();
+    public abstract EnumSet<ForgeDirection> getValidOutputs();
 
-    public abstract ForgeDirection[] getValidInputs();
+    public abstract EnumSet<ForgeDirection> getValidInputs();
 
     @Override
     public void updateEntity()
@@ -86,7 +85,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     @Override
     public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate)
     {
-        if (ArrayUtils.contains(getValidOutputs(), from))
+        if (getValidOutputs().contains(from))
         {
             int ret = storage.extractEnergy(maxExtract, true);
             if (!simulate)
@@ -101,7 +100,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate)
     {
-        if (ArrayUtils.contains(getValidInputs(), from))
+        if (getValidInputs().contains(from))
         {
             int ret = storage.receiveEnergy(maxReceive, true);
             if (!simulate)
@@ -116,7 +115,7 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
     @Override
     public final boolean canConnectEnergy(ForgeDirection from)
     {
-        return ArrayUtils.contains(getValidInputs(), from) || ArrayUtils.contains(getValidOutputs(), from);
+        return getValidInputs().contains(from) || getValidOutputs().contains(from);
     }
 
     /* IEnergyHandler basic impl */

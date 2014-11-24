@@ -20,7 +20,6 @@ import tterrag.supermassivetech.common.registry.ModEnchants;
 import tterrag.supermassivetech.common.registry.ModEntities;
 import tterrag.supermassivetech.common.registry.ModItems;
 import tterrag.supermassivetech.common.registry.Stars;
-import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -64,9 +63,8 @@ public class SuperMassiveTech implements IModTT
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event)
     {
-        ConfigHandler.init(event.getSuggestedConfigurationFile());
+        ConfigHandler.INSTANCE.initialize(event.getSuggestedConfigurationFile());
 
-        Constants.init();
         Utils.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());

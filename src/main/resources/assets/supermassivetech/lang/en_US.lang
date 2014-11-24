@@ -183,20 +183,23 @@ achievement.SMT.craftGravBoots.desc=Suggest modules for this armor!
 
 SMT.config.title=Super Massive Tech Configuration
 
-SMT.config.gravityconfig=Gravity Settings
-SMT.config.gravityconfig.tooltip=Tweak ALL the things!
+SMT.config.section.gravity=Gravity Settings
+SMT.config.section.gravity.tooltip=Tweak ALL the things!
 
-SMT.config.enchantids=Enchant IDs
-SMT.config.enchantids.tooltip=I thought IDs were gone? :(
+SMT.config.section.enchants=Enchant IDs
+SMT.config.section.enchants.tooltip=I thought IDs were gone? :(
 
-SMT.config.gravityarmorconfig=Gravity Armor Settings
-SMT.config.gravityarmorconfig.tooltip=I'm INVINCIBLE!
+SMT.config.section.armor=Gravity Armor Settings
+SMT.config.section.armor.tooltip=I'm INVINCIBLE!
 
-SMT.config.tooltipsettings=Tooltip Settings
-SMT.config.tooltipsettings.tooltip=You dawg, I put info in your info so you can read while you read.
+SMT.config.section.tooltips=Tooltip Settings
+SMT.config.section.tooltips.tooltip=You dawg, I put info in your info so you can read while you read.
 
-SMT.config.othersettings=Miscellaneous Settings
-SMT.config.othersettings.tooltip=Stuff I couldn't find a section for.
+SMT.config.section.misc=Miscellaneous Settings
+SMT.config.section.misc.tooltip=Stuff I couldn't find a section for.
+
+SMT.config.section.stars=Star Settings
+SMT.config.section.stars.tooltip=Burn baby burn!
 
 ## Death Messages ##
 
