@@ -14,10 +14,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import tterrag.core.common.util.TTItemUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.block.ISaveToItem;
 import tterrag.supermassivetech.common.tile.TileBlackHoleStorage;
-import tterrag.supermassivetech.common.util.Utils;
 
 /**
  * @author Garrett Spicer-Davis
@@ -70,9 +70,9 @@ public class BlockBlackHoleStorage extends BlockContainerSMT implements ISaveToI
 
         NBTTagCompound tag = new NBTTagCompound();
 
-        if (te.getStackInSlot(output) != null && !Utils.stacksEqual(te.getStackInSlot(output), te.getStoredItem()))
+        if (te.getStackInSlot(output) != null && !TTItemUtils.stacksEqual(te.getStackInSlot(output), te.getStoredItem()))
         {
-            Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(output), x, y, z);
+            TTItemUtils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(output), x, y, z);
             te.setInventorySlotContents(output, null);
         }
 

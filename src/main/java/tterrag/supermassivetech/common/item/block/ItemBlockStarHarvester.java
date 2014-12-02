@@ -3,6 +3,7 @@ package tterrag.supermassivetech.common.item.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
 import tterrag.supermassivetech.common.util.Utils;
@@ -55,7 +56,7 @@ public class ItemBlockStarHarvester extends ItemBlockSMT implements IAdvancedToo
             if (energy != 0)
             {
                 toReturn += String.format("%s: %s", Utils.lang.localize("tooltip.bufferStorage"),
-                        Utils.getColorForPowerLeft(energy, TileStarHarvester.MAX_ENERGY) + Utils.formatString("", " RF", energy, true, true));
+                        TTStringUtils.getColorFor(energy, TileStarHarvester.MAX_ENERGY) + TTStringUtils.formatString("", " RF", energy, true, true));
             }
             else
             {

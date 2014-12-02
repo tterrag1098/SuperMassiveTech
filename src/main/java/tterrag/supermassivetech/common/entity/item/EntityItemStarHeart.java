@@ -13,6 +13,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tterrag.core.common.util.BlockCoord;
+import tterrag.core.common.util.TTItemUtils;
 import tterrag.core.common.util.blockiterators.CubicBlockIterator;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.MessageStarHeartParticle;
@@ -120,8 +121,8 @@ public class EntityItemStarHeart extends EntityItemIndestructible
         starEntity.func_145799_b(this.func_145800_j());
         depletedEntity.func_145799_b(this.func_145800_j());
 
-        Utils.spawnItemInWorldWithRandomMotion(starEntity);
-        Utils.spawnItemInWorldWithRandomMotion(depletedEntity);
+        TTItemUtils.spawnItemInWorldWithRandomMotion(starEntity);
+        TTItemUtils.spawnItemInWorldWithRandomMotion(depletedEntity);
 
         Achievements.unlock(Achievements.getValidItemStack(star), (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
 

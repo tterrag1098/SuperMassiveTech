@@ -26,7 +26,6 @@ public class ItemBlockStorage extends ItemBlockSMT implements IAdvancedTooltip
         return Utils.lang.localize("tooltip.blackHoleStorage");
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public String getStaticLines(ItemStack stack)
@@ -36,13 +35,12 @@ public class ItemBlockStorage extends ItemBlockSMT implements IAdvancedTooltip
             List<String> strs = new ArrayList<String>();
 
             if (stack.stackTagCompound.getTag("itemStack") != null)
-                strs.add(Utils.formatString(Utils.lang.localize("tooltip.stored") + ": ", "", stack.stackTagCompound.getLong("itemsStored"), true, true) + " "
+                strs.add(Utils.formatStringForBHS(Utils.lang.localize("tooltip.stored") + ": ", "", stack.stackTagCompound.getLong("itemsStored"), true, true) + " "
                         + StatCollector.translateToLocal(ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("itemStack")).getUnlocalizedName() + ".name"));
 
             if (stack.stackTagCompound.getTag("fluidStack") != null)
-                strs.add(Utils.formatString(Utils.lang.localize("tooltip.stored") + ": ", " mB", stack.stackTagCompound.getLong("fluidStored"), true, true) + " "
-                        + StatCollector.translateToLocal(FluidStack.loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack")).getFluid().getLocalizedName()));
-            // TODO fix deprecated usage of getLocalizedName()
+                strs.add(Utils.formatStringForBHS(Utils.lang.localize("tooltip.stored") + ": ", " mB", stack.stackTagCompound.getLong("fluidStored"), true, true) + " "
+                        + StatCollector.translateToLocal(FluidStack.loadFluidStackFromNBT(stack.stackTagCompound.getCompoundTag("fluidStack")).getLocalizedName()));
             return Utils.makeTooltipString(strs);
         }
 

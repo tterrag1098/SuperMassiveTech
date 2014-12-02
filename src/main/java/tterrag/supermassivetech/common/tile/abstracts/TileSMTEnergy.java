@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageEnergyUpdate;
 import tterrag.supermassivetech.common.util.Utils;
@@ -142,9 +143,9 @@ public abstract class TileSMTEnergy extends TileSMTInventory implements IEnergyH
         int energyStored = this.getEnergyStored(), maxEnergyStored = this.getMaxStorage();
         int output = this.getOutputSpeed();
 
-        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.bufferStorage") + ": " + Utils.getColorForPowerLeft(energyStored, maxEnergyStored) + energyStored
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.bufferStorage") + ": " + TTStringUtils.getColorFor(energyStored, maxEnergyStored) + energyStored
                 + " RF");
-        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.currentOutputMax") + ": " + Utils.getColorForPowerLeft(output, this.getMaxOutputSpeed()) + output
+        tooltip.add(EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.currentOutputMax") + ": " + TTStringUtils.getColorFor(output, this.getMaxOutputSpeed()) + output
                 + " RF");
     }
 

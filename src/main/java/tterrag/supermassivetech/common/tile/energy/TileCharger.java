@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.core.client.sound.BlockSound;
+import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
@@ -242,8 +243,8 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
         {
             IEnergyContainerItem item = (IEnergyContainerItem) inventory[0].getItem();
             int power = item.getEnergyStored(inventory[0]);
-            str += String.format("%s / %s", Utils.formatString(Utils.getColorForPowerLeft(power, item.getMaxEnergyStored(inventory[0])).toString(), " RF", power, true, true),
-                    Utils.formatString("", " RF", item.getMaxEnergyStored(inventory[0]), true, true));
+            str += String.format("%s / %s", TTStringUtils.formatString(TTStringUtils.getColorFor(power, item.getMaxEnergyStored(inventory[0])).toString(), " RF", power, true, true),
+                    Utils.formatStringForBHS("", " RF", item.getMaxEnergyStored(inventory[0]), true, true));
         }
         else
         {

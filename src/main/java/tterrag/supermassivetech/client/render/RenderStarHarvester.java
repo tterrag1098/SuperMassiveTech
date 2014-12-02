@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 import tterrag.core.client.render.DirectionalModelRenderer;
 import tterrag.core.client.util.RenderingUtils;
+import tterrag.core.common.util.TTColorUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
@@ -95,7 +96,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
             {
                 IStar star = Utils.getType(harvester.getStackInSlot(0));
 
-                Utils.setGLColorFromInt(star.getColor());
+                TTColorUtils.setGLColorFromInt(star.getColor());
 
                 Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphere);
 

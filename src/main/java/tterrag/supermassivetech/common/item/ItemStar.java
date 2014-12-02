@@ -15,6 +15,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import tterrag.core.common.util.BlockCoord;
+import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
@@ -163,9 +164,9 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
         return String.format("%s|%s|%s RF %s %d RF/t|%s|",
 
         type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-                Utils.formatString(EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.outputs") + " ", "", type.getMaxEnergyStored(stack), false),
+                TTStringUtils.formatString(EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.outputs") + " ", "", type.getMaxEnergyStored(stack), false),
                 Utils.lang.localize("tooltip.at"), type.getPowerPerTick(),
-                Utils.formatString(Utils.getColorForPowerLeft(powerLeft, maxPower) + Utils.lang.localize("tooltip.powerRemaining") + ": ", " RF", (long) powerLeft, true));
+                TTStringUtils.formatString(TTStringUtils.getColorFor(powerLeft, maxPower) + Utils.lang.localize("tooltip.powerRemaining") + ": ", " RF", (long) powerLeft, true));
     }
 
     @Override

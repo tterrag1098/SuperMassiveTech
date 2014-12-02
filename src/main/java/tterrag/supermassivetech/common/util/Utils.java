@@ -11,7 +11,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
@@ -27,10 +26,11 @@ import net.minecraftforge.common.DimensionManager;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 import tterrag.core.common.Lang;
 import tterrag.core.common.util.BlockCoord;
+import tterrag.core.common.util.TTEntityUtils;
+import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
@@ -61,20 +61,7 @@ public class Utils
     {
         c = Constants.instance();
     }
-
-    /**
-     * Turns an int into a glColor4f function
-     * 
-     * @author Buildcraft team
-     */
-    public static void setGLColorFromInt(int color)
-    {
-        float red = (color >> 16 & 255) / 255.0F;
-        float green = (color >> 8 & 255) / 255.0F;
-        float blue = (color & 255) / 255.0F;
-        GL11.glColor4f(red, green, blue, 1.0F);
-    }
-
+    
     /**
      * Formats a string and number for use in GUIs and tooltips
      * 
@@ -85,78 +72,17 @@ public class Utils
      * @param formatK - Whether or not to format the thousands
      * @return
      */
-    public static String formatString(String prefix, String suffix, long amnt, boolean useDecimals, boolean formatK)
+    public static String formatStringForBHS(String prefix, String suffix, long amnt, boolean useDecimals, boolean formatK)
     {
         if (amnt == TileBlackHoleStorage.max)
         {
             prefix += "2^40" + suffix;
             return prefix;
         }
-
-        if (formatK && Long.toString(amnt).length() < 7 && Long.toString(amnt).length() > 3)
-        {
-            return formatSmallerNumber(prefix, suffix, amnt, useDecimals);
-        }
-
-        switch (Long.toString(amnt).length())
-        {
-        case 7:
-            prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + "M" + suffix;
-            return prefix;
-        case 8:
-            prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + "M" + suffix;
-            return prefix;
-        case 9:
-            prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + "M" + suffix;
-            return prefix;
-        case 10:
-            prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + "B" + suffix;
-            return prefix;
-        case 11:
-            prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + "B" + suffix;
-            return prefix;
-        case 12:
-            prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + "B" + suffix;
-            return prefix;
-        case 13:
-            prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 5) : "") + "T" + suffix;
-            return prefix;
-        default:
-            prefix += "" + amnt + suffix;
-            return prefix;
-        }
+        
+        return TTStringUtils.formatString(prefix, suffix, amnt, useDecimals, formatK);
     }
 
-    /**
-     * Formats a string and number for use in GUIs and tooltips
-     * 
-     * @param prefix - The string to put before the formatted number
-     * @param suffix - The string to put after the formatted number
-     * @param amnt - The number to be formatted
-     * @param useDecimals - Whether or not to use decimals in the representation
-     * @return
-     */
-    public static String formatString(String prefix, String suffix, long amnt, boolean useDecimals)
-    {
-        return formatString(prefix, suffix, amnt, useDecimals, false);
-    }
-
-    private static String formatSmallerNumber(String prefix, String suffix, long amnt, boolean useDecimals)
-    {
-        switch (Long.toString(amnt).length())
-        {
-        case 4:
-            prefix += Long.toString(amnt).substring(0, 1) + (useDecimals ? "." + Long.toString(amnt).substring(1, 3) : "") + "K" + suffix;
-            return prefix;
-        case 5:
-            prefix += Long.toString(amnt).substring(0, 2) + (useDecimals ? "." + Long.toString(amnt).substring(2, 4) : "") + "K" + suffix;
-            return prefix;
-        case 6:
-            prefix += Long.toString(amnt).substring(0, 3) + (useDecimals ? "." + Long.toString(amnt).substring(3, 5) : "") + "K" + suffix;
-            return prefix;
-        }
-        return "";
-    }
 
     /**
      * Applies gravity to an entity with the passed configurations
@@ -248,7 +174,7 @@ public class Utils
         if (Math.abs(vecZ) < minGrav)
             vecZ = 0;
 
-        setEntityVelocity(entity, entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
+        TTEntityUtils.setEntityVelocity(entity, entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 
         showParticles &= dist > 1;
 
@@ -258,13 +184,6 @@ public class Utils
         {
             ClientUtils.spawnGravityEffectParticles(xCoord, yCoord, zCoord, entity, (float) Math.min(2, dist));
         }
-    }
-
-    public static void setEntityVelocity(Entity entity, double velX, double velY, double velZ)
-    {
-        entity.motionX = velX;
-        entity.motionY = velY;
-        entity.motionZ = velZ;
     }
 
     /**
@@ -374,45 +293,6 @@ public class Utils
     }
 
     /**
-     * @author powercrystals
-     */
-    public static boolean stacksEqual(ItemStack s1, ItemStack s2)
-    {
-        if (s1 == null && s2 == null)
-            return true;
-        if (s1 == null || s2 == null)
-            return false;
-        if (!s1.isItemEqual(s2))
-            return false;
-        if (s1.getTagCompound() == null && s2.getTagCompound() == null)
-            return true;
-        if (s1.getTagCompound() == null || s2.getTagCompound() == null)
-            return false;
-        return s1.getTagCompound().equals(s2.getTagCompound());
-    }
-
-    public static void spawnItemInWorldWithRandomMotion(World world, ItemStack item, int x, int y, int z)
-    {
-        if (item != null)
-        {
-            spawnItemInWorldWithRandomMotion(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, item));
-        }
-    }
-
-    public static void spawnItemInWorldWithRandomMotion(EntityItem entity)
-    {
-        float f = (rand.nextFloat() * 0.1f) - 0.05f;
-        float f1 = (rand.nextFloat() * 0.1f) - 0.05f;
-        float f2 = (rand.nextFloat() * 0.1f) - 0.05f;
-
-        entity.motionX += f;
-        entity.motionY += f1;
-        entity.motionZ += f2;
-
-        entity.worldObj.spawnEntityInWorld(entity);
-    }
-
-    /**
      * Finds the proper tool for this material, returns "none" if there isn't one
      */
     public static String getToolClassFromMaterial(Material mat)
@@ -510,17 +390,7 @@ public class Utils
 
         return Keyboard.getKeyName(key);
     }
-
-    public static EnumChatFormatting getColorForPowerLeft(double power, double powerMax)
-    {
-        if (power / powerMax <= .1)
-            return EnumChatFormatting.RED;
-        else if (power / powerMax <= .25)
-            return EnumChatFormatting.GOLD;
-        else
-            return EnumChatFormatting.GREEN;
-    }
-
+    
     /**
      * Applies the potion effects associated with gravity to the player at effect level <code> level </code>
      */
@@ -579,15 +449,6 @@ public class Utils
         }
 
         return uuids;
-    }
-
-    public static int toHex(int r, int g, int b)
-    {
-        int hex = 0;
-        hex = hex | ((r) << 16);
-        hex = hex | ((g) << 8);
-        hex = hex | ((b));
-        return hex;
     }
 
     // I don't really expect this to be very readable...but it works

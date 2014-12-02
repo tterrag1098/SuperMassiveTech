@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import tterrag.core.common.util.TTItemUtils;
 import tterrag.supermassivetech.common.block.BlockSMT;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
 import tterrag.supermassivetech.common.util.Utils;
@@ -42,7 +43,7 @@ public abstract class BlockContainerSMT extends BlockSMT
             TileSMTInventory te = (TileSMTInventory) world.getTileEntity(x, y, z);
             for (int i = 0; i < te.getSizeInventory(); i++)
             {
-                Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(i), x, y, z);
+                TTItemUtils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(i), x, y, z);
             }
         }
 

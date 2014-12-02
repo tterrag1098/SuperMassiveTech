@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import tterrag.core.common.util.TTColorUtils;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.entity.item.EntityItemDepletedNetherStar;
 import tterrag.supermassivetech.common.util.Utils;
@@ -39,7 +40,7 @@ public class ItemDepletedNetherStar extends ItemSMT implements IAdvancedTooltip
         float percent = .20f + (((float) par1ItemStack.getItemDamage()) / ((float) maxDamage) * .80f);
         int color = (int) (0xFF * percent);
 
-        return Utils.toHex(color, color, color);
+        return TTColorUtils.toHex(color, color, color);
     }
 
     @Override

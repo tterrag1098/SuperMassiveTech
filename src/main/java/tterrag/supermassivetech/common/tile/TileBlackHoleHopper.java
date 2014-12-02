@@ -14,6 +14,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.core.common.util.TTItemUtils;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageHopperParticle;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
@@ -362,7 +363,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
         ForgeDirection dir = getRawDir();
-        return var1 == hiddenSlot && var3 == dir.getOpposite().ordinal() && Utils.stacksEqual(inventory[cfgSlot], var2);
+        return var1 == hiddenSlot && var3 == dir.getOpposite().ordinal() && TTItemUtils.stacksEqual(inventory[cfgSlot], var2);
     }
 
     @Override

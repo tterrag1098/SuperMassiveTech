@@ -8,10 +8,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.core.common.util.TTItemUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.block.ISaveToItem;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
-import tterrag.supermassivetech.common.util.Utils;
 
 public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
 {
@@ -85,7 +85,7 @@ public class BlockStarHarvester extends BlockContainerSMT implements ISaveToItem
         TileStarHarvester te = (TileStarHarvester) world.getTileEntity(x, y, z);
         if (te != null && te.isGravityWell() && !player.capabilities.isCreativeMode)
         {
-            Utils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(0), x, y, z);
+            TTItemUtils.spawnItemInWorldWithRandomMotion(world, te.getStackInSlot(0), x, y, z);
         }
     }
 

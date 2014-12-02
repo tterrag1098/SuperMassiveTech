@@ -17,6 +17,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
 import tterrag.supermassivetech.api.common.item.IStarItem;
@@ -365,8 +366,8 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
             player.addChatMessage(new ChatComponentText(String.format(EnumChatFormatting.BLUE + "%s: %s" + EnumChatFormatting.WHITE + " %s %d RF/t",
                     Utils.lang.localize("tooltip.currentStarIs"), star.getTextColor() + star.toString(), Utils.lang.localize("tooltip.at"), star.getPowerPerTick())));
             player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.powerRemaining") + ": "
-                    + Utils.getColorForPowerLeft(star.getEnergyStored(inventory[slot]), star.getMaxEnergyStored(inventory[slot]))
-                    + Utils.formatString("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
+                    + TTStringUtils.getColorFor(star.getEnergyStored(inventory[slot]), star.getMaxEnergyStored(inventory[slot]))
+                    + Utils.formatStringForBHS("", " RF", inventory[slot].getTagCompound().getInteger("energy"), true, true)));
         }
         else
         {
@@ -374,9 +375,9 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
         }
 
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.bufferStorage") + ": "
-                + Utils.getColorForPowerLeft(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatString("", " RF", storage.getEnergyStored(), true, true)));
+                + TTStringUtils.getColorFor(storage.getEnergyStored(), storage.getMaxEnergyStored()) + Utils.formatStringForBHS("", " RF", storage.getEnergyStored(), true, true)));
         player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + Utils.lang.localize("tooltip.currentOutputMax") + ": "
-                + Utils.getColorForPowerLeft(perTick, MAX_PER_TICK) + Utils.formatString("", " RF/t", perTick, false)));
+                + TTStringUtils.getColorFor(perTick, MAX_PER_TICK) + TTStringUtils.formatString("", " RF/t", perTick, false)));
 
         return true;
     }

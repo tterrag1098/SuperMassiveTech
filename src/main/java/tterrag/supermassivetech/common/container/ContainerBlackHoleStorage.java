@@ -9,10 +9,10 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import tterrag.core.common.util.TTItemUtils;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageBlackHoleStorage;
 import tterrag.supermassivetech.common.tile.TileBlackHoleStorage;
-import tterrag.supermassivetech.common.util.Utils;
 
 public class ContainerBlackHoleStorage extends ContainerSMT
 {
@@ -56,7 +56,7 @@ public class ContainerBlackHoleStorage extends ContainerSMT
                     wasFluidContainer = true;
             }
             if (!wasFluidContainer && par2 < 36
-                    && (Utils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
+                    && (TTItemUtils.stacksEqual(((TileBlackHoleStorage) tileEnt).getStoredItem(), itemstack1) || ((TileBlackHoleStorage) tileEnt).getStoredItem() == null))
             {
                 if (!this.mergeItemStack(itemstack1, 36, 37, false))
                     return null;
