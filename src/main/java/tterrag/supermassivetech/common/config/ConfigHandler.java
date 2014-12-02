@@ -31,8 +31,6 @@ public class ConfigHandler extends AbstractConfigHandler
     public static double starOutputMult = 1.0;
     public static double starStorageMult = 1.0;
 
-    public static boolean betterAchievements = true;
-
     public static boolean forceEnableLootFix = false;
     public static boolean forceDisableLootFix = false;
     public static int biomeLimit = 50;
@@ -80,7 +78,6 @@ public class ConfigHandler extends AbstractConfigHandler
 
         activateSection(sectionMisc);
         biomeLimit = getValue("biomeLimit", "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis config determines the number of biomes at which this happens (Vanilla has 40).", biomeLimit);
-        betterAchievements = getValue("superDuperFunMode", "The way the game should have been made.", betterAchievements);
         forceEnableLootFix = getValue("forceEnableLootFix", "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will ENABLE it regardless of that fact", forceEnableLootFix);
         forceDisableLootFix = getValue("forceDisableLootFix", "This mod will automatically add problematic biome-specific items to loot chests if it detects many biomes.\n\nThis will DISABLE it regardless of that fact", forceEnableLootFix);
         chargerSpeed = getValue("chargerSpeed", "The rate at which the charger charges items. Max energy input will be 2x this value, energy buffer will be 10x", chargerSpeed);
