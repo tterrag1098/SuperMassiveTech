@@ -1,7 +1,5 @@
 package tterrag.supermassivetech.common.handlers;
 
-import static tterrag.supermassivetech.common.util.Utils.*;
-
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Random;
@@ -29,13 +27,14 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor.PowerUps;
-import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+
+import static tterrag.supermassivetech.common.util.Utils.doStatesMatch;
 
 @Handler(HandlerType.FML)
 public class GravityArmorHandler
@@ -79,7 +78,7 @@ public class GravityArmorHandler
         if (event.phase == Phase.END && !event.player.onGround && !event.player.capabilities.isFlying
                 && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
-            double effect = getArmorMult(event.player, 0.072, Constants.instance().getEnergyDrain() / 50);
+            double effect = getArmorMult(event.player, 0.072, ConfigHandler.gravArmorDrain / 50);
             if (event.player.ridingEntity != null && event.player.posY <= 256)
             {
                 event.player.ridingEntity.motionY += effect;

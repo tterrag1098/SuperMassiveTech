@@ -17,12 +17,12 @@ import net.minecraft.world.World;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
 import tterrag.supermassivetech.api.common.tile.IBlackHole;
 import tterrag.supermassivetech.common.block.BlockBlackHole;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.entity.EntityDyingBlock;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageUpdateBlackHole;
 import tterrag.supermassivetech.common.registry.BlackHoleEnergyRegistry;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMT;
-import tterrag.supermassivetech.common.util.Constants;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -38,7 +38,7 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
 
     public TileBlackHole()
     {
-        super(1, 1, 1000, 1000, Constants.instance().getMinGrav());
+        super(1, 1, 1000, 1000, ConfigHandler.minGravity);
     }
 
     @Override

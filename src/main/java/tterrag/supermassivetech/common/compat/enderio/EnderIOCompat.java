@@ -6,8 +6,8 @@ import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.core.common.compat.ICompatability;
 import tterrag.supermassivetech.client.util.ClientUtils;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
-import tterrag.supermassivetech.common.util.Constants;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -38,7 +38,7 @@ public class EnderIOCompat implements ICompatability
         if (event.phase == Phase.END && !event.player.onGround && !event.player.capabilities.isFlying
                 && (isJumpKeyDown || (event.player.motionY < -0.2 && !event.player.isSneaking())))
         {
-            double effect = getArmorMult(event.player, 0.072, Constants.instance().getEnergyDrain() / 50);
+            double effect = getArmorMult(event.player, 0.072, ConfigHandler.gravArmorDrain / 50);
             if (event.player.ridingEntity != null && event.player.posY <= 256)
             {
                 event.player.ridingEntity.motionY += effect;

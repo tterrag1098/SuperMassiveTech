@@ -23,6 +23,7 @@ import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
 import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.client.util.ClientUtils;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.entity.item.EntityItemIndestructible;
 import tterrag.supermassivetech.common.item.ItemStarSpecial;
 import tterrag.supermassivetech.common.network.PacketHandler;
@@ -31,7 +32,6 @@ import tterrag.supermassivetech.common.network.message.tile.MessageUpdateVenting
 import tterrag.supermassivetech.common.registry.Achievements;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
-import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 
 public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory, IWailaAdditionalInfo
@@ -114,15 +114,17 @@ public class TileStarHarvester extends TileSMTEnergy implements ISidedInventory,
             {
                 IStar type = Utils.getType(inventory[slot]);
                 int amnt = type.getPowerPerTick();
-                int takenFromStar = type.extractEnergy(inventory[slot], Math.min(amnt, venting ? amnt : storage.getMaxEnergyStored() - storage.getEnergyStored()), false);
+                int takenFromStar = type.extractEnergy(inventory[slot],
+                        Math.min(amnt, venting ? amnt : storage.getMaxEnergyStored() - storage.getEnergyStored()), false);
 
-                if (dying = type.getEnergyStored(inventory[slot]) <= (type.getMaxEnergyStored(inventory[slot]) * Constants.instance().getStarDeathTrigger()))
+                if (dying = type.getEnergyStored(inventory[slot]) <= (type.getMaxEnergyStored(inventory[slot]) * ConfigHandler.starDeathTrigger))
                     Utils.setStarFuseRemaining(inventory[slot], Utils.getStarFuseRemaining(inventory[slot]) - 1);
 
                 if (Utils.getStarFuseRemaining(inventory[slot]) <= 0)
                     collapse();
 
-                if (!venting) // remove energy from star but don't add to internal storage if venting
+                if (!venting) // remove energy from star but don't add to
+                              // internal storage if venting
                 {
                     storage.receiveEnergy(takenFromStar, false);
                 }

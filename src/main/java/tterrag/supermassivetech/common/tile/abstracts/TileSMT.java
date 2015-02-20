@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.config.ConfigHandler;
-import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 
 public abstract class TileSMT extends TileEntity
@@ -18,14 +17,13 @@ public abstract class TileSMT extends TileEntity
     private final float STRENGTH;
     private final float MAX_GRAV_XZ, MAX_GRAV_Y, MIN_GRAV;
     private int ticksSinceLastParticle = 0;
-    private static final Constants c = Constants.instance();
 
     /**
      * Sets the tile with all default constant values
      */
     public TileSMT()
     {
-        this(1, 1, c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav());
+        this(1, 1);
     }
 
     /**
@@ -33,7 +31,7 @@ public abstract class TileSMT extends TileEntity
      */
     public TileSMT(float rangeMult, float strengthMult)
     {
-        this(rangeMult, strengthMult, c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav());
+        this(rangeMult, strengthMult, ConfigHandler.maxGravityXZ, ConfigHandler.maxGravityY, ConfigHandler.minGravity);
     }
 
     /**
@@ -47,8 +45,8 @@ public abstract class TileSMT extends TileEntity
      */
     public TileSMT(float rangeMult, float strengthMult, float maxGravXZ, float maxGravY, float minGrav)
     {
-        RANGE = c.getRange() * rangeMult;
-        STRENGTH = c.getStrength() * strengthMult;
+        RANGE = ConfigHandler.range * rangeMult;
+        STRENGTH = ConfigHandler.strength * strengthMult;
         MAX_GRAV_XZ = maxGravXZ;
         MAX_GRAV_Y = maxGravY;
         MIN_GRAV = minGrav;

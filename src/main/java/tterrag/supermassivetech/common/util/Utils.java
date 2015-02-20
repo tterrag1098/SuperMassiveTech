@@ -43,7 +43,6 @@ import cofh.api.energy.IEnergyContainerItem;
 
 public class Utils
 {
-    private static Constants c;
     private static Stars stars = Stars.instance;
     private static Material[] pickMats = { Material.rock, Material.iron, Material.anvil };
     private static Material[] shovelMats = { Material.clay, Material.snow, Material.ground };
@@ -52,19 +51,19 @@ public class Utils
 
     public static final Lang lang = new Lang(ModProps.LOCALIZING);
 
-    public static void init()
-    {
-        c = Constants.instance();
-    }
-    
     /**
      * Formats a string and number for use in GUIs and tooltips
      * 
-     * @param prefix - The string to put before the formatted number
-     * @param suffix - The string to put after the formatted number
-     * @param amnt - The number to be formatted
-     * @param useDecimals - Whether or not to use decimals in the representation
-     * @param formatK - Whether or not to format the thousands
+     * @param prefix
+     *            - The string to put before the formatted number
+     * @param suffix
+     *            - The string to put after the formatted number
+     * @param amnt
+     *            - The number to be formatted
+     * @param useDecimals
+     *            - Whether or not to use decimals in the representation
+     * @param formatK
+     *            - Whether or not to format the thousands
      * @return
      */
     public static String formatStringForBHS(String prefix, String suffix, long amnt, boolean useDecimals, boolean formatK)
@@ -74,29 +73,39 @@ public class Utils
             prefix += "2^40" + suffix;
             return prefix;
         }
-        
+
         return TTStringUtils.formatString(prefix, suffix, amnt, useDecimals, formatK);
     }
-
 
     /**
      * Applies gravity to an entity with the passed configurations
      * 
-     * @param gravStrength - Strength of the gravity, usually a number < 3
-     * @param maxGravXZ - Max gravity that can be applied in the X and Z directions
-     * @param maxGravY - Max gravity that can be applied in the Y direction
-     * @param minGrav - Minimum gravity that can be applied (prevents "wobbling" if such a thing ever exists)
-     * @param range - The range of the gravitational effects
-     * @param entity - Entity to effect
-     * @param xCoord - X coord of the center of gravity
-     * @param yCoord - Y coord of the center of gravity
-     * @param zCoord - Z coord of the center of gravity
+     * @param gravStrength
+     *            - Strength of the gravity, usually a number < 3
+     * @param maxGravXZ
+     *            - Max gravity that can be applied in the X and Z directions
+     * @param maxGravY
+     *            - Max gravity that can be applied in the Y direction
+     * @param minGrav
+     *            - Minimum gravity that can be applied (prevents "wobbling" if
+     *            such a thing ever exists)
+     * @param range
+     *            - The range of the gravitational effects
+     * @param entity
+     *            - Entity to effect
+     * @param xCoord
+     *            - X coord of the center of gravity
+     * @param yCoord
+     *            - Y coord of the center of gravity
+     * @param zCoord
+     *            - Z coord of the center of gravity
      */
-    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord, int yCoord, int zCoord,
-            boolean showParticles)
+    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, int xCoord,
+            int yCoord, int zCoord, boolean showParticles)
     {
         // distance forumla
-        double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2));
+        double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2)
+                + Math.pow(yCoord + 0.5 - entity.posY, 2));
 
         if (dist > range)
             return;
@@ -129,7 +138,7 @@ public class Utils
                     IEnergyContainerItem item = (IEnergyContainerItem) s.getItem();
                     if (item.getEnergyStored(s) > 0)
                     {
-                        item.extractEnergy(s, (int) (c.getEnergyDrain() * gravForce) / 20, false);
+                        item.extractEnergy(s, (int) (ConfigHandler.gravArmorDrain * gravForce) / 20, false);
                         armorMult -= 0.23;
                     }
                 }
@@ -182,49 +191,70 @@ public class Utils
     }
 
     /**
-     * Applies gravity to an entity with the passed configurations, this method calls the other with the TE's xyz coords
+     * Applies gravity to an entity with the passed configurations, this method
+     * calls the other with the TE's xyz coords
      * 
-     * @param gravStrength - Strength of the gravity, usually a number < 3
-     * @param maxGravXZ - Max gravity that can be applied in the X and Z directions
-     * @param maxGravY - Max gravity that can be applied in the Y direction
-     * @param minGrav - Minimum gravity that can be applied (prevents "wobbling" if such a thing ever exists)
-     * @param range - The range of the gravitational effects
-     * @param entity - Entity to effect
-     * @param te - {@link TileEntity} to use as the center of gravity
+     * @param gravStrength
+     *            - Strength of the gravity, usually a number < 3
+     * @param maxGravXZ
+     *            - Max gravity that can be applied in the X and Z directions
+     * @param maxGravY
+     *            - Max gravity that can be applied in the Y direction
+     * @param minGrav
+     *            - Minimum gravity that can be applied (prevents "wobbling" if
+     *            such a thing ever exists)
+     * @param range
+     *            - The range of the gravitational effects
+     * @param entity
+     *            - Entity to effect
+     * @param te
+     *            - {@link TileEntity} to use as the center of gravity
      */
-    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te, boolean showParticles)
+    public static void applyGravity(float gravStrength, float maxGravXZ, float maxGravY, float minGrav, float range, Entity entity, TileEntity te,
+            boolean showParticles)
     {
         applyGravity(gravStrength, maxGravXZ, maxGravY, minGrav, range, entity, te.xCoord, te.yCoord, te.zCoord, showParticles);
     }
 
     /**
-     * Applies gravity to the passed entity, with a center at the passed TE, calls the other method with default configuration values
+     * Applies gravity to the passed entity, with a center at the passed TE,
+     * calls the other method with default configuration values
      * 
-     * @param entity - Entity to affect
-     * @param te - {@link TileEntity} to use as the center of gravity
+     * @param entity
+     *            - Entity to affect
+     * @param te
+     *            - {@link TileEntity} to use as the center of gravity
      */
     public static void applyGravity(Entity entity, TileEntity te, boolean showParticles)
     {
-        applyGravity(c.getStrength(), c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav(), c.getRange(), entity, te, showParticles);
+        applyGravity(entity, te.xCoord, te.yCoord, te.zCoord, showParticles);
     }
 
     /**
-     * Applies gravity to the passed entity, with a center at the passed coordinates, calls the other method with default configuration values
+     * Applies gravity to the passed entity, with a center at the passed
+     * coordinates, calls the other method with default configuration values
      * 
-     * @param entity - Entity to affect
-     * @param x - x coord
-     * @param y - y coord
-     * @param z - z coord
+     * @param entity
+     *            - Entity to affect
+     * @param x
+     *            - x coord
+     * @param y
+     *            - y coord
+     * @param z
+     *            - z coord
      */
     public static void applyGravity(Entity entity, int x, int y, int z, boolean showParticles)
     {
-        applyGravity(c.getStrength(), c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav(), c.getRange(), entity, x, y, z, showParticles);
+        applyGravity(ConfigHandler.strength, ConfigHandler.maxGravityXZ, ConfigHandler.maxGravityY, ConfigHandler.minGravity, ConfigHandler.range,
+                entity, x, y, z, showParticles);
     }
 
     /**
-     * Gets the star type of a star item, can handle items that are not instances of {@link ItemStar}
+     * Gets the star type of a star item, can handle items that are not
+     * instances of {@link ItemStar}
      * 
-     * @param stack - Stack to get the type from
+     * @param stack
+     *            - Stack to get the type from
      * @return {@link StarType} of the item
      */
     public static IStar getType(ItemStack stack)
@@ -258,10 +288,13 @@ public class Utils
     }
 
     /**
-     * Sets the type of a star itemstack, can handle items that are not instances of {@link ItemStar}
+     * Sets the type of a star itemstack, can handle items that are not
+     * instances of {@link ItemStar}
      * 
-     * @param stack - Stack to set the type on
-     * @param type - Type to use
+     * @param stack
+     *            - Stack to set the type on
+     * @param type
+     *            - Type to use
      * @return The itemstack affected
      */
     public static ItemStack setType(ItemStack stack, IStar type)
@@ -277,7 +310,8 @@ public class Utils
         }
         else if (stack != null)
         {
-            SuperMassiveTech.logger.error(String.format("A mod tried to set the type of an item that was not a star, item was %s", stack.getUnlocalizedName()));
+            SuperMassiveTech.logger.error(String.format("A mod tried to set the type of an item that was not a star, item was %s",
+                    stack.getUnlocalizedName()));
         }
         else
         {
@@ -288,7 +322,8 @@ public class Utils
     }
 
     /**
-     * Finds the proper tool for this material, returns "none" if there isn't one
+     * Finds the proper tool for this material, returns "none" if there isn't
+     * one
      */
     public static String getToolClassFromMaterial(Material mat)
     {
@@ -353,8 +388,8 @@ public class Utils
             }
             else
             {
-                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + lang.localize("tooltip.hold") + EnumChatFormatting.YELLOW, getNameForKey(key),
-                        EnumChatFormatting.RED + lang.localize("tooltip.moreInfo")));
+                lines.add(String.format("%s -%s- %s", EnumChatFormatting.RED + lang.localize("tooltip.hold") + EnumChatFormatting.YELLOW,
+                        getNameForKey(key), EnumChatFormatting.RED + lang.localize("tooltip.moreInfo")));
             }
         }
 
@@ -385,9 +420,10 @@ public class Utils
 
         return Keyboard.getKeyName(key);
     }
-    
+
     /**
-     * Applies the potion effects associated with gravity to the player at effect level <code> level </code>
+     * Applies the potion effects associated with gravity to the player at
+     * effect level <code> level </code>
      */
     public static void applyGravPotionEffects(EntityPlayer player, int level)
     {
@@ -483,7 +519,11 @@ public class Utils
         return getGravResist(player, 1.0);
     }
 
-    public static boolean shouldSpawnBlackHole(World worldObj) // TODO: implement something better for this
+    public static boolean shouldSpawnBlackHole(World worldObj) // TODO:
+                                                               // implement
+                                                               // something
+                                                               // better for
+                                                               // this
     {
         return worldObj.rand.nextBoolean();
     }

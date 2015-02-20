@@ -4,7 +4,6 @@ import tterrag.core.common.Handlers.Handler;
 import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.core.common.config.AbstractConfigHandler;
 import tterrag.supermassivetech.ModProps;
-import tterrag.supermassivetech.common.util.Constants;
 
 @Handler(HandlerType.FML)
 public class ConfigHandler extends AbstractConfigHandler
@@ -30,6 +29,7 @@ public class ConfigHandler extends AbstractConfigHandler
 
     public static double starOutputMult = 1.0;
     public static double starStorageMult = 1.0;
+    public static double starDeathTrigger = 0.05;
 
     public static boolean forceEnableLootFix = false;
     public static boolean forceDisableLootFix = false;
@@ -90,7 +90,8 @@ public class ConfigHandler extends AbstractConfigHandler
         wailaKey1 = getValue("wailaKey1", "The first key that can be pressed to show WAILA extended tooltips (this will show as the key to press on the condensed tooltip).", wailaKey1).toUpperCase();
         wailaKey2 = getValue("wailaKey2", "The second key that can be pressed to show WAILA extended tooltips. This is hidden and to be used for keys that have right/left versions. Can be the same as key1.", wailaKey2).toUpperCase();
 
-        Constants.instance().refresh();
+        activateSection(sectionStars);
+        starDeathTrigger = getValue("starDeathTrigger", "The percentage of power that must be remaining in the star to begin the death countdown.", starDeathTrigger, Bound.of(0D, 1D));
     }
 
     @Override

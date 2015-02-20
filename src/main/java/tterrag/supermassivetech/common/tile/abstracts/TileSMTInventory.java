@@ -10,20 +10,19 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
-import tterrag.supermassivetech.common.util.Constants;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.util.Utils;
 
 public abstract class TileSMTInventory extends TileSMT implements IInventory, IWailaAdditionalInfo
 {
     protected ItemStack[] inventory;
-    private static final Constants c = Constants.instance();
 
     /**
      * Sets the tile with all default constant values
      */
     public TileSMTInventory()
     {
-        this(1, 1, c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav());
+        this(1, 1);
     }
 
     /**
@@ -31,7 +30,7 @@ public abstract class TileSMTInventory extends TileSMT implements IInventory, IW
      */
     public TileSMTInventory(float rangeMult, float strengthMult)
     {
-        this(rangeMult, strengthMult, c.getMaxGravXZ(), c.getMaxGravY(), c.getMinGrav());
+        this(rangeMult, strengthMult, ConfigHandler.maxGravityXZ, ConfigHandler.maxGravityY, ConfigHandler.minGravity);
     }
 
     /**

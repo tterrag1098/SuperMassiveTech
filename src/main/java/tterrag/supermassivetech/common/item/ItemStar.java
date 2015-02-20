@@ -20,11 +20,11 @@ import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
 import tterrag.supermassivetech.api.common.registry.IStar;
+import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.entity.item.EntityItemStar;
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.tile.DamageSourceBlackHole;
-import tterrag.supermassivetech.common.util.Constants;
 import tterrag.supermassivetech.common.util.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -51,8 +51,7 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
 
         EntityPlayer player = ((EntityPlayer) par3Entity);
 
-        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= (Utils.getType(par1ItemStack).getMaxEnergyStored(par1ItemStack) * Constants.instance()
-                .getStarDeathTrigger()))
+        if (Utils.getType(par1ItemStack).getEnergyStored(par1ItemStack) <= (Utils.getType(par1ItemStack).getMaxEnergyStored(par1ItemStack) * ConfigHandler.starDeathTrigger))
         {
             Utils.setStarFuseRemaining(par1ItemStack, Utils.getStarFuseRemaining(par1ItemStack) - 1);
             player.setFire(1);
