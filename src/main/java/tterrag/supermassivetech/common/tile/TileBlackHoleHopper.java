@@ -14,7 +14,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
+import tterrag.core.common.util.BlockCoord;
 import tterrag.core.common.util.TTItemUtils;
+import tterrag.core.common.util.blockiterators.CubicBlockIterator;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageHopperParticle;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
@@ -31,20 +33,18 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private class InventoryConnection
     {
-        public int x, y, z;
+        public BlockCoord pos;
         public IInventory inv;
 
-        public InventoryConnection(IInventory inv, int x, int y, int z)
+        public InventoryConnection(IInventory inv, BlockCoord pos)
         {
             this.inv = inv;
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            this.pos = pos;
         }
 
         public boolean isStillValid()
         {
-            return worldObj.getTileEntity(x, y, z) == this.inv;
+            return pos.getTileEntity(worldObj) == this.inv;
         }
     }
 
@@ -94,14 +94,14 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         {
             TileEntity te = worldObj.getTileEntity(connectionDir.offsetX + xCoord, connectionDir.offsetY + yCoord, connectionDir.offsetZ + zCoord);
             if (te != null && te instanceof IInventory)
-                connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+                connection = new InventoryConnection((IInventory) te, new BlockCoord(te));
         }
         else
         {
-            TileEntity te = worldObj.getTileEntity(connection.x, connection.y, connection.z);
+            TileEntity te = connection.pos.getTileEntity(worldObj);
             if (te instanceof IInventory)
             {
-                connection = new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord);
+                connection = new InventoryConnection((IInventory) te, new BlockCoord(te));
             }
             else
             {
@@ -168,13 +168,11 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     /**
      * Pulls from an inventory, adds to the hiddenSlot
      * 
-     * @param i - InventoryConnection object to pull from
-     * @return a list of Integers to remove afterwards (removed or changed TEs)
+     * @param i
+     *            - InventoryConnection object to pull from
      */
-    private List<Integer> processInventory(InventoryConnection i)
+    private void processInventory(InventoryConnection i)
     {
-        List<Integer> list = new ArrayList<Integer>();
-
         if (i.isStillValid() && (inventory[hiddenSlot] == null || inventory[hiddenSlot].stackSize < inventory[hiddenSlot].getMaxStackSize()))
         {
             loop: for (int idx = 0; idx < i.inv.getSizeInventory(); idx++)
@@ -194,7 +192,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
                     else
                         inventory[hiddenSlot].stackSize++;
 
-                    spawnParticle(i.x, i.y, i.z);
+                    spawnParticle(i.pos.x, i.pos.y, i.pos.z);
                     break loop;
                 }
             }
@@ -203,8 +201,6 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         {
             inventories.remove(i);
         }
-
-        return list;
     }
 
     private void spawnParticle(int fromX, int fromY, int fromZ)
@@ -215,8 +211,8 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     @SuppressWarnings("unchecked")
     private void processNearbyItems()
     {
-        List<EntityItem> touchingEntityItems = worldObj.getEntitiesWithinAABB(EntityItem.class,
-                AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 1, yCoord + 0.5 - 1, zCoord + 0.5 - 1, xCoord + 0.5 + 1, yCoord + 0.5 + 1, zCoord + 0.5 + 1));
+        List<EntityItem> touchingEntityItems = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 1,
+                yCoord + 0.5 - 1, zCoord + 0.5 - 1, xCoord + 0.5 + 1, yCoord + 0.5 + 1, zCoord + 0.5 + 1));
 
         for (EntityItem item : touchingEntityItems)
         {
@@ -259,29 +255,24 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
 
     private void searchForInventories()
     {
-        for (int x = -searchRange; x <= searchRange; x++)
+        for (BlockCoord bc : new CubicBlockIterator(new BlockCoord(this), searchRange))
         {
-            for (int y = -searchRange; y <= searchRange; y++)
+            if (isValidTileEntity(bc))
             {
-                for (int z = -searchRange; z <= searchRange; z++)
-                {
-                    if (isValidTileEntity(xCoord + x, yCoord + y, zCoord + z))
-                    {
-                        TileEntity te = worldObj.getTileEntity(xCoord + x, yCoord + y, zCoord + z);
-                        inventories.add(new InventoryConnection((IInventory) te, te.xCoord, te.yCoord, te.zCoord));
-                    }
-                }
+                TileEntity te = bc.getTileEntity(worldObj);
+                inventories.add(new InventoryConnection((IInventory) te, new BlockCoord(te)));
             }
         }
     }
 
-    private boolean isValidTileEntity(int x, int y, int z)
+    private boolean isValidTileEntity(BlockCoord bc)
     {
-        Block block = worldObj.getBlock(x, y, z);
-        if (block != null && block.hasTileEntity(worldObj.getBlockMetadata(x, y, z)))
+        Block block = bc.getBlock(worldObj);
+        if (block != null && block.hasTileEntity(bc.getMetadata(worldObj)))
         {
-            TileEntity te = worldObj.getTileEntity(x, y, z);
-            return te != null && !(te instanceof TileBlackHoleHopper) && teNotEquals(te, connection) && te instanceof IInventory && notAlreadyFound(te);
+            TileEntity te = bc.getTileEntity(worldObj);
+            return te != null && !(te instanceof TileBlackHoleHopper) && teNotEquals(te, connection) && te instanceof IInventory
+                    && notAlreadyFound(te);
         }
 
         return false;
@@ -291,8 +282,10 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     {
         for (InventoryConnection i : inventories)
         {
-            if (te.xCoord == i.x && te.yCoord == i.y && te.zCoord == i.z)
+            if (i.pos.equals(new BlockCoord(te)))
+            {
                 return false;
+            }
         }
 
         return true;
@@ -303,12 +296,13 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
         if (connection == null)
             return true;
         else
-            return inv.xCoord != connection.x || inv.yCoord != connection.y || inv.zCoord != connection.z;
+            return !connection.pos.equals(new BlockCoord(inv));
     }
 
     public void setConfig(ItemStack stack, EntityPlayer player)
     {
-        player.addChatMessage(new ChatComponentText(Utils.lang.localize("tooltip.setConfig") + ": " + StatCollector.translateToLocal(stack.getUnlocalizedName() + ".name")));
+        player.addChatMessage(new ChatComponentText(Utils.lang.localize("tooltip.setConfig") + ": "
+                + StatCollector.translateToLocal(stack.getUnlocalizedName() + ".name")));
         inventory[cfgSlot] = stack.copy();
     }
 

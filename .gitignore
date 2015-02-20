@@ -1,15 +1,24 @@
 *.class
-
-# Package Files #
 *.war
 *.ear
-/build
-/eclipse
-/bin
-
 *.mtl
+
+#Gradle
+build
+.gradle
+libs
+
+#Run Directory
+run
+
+#Eclipse
+eclipse
+bin
 *.classpath
 *.project
-/.gradle
-/.settings
-/libs
+*.settings
+
+#IntelliJ Idea
+.idea
+out
+*.iml
