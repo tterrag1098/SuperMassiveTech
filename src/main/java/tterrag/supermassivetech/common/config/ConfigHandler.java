@@ -89,6 +89,8 @@ public class ConfigHandler extends AbstractConfigHandler
         tooltipKey2 = getValue("tooltipKey2", "The second key that can be pressed to show extended tooltips. This is hidden and to be used for keys that have right/left versions. Can be the same as key1.", tooltipKey2).toUpperCase();
         wailaKey1 = getValue("wailaKey1", "The first key that can be pressed to show WAILA extended tooltips (this will show as the key to press on the condensed tooltip).", wailaKey1).toUpperCase();
         wailaKey2 = getValue("wailaKey2", "The second key that can be pressed to show WAILA extended tooltips. This is hidden and to be used for keys that have right/left versions. Can be the same as key1.", wailaKey2).toUpperCase();
+
+        Constants.instance().refresh();
     }
 
     @Override
@@ -100,7 +102,5 @@ public class ConfigHandler extends AbstractConfigHandler
         activateSection(sectionStars);
         starOutputMult = getValue("starOutputMult", "The multiplier to apply to the output rate of stars.", starOutputMult);
         starStorageMult = getValue("starStorageMult", "The multiplier to apply to the storage amount of stars.", starStorageMult);
-        
-        Constants.instance().refresh();
     }
 }

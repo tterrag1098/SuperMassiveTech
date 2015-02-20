@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -211,13 +212,14 @@ public class TileBlackHole extends TileSMT implements IBlackHole, IWailaAddition
             setEnergy(getEnergy() + BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(block));
             entity.setDead();
         }
-        else
+        else if (entity instanceof EntityLivingBase)
         {
             int energy = BlackHoleEnergyRegistry.INSTANCE.getEnergyFor(entity);
             int dmg = getDamageFromSize();
+            float health = ((EntityLivingBase)entity).getHealth();
             if (entity.attackEntityFrom(dmgBlackHole, dmg))
             {
-                setEnergy(getEnergy() + (energy * dmg));
+                setEnergy(getEnergy() + (energy * (int) Math.min(health, dmg)));
             }
         }
     }
