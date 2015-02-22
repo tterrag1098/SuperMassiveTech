@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     compile "tterrag.core:ttCore:${ttCore_version}"
-    compile "mcp.mobius.waila:Waila:${WAILA_version}"
+    compile "mcp.mobius.waila:Waila:${WAILA_version}_${minecraft_version}"
     compile "com.enderio:EnderIO:1.7.10-2.0.185_beta"
     compile fileTree(dir: 'libs', include: '*.jar')
 }
