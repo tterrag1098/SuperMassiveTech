@@ -32,9 +32,16 @@ public class BlackHoleTank implements IFluidTank
     @Override
     public FluidTankInfo getInfo()
     {
-        FluidStack copy = fluidStored.copy();
-        copy.amount = getFluidAmount();
-        return new FluidTankInfo(copy, getCapacity());
+        if (fluidStored != null)
+        {
+            FluidStack copy = fluidStored.copy();
+            copy.amount = getFluidAmount();
+            return new FluidTankInfo(copy, getCapacity());
+        }
+        else
+        {
+            return new FluidTankInfo(null, getCapacity());
+        }
     }
 
     @Override
