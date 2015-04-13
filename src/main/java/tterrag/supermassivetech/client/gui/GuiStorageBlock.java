@@ -127,7 +127,7 @@ public class GuiStorageBlock extends GuiContainer
 
     private long getScaledLiquidAmount()
     {
-        for (long i = 1000; i < 10000000000L; i *= 10)
+        for (long i = 1000; i < 100000000000L; i *= 10)
             if (fluidStored < i)
                 return i;
 
