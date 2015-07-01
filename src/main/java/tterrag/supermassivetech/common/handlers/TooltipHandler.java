@@ -4,10 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import tterrag.core.common.Handlers.Handler;
-import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.common.util.Utils;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Handler(HandlerType.FORGE)

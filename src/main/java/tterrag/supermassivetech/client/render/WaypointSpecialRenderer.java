@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.client.render;
 
-import static org.lwjgl.opengl.GL11.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -14,9 +13,12 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
+
+import com.enderio.core.client.render.RenderUtil;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
 {
@@ -38,7 +40,7 @@ public class WaypointSpecialRenderer extends TileEntitySpecialRenderer
         glPushMatrix();
         glTranslated(x + 0.5, y + 0.52, z + 0.5);
         glScalef(0.4f, 0.4f, 0.4f);
-        RenderingUtils.render3DItem(item, true);
+        RenderUtil.render3DItem(item, true);
         glPopMatrix();
 
         glPushAttrib(GL_ALL_ATTRIB_BITS);

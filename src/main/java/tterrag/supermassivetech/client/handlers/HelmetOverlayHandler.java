@@ -15,14 +15,16 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.core.common.Handlers.Handler;
-import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
 import tterrag.supermassivetech.common.item.ItemGravityArmor;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.common.util.Utils;
 import tterrag.supermassivetech.common.util.Waypoint;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Handler(HandlerType.FORGE)

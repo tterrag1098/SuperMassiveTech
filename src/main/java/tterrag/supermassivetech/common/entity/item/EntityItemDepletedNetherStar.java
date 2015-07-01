@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tterrag.supermassivetech.SuperMassiveTech;
@@ -56,7 +57,7 @@ public class EntityItemDepletedNetherStar extends EntityItemIndestructible
 
                 if (!worldObj.isRemote)
                 {
-                    Achievements.unlock(Achievements.getValidItemStack(newStar), (EntityPlayerMP) worldObj.getPlayerEntityByName(this.func_145800_j()));
+                    Achievements.unlock(Achievements.getValidItemStack(newStar), (EntityPlayerMP) MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.func_145800_j()));
                 }
 
                 newStar.stackTagCompound = new NBTTagCompound();

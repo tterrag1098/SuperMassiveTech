@@ -1,9 +1,11 @@
 package tterrag.supermassivetech.common.config;
 
-import tterrag.core.common.Handlers.Handler;
-import tterrag.core.common.Handlers.Handler.HandlerType;
-import tterrag.core.common.config.AbstractConfigHandler;
 import tterrag.supermassivetech.ModProps;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+import com.enderio.core.common.config.AbstractConfigHandler;
+import com.enderio.core.common.util.Bound;
 
 @Handler(HandlerType.FML)
 public class ConfigHandler extends AbstractConfigHandler
@@ -69,11 +71,11 @@ public class ConfigHandler extends AbstractConfigHandler
 
         activateSection(sectionGravity);
         doGravityWell = getValue("doGravityWell", "Allow blocks to have gravity wells", true);
-        strength = (float) getValue("gravityStrength", "The overall gravity strength, should be <1 typically, only more if you want to be silly", 0.2f);
-        range = (float) getValue("gravityRange", "The range of gravity wells", 6.0f, Bound.of(0f, 1000f));
-        maxGravityXZ = (float) getValue("maxGravityXZ", "The max gravity that can be applied in the X+Z directions (prevents spikes)", 0.1f, Bound.of(0f, 100f));
-        maxGravityY = (float) getValue("maxGravityY", "The max gravity that can be applied in the Y direction, used to allow easier jumping in gravity wells so they are less annoying", 0.028f, Bound.of(0f, 100f));
-        minGravity = (float) getValue("minGravity", "The minimun force to apply, can be zero. Used to prevent \"wobbling\" near the center of axes", 0f, Bound.of(0f, Math.max(maxGravityXZ, maxGravityY)));
+        strength = getValue("gravityStrength", "The overall gravity strength, should be <1 typically, only more if you want to be silly", 0.2f);
+        range = getValue("gravityRange", "The range of gravity wells", 6.0f, Bound.of(0f, 1000f));
+        maxGravityXZ = getValue("maxGravityXZ", "The max gravity that can be applied in the X+Z directions (prevents spikes)", 0.1f, Bound.of(0f, 100f));
+        maxGravityY = getValue("maxGravityY", "The max gravity that can be applied in the Y direction, used to allow easier jumping in gravity wells so they are less annoying", 0.028f, Bound.of(0f, 100f));
+        minGravity = getValue("minGravity", "The minimun force to apply, can be zero. Used to prevent \"wobbling\" near the center of axes", 0f, Bound.of(0f, Math.max(maxGravityXZ, maxGravityY)));
         gravArmorDrain = getValue("gravArmorDrain", "The base value that gravity effects passively drain gravity armor", 100);
 
         activateSection(sectionMisc);

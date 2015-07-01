@@ -1,8 +1,8 @@
 package tterrag.supermassivetech.common.compat.nei;
 
-import tterrag.core.common.compat.ICompatability;
+import com.enderio.core.common.compat.ICompat;
 
-public class NEICompat implements ICompatability
+public class NEICompat implements ICompat
 {
     public static void load()
     {

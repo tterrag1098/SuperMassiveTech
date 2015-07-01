@@ -6,9 +6,11 @@ import net.minecraftforge.event.world.BlockEvent;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import tterrag.core.common.Handlers.Handler;
-import tterrag.core.common.Handlers.Handler.HandlerType;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Handler(HandlerType.FORGE)

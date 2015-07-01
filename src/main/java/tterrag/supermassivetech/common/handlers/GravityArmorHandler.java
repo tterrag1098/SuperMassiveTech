@@ -19,16 +19,18 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import tterrag.core.common.Handlers.Handler;
-import tterrag.core.common.Handlers.Handler.HandlerType;
-import tterrag.core.common.util.BlockCoord;
-import tterrag.core.common.util.blockiterators.CubicBlockIterator;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor.PowerUps;
 import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+import com.enderio.core.common.util.BlockCoord;
+import com.enderio.core.common.util.blockiterators.CubicBlockIterator;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;

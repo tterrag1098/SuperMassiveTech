@@ -17,13 +17,15 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
-import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
+
+import com.enderio.core.common.util.EnderStringUtils;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -265,8 +267,8 @@ public class ItemGravityArmor extends ItemArmor implements ISpecialArmor, IEnerg
     public String getStaticLines(ItemStack stack)
     {
         return EnumChatFormatting.WHITE + Utils.lang.localize("tooltip.powerRemaining") + ": "
-                + TTStringUtils.getColorFor(stack.getTagCompound().getInteger("energy"), CAPACITY)
-                + TTStringUtils.formatString("", " RF", stack.getTagCompound().getInteger("energy"), true, true);
+                + EnderStringUtils.getColorFor(stack.getTagCompound().getInteger("energy"), CAPACITY)
+                + EnderStringUtils.formatString("", " RF", stack.getTagCompound().getInteger("energy"), true, true);
     }
 
     @Override

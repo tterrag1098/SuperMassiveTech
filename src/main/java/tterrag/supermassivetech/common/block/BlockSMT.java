@@ -13,11 +13,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Facing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import tterrag.core.common.util.TTItemUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.block.ISaveToItem;
 import tterrag.supermassivetech.api.common.compat.IWailaAdditionalInfo;
+
+import com.enderio.core.common.util.ItemUtil;
 
 public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
 {
@@ -176,7 +177,7 @@ public abstract class BlockSMT extends Block implements IWailaAdditionalInfo
      */
     public void dropItem(World world, ItemStack item, int x, int y, int z)
     {
-        TTItemUtils.spawnItemInWorldWithRandomMotion(world, item, x, y, z);
+        ItemUtil.spawnItemInWorldWithRandomMotion(world, item, x, y, z);
     }
 
     @Override

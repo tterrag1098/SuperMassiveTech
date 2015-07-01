@@ -1,7 +1,5 @@
 package tterrag.supermassivetech.common.registry;
 
-import static tterrag.supermassivetech.SuperMassiveTech.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 import tterrag.supermassivetech.ModProps;
+
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 
 public final class Achievements
 {

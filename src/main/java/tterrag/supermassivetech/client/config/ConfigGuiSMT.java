@@ -1,11 +1,12 @@
 package tterrag.supermassivetech.client.config;
 
 import net.minecraft.client.gui.GuiScreen;
-import tterrag.core.api.common.config.IConfigHandler;
-import tterrag.core.client.config.BaseConfigGui;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.util.Utils;
+
+import com.enderio.core.api.common.config.IConfigHandler;
+import com.enderio.core.client.config.BaseConfigGui;
 
 public class ConfigGuiSMT extends BaseConfigGui
 {

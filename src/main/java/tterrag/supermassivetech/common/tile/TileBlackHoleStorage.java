@@ -14,9 +14,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import powercrystals.minefactoryreloaded.api.IDeepStorageUnit;
-import tterrag.core.common.util.TTItemUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
+
+import com.enderio.core.common.util.ItemUtil;
 
 /**
  * @author Garrett Spicer-Davis
@@ -52,7 +53,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
         @Override
         public boolean isItemValid(ItemStack par1ItemStack)
         {
-            return storedItem == null || TTItemUtils.stacksEqual(par1ItemStack, storedItem);
+            return storedItem == null || ItemUtil.stacksEqual(par1ItemStack, storedItem);
         }
     }
 
@@ -94,7 +95,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
 
         if (inventory[input] != null && storedAmount < max)
         {
-            if (TTItemUtils.stacksEqual(inventory[input], storedItem))
+            if (ItemUtil.stacksEqual(inventory[input], storedItem))
             {
                 int inputToStorage = inventory[input].stackSize;
                 if ((storedAmount + inputToStorage) > max)
@@ -141,7 +142,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
                     storedItem = null;
                 }
             }
-            else if (inventory[output].stackSize < maxStack && TTItemUtils.stacksEqual(inventory[output], storedItem))
+            else if (inventory[output].stackSize < maxStack && ItemUtil.stacksEqual(inventory[output], storedItem))
             {
                 int outputFromStorage = maxStack - inventory[output].stackSize;
                 if (outputFromStorage < storedAmount)
@@ -296,7 +297,7 @@ public class TileBlackHoleStorage extends TileSMTInventory implements ISidedInve
     {
         if (i == input)
         {
-            return storedItem == null || TTItemUtils.stacksEqual(storedItem, itemstack);
+            return storedItem == null || ItemUtil.stacksEqual(storedItem, itemstack);
         }
 
         if (i == fluidIn)

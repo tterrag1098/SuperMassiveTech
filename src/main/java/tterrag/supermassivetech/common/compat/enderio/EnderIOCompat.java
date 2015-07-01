@@ -2,13 +2,15 @@ package tterrag.supermassivetech.common.compat.enderio;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import tterrag.core.common.Handlers.Handler;
-import tterrag.core.common.Handlers.Handler.HandlerType;
-import tterrag.core.common.compat.ICompatability;
 import tterrag.supermassivetech.client.util.ClientUtils;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.handlers.GravityArmorHandler;
 import cofh.api.energy.IEnergyContainerItem;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+import com.enderio.core.common.compat.ICompat;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -16,7 +18,7 @@ import crazypants.enderio.item.darksteel.DarkSteelRecipeManager;
 import crazypants.enderio.item.darksteel.ItemDarkSteelArmor;
 
 @Handler(HandlerType.FML)
-public class EnderIOCompat implements ICompatability
+public class EnderIOCompat implements ICompat
 {
     public static void load()
     {

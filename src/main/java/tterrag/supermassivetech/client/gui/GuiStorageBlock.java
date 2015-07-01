@@ -13,12 +13,13 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.core.common.util.TTColorUtils;
-import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.common.container.ContainerBlackHoleStorage;
 import tterrag.supermassivetech.common.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.common.util.Utils;
+
+import com.enderio.core.client.render.ColorUtil;
+import com.enderio.core.common.util.EnderStringUtils;
 
 public class GuiStorageBlock extends GuiContainer
 {
@@ -45,7 +46,7 @@ public class GuiStorageBlock extends GuiContainer
     {
         formattedItemAmount = Utils.formatStringForBHS("Stored: ", "", itemsStored, true, true);
 
-        formattedFluidAmount = TTStringUtils.formatString("Stored: ", " mB", fluidStored, true);
+        formattedFluidAmount = EnderStringUtils.formatString("Stored: ", " mB", fluidStored, true);
 
         this.mc.getTextureManager().bindTexture(TEXTURE);
 
@@ -93,7 +94,7 @@ public class GuiStorageBlock extends GuiContainer
                 liquidIcon = fluid.getStillIcon();
             }
             mc.renderEngine.bindTexture(BLOCK_TEXTURE);
-            TTColorUtils.setGLColorFromInt(0xFFFFFF);
+            ColorUtil.setGLColorFromInt(0xFFFFFF);
 
             int x;
 
@@ -138,6 +139,6 @@ public class GuiStorageBlock extends GuiContainer
     {
         long l = getScaledLiquidAmount();
 
-        return TTStringUtils.formatString("", " mB", l, l == max);
+        return EnderStringUtils.formatString("", " mB", l, l == max);
     }
 }

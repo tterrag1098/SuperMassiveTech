@@ -5,10 +5,6 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import tterrag.core.IModTT;
-import tterrag.core.common.compat.CompatabilityRegistry;
-import tterrag.core.common.util.CreativeTabsCustom;
-import tterrag.core.common.util.RegisterTime;
 import tterrag.supermassivetech.client.gui.GuiHandler;
 import tterrag.supermassivetech.common.CommonProxy;
 import tterrag.supermassivetech.common.compat.RarityAdjuster;
@@ -20,6 +16,12 @@ import tterrag.supermassivetech.common.registry.ModEnchants;
 import tterrag.supermassivetech.common.registry.ModEntities;
 import tterrag.supermassivetech.common.registry.ModItems;
 import tterrag.supermassivetech.common.registry.Stars;
+
+import com.enderio.core.IEnderMod;
+import com.enderio.core.common.compat.CompatRegistry;
+import com.enderio.core.common.util.CreativeTabsCustom;
+import com.enderio.core.common.util.RegisterTime;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -34,7 +36,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
  * @author Garrett Spicer-Davis
  */
 @Mod(modid = ModProps.MODID, name = ModProps.MOD_NAME, version = ModProps.VERSION, dependencies = ModProps.DEPENDENCIES, guiFactory = ModProps.GUI_FACTORY_CLASS)
-public class SuperMassiveTech implements IModTT
+public class SuperMassiveTech implements IEnderMod
 {
     @Instance
     public static SuperMassiveTech instance;
@@ -82,7 +84,7 @@ public class SuperMassiveTech implements IModTT
 
         FMLInterModComms.sendMessage("Waila", "register", ModProps.MAIN_PACKAGE + ".common.compat.waila.WailaCompat.load");
 
-        CompatabilityRegistry.INSTANCE.registerCompat(RegisterTime.INIT, ModProps.MAIN_PACKAGE + ".common.compat.enderio.EnderIOCompat", "EnderIO");
+        CompatRegistry.INSTANCE.registerCompat(RegisterTime.INIT, ModProps.MAIN_PACKAGE + ".common.compat.enderio.EnderIOCompat", "EnderIO");
     }
 
     @EventHandler

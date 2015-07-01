@@ -1,13 +1,15 @@
 package tterrag.supermassivetech.client.render;
 
-import static org.lwjgl.opengl.GL11.*;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import tterrag.core.client.handlers.ClientHandler;
-import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.api.common.tile.IBlackHole;
+
+import com.enderio.core.client.handlers.ClientHandler;
+import com.enderio.core.client.render.RenderUtil;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
 {
@@ -29,7 +31,7 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
 
         this.bindTexture(texture);
 
-        float rot = RenderingUtils.getRotation(2);
+        float rot = RenderUtil.getRotation(2);
 
         glPushMatrix();
         glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -37,7 +39,7 @@ public class BlackHoleSpecialRenderer extends TileEntitySpecialRenderer
         glDisable(GL_LIGHTING);
         glAlphaFunc(GL_ALWAYS, 1);
         glEnable(GL_DEPTH_TEST);
-        RenderingUtils.renderBillboardQuad(rot, bh.getSize());
+        RenderUtil.renderBillboardQuad(rot, bh.getSize());
         glPopAttrib();
         glPopMatrix();
         glPopMatrix();

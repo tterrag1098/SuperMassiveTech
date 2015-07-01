@@ -1,7 +1,5 @@
 package tterrag.supermassivetech.client.render;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -14,13 +12,16 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import tterrag.core.client.render.DirectionalModelRenderer;
-import tterrag.core.client.util.RenderingUtils;
-import tterrag.core.common.util.TTColorUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
 import tterrag.supermassivetech.common.util.Utils;
+
+import com.enderio.core.client.render.ColorUtil;
+import com.enderio.core.client.render.DirectionalModelRenderer;
+import com.enderio.core.client.render.RenderUtil;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarvester>
 {
@@ -96,7 +97,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
             {
                 IStar star = Utils.getType(harvester.getStackInSlot(0));
 
-                TTColorUtils.setGLColorFromInt(star.getColor());
+                ColorUtil.setGLColorFromInt(star.getColor());
 
                 Minecraft.getMinecraft().getTextureManager().bindTexture(textureSphere);
 
@@ -139,7 +140,7 @@ public class RenderStarHarvester extends DirectionalModelRenderer<TileStarHarves
 
         // glTranslatef(0, 1f, 0);
 
-        float rot = RenderingUtils.getRotation(-4f);
+        float rot = RenderUtil.getRotation(-4f);
 
         for (int i = 0; i < speed * 5; i++)
         {

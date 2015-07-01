@@ -1,12 +1,9 @@
 package tterrag.supermassivetech.client;
 
-import static tterrag.supermassivetech.SuperMassiveTech.*;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.obj.WavefrontObject;
-import tterrag.core.client.render.DirectionalModelRenderer;
-import tterrag.core.client.render.SimpleModelRenderer;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.client.model.ModelBlackHoleStorage;
 import tterrag.supermassivetech.client.render.BlackHoleSpecialRenderer;
@@ -24,8 +21,14 @@ import tterrag.supermassivetech.common.tile.TileBlackHoleStorage;
 import tterrag.supermassivetech.common.tile.TileWaypoint;
 import tterrag.supermassivetech.common.tile.energy.TileCharger;
 import tterrag.supermassivetech.common.tile.energy.TileStarHarvester;
+
+import com.enderio.core.client.render.DirectionalModelRenderer;
+import com.enderio.core.client.render.SimpleModelRenderer;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+
+import static tterrag.supermassivetech.SuperMassiveTech.*;
 
 public class ClientProxy extends CommonProxy
 {

@@ -1,7 +1,5 @@
 package tterrag.supermassivetech.client.render.entity;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -11,8 +9,11 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.common.entity.EntityDyingBlock;
+
+import com.enderio.core.client.render.RenderUtil;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class RenderDyingBlock extends Render
 {
@@ -36,9 +37,9 @@ public class RenderDyingBlock extends Render
 
             glPushMatrix();
             glTranslated(x, y, z);
-            glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 1, 0, 0);
-            glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 0, 1, 0);
-            glRotatef(RenderingUtils.getRotation(rand.nextInt(10)) + rotOffset, 0, 0, 1);
+            glRotatef(RenderUtil.getRotation(rand.nextInt(10)) + rotOffset, 1, 0, 0);
+            glRotatef(RenderUtil.getRotation(rand.nextInt(10)) + rotOffset, 0, 1, 0);
+            glRotatef(RenderUtil.getRotation(rand.nextInt(10)) + rotOffset, 0, 0, 1);
             glDisable(GL_LIGHTING);
 
             bindEntityTexture(entity);

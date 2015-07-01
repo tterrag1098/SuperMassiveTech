@@ -1,8 +1,5 @@
 package tterrag.supermassivetech.common.registry;
 
-import static tterrag.supermassivetech.common.config.ConfigHandler.*;
-import static tterrag.supermassivetech.common.registry.Stars.StarTier.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,6 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import tterrag.supermassivetech.api.common.registry.IStar;
 import tterrag.supermassivetech.common.util.Utils;
+
+import static tterrag.supermassivetech.common.config.ConfigHandler.*;
+import static tterrag.supermassivetech.common.registry.Stars.StarTier.*;
 
 public class Stars
 {

@@ -1,6 +1,5 @@
 package tterrag.supermassivetech.client.render;
 
-import static org.lwjgl.opengl.GL11.*;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,8 +7,11 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import tterrag.core.client.util.RenderingUtils;
 import tterrag.supermassivetech.common.tile.energy.TileCharger;
+
+import com.enderio.core.client.render.RenderUtil;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
 {
@@ -32,7 +34,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
         {
             glPushMatrix();
             glTranslatef(0.5f, 0.3f, 0.5f);
-            RenderingUtils.render3DItem(item, true);
+            RenderUtil.render3DItem(item, true);
             glPopMatrix();
         }
 
@@ -46,7 +48,7 @@ public class ChargerSpecialRenderer extends TileEntitySpecialRenderer
 
             Tessellator tessellator = Tessellator.instance;
 
-            float rot = -RenderingUtils.getRotation(10f);
+            float rot = -RenderUtil.getRotation(10f);
 
             renderAllTranslucent(tessellator, rot);
 

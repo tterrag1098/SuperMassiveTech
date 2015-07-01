@@ -14,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import tterrag.core.common.util.BlockCoord;
-import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
 import tterrag.supermassivetech.api.common.item.IStarItem;
@@ -26,6 +24,10 @@ import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.registry.Stars.StarTier;
 import tterrag.supermassivetech.common.tile.DamageSourceBlackHole;
 import tterrag.supermassivetech.common.util.Utils;
+
+import com.enderio.core.common.util.BlockCoord;
+import com.enderio.core.common.util.EnderStringUtils;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -163,9 +165,9 @@ public class ItemStar extends ItemSMT implements IAdvancedTooltip, IStarItem
         return String.format("%s|%s|%s RF %s %d RF/t|%s|",
 
         type.getTextColor() + type.toString(), Stars.getEnumColor(type.getTier()) + type.getTier().toString(),
-                TTStringUtils.formatString(EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.outputs") + " ", "", type.getMaxEnergyStored(stack), false),
+                EnderStringUtils.formatString(EnumChatFormatting.YELLOW + Utils.lang.localize("tooltip.outputs") + " ", "", type.getMaxEnergyStored(stack), false),
                 Utils.lang.localize("tooltip.at"), type.getPowerPerTick(),
-                TTStringUtils.formatString(TTStringUtils.getColorFor(powerLeft, maxPower) + Utils.lang.localize("tooltip.powerRemaining") + ": ", " RF", (long) powerLeft, true));
+                EnderStringUtils.formatString(EnderStringUtils.getColorFor(powerLeft, maxPower) + Utils.lang.localize("tooltip.powerRemaining") + ": ", " RF", (long) powerLeft, true));
     }
 
     @Override

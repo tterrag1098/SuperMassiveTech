@@ -9,8 +9,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import tterrag.core.client.sound.BlockSound;
-import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.common.config.ConfigHandler;
 import tterrag.supermassivetech.common.network.PacketHandler;
@@ -18,6 +16,10 @@ import tterrag.supermassivetech.common.network.message.tile.MessageChargerUpdate
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTEnergy;
 import tterrag.supermassivetech.common.util.Utils;
 import cofh.api.energy.IEnergyContainerItem;
+
+import com.enderio.core.client.sound.BlockSound;
+import com.enderio.core.common.util.EnderStringUtils;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -243,7 +245,7 @@ public class TileCharger extends TileSMTEnergy implements ISidedInventory
         {
             IEnergyContainerItem item = (IEnergyContainerItem) inventory[0].getItem();
             int power = item.getEnergyStored(inventory[0]);
-            str += String.format("%s / %s", TTStringUtils.formatString(TTStringUtils.getColorFor(power, item.getMaxEnergyStored(inventory[0])).toString(), " RF", power, true, true),
+            str += String.format("%s / %s", EnderStringUtils.formatString(EnderStringUtils.getColorFor(power, item.getMaxEnergyStored(inventory[0])).toString(), " RF", power, true, true),
                     Utils.formatStringForBHS("", " RF", item.getMaxEnergyStored(inventory[0]), true, true));
         }
         else

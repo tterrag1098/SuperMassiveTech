@@ -14,13 +14,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
-import tterrag.core.common.util.BlockCoord;
-import tterrag.core.common.util.TTItemUtils;
-import tterrag.core.common.util.blockiterators.CubicBlockIterator;
 import tterrag.supermassivetech.common.network.PacketHandler;
 import tterrag.supermassivetech.common.network.message.tile.MessageHopperParticle;
 import tterrag.supermassivetech.common.tile.abstracts.TileSMTInventory;
 import tterrag.supermassivetech.common.util.Utils;
+
+import com.enderio.core.common.util.BlockCoord;
+import com.enderio.core.common.util.ItemUtil;
+import com.enderio.core.common.util.blockiterators.CubicBlockIterator;
 
 public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInventory
 {
@@ -357,7 +358,7 @@ public class TileBlackHoleHopper extends TileSMTInventory implements ISidedInven
     public boolean canInsertItem(int var1, ItemStack var2, int var3)
     {
         ForgeDirection dir = getRawDir();
-        return var1 == hiddenSlot && var3 == dir.getOpposite().ordinal() && TTItemUtils.stacksEqual(inventory[cfgSlot], var2);
+        return var1 == hiddenSlot && var3 == dir.getOpposite().ordinal() && ItemUtil.stacksEqual(inventory[cfgSlot], var2);
     }
 
     @Override

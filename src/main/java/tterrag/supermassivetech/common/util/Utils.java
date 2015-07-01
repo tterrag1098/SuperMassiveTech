@@ -1,7 +1,5 @@
 package tterrag.supermassivetech.common.util;
 
-import static tterrag.supermassivetech.SuperMassiveTech.*;
-
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -22,10 +20,6 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
-import tterrag.core.common.Lang;
-import tterrag.core.common.util.BlockCoord;
-import tterrag.core.common.util.TTEntityUtils;
-import tterrag.core.common.util.TTStringUtils;
 import tterrag.supermassivetech.ModProps;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.api.common.item.IAdvancedTooltip;
@@ -40,6 +34,13 @@ import tterrag.supermassivetech.common.network.message.MessageUpdateGravityArmor
 import tterrag.supermassivetech.common.registry.Stars;
 import tterrag.supermassivetech.common.tile.TileBlackHoleStorage;
 import cofh.api.energy.IEnergyContainerItem;
+
+import com.enderio.core.common.Lang;
+import com.enderio.core.common.util.BlockCoord;
+import com.enderio.core.common.util.EnderStringUtils;
+import com.enderio.core.common.util.EntityUtil;
+
+import static tterrag.supermassivetech.SuperMassiveTech.itemRegistry;
 
 public class Utils
 {
@@ -74,7 +75,7 @@ public class Utils
             return prefix;
         }
 
-        return TTStringUtils.formatString(prefix, suffix, amnt, useDecimals, formatK);
+        return EnderStringUtils.formatString(prefix, suffix, amnt, useDecimals, formatK);
     }
 
     /**
@@ -178,7 +179,7 @@ public class Utils
         if (Math.abs(vecZ) < minGrav)
             vecZ = 0;
 
-        TTEntityUtils.setEntityVelocity(entity, entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
+        EntityUtil.setEntityVelocity(entity, entity.motionX + vecX, entity.motionY + vecY, entity.motionZ + vecZ);
 
         showParticles &= dist > 1;
 

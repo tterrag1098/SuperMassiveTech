@@ -6,9 +6,10 @@ import java.util.List;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import tterrag.core.api.client.model.IModelTT;
 
-public class ModelBlackHoleStorage extends ModelBase implements IModelTT
+import com.enderio.core.api.client.model.IEnderModel;
+
+public class ModelBlackHoleStorage extends ModelBase implements IEnderModel
 {
     ModelRenderer top, bottom;
     ModelRenderer core;

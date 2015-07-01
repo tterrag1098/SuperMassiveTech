@@ -4,13 +4,16 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import tterrag.core.common.Handlers.Handler;
 import tterrag.supermassivetech.SuperMassiveTech;
 import tterrag.supermassivetech.common.registry.Achievements;
+
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.Handlers.Handler.HandlerType;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
-@Handler
+@Handler(HandlerType.FML)
 public class AchievementHandler
 {
     @SubscribeEvent
