@@ -42,7 +42,7 @@ repositories {
 dependencies {
     compile "com.enderio.core:EnderCore:${endercore_version}:dev"
     compile "mcp.mobius.waila:Waila:${WAILA_version}_${minecraft_version}:dev"
-    compile "com.enderio:EnderIO:1.7.10-2.2.8.355:dev"
+    compile "com.enderio:EnderIO:1.7.10-2.2.8.381:dev"
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
