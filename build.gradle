@@ -20,7 +20,7 @@ minecraft {
     runDir = 'run'
 	
 	replace "@VERSION@", project.version
-	replace "${toReplace}", "required-after:Forge@[${forgeDep_version},);required-after:ttCore@[${ttCore_version},);after:EnderIO;after:Waila@[${WAILA_version},);"
+	replace "${toReplace}", "required-after:Forge@[${forgeDep_version},);required-after:endercore@[${endercore_version},);after:EnderIO;after:Waila@[${WAILA_version},);"
     replaceIn "ModProps.java"
 }
 
@@ -33,14 +33,14 @@ repositories {
         name 'CB Repo'
         url "http://chickenbones.net/maven/"
     }
-    maven { // EnderIO & ttCore
+    maven { // EnderIO & EnderCore
         name 'tterrag Repo'
         url "http://maven.tterrag.com"
     }
 }
 
 dependencies {
-    compile "tterrag.core:ttCore:${ttCore_version}:deobf"
+    compile "com.enderio.core:EnderCore:${endercore_version}:dev"
     compile "mcp.mobius.waila:Waila:${WAILA_version}_${minecraft_version}:dev"
     compile "com.enderio:EnderIO:1.7.10-2.2.8.355:dev"
     compile fileTree(dir: 'libs', include: '*.jar')

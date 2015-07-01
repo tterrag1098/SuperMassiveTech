@@ -17,5 +17,5 @@ public class ModProps
 
     // for dependencies
 
-    public static final String DEPENDENCIES = "after:ttCore;after:EnderIO"; // replaced by build file
+    public static final String DEPENDENCIES = "after:endercore;after:EnderIO"; // replaced by build file
 }
