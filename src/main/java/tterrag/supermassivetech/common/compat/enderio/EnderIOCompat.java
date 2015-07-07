@@ -22,6 +22,18 @@ public class EnderIOCompat implements ICompat
 {
     public static void load()
     {
+        try
+        {
+            registerUpgrades();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static void registerUpgrades()
+    {
         DarkSteelRecipeManager.instance.getUpgrades().add(new GravityResistUpgrade(10, 0));
         DarkSteelRecipeManager.instance.getUpgrades().add(new GravityResistUpgrade(20, 1));
         DarkSteelRecipeManager.instance.getUpgrades().add(new GravityResistUpgrade(30, 2));
