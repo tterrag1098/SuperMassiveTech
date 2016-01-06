@@ -277,9 +277,18 @@ public class Utils
     public static int getStarFuseRemaining(ItemStack star)
     {
         if (star != null && star.getItem() instanceof IStarItem && star.stackTagCompound != null)
-            return star.stackTagCompound.getInteger("fuse");
+        {
+            if (!star.getTagCompound().hasKey("fuse"))
+            {
+                star.getTagCompound().setInteger("fuse", getType(star).getFuse());
+            }
+
+            return star.getTagCompound().getInteger("fuse");
+        }
         else
+        {
             return 0;
+        }
     }
 
     public static void setStarFuseRemaining(ItemStack star, int fuse)
